@@ -106,7 +106,7 @@ export class AnswerCentralPolicyProvinceComponent implements OnInit {
       this.answersubjectservice.addStatusrole7(valuestatus, this.resultQuestionPeople[0].centralPolicyEventId, this.userid).subscribe(result => {
         console.log("result", result.id);
         if (valuestatus.Status == "ใช้งานจริง") {
-          this.notificationService.addNotification(this.centralPolicyId, this.provinceid, this.userid, 6, this.subjectGroupId,null)
+          this.notificationService.addNotification(this.centralPolicyId, this.provinceid, this.userid, 6, this.subjectGroupId,null,this.userid)
             .subscribe(response => {
               console.log("innoti", response);
             })

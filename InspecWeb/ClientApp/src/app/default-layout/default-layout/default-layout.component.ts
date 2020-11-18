@@ -226,6 +226,7 @@ export class DefaultLayoutComponent implements OnInit {
     this.notificationService.getnotificationsdata(this.userid)
       .subscribe(result => {
         this.resultnotifications = result
+        console.log('noti',result);
         //     .map(resultxe => {
         //       //console.log('this.getTest(result.xe)', resultsub.find(res => resultxe.xe == res.executiveOrder.id).executiveOrder.subject);
 

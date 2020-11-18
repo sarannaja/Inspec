@@ -791,7 +791,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
 
       if (this.timelineData.status == "ใช้งานจริง") {
         for (let i = 0; i < UserPeopleId.length; i++) {
-          this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, UserPeopleId[i], 1, this.planId, null)
+          this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, UserPeopleId[i], 1, this.planId, null,this.userid)
             .subscribe(response => {
               console.log(response);
             })
@@ -850,7 +850,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
       if (this.timelineData.status == "ใช้งานจริง") {
 
         for (let i = 0; i < UserPeopleId.length; i++) {
-          this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, UserPeopleId[i], 1, this.planId, null)
+          this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, UserPeopleId[i], 1, this.planId, null,this.userid)
             .subscribe(response => {
               console.log(response);
             })
@@ -875,7 +875,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
 
       if (this.timelineData.status == "ใช้งานจริง") {
         for (let i = 0; i < UserPeopleId.length; i++) {
-          this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, UserPeopleId[i], 1, this.planId, null)
+          this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, UserPeopleId[i], 1, this.planId, null,this.userid)
             .subscribe(response => {
               console.log(response);
             })

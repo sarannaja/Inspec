@@ -418,8 +418,8 @@
 
                         <div class="col-6">
                             <div class="form-group">
-                                <input type="text" max="10" formControlName="PhoneNumber" class="form-control" required
-                                    placeholder="กรุณากรอกเบอร์โทรศัพท์" numbersOnly
+                                <input type="text" formControlName="PhoneNumber" class="form-control" required
+                                    placeholder="กรุณากรอกเบอร์โทรศัพท์" numbersOnly maxlength="10"
                                     [ngClass]="{ 'is-invalid': submitted && k.PhoneNumber.errors }">
                                 <div *ngIf="submitted && k.PhoneNumber.errors" class="invalid-feedback">
                                     <div *ngIf="k.PhoneNumber.errors.required">กรุณากรอกเบอร์โทรศัพท์</div>
@@ -839,8 +839,8 @@
 
                         <div class="col-6">
                             <div class="form-group">
-                                <input type="text" max="10" formControlName="PhoneNumber" class="form-control" required
-                                    placeholder="กรุณากรอกโทรศัพท์" numbersOnly
+                                <input type="text"  formControlName="PhoneNumber" class="form-control" required
+                                    placeholder="กรุณากรอกโทรศัพท์" numbersOnly maxlength="10"
                                     [ngClass]="{ 'is-invalid': submitted && k.PhoneNumber.errors }">
                                 <div *ngIf="submitted && k.PhoneNumber.errors" class="invalid-feedback">
                                     <div *ngIf="k.PhoneNumber.errors.required">กรุณากรอกโทรศัพท์</div>

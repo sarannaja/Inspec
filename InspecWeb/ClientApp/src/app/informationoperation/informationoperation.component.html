@@ -114,7 +114,7 @@
             <div class="form-group">
               <label class="form-label">เบอร์ติดต่อ</label>
               <input type="text" formControlName="tel" class="form-control" placeholder="กรุณากรอกเบอร์ติดต่อ"
-              [ngClass]="{ 'is-invalid': submitted && f.tel.errors }">
+              [ngClass]="{ 'is-invalid': submitted && f.tel.errors }" numbersOnly maxlength="10">
               <div *ngIf="submitted && f.tel.errors" class="invalid-feedback">
                 <div *ngIf="f.tel.errors.required">กรุณากรอกเบอร์ติดต่อ</div>
               </div>  
@@ -181,7 +181,7 @@
       <form [formGroup]="Form" (ngSubmit)="editInformationoperation(Form.value,delid)">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">จัดการข้อมูลสำหรับการปฏิบัติงานของเจ้าหน้าที่ประจำเขตตรวจราชการ</h5><br>
+          <h5 class="modal-title">แก้ไขข้อมูล</h5><br>
           <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -222,7 +222,7 @@
             <div class="form-group">
               <label class="form-label">เบอร์ติดต่อ</label>
               <input type="text" formControlName="tel" class="form-control" placeholder="กรุณากรอกเบอร์ติดต่อ"
-              [ngClass]="{ 'is-invalid': submitted && f.tel.errors }">
+              [ngClass]="{ 'is-invalid': submitted && f.tel.errors }" numbersOnly maxlength="10">
               <div *ngIf="submitted && f.tel.errors" class="invalid-feedback">
                 <div *ngIf="f.tel.errors.required">กรุณากรอกเบอร์ติดต่อ</div>
               </div>  

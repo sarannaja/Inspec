@@ -212,7 +212,7 @@ export class UserCentralPolicyComponent implements OnInit {
 
         let CentralpolicyId: any[] = this.resultcentralpolicy
         for (let i = 0; i < CentralpolicyId.length; i++) {
-          this.notificationService.addNotification(CentralpolicyId[i].centralPolicyId, this.provinceid, this.userid, 2, this.id,null)
+          this.notificationService.addNotification(CentralpolicyId[i].centralPolicyId, this.provinceid, this.userid, 2, this.id,null,this.userid)
             .subscribe(response => {
               console.log(response);
             })
@@ -239,7 +239,7 @@ export class UserCentralPolicyComponent implements OnInit {
 
         let CentralpolicyId: any[] = this.resultcentralpolicy
         for (let i = 0; i < CentralpolicyId.length; i++) {
-          this.notificationService.addNotification(CentralpolicyId[i].centralPolicyId, this.provinceid, this.userid, 2, this.id,null)
+          this.notificationService.addNotification(CentralpolicyId[i].centralPolicyId, this.provinceid, this.userid, 2, this.id,null,this.userid)
             .subscribe(response => {
               console.log(response);
             })
@@ -262,7 +262,7 @@ export class UserCentralPolicyComponent implements OnInit {
 
       let CentralpolicyId: any[] = this.resultcentralpolicy
       for (let i = 0; i < CentralpolicyId.length; i++) {
-        this.notificationService.addNotification(CentralpolicyId[i].centralPolicyId, this.provinceid, this.userid, 2, this.id,null)
+        this.notificationService.addNotification(CentralpolicyId[i].centralPolicyId, this.provinceid, this.userid, 2, this.id,null,this.userid)
           .subscribe(response => {
             console.log(response);
           })
@@ -280,7 +280,7 @@ export class UserCentralPolicyComponent implements OnInit {
 
       let CentralpolicyId2: any[] = this.resultcentralpolicy
       for (let i = 0; i < CentralpolicyId2.length; i++) {
-        this.notificationService.addNotification(CentralpolicyId2[i].centralPolicyId, this.provinceid, value.UserId, 19, this.id,null)
+        this.notificationService.addNotification(CentralpolicyId2[i].centralPolicyId, this.provinceid, value.UserId, 19, this.id,null,this.userid)
           .subscribe(response => {
             console.log(response);
           })
@@ -288,7 +288,7 @@ export class UserCentralPolicyComponent implements OnInit {
 
       let CentralpolicyId: any[] = this.resultcentralpolicy
       for (let i = 0; i < CentralpolicyId.length; i++) {
-        this.notificationService.addNotification(CentralpolicyId[i].centralPolicyId, this.provinceid, this.userid, 2, this.id,null)
+        this.notificationService.addNotification(CentralpolicyId[i].centralPolicyId, this.provinceid, this.userid, 2, this.id,null,this.userid)
           .subscribe(response => {
             console.log(response);
           })

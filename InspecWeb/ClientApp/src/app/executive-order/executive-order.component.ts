@@ -275,7 +275,7 @@ export class ExecutiveOrderComponent implements OnInit {
         this._NotofyService.onSuccess("เพิ่มข้อมูล")
         this.modalRef.hide();
       }else{
-        this.notificationService.addNotification(1, 1, 1, 10, result.id,result.title)
+        this.notificationService.addNotification(1, 1, 1, 10, result.id,result.title,this.userid)
          .subscribe(result => {
           this.Form.reset();
           this.loading = false;
@@ -301,7 +301,7 @@ export class ExecutiveOrderComponent implements OnInit {
           this._NotofyService.onSuccess("แก้ไขข้อมูล")
           this.modalRef.hide();
         }else{
-          this.notificationService.addNotification(1, 1, 1, 10, result.id,result.title)
+          this.notificationService.addNotification(1, 1, 1, 10, result.id,result.title,this.userid)
            .subscribe(result => {
             this.Form.reset();
             this.getuserinfo();
@@ -381,7 +381,7 @@ export class ExecutiveOrderComponent implements OnInit {
   gotitexecutiveorder(){  
     this.executiveorderService.gotitexecutiveorder(this.idexecutiveorder,this.idexecutiveorderanswer).subscribe(result => {
     
-      this.notificationService.addNotification(1, 1, 1, 11, this.idexecutiveorder,this.vsubject)
+      this.notificationService.addNotification(1, 1, 1, 11, this.idexecutiveorder,this.vsubject,this.userid)
       .subscribe(result => {
        this.loading = false;
        this.getuserinfo();

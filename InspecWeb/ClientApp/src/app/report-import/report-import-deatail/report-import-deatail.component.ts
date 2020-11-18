@@ -139,7 +139,7 @@ export class ReportImportDeatailComponent implements OnInit {
     this.exportReportService.sendToCommander(this.reportId, value).subscribe(res => {
       console.log("sended: ", res);
       res.data.forEach(element => {
-        this.notificationService.addNotification(this.reportData.importData.importReportGroups[0].centralPolicyEvent.centralPolicyId, 1, element.commanderId, 20, element.commanderReportId, null)
+        this.notificationService.addNotification(this.reportData.importData.importReportGroups[0].centralPolicyEvent.centralPolicyId, 1, element.commanderId, 20, element.commanderReportId, null,this.userid)
           .subscribe(response => {
             console.log("Noti res: ", response);
           });

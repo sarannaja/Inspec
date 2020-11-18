@@ -317,7 +317,7 @@ export class InspectionPlanComponent implements OnInit {
         // this.modalService.show('modaldeleteProvince');
 
         for (let i = 0; i < CentralpolicyId.length; i++) {
-          this.notificationService.addNotification(CentralpolicyId[i], this.provinceid, this.userid, 3, this.id, null)
+          this.notificationService.addNotification(CentralpolicyId[i], this.provinceid, this.userid, 3, this.id, null,this.userid)
             .subscribe(response => {
               console.log(response);
             })
@@ -657,7 +657,7 @@ export class InspectionPlanComponent implements OnInit {
           if (UserMinistryId != null) {
             if (this.timelineData.status == "ใช้งานจริง") {
               for (let i = 0; i < UserMinistryId.length; i++) {
-                this.notificationService.addNotification(this.data[j].centralPolicyId, this.provinceid, UserMinistryId[i], 1, this.id, null)
+                this.notificationService.addNotification(this.data[j].centralPolicyId, this.provinceid, UserMinistryId[i], 1, this.id, null,this.userid)
                   .subscribe(response => {
                     console.log(response);
                   })
@@ -667,7 +667,7 @@ export class InspectionPlanComponent implements OnInit {
           if (UserDepartmentId != null) {
             if (this.timelineData.status == "ใช้งานจริง") {
               for (let i = 0; i < UserDepartmentId.length; i++) {
-                this.notificationService.addNotification(this.data[j].centralPolicyId, this.provinceid, UserDepartmentId[i], 1, this.id, null)
+                this.notificationService.addNotification(this.data[j].centralPolicyId, this.provinceid, UserDepartmentId[i], 1, this.id, null,this.userid)
                   .subscribe(response => {
                     console.log(response);
                   })
@@ -677,7 +677,7 @@ export class InspectionPlanComponent implements OnInit {
           if (UserProvincialDepartmentId != null) {
             if (this.timelineData.status == "ใช้งานจริง") {
               for (let i = 0; i < UserProvincialDepartmentId.length; i++) {
-                this.notificationService.addNotification(this.data[j].centralPolicyId, this.provinceid, UserProvincialDepartmentId[i], 1, this.id, null)
+                this.notificationService.addNotification(this.data[j].centralPolicyId, this.provinceid, UserProvincialDepartmentId[i], 1, this.id, null,this.userid)
                   .subscribe(response => {
                     console.log(response);
                   })
@@ -688,7 +688,7 @@ export class InspectionPlanComponent implements OnInit {
           if (UserPeopleId != null) {
             if (this.timelineData.status == "ใช้งานจริง") {
               for (let i = 0; i < UserPeopleId.length; i++) {
-                this.notificationService.addNotification(this.data[j].centralPolicyId, this.provinceid, UserPeopleId[i], 1, this.id, null)
+                this.notificationService.addNotification(this.data[j].centralPolicyId, this.provinceid, UserPeopleId[i], 1, this.id, null,this.userid)
                   .subscribe(response => {
                     console.log(response);
                   })
@@ -721,7 +721,7 @@ export class InspectionPlanComponent implements OnInit {
       // location.reload();
       this.getTimeline();
 
-      this.notificationService.addNotification(1, this.provinceid, 1, 16, this.id, null)
+      this.notificationService.addNotification(1, this.provinceid, 1, 16, this.id, null,this.userid)
         .subscribe(response => {
           console.log(response);
         })

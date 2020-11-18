@@ -339,8 +339,14 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
       {
         ex_link: '0',
         icon: 'fa-file',
-        url: '/external/otps',
+        url: '/cabinetserver',
         name: 'คณะรัฐมนตรี'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: '/external/otps',
+        name: 'คณะรัฐมนตรี(ระบบ otps)'
       },
       {
         ex_link: '0',
@@ -568,10 +574,16 @@ export const Centraladmin: NavBar[] = [ //แอดมินส่วนกล�
     orderby: 28 ,
     children: [
       {
-        ex_link: '1',
+        ex_link: '0',
         icon: 'fa-file',
-        url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1558&parent=1232&directory=13214&pagename=content1',
+        url: '/cabinetserver',
         name: 'คณะรัฐมนตรี'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: '/external/otps',
+        name: 'คณะรัฐมนตรี(ระบบ otps)'
       },
       {
         ex_link: '0',
@@ -580,15 +592,15 @@ export const Centraladmin: NavBar[] = [ //แอดมินส่วนกล�
         name: 'ผู้ตรวจราชการ'
       },
       {
-        ex_link: '1',
+        ex_link: '0',
         icon: 'fa-file',
-        url: '/province',
+        url: '/officerinspection',
         name: 'เจ้าหน้าที่ประจำเขตตรวจราชการ'
       },
       {
         ex_link: '0',
         icon: 'fa-file',
-        url: '#',
+        url: '/regionalagency',
         name: 'หน่วยงานในส่วนภูมิภาค'
       },
       {
@@ -604,9 +616,10 @@ export const Centraladmin: NavBar[] = [ //แอดมินส่วนกล�
         name: 'เคลือข่ายคณะกรรมการธรรมมาภิบาลจังหวัด'
       },
       {
-        ex_link: '1',
+        ex_link: '0',
         icon: 'fa-file',
-        url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1427&parent=1232&directory=14727&pagename=content1',
+        // url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1427&parent=1232&directory=14727&pagename=content1',
+        url: '/advisercivilsector',
         name: 'ที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
       },
     ]
@@ -767,9 +780,9 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
         name: 'แผนการปฏิรูปประเทศ'
       },
       {
-        ex_link: '0',
+        ex_link: '1',
         icon: 'fa-file',
-        url: '#',
+        url: 'https://www.nesdc.go.th/main.php?filename=develop_issue',
         name: 'แผนพัฒนาเศรษฐกิจและสังคมแห่งชาติ'
       },
       {
@@ -815,10 +828,16 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
     orderby: 28 ,
     children: [
       {
-        ex_link: '1',
+        ex_link: '0',
         icon: 'fa-file',
-        url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1558&parent=1232&directory=13214&pagename=content1',
+        url: '/cabinetserver',
         name: 'คณะรัฐมนตรี'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: '/external/otps',
+        name: 'คณะรัฐมนตรี(ระบบ otps)'
       },
       {
         ex_link: '0',
@@ -827,15 +846,15 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
         name: 'ผู้ตรวจราชการ'
       },
       {
-        ex_link: '1',
+        ex_link: '0',
         icon: 'fa-file',
-        url: '/province',
+        url: '/officerinspection',
         name: 'เจ้าหน้าที่ประจำเขตตรวจราชการ'
       },
       {
         ex_link: '0',
         icon: 'fa-file',
-        url: '#',
+        url: '/regionalagency',
         name: 'หน่วยงานในส่วนภูมิภาค'
       },
       {
@@ -851,9 +870,10 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
         name: 'เคลือข่ายคณะกรรมการธรรมมาภิบาลจังหวัด'
       },
       {
-        ex_link: '1',
+        ex_link: '0',
         icon: 'fa-file',
-        url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1427&parent=1232&directory=14727&pagename=content1',
+        // url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1427&parent=1232&directory=14727&pagename=content1',
+        url: '/advisercivilsector',
         name: 'ที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
       },
     ]
@@ -936,9 +956,9 @@ export const Provincialgovernor: NavBar[] = [ //ผู้ว่าราชก�
         name: 'แผนการปฏิรูปประเทศ'
       },
       {
-        ex_link: '0',
+        ex_link: '1',
         icon: 'fa-file',
-        url: '#',
+        url: 'https://www.nesdc.go.th/main.php?filename=develop_issue',
         name: 'แผนพัฒนาเศรษฐกิจและสังคมแห่งชาติ'
       },
       {
@@ -984,10 +1004,16 @@ export const Provincialgovernor: NavBar[] = [ //ผู้ว่าราชก�
     orderby: 28 ,
     children: [
       {
-        ex_link: '1',
+        ex_link: '0',
         icon: 'fa-file',
-        url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1558&parent=1232&directory=13214&pagename=content1',
+        url: '/cabinetserver',
         name: 'คณะรัฐมนตรี'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: '/external/otps',
+        name: 'คณะรัฐมนตรี(ระบบ otps)'
       },
       {
         ex_link: '0',
@@ -996,15 +1022,15 @@ export const Provincialgovernor: NavBar[] = [ //ผู้ว่าราชก�
         name: 'ผู้ตรวจราชการ'
       },
       {
-        ex_link: '1',
+        ex_link: '0',
         icon: 'fa-file',
-        url: '/province',
+        url: '/officerinspection',
         name: 'เจ้าหน้าที่ประจำเขตตรวจราชการ'
       },
       {
         ex_link: '0',
         icon: 'fa-file',
-        url: '#',
+        url: '/regionalagency',
         name: 'หน่วยงานในส่วนภูมิภาค'
       },
       {
@@ -1020,9 +1046,10 @@ export const Provincialgovernor: NavBar[] = [ //ผู้ว่าราชก�
         name: 'เคลือข่ายคณะกรรมการธรรมมาภิบาลจังหวัด'
       },
       {
-        ex_link: '1',
+        ex_link: '0',
         icon: 'fa-file',
-        url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1427&parent=1232&directory=14727&pagename=content1',
+        // url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1427&parent=1232&directory=14727&pagename=content1',
+        url: '/advisercivilsector',
         name: 'ที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
       },
     ]
@@ -1148,9 +1175,9 @@ export const Adminprovince: NavBar[] = [ //หัวหน้าสำนัก�
         name: 'แผนการปฏิรูปประเทศ'
       },
       {
-        ex_link: '0',
+        ex_link: '1',
         icon: 'fa-file',
-        url: '#',
+        url: 'https://www.nesdc.go.th/main.php?filename=develop_issue',
         name: 'แผนพัฒนาเศรษฐกิจและสังคมแห่งชาติ'
       },
       {
@@ -1196,10 +1223,16 @@ export const Adminprovince: NavBar[] = [ //หัวหน้าสำนัก�
     orderby: 28 ,
     children: [
       {
-        ex_link: '1',
+        ex_link: '0',
         icon: 'fa-file',
-        url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1558&parent=1232&directory=13214&pagename=content1',
+        url: '/cabinetserver',
         name: 'คณะรัฐมนตรี'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: '/external/otps',
+        name: 'คณะรัฐมนตรี(ระบบ otps)'
       },
       {
         ex_link: '0',
@@ -1208,15 +1241,15 @@ export const Adminprovince: NavBar[] = [ //หัวหน้าสำนัก�
         name: 'ผู้ตรวจราชการ'
       },
       {
-        ex_link: '1',
+        ex_link: '0',
         icon: 'fa-file',
-        url: '/province',
+        url: '/officerinspection',
         name: 'เจ้าหน้าที่ประจำเขตตรวจราชการ'
       },
       {
         ex_link: '0',
         icon: 'fa-file',
-        url: '#',
+        url: '/regionalagency',
         name: 'หน่วยงานในส่วนภูมิภาค'
       },
       {
@@ -1232,9 +1265,10 @@ export const Adminprovince: NavBar[] = [ //หัวหน้าสำนัก�
         name: 'เคลือข่ายคณะกรรมการธรรมมาภิบาลจังหวัด'
       },
       {
-        ex_link: '1',
+        ex_link: '0',
         icon: 'fa-file',
-        url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1427&parent=1232&directory=14727&pagename=content1',
+        // url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1427&parent=1232&directory=14727&pagename=content1',
+        url: '/advisercivilsector',
         name: 'ที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
       },
     ]
@@ -1358,9 +1392,9 @@ export const InspectorMinistry: NavBar[] = [ //ผู้ตรวจกระท
         name: 'แผนการปฏิรูปประเทศ'
       },
       {
-        ex_link: '0',
+        ex_link: '1',
         icon: 'fa-file',
-        url: '#',
+        url: 'https://www.nesdc.go.th/main.php?filename=develop_issue',
         name: 'แผนพัฒนาเศรษฐกิจและสังคมแห่งชาติ'
       },
       {
@@ -1402,14 +1436,20 @@ export const InspectorMinistry: NavBar[] = [ //ผู้ตรวจกระท
     IDchildren: 'contactpersonnel',
     icon: 'fa-user-tie',
     name: "ข้อมูลการติดต่อบุคลากร",
-    menuname:"m13",
+    menuname: "m13",
     orderby: 28 ,
     children: [
       {
-        ex_link: '1',
+        ex_link: '0',
         icon: 'fa-file',
-        url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1558&parent=1232&directory=13214&pagename=content1',
+        url: '/cabinetserver',
         name: 'คณะรัฐมนตรี'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: '/external/otps',
+        name: 'คณะรัฐมนตรี(ระบบ otps)'
       },
       {
         ex_link: '0',
@@ -1418,15 +1458,15 @@ export const InspectorMinistry: NavBar[] = [ //ผู้ตรวจกระท
         name: 'ผู้ตรวจราชการ'
       },
       {
-        ex_link: '1',
+        ex_link: '0',
         icon: 'fa-file',
-        url: '/province',
+        url: '/officerinspection',
         name: 'เจ้าหน้าที่ประจำเขตตรวจราชการ'
       },
       {
         ex_link: '0',
         icon: 'fa-file',
-        url: '#',
+        url: '/regionalagency',
         name: 'หน่วยงานในส่วนภูมิภาค'
       },
       {
@@ -1442,13 +1482,13 @@ export const InspectorMinistry: NavBar[] = [ //ผู้ตรวจกระท
         name: 'เคลือข่ายคณะกรรมการธรรมมาภิบาลจังหวัด'
       },
       {
-        ex_link: '1',
+        ex_link: '0',
         icon: 'fa-file',
-        url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1427&parent=1232&directory=14727&pagename=content1',
+        // url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1427&parent=1232&directory=14727&pagename=content1',
+        url: '/advisercivilsector',
         name: 'ที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
       },
-    ],
-
+    ]
   },
   {
     icon: 'fa-map-marker',
@@ -1535,9 +1575,9 @@ export const publicsector: NavBar[] = [ //ภาคประชาชน
         name: 'แผนการปฏิรูปประเทศ'
       },
       {
-        ex_link: '0',
+        ex_link: '1',
         icon: 'fa-file',
-        url: '#',
+        url: 'https://www.nesdc.go.th/main.php?filename=develop_issue',
         name: 'แผนพัฒนาเศรษฐกิจและสังคมแห่งชาติ'
       },
       {
@@ -1583,10 +1623,16 @@ export const publicsector: NavBar[] = [ //ภาคประชาชน
     orderby: 28 ,
     children: [
       {
-        ex_link: '1',
+        ex_link: '0',
         icon: 'fa-file',
-        url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1558&parent=1232&directory=13214&pagename=content1',
+        url: '/cabinetserver',
         name: 'คณะรัฐมนตรี'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: '/external/otps',
+        name: 'คณะรัฐมนตรี(ระบบ otps)'
       },
       {
         ex_link: '0',
@@ -1595,15 +1641,15 @@ export const publicsector: NavBar[] = [ //ภาคประชาชน
         name: 'ผู้ตรวจราชการ'
       },
       {
-        ex_link: '1',
+        ex_link: '0',
         icon: 'fa-file',
-        url: '/province',
+        url: '/officerinspection',
         name: 'เจ้าหน้าที่ประจำเขตตรวจราชการ'
       },
       {
         ex_link: '0',
         icon: 'fa-file',
-        url: '#',
+        url: '/regionalagency',
         name: 'หน่วยงานในส่วนภูมิภาค'
       },
       {
@@ -1619,9 +1665,10 @@ export const publicsector: NavBar[] = [ //ภาคประชาชน
         name: 'เคลือข่ายคณะกรรมการธรรมมาภิบาลจังหวัด'
       },
       {
-        ex_link: '1',
+        ex_link: '0',
         icon: 'fa-file',
-        url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1427&parent=1232&directory=14727&pagename=content1',
+        // url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1427&parent=1232&directory=14727&pagename=content1',
+        url: '/advisercivilsector',
         name: 'ที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
       },
     ]
@@ -1739,9 +1786,9 @@ export const president: NavBar[] = [ //ผู้บริหารหรือ�
         name: 'แผนการปฏิรูปประเทศ'
       },
       {
-        ex_link: '0',
+        ex_link: '1',
         icon: 'fa-file',
-        url: '#',
+        url: 'https://www.nesdc.go.th/main.php?filename=develop_issue',
         name: 'แผนพัฒนาเศรษฐกิจและสังคมแห่งชาติ'
       },
       {
@@ -1787,10 +1834,16 @@ export const president: NavBar[] = [ //ผู้บริหารหรือ�
     orderby: 28 ,
     children: [
       {
-        ex_link: '1',
+        ex_link: '0',
         icon: 'fa-file',
-        url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1558&parent=1232&directory=13214&pagename=content1',
+        url: '/cabinetserver',
         name: 'คณะรัฐมนตรี'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: '/external/otps',
+        name: 'คณะรัฐมนตรี(ระบบ otps)'
       },
       {
         ex_link: '0',
@@ -1799,15 +1852,15 @@ export const president: NavBar[] = [ //ผู้บริหารหรือ�
         name: 'ผู้ตรวจราชการ'
       },
       {
-        ex_link: '1',
+        ex_link: '0',
         icon: 'fa-file',
-        url: '/province',
+        url: '/officerinspection',
         name: 'เจ้าหน้าที่ประจำเขตตรวจราชการ'
       },
       {
         ex_link: '0',
         icon: 'fa-file',
-        url: '#',
+        url: '/regionalagency',
         name: 'หน่วยงานในส่วนภูมิภาค'
       },
       {
@@ -1823,9 +1876,10 @@ export const president: NavBar[] = [ //ผู้บริหารหรือ�
         name: 'เคลือข่ายคณะกรรมการธรรมมาภิบาลจังหวัด'
       },
       {
-        ex_link: '1',
+        ex_link: '0',
         icon: 'fa-file',
-        url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1427&parent=1232&directory=14727&pagename=content1',
+        // url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1427&parent=1232&directory=14727&pagename=content1',
+        url: '/advisercivilsector',
         name: 'ที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
       },
     ]
@@ -1957,9 +2011,9 @@ export const InspectorExamination: NavBar[] = [ //หน่วยรับตร
         name: 'แผนการปฏิรูปประเทศ'
       },
       {
-        ex_link: '0',
+        ex_link: '1',
         icon: 'fa-file',
-        url: '#',
+        url: 'https://www.nesdc.go.th/main.php?filename=develop_issue',
         name: 'แผนพัฒนาเศรษฐกิจและสังคมแห่งชาติ'
       },
       {
@@ -2001,13 +2055,20 @@ export const InspectorExamination: NavBar[] = [ //หน่วยรับตร
     IDchildren: 'contactpersonnel',
     icon: 'fa-user-tie',
     name: "ข้อมูลการติดต่อบุคลากร",
+    menuname: "m13",
     orderby: 28 ,
     children: [
       {
-        ex_link: '1',
+        ex_link: '0',
         icon: 'fa-file',
-        url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1558&parent=1232&directory=13214&pagename=content1',
+        url: '/cabinetserver',
         name: 'คณะรัฐมนตรี'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: '/external/otps',
+        name: 'คณะรัฐมนตรี(ระบบ otps)'
       },
       {
         ex_link: '0',
@@ -2016,15 +2077,15 @@ export const InspectorExamination: NavBar[] = [ //หน่วยรับตร
         name: 'ผู้ตรวจราชการ'
       },
       {
-        ex_link: '1',
+        ex_link: '0',
         icon: 'fa-file',
-        url: '/province',
+        url: '/officerinspection',
         name: 'เจ้าหน้าที่ประจำเขตตรวจราชการ'
       },
       {
         ex_link: '0',
         icon: 'fa-file',
-        url: '#',
+        url: '/regionalagency',
         name: 'หน่วยงานในส่วนภูมิภาค'
       },
       {
@@ -2040,9 +2101,10 @@ export const InspectorExamination: NavBar[] = [ //หน่วยรับตร
         name: 'เคลือข่ายคณะกรรมการธรรมมาภิบาลจังหวัด'
       },
       {
-        ex_link: '1',
+        ex_link: '0',
         icon: 'fa-file',
-        url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1427&parent=1232&directory=14727&pagename=content1',
+        // url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1427&parent=1232&directory=14727&pagename=content1',
+        url: '/advisercivilsector',
         name: 'ที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
       },
     ]
@@ -2168,9 +2230,9 @@ export const InspectorDepartment: NavBar[] = [ //ผู้ตรวจกรม/
         name: 'แผนการปฏิรูปประเทศ'
       },
       {
-        ex_link: '0',
+        ex_link: '1',
         icon: 'fa-file',
-        url: '#',
+        url: 'https://www.nesdc.go.th/main.php?filename=develop_issue',
         name: 'แผนพัฒนาเศรษฐกิจและสังคมแห่งชาติ'
       },
       {
@@ -2216,10 +2278,16 @@ export const InspectorDepartment: NavBar[] = [ //ผู้ตรวจกรม/
     orderby: 28 ,
     children: [
       {
-        ex_link: '1',
+        ex_link: '0',
         icon: 'fa-file',
-        url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1558&parent=1232&directory=13214&pagename=content1',
+        url: '/cabinetserver',
         name: 'คณะรัฐมนตรี'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: '/external/otps',
+        name: 'คณะรัฐมนตรี(ระบบ otps)'
       },
       {
         ex_link: '0',
@@ -2228,15 +2296,15 @@ export const InspectorDepartment: NavBar[] = [ //ผู้ตรวจกรม/
         name: 'ผู้ตรวจราชการ'
       },
       {
-        ex_link: '1',
+        ex_link: '0',
         icon: 'fa-file',
-        url: '/province',
+        url: '/officerinspection',
         name: 'เจ้าหน้าที่ประจำเขตตรวจราชการ'
       },
       {
         ex_link: '0',
         icon: 'fa-file',
-        url: '#',
+        url: '/regionalagency',
         name: 'หน่วยงานในส่วนภูมิภาค'
       },
       {
@@ -2252,13 +2320,13 @@ export const InspectorDepartment: NavBar[] = [ //ผู้ตรวจกรม/
         name: 'เคลือข่ายคณะกรรมการธรรมมาภิบาลจังหวัด'
       },
       {
-        ex_link: '1',
+        ex_link: '0',
         icon: 'fa-file',
-        url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1427&parent=1232&directory=14727&pagename=content1',
+        // url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1427&parent=1232&directory=14727&pagename=content1',
+        url: '/advisercivilsector',
         name: 'ที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
       },
-    ],
-
+    ]
   },
   {
     icon: 'fa-map-marker',

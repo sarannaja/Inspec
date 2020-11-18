@@ -15,7 +15,11 @@ namespace InspecWeb.ViewModel
         public string Type { get; set; }
         public string Detail { get; set; }
         public List<IFormFile> files { get; set; }
-
+        public string tel { get; set; }    
+        public string Commandnumber { get; set; }
+        public string cabinet { get; set; }
+        public long MinistryId { get; set; }
+        public string Filename { get; set; }
 
     }
 }

@@ -30,6 +30,9 @@ namespace InspecWeb.Controllers
         public IActionResult getnotifications(string id)
         {
             var Notifications = _context.Notifications
+               .Include(m => m.User)
+               .Include(m =>m.Notificationcreateby)
+               .ThenInclude(m => m.UserCreate)
                .Include(m => m.CentralPolicy)
                .Where(m => m.UserID == id).OrderByDescending(m => m.Id);
             return Ok(Notifications);
@@ -57,7 +60,7 @@ namespace InspecWeb.Controllers
         // POST api/values
         [Route("api/[controller]")]
         [HttpPost]
-        public Notification Post(long CentralPolicyId, long ProvinceId, string UserId, long Status, long xe, string title)
+        public Notification Post(long CentralPolicyId, long ProvinceId, string UserId, long Status, long xe, string title,string createby)
         {
             System.Console.WriteLine("Status : " + Status);
 
@@ -300,7 +303,7 @@ namespace InspecWeb.Controllers
             //<!-- แจ้งข้อสั่งการ -->
             if (Status == 10)
             {
-                System.Console.WriteLine("st10 : " + CentralPolicyId + " : " + ProvinceId + " : " + UserId + " : " + Status + " : " + xe + " : " + title);
+                //System.Console.WriteLine("st10 : " + CentralPolicyId + " : " + ProvinceId + " : " + UserId + " : " + Status + " : " + xe + " : " + title);
 
                 var ExecutiveOrderAnswersdata = _context.ExecutiveOrderAnswers
                   .Where(m => m.ExecutiveOrderId == xe)
@@ -310,7 +313,7 @@ namespace InspecWeb.Controllers
                 {
                     System.Console.WriteLine("st10 USERID : " + item.UserID);
 
-                    _context.Notifications.Add(new Notification
+                    var data = new Notification
                     {
                         UserID = item.UserID,
                         CentralPolicyId = CentralPolicyId,
@@ -320,9 +323,19 @@ namespace InspecWeb.Controllers
                         CreatedAt = date,
                         xe = xe,
                         title = title,
-                    });
-
+                    };
+                    _context.Notifications.Add(data);
                     _context.SaveChanges();
+
+
+                    var data2 = new Notificationcreateby
+                    {
+                       NotificationId = data.Id,
+                       CreateBy = createby
+                    };
+                    _context.Notificationcreateby.Add(data2);
+                    _context.SaveChanges();
+
                     _externalOrganizationController.SendNotification(item.UserID, "ข้อสั่งการ" + title);
                 }
             }
