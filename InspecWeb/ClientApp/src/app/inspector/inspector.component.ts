@@ -22,7 +22,7 @@ export class InspectorComponent implements OnInit {
   modalRef: BsModalRef;
   Form: FormGroup;
   imgprofileUrl :any;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   constructor(private modalService: BsModalService, private fb: FormBuilder, private inspectorservice: InspectorService,
     public share: InspectorService, private userService: UserService,private spinner: NgxSpinnerService,
     @Inject('BASE_URL') baseUrl: string) 
