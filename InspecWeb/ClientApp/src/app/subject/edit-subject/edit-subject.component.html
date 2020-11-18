@@ -76,6 +76,7 @@
               <div class="card card-eiei">
                 <div class="form-group">
                   <div class="col-12 col-xl-12" *ngFor="let item of filterboxdepartments; let i2 = index">
+                    <br>
                     <div class="row" style="margin-left: 2px;">
                       <label>ผู้ให้ข้อมูล</label>
                       <label style="color: red;">*</label>
@@ -304,7 +305,7 @@
   <form [formGroup]="FormAddQuestionsclose" (ngSubmit)="AddQuestionsclose(FormAddQuestionsclose.value)">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">เพิ่มคำถาม</h5>
+        <h5 class="modal-title card-title">เพิ่มคำถาม</h5>
         <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -418,7 +419,7 @@
   <form [formGroup]="FormAddChoices" (ngSubmit)="AddChoices(FormAddChoices.value)">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">จัดการคำตอบ</h5>
+        <h5 class="modal-title card-title">จัดการคำตอบ</h5>
         <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -498,18 +499,18 @@
   <form [formGroup]="FormAddEditDepartment" (ngSubmit)="AddDepartment(FormAddEditDepartment.value)">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">เพิ่มผู้ให้ข้อมูล</h5>
+        <h5 class="modal-title card-title">เพิ่มผู้ให้ข้อมูล</h5>
         <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body m-3">
-        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาหน่วยงาน" [multiple]="true"
+        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกหน่วยงาน" [multiple]="true"
           [items]="departmentSelect" name="DepartmentId" formControlName="DepartmentId"
           [ngClass]="{ 'is-invalid': submitted && faed.DepartmentId.errors }">
         </ng-select>
         <div *ngIf="submitted && faed.DepartmentId.errors" class="invalid-feedback">
-          <div *ngIf="faed.DepartmentId.errors.required">กรุณาหน่วยงาน</div>
+          <div *ngIf="faed.DepartmentId.errors.required">กรุณาเลือกหน่วยงาน</div>
         </div>
       </div>
       <div class="modal-footer">
@@ -527,7 +528,7 @@
   <form [formGroup]="FormAddDepartmentQuestion" (ngSubmit)="AddDepartmentQuestion(FormAddDepartmentQuestion.value)">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">จัดการผู้ให้ข้อมูลและประเด็นการตรวจติดตาม</h5>
+        <h5 class="modal-title card-title">จัดการผู้ให้ข้อมูลและประเด็นการตรวจติดตาม</h5>
         <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
