@@ -44,7 +44,7 @@ export class ListTrainingDocumentComponent implements OnInit {
     this.dtOptions = {
       columnDefs: [
         {
-          targets: [4],
+          targets: [1, 2, 3, 4],
           orderable: false
         }
       ],
@@ -133,6 +133,18 @@ export class ListTrainingDocumentComponent implements OnInit {
 
   gotoBack() {
     window.history.back();
+  }
+
+  gotoMain(){
+    this.router.navigate(['/main'])
+  }
+
+  gotoMainTraining(){
+    this.router.navigate(['/training'])
+  }
+
+  gotoTrainingManage(){
+    this.router.navigate(['/training/manage/', this.trainingid])
   }
 
 }

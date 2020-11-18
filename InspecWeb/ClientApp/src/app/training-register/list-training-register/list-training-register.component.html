@@ -2,25 +2,27 @@
   
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="dashboard-default.html">จัดการหลักสูตรการอบรม</a></li>
+            <li class="breadcrumb-item"><a class="pointer text-white" (click)="gotoMain()">หน้าหลัก</a></li>
+            <li class="breadcrumb-item"><a class="pointer text-white" (click)="gotoMainTraining()">จัดการหลักสูตรการอบรม</a></li>
+            <li class="breadcrumb-item"><a class="pointer text-white" (click)="gotoTrainingManage()">การจัดการหลักสูตร</a></li>
+            <li class="breadcrumb-item"><a href="javascript:void(0)">ตรวจสอบคุณสมบัติผู้สมัคร</a></li>
       </ol>
     </nav>
   </div>
   <div class="row">
     <div class="col-12">
       <div class="card">
-        <div class="card-header" style="margin-bottom: -40px;">
+        <div class="card-header">
           <h5 class="card-title">
             ตรวจสอบคุณสมบัติผู้สมัคร
 
-            <button class="btn btn-light btn-sm" (click)="gotoBack()">
+            <!--<button class="btn btn-light btn-sm" (click)="gotoBack()">
               <i class="fa fa-arrow-left" aria-hidden="true"></i>
-            </button>
+            </button> -->
           </h5>
           <div class="float-right">
-            <button class="btn btn-primary" title="รายงานผู้สมัครเข้าร่วมอบรม" style="margin-top: -60px;"
-            (click)="Report()"> <i
-                class="align-middle fas fa-fw fa-download pointer"></i>รายงานตรวจสอบคุณสมบัติ
+            <button class="btn btn-primary" title="รายงานผู้สมัครเข้าร่วมอบรม"(click)="Report()"> 
+              <i class="align-middle fas fa-fw fa-download pointer"></i> รายงานตรวจสอบคุณสมบัติ
             </button>
 
             <br>
@@ -32,11 +34,11 @@
             <thead>
               <tr>
                 <th width="5%">#</th>
-                <th width="30%">ชื่อ-นามสกุล</th>
-                <th width="10%">วันที่สมัคร</th>
-                <th width="20%">ตรววจสอบคุณสมบัติ</th>
-                <th width="20%">สิทธิ์การรับฝึกอบรม</th>
-                <th width="20%" class="text-center">
+                <th width="30%" style="min-width: 200px;">ชื่อ-นามสกุล</th>
+                <th width="10%" style="min-width: 150px;" class="text-center">วันที่สมัคร</th>
+                <th width="20%" style="min-width: 150px;" class="text-center">ตรววจสอบคุณสมบัติ</th>
+                <th width="20%" style="min-width: 150px;" class="text-center">สิทธิ์การรับฝึกอบรม</th>
+                <th width="20%" style="min-width: 150px;" class="text-center">
                   <button class="btn btn-sm btn-info" (click)="(openModal(modalApprove2))">เลือกอนุมัติสิทธิ์</button>
                   <!-- <i class="align-middle mr-2 fas fa-fw fa-cog"></i>  -->
                 </th>
@@ -50,11 +52,11 @@
   
                   <input type="checkbox" (change)="addsPeople2(item.id)"> &nbsp;&nbsp;&nbsp;
   
-                  <span class="pointer text-primary" (click)="openModal(modaldetail, item.id)">{{ item.name }}</span>
+                  <span class="pointer text-primary" (click)="openModalbyDetail(modaldetail, item.id)">{{ item.name }}</span>
                 </td>
-                <td class="ellipsis">{{ item.createdAt | thaidate:'short'}}</td>
+                <td class="">{{ item.createdAt | thaidate:'forlog'}}</td>
                 <td>
-                  <span (click)="openModal(modalCondition, item.id,item,i)"><i
+                  <span (click)="openModalbyCondition(modalCondition, item.id,item,i)"><i
                       [ngClass]="item.register_status == true ?'align-middle mr-2 fas fa fa-info-circle  pointer text-success':'align-middle mr-2 fas fa fa-info-circle  pointer text-muted'"
                       aria-hidden="true"></i>
                     <label
@@ -295,7 +297,7 @@
             <br>
   
             <label>วันที่เกษียณอายุราชการ</label><span class="star">*</span>
-            <input type="text" value="{{peopledetail.retiredDate  | thaidate: 'year'}}" class="form-control" readonly
+            <input type="text" value="{{peopledetail.retiredDate  | thaidate: 'shor'}}" class="form-control" readonly
               placeholder="กรุณากรอกชื่อ-นามสกุล">
             <br>
   
@@ -312,7 +314,7 @@
             <label>วันเกิด</label><span class="star">*</span>
             <!-- <my-date-picker-th formControlName="end_date"    [options]="myDatePickerOptions" required>
               </my-date-picker-th> -->
-            <input type="text" value="{{peopledetail.birthDate  | thaidate: 'year'}}" class="form-control" readonly
+            <input type="text" value="{{peopledetail.birthDate  | thaidate: 'shor'}}" class="form-control" readonly
               placeholder="กรุณากรอกชื่อ-นามสกุล">
             <br>
   

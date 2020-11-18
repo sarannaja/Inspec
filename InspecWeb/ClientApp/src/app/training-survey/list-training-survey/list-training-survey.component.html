@@ -2,7 +2,9 @@
     
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="dashboard-default.html">จัดการหลักสูตรการอบรม</a></li>
+        <li class="breadcrumb-item"><a class="pointer text-white" (click)="gotoMain()">หน้าหลัก</a></li>
+        <li class="breadcrumb-item"><a class="pointer text-white" (click)="gotoBack()">จัดการแบบประเมิน</a></li>
+        <li class="breadcrumb-item"><a href="javascript:void(0)">หัวข้อแบบประเมิน</a></li>
       </ol>
     </nav>
   </div>
@@ -10,14 +12,14 @@
     <div class="col-12">
       <div class="card card-eiei">
           <div class="card-header" style="margin-bottom: -40px;">
-              <h5 class="card-title">จัดการหลักสูตรการอบรม
-                <button class="btn btn-light btn-sm" (click)="gotoBack()">
+              <h5 class="card-title">หัวข้อแบบประเมิน
+                <!-- <button class="btn btn-light btn-sm" (click)="gotoBack()">
                     <i class="fa fa-arrow-left" aria-hidden="true"></i>
-                </button>
+                </button> -->
               </h5>
               <div class="float-right">
                   <button class="btn btn-primary" (click)="openModal(modalSurvey)"
-                      style="margin-top: -60px;">เพิ่มหัวข้อวัดผลประเมิน</button>
+                      style="margin-top: -60px;">เพิ่มหัวข้อแบบประเมิน</button>
               </div>
           </div>
           <div class="card-body">
@@ -26,7 +28,7 @@
                   <thead>
                       <tr>
                           <th width="5%">#</th>
-                          <th width="45%">หัวข้อวัดผลประเมิน</th>
+                          <th width="45%">หัวข้อวัดแบบประเมิน</th>
                           <th width="20%">ประเภทวัดผลประเมิน</th>
                           <th width="20%">วันที่เพิ่ม</th>
                           <th width="10%"><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
@@ -72,7 +74,7 @@
     <form [formGroup]="Form" (ngSubmit)="storeTraining(Form.value)">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">เพิ่มหัวข้อวัดผลประเมิน</h5>
+                <h5 class="modal-title">เพิ่มหัวข้อแบบประเมิน</h5>
                 <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()"
                     aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -80,20 +82,26 @@
             </div>
             <div class="modal-body m-3">
                 <div class="form-group">
-                    <label for="test" class="form-label">ประเภทวัดผลประเมิน</label>
-                    <select class="form-control" formControlName="surveytype">
-                        <option value=null>--กรุณาเลือกประเภทวัดผลประเมิน--</option>
+                    <label for="test" class="form-label">ประเภทหัวข้อแบบประเมิน</label>
+                    <select class="form-control" formControlName="surveytype" [ngClass]="{ 'is-invalid': submitted && f.surveytype.errors }">
+                        <option value=null>--กรุณาเลือกประเภทหัวข้อแบบประเมิน--</option>
                         <option value=1>ความพอใจ</option>
-                        <option value=2>คำถามปลายเปิด</option>
                         <option value=3>ใช่ หรือ ไม่</option>
+                        <option value=2>คำถามปลายเปิด</option>
                     </select>
+                    <div *ngIf="submitted && f.surveytype.errors" class="invalid-feedback">
+                        <div *ngIf="f.surveytype.errors.required">กรุณาเลือกประเภทหัวข้อแบบประเมิน</div>
+                    </div>
                     
                 </div>
                 <div class="form-group">
-                    <label for="test" class="form-label">หัวข้อเรื่องแบบประเมิน</label>
+                    <label for="test" class="form-label">หัวข้อแบบประเมิน</label>
                     <!-- <input type="text" formControlName="test" class="form-control" placeholder="test"> -->
                     <input type="text" formControlName="name" class="form-control"
-                        placeholder="กรุณากรอกหัวข้อเรื่องแบบประเมิน">
+                        placeholder="กรุณากรอกหัวข้อเรื่องแบบประเมิน" [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+                    <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+                        <div *ngIf="f.name.errors.required">กรุณากรอกหัวข้อเรื่องแบบประเมิน</div>
+                    </div>
                     
                 </div>
             </div>
@@ -136,7 +144,7 @@
         <form [formGroup]="EditForm" (ngSubmit)="editTrainingSurvey(EditForm.value)">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">แก้ไขหัวข้อวัดผลประเมิน</h5>
+                    <h5 class="modal-title">แก้ไขหัวข้อแบบประเมิน</h5>
                     <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()"
                         aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -144,21 +152,28 @@
                 </div> 
                 <div class="modal-body m-3">
                     <div class="form-group">
-                        <label for="test" class="form-label">ประเภทวัดผลประเมิน</label>
-                        <select class="form-control" formControlName="surveytype">
-                            <option value=null>--กรุณาเลือกประเภทวัดผลประเมิน--</option>
+                        <label for="test" class="form-label">ประเภทหัวข้อแบบประเมิน</label>
+                        <select class="form-control" formControlName="surveytype" [ngClass]="{ 'is-invalid': submitted && fd.surveytype.errors }">
+                            <option value="">--กรุณาเลือกประเภทหัวข้อแบบประเมิน--</option>
                             <option value=1>ความพอใจ</option>
-                            <option value=2>คำถามปลายเปิด</option>
                             <option value=3>ใช่ หรือ ไม่</option>
+                            <option value=2>คำถามปลายเปิด</option>
+                            
                         </select>
+                        <div *ngIf="submitted && fd.surveytype.errors" class="invalid-feedback">
+                            <div *ngIf="fd.surveytype.errors.required">กรุณาเลือกประเภทหัวข้อแบบประเมิน</div>
+                        </div>
                         
                     </div>
 
                     <div class="form-group">
-                        <label for="test" class="form-label">หัวข้อวัดผลประเมิน</label>
+                        <label for="test" class="form-label">หัวข้อแบบประเมิน</label>
                         <!-- <input type="text" formControlName="test" class="form-control" placeholder="test"> -->
                         <input type="text" value="{{name}}" formControlName="name" class="form-control"
-                            placeholder="กรุณากรอกหัวข้อเรื่องแบบประเมิน">
+                            placeholder="กรุณากรอกหัวข้อเรื่องแบบประเมิน" [ngClass]="{ 'is-invalid': submitted && fd.name.errors }">
+                        <div *ngIf="submitted && fd.name.errors" class="invalid-feedback">
+                            <div *ngIf="fd.name.errors.required">กรุณากรอกหัวข้อเรื่องแบบประเมิน</div>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">

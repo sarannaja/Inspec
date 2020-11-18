@@ -2,28 +2,32 @@
 
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="dashboard-default.html">จัดการหลักสูตรการอบรม</a></li>
-      <!-- <li class="breadcrumb-item active" aria-current="page">DataTables</li> -->
+        <li class="breadcrumb-item"><a class="pointer text-white" (click)="gotoMain()">หน้าหลัก</a></li>
+        <li class="breadcrumb-item"><a class="pointer text-white" (click)="gotoMainTraining()">จัดการหลักสูตรการอบรม</a></li>
+        <li class="breadcrumb-item"><a class="pointer text-white" (click)="gotoTrainingManage()">การจัดการหลักสูตร</a></li>
+        <li class="breadcrumb-item"><a class="pointer text-white" (click)="gotoBack()">รายงาน</a></li>
+        <li class="breadcrumb-item"><a href="javascript:void(0)">รายชื่อผู้เข้ารับการฝึกอบรม (รายหลักสูตร/โครงการ)</a></li>
     </ol>
   </nav>
 </div>
 <form class="row">
   <div class="col-12">
     <div class="card card-eiei">
-      <div class="card-header" style="margin-bottom: -40px;">
+      <div class="card-header">
         <h5 class="card-title">
-          รายงาน / รายงานของผู้เข้ารับการฝึกอบรม
+          รายงาน / รายชื่อผู้เข้ารับการฝึกอบรม (รายหลักสูตร/โครงการ)
 
-          <button class="btn btn-light btn-sm" (click)="gotoBack()">
+          <!-- <button class="btn btn-light btn-sm" (click)="gotoBack()">
             <i class="fa fa-arrow-left" aria-hidden="true"></i>
-          </button>
-          <button class="btn btn-primary float-right" (click)="printReport()" title="พิมพ์">
+          </button> -->
+          
+        </h5>
+        <button class="btn btn-primary float-right" (click)="printReport()" title="พิมพ์">
             <i class="fas fa-print" style="font-size:large;"></i>
           </button>
-        </h5>
       </div>
 
-      <div class="card-body mt-3">
+      <div class="card-body">
         <div class="row">
           <div class="col-12">
             <br>
@@ -67,11 +71,11 @@
           <thead>
             <tr>
               <th width="5%" class="text-center" style="vertical-align: text-top;">ลำดับที่</th>
-              <th width="20%" class="text-center" style="vertical-align: text-top;">ชื่อ-นามสกุล</th>
-              <th width="20%" class="text-center" style="vertical-align: text-top;">ตำแหน่ง</th>
-              <th width="20%" class="text-center" style="vertical-align: text-top;">หน่วยงาน/สังกัด</th>
-              <th width="15%" class="text-center" style="vertical-align: text-top;">หมายเลขติดต่อ</th>
-              <th width="20%" class="text-center" style="vertical-align: text-top;">สรุปผลการลงเวลา<br>
+              <th width="20%" class="text-center" style="vertical-align: text-top; min-width: 200px;">ชื่อ-นามสกุล</th>
+              <th width="20%" class="text-center" style="vertical-align: text-top; min-width: 150px;">ตำแหน่ง</th>
+              <th width="20%" class="text-center" style="vertical-align: text-top; min-width: 150px;">หน่วยงาน/สังกัด</th>
+              <th width="15%" class="text-center" style="vertical-align: text-top; min-width: 150px;">หมายเลขติดต่อ</th>
+              <th width="20%" class="text-center" style="vertical-align: text-top; min-width: 150px;">สรุปผลการลงเวลา<br>
                 (ประมวลผลจากข้อมูลการลงเวลาและสรุปสถานะ)</th>
             </tr>
             <!-- <tr>

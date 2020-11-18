@@ -90,6 +90,10 @@ export class TrainingSurveyComponent implements OnInit {
       })
   }
 
+  gotoMain(){
+    this.router.navigate(['/main'])
+  }
+
   gotoBack() {
     window.history.back();
   }
@@ -163,7 +167,6 @@ export class TrainingSurveyComponent implements OnInit {
       })
     }
   }
-
 
 
 }

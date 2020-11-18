@@ -2,24 +2,26 @@
 
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="dashboard-default.html">จัดการหลักสูตรการอบรม</a></li>
+            <li class="breadcrumb-item"><a class="pointer text-white" (click)="gotoMain()">หน้าหลัก</a></li>
+            <li class="breadcrumb-item"><a class="pointer text-white" (click)="gotoMainTraining()">จัดการหลักสูตรการอบรม</a></li>
+            <li class="breadcrumb-item"><a class="pointer text-white" (click)="gotoMainTrainingPhase()">หลักสูตรการอบรม(ช่วง)</a></li>
+            <li class="breadcrumb-item"><a href="javascript:void(0)">หลักสูตรการอบรม(กิจกรรม)</a></li>
         </ol>
     </nav>
 </div>
 <div class="row">
     <div class="col-12">
         <div class="card card-eiei">
-            <div class="card-header" style="margin-bottom: -40px;">
+            <div class="card-header">
                 <h5 class="card-title">
-                    จัดการหลักสูตรการอบรม / หลักสูตรอบรม(ช่วง) / หลักสูตรอบรม(กิจกรรม)
-                    <button class="btn btn-light btn-sm" (click)="gotoBack()">
+                    หลักสูตรการอบรม(กิจกรรม)
+                    <!-- <button class="btn btn-light btn-sm" (click)="gotoBack()">
                         <i class="fa fa-arrow-left" aria-hidden="true"></i>
-                    </button>
+                    </button> -->
 
                 </h5>
                 <div class="float-right">
-                    <button class="btn btn-primary" (click)="openModal(modalProgram)"
-                        style="margin-top: -60px;">เพิ่มหลักสูตรอบรม(กิจกรรม)</button>
+                    <button class="btn btn-primary" (click)="openModal(modalProgram)">เพิ่มหลักสูตรการอบรม(กิจกรรม)</button>
                 </div>
             </div>
             <div class="card-body mt-3">
@@ -27,19 +29,19 @@
                     [dtOptions]="dtOptions">
                     <thead>
                         <tr>
-                            <th width="10%">วันที่</th>
-                            <th width="10%">เวลา</th>
-                            <th width="25%">กิจกรรม</th>
-                            <th width="20%">สถานที่</th>
+                            <th width="10%" style="min-width: 100px;">วันที่</th>
+                            <th width="10%" style="min-width: 100px;">เวลา</th>
+                            <th width="45%" style="min-width: 200px;">กิจกรรม</th>
+                            <th width="25%" style="min-width: 200px;">สถานที่</th>
                             <!-- <th width="25%">ผลการอบรม</th> -->
-                            <th width="10%"><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
+                            <th width="10%" style="min-width: 200px;"><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let item of resulttraining; let i = index">
-                            <td class="ellipsis">{{ item.programDate | thaidate:'year'}}</td>
-                            <td class="ellipsis">{{ item.minuteStartDate }} - {{ item.minuteEndDate }}</td>
-                            <td class="ellipsis">
+                            <td class="">{{ item.programDate | thaidate:'year'}}</td>
+                            <td class="">{{ item.minuteStartDate }} - {{ item.minuteEndDate }}</td>
+                            <td class="">
                                 {{ item.programDetail }}
 
                             </td>
@@ -74,7 +76,7 @@
         <form [formGroup]="Form" (ngSubmit)="storeTraining(Form.value)">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">เพิ่มหลักสูตรอบรม(กิจกรรม)</h5>
+                    <h5 class="modal-title">เพิ่มหลักสูตรการอบรม(กิจกรรม)</h5>
                     <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()"
                         aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -120,7 +122,7 @@
                             </div>
                         </div>
                         <br>
-                        <label for="test" class="form-label">หัวข้อเรื่อง</label>
+                        <label for="test" class="form-label">หัวข้อกิจกรรม</label>
                         <input type="text" formControlName="programtopic" class="form-control"
                             placeholder="กรุณากรอกหัวข้อเรื่อง"
                             [ngClass]="{ 'is-invalid': submitted && f.programtopic.errors }">
@@ -277,7 +279,7 @@
         <form [formGroup]="EditForm" (ngSubmit)="editTraining(EditForm.value)">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">เพิ่มหลักสูตรอบรม(กิจกรรม)</h5>
+                    <h5 class="modal-title">แก้ไขหลักสูตรการอบรม(กิจกรรม)</h5>
                     <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()"
                         aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -327,7 +329,7 @@
                             </div>
                         </div>
                         <br>
-                        <label for="test" class="form-label">หัวข้อเรื่อง</label>
+                        <label for="test" class="form-label">หัวข้อกิจกรรม</label>
                         <input type="text" formControlName="programtopic" class="form-control"
                             placeholder="กรุณากรอกหัวข้อเรื่อง"
                             [ngClass]="{ 'is-invalid': submitted && fedit.programtopic.errors }">

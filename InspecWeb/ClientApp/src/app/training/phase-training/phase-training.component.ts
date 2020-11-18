@@ -146,6 +146,9 @@ export class PhaseTrainingComponent implements OnInit {
 
 
   }
+
+  
+
   getTrainingPhase() {
     this.trainingservice.getTrainingPhase(this.trainingid)
       .subscribe(result => {
@@ -391,6 +394,15 @@ export class PhaseTrainingComponent implements OnInit {
       this._NotofyService.onSuccess("ลบข้อมูล");
     })
   }
+
+  gotoMain(){
+    this.router.navigate(['/main'])
+  }
+
+  gotoMainTraining(){
+    this.router.navigate(['/training'])
+  }
+
   gotoBack() {
     window.history.back();
   }

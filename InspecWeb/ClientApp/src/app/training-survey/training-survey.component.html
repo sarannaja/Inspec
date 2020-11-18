@@ -2,25 +2,26 @@
     
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="dashboard-default.html">จัดการหลักสูตรการอบรม</a></li>
+        <!-- <li class="breadcrumb-item"><a href="dashboard-default.html">จัดการหลักสูตรการอบรม</a></li> -->
+        <li class="breadcrumb-item"><a class="pointer text-white" (click)="gotoMain()">หน้าหลัก</a></li>
+        <li class="breadcrumb-item"><a href="javascript:void(0)">จัดการแบบประเมิน</a></li>
       </ol>
     </nav>
   </div>
   <div class="row">
     <div class="col-12">
       <div class="card card-eiei">
-          <div class="card-header" style="margin-bottom: -40px;">
-              <h5 class="card-title">ประเมินผลการฝึกอบรม
-                <button class="btn btn-light btn-sm" (click)="gotoBack()">
+          <div class="card-header">
+              <h5 class="card-title">แบบประเมินผลการฝึกอบรม
+                <!-- <button class="btn btn-light btn-sm" (click)="gotoBack()">
                     <i class="fa fa-arrow-left" aria-hidden="true"></i>
-                </button>
+                </button> -->
               </h5>
               <div class="float-right">
-                  <button class="btn btn-primary" (click)="openModal(modalSurvey)"
-                      style="margin-top: -60px;">เพิ่มเรื่องแบบประเมิน</button>
+                  <button class="btn btn-primary" (click)="openModal(modalSurvey)">เพิ่มเรื่องแบบประเมิน</button>
               </div>
           </div>
-          <br /><br />
+
           <div class="card-body">
               <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable
                   [dtOptions]="dtOptions">
@@ -31,9 +32,9 @@
                           <th width="10%"><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th> -->
 
                           <th width="5%">#</th>
-                          <th width="40%">ชื่อเรื่องแบบประเมิน</th>
-                          <th width="25%" class="text-center">จำนวนหัวข้อวัดผลประเมิน</th>
-                          <th width="20%" class="text-center"><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
+                          <th width="40%" style="min-width: 200px;">ชื่อเรื่องแบบประเมิน</th>
+                          <th width="25%" style="min-width: 100px;" class="text-center">จำนวนหัวข้อวัดผลประเมิน</th>
+                          <th width="20%" style="min-width: 100px;" class="text-center"><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
                       </tr>
                   </thead>
                   <tbody> 
@@ -76,7 +77,7 @@
                             </div> -->
                             
                           </td>
-                          <td class="ellipsis text-center">{{ item.count }}</td>
+                          <td class="text-center">{{ item.count }}</td>
                           <td class="text-center">
                             
                               <i class="align-middle mr-2 fas fa-fw fa-file-medical pointer" title="หัวข้อวัดผลประเมิน"

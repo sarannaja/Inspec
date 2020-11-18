@@ -2,28 +2,33 @@
 
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="dashboard-default.html">จัดการหลักสูตรการอบรม</a></li>
+        <li class="breadcrumb-item"><a class="pointer text-white" (click)="gotoMain()">หน้าหลัก</a></li>
+        <li class="breadcrumb-item"><a class="pointer text-white" (click)="gotoMainTraining()">จัดการหลักสูตรการอบรม</a></li>
+        <li class="breadcrumb-item"><a href="javascript:void(0)">การจัดการหลักสูตร</a></li>
+        <li class="breadcrumb-item"><a class="pointer text-white" (click)="gotoBack()">รายงาน</a></li>
+        <li class="breadcrumb-item"><a href="javascript:void(0)">ผู้สมัครเข้าร่วมอบรม</a></li>
     </ol>
   </nav>
 </div>
 <div class="row">
   <div class="col-12">
     <div class="card card-eiei">
-      <div class="card-header" style="margin-bottom: -40px;">
+      <div class="card-header">
         <h5 class="card-title">
           รายงาน / ผู้สมัครเข้าร่วมอบรม
-          <button class="btn btn-light btn-sm" (click)="gotoBack()">
+          <!-- <button class="btn btn-light btn-sm" (click)="gotoBack()">
             <i class="fa fa-arrow-left" aria-hidden="true"></i>
-          </button>
-          <button class="btn btn-primary float-right" (click)="printReport()" title="พิมพ์">
-            <i class="fas fa-print" style="font-size:large;"></i>
-          </button>
+          </button> -->
+          
         </h5>
-        <div class="float-right">
-          <!-- <button class="btn btn-primary" (click)="CreateTraining()"
-                      style="margin-top: -60px;">เพิ่มหลักสูตรการอบรม</button> -->
+        <button class="btn btn-primary float-right" (click)="printReport()" title="พิมพ์">
+          <i class="fas fa-print" style="font-size:large;"></i>
+        </button>
+        <!-- <div class="float-right">
+          <button class="btn btn-primary" (click)="CreateTraining()"
+                      style="margin-top: -60px;">เพิ่มหลักสูตรการอบรม</button>
           <br>
-        </div>
+        </div> -->
       </div>
       <div class="card-body mt-3">
         <div class="row">
@@ -36,13 +41,13 @@
           <thead>
             <tr>
               <th width="5%" class="text-center">#</th>
-              <th width="10%" class="text-center">รุ่น/ปี</th>
-              <th width="25%" class="text-center">หลักสูตร</th>
-              <th width="20%" class="text-center">รายละเอียดโครงการ</th>
-              <th width="10%" class="text-center">กำหนดการฝึกอบรม</th>
-              <th width="10%" class="text-center">สถานที่จัด</th>
-              <th width="10%" class="text-center">จำนวนผู้เข้ารับการฝึกอบรม</th>
-              <th width="10%" class="text-center">จำนวนผู้ผ่านการฝึกอบรม</th>
+              <th width="10%" style="min-width: 50px;" class="text-center">รุ่น/ปี</th>
+              <th width="25%" style="min-width: 200px;" class="text-center">หลักสูตร</th>
+              <th width="20%" style="min-width: 200px;" class="text-center">รายละเอียดโครงการ</th>
+              <th width="10%" style="min-width: 150px;" class="text-center">กำหนดการฝึกอบรม</th>
+              <th width="10%" style="min-width: 150px;" class="text-center">สถานที่จัด</th>
+              <th width="10%" style="min-width: 100px;" class="text-center">จำนวนผู้เข้ารับการฝึกอบรม</th>
+              <th width="10%" style="min-width: 100px;" class="text-center">จำนวนผู้ผ่านการฝึกอบรม</th>
               <!-- <th>ระยะเวลารับสมัคร</th> -->
               <!-- <th>สถานะ</th> -->
               <!-- <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th> -->
@@ -52,9 +57,9 @@
             <tr *ngFor="let item of resulttraining; let i = index">
               <td class="text-center">{{ i + 1 }}</td>
               <td class="text-center">{{ item.trainingdata.generation }}/{{ item.trainingdata.year }}</td>
-              <td class="ellipsis">{{ item.name }}</td>
-              <td class="ellipsis">{{ item.trainingdata.detail }}</td>
-              <td class="text-center">{{ item.start | thaidate:'year'}} - {{ item.end | thaidate:'year'}}</td>
+              <td class="">{{ item.name }}</td>
+              <td class="">{{ item.trainingdata.detail }}</td>
+              <td class="text-center">{{ item.start | thaidate:'short'}} - {{ item.end | thaidate:'short'}}</td>
               <td class="text-center">{{item.trainingdata.location}}</td>
               <td class="text-center">{{ item.count }}</td>
               <td class="text-center">{{ item.approveCount }}</td>

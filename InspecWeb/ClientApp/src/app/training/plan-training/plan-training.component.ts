@@ -39,6 +39,10 @@ export class PlanTrainingComponent implements OnInit {
     this.trainingservice.getTrainingPlan(this.trainingphaseid).subscribe(result => {
       this.resulttrainingplan = result
 
+      console.log('this.resulttrainingplan =>', this.resulttrainingplan);
+
+      
+
       this.chars = result.map(result2 => { return { ...result2, programDate: result2.trainingProgram.programDate } })
       this.chars = _.chain(this.chars)
         .groupBy("programDate")
@@ -52,22 +56,34 @@ export class PlanTrainingComponent implements OnInit {
 
 
       this.loading = true
-      this.dtOptions = {
-        // pagingType: 'full_numbers',
-        searching: false,
-        pageLength: this.resulttrainingplan.length,
-        lengthChange: false,
-        info: false,
-        paging: false,
-        ordering: false,
-        // columnDefs: [
-        //   {
-        //     targets: "_all",
-        //     orderable: false,
-        //   }
-        // ]
-      };
+      // this.dtOptions = {
+      //   // pagingType: 'full_numbers',
+      //   searching: false,
+      //   pageLength: this.resulttrainingplan.length,
+      //   lengthChange: false,
+      //   info: false,
+      //   paging: false,
+      //   ordering: false,
+      //   // columnDefs: [
+      //   //   {
+      //   //     targets: "_all",
+      //   //     orderable: false,
+      //   //   }
+      //   // ]
+      // };
       this.spinner.hide();
     })
+  }
+
+  gotoMain(){
+    this.router.navigate(['/main'])
+  }
+
+  gotoMainTraining(){
+    this.router.navigate(['/training'])
+  }
+
+  gotoBack() {
+    window.history.back();
   }
 }

@@ -212,6 +212,62 @@ export class ListTrainingRegisterComponent implements OnInit {
   openModal(template: TemplateRef<any>, id, item = null, index = null) {
     console.log("id =>", id);
     
+    // this.trainingservice.getregistertrainingpeopledata(id)
+    //   .subscribe(result => {
+    //     // alert("123")
+    //     // console.log("etc", result);
+
+    //     //if (result != null){
+    //     this.birthdate = moment().diff(result.birthDate, 'years');
+
+    //     //}
+    //     this.peopledetail = result
+    //     this.loading = true
+    //     // alert(this.birthdate)
+    // })
+
+
+    // alert(this.peopledetail)
+    // alert(JSON.stringify(this.peopledetail))
+
+    // this.resulttrainingCondition = this.resulttrainingCondition.map(result => {
+    //   return { ...result, status: false }
+    // })
+    // this.getData()
+    this.delid = id;
+    //console.log(this.delid);
+    this.checkcondition(item, index)
+    this.modalRef = this.modalService.show(template);
+
+  }
+
+  openModalbyDetail(template: TemplateRef<any>, id, item = null, index = null) {
+    console.log("id =>", id);
+    
+    this.trainingservice.getregistertrainingpeopledata(id)
+      .subscribe(result => {
+        // alert("123")
+        console.log("etc", result);
+        console.log("peopledetail.type =>", result.type);
+        
+
+        //if (result != null){
+        this.birthdate = moment().diff(result.birthDate, 'years');
+
+        //}
+        this.peopledetail = result
+        this.loading = true
+        // alert(this.birthdate)
+    })
+
+    this.modalRef = this.modalService.show(template);
+
+  }
+
+
+  openModalbyCondition(template: TemplateRef<any>, id, item = null, index = null) {
+    console.log("id =>", id);
+    
     this.trainingservice.getregistertrainingpeopledata(id)
       .subscribe(result => {
         // alert("123")
@@ -224,17 +280,8 @@ export class ListTrainingRegisterComponent implements OnInit {
         this.peopledetail = result
         this.loading = true
         // alert(this.birthdate)
-      })
+    })
 
-    // alert(this.peopledetail)
-
-
-    // alert(JSON.stringify(this.peopledetail))
-
-    // this.resulttrainingCondition = this.resulttrainingCondition.map(result => {
-    //   return { ...result, status: false }
-    // })
-    // this.getData()
     this.delid = id;
     //console.log(this.delid);
     this.checkcondition(item, index)
@@ -431,5 +478,17 @@ export class ListTrainingRegisterComponent implements OnInit {
 
   gotoBack() {
     window.history.back();
+  }
+
+  gotoMain(){
+    this.router.navigate(['/main'])
+  }
+
+  gotoMainTraining(){
+    this.router.navigate(['/training'])
+  }
+
+  gotoTrainingManage(){
+    this.router.navigate(['/training/manage/', this.trainingid])
   }
 }

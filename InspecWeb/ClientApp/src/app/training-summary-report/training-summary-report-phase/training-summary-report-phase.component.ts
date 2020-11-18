@@ -52,6 +52,7 @@ export class TrainingSummaryReportPhaseComponent implements OnInit {
   userid: string;
   groupnum: 6;
   phaseid: string;
+  group: any;
 
   constructor(private modalService: BsModalService,
     private authorize: AuthorizeService,
@@ -139,7 +140,7 @@ export class TrainingSummaryReportPhaseComponent implements OnInit {
 
     //     //console.log(this.resulttraining);
     //   })
-
+    this.getTrainingPhase();
     this.spinner.hide();
   }
 
@@ -148,11 +149,12 @@ export class TrainingSummaryReportPhaseComponent implements OnInit {
   }
 
   getTrainingPhase() {
-    this.trainingservice.getTrainingPhase(this.trainingid)
+    this.trainingservice.getTrainingPhaseDetail(this.phaseid)
       .subscribe(result => {
         this.resulttraining = result;
+        this.group = result[0].group;
         this.loading = true;
-        this.spinner.hide();
+        console.log(this.group);
         console.log(this.resulttraining);
       })
   }
@@ -389,6 +391,19 @@ export class TrainingSummaryReportPhaseComponent implements OnInit {
   gotoBack() {
     window.history.back();
   }
+
+  gotoMain(){
+    this.router.navigate(['/main'])
+  }
+
+  gotoMainTraining(){
+    this.router.navigate(['/training'])
+  }
+
+  gotoTrainingManage(){
+    this.router.navigate(['/training/manage/', this.trainingid])
+  }
+
 
   gotoProgramTraining(id) {
     this.router.navigate(['/training/phase/program/' + this.trainingid + '/' + id])

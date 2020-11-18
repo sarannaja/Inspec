@@ -73,6 +73,18 @@ export class RateloginTrainingReportComponent implements OnInit {
     window.history.back();
   }
 
+  gotoMain(){
+    this.router.navigate(['/main'])
+  }
+
+  gotoMainTraining(){
+    this.router.navigate(['/training'])
+  }
+
+  gotoTrainingManage(){
+    this.router.navigate(['/training/manage/', this.trainingid])
+  }
+
   printReport() {
     this.exportService.reportRateLogin(this.resulttraining, this.trainingname, this.gen, this.trainingyear).subscribe(res => {
       window.open(this.url + "Uploads/" + res.data);
