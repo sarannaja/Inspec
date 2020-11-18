@@ -35,7 +35,10 @@
                 <td>{{ i + 1 }}.</td>
                 <td>{{ item.year }}</td>
                 <td>{{ item.title }}</td>
-                <td ><a *ngIf="item.file != 'NULL' " href="assets/PremierorderFile/{{item.file}}" download>{{ item.file }}</a></td>
+                <td >
+                  <a *ngIf="item.file != 'NULL' " href="assets/PremierorderFile/{{item.file}}" target="_blank">{{ item.file }}
+                  </a>
+                </td>
                 <td *ngIf="role_id == 1">
                   <button class="btn btn-primary btn-pill btn-sm" title="แก้ไขข้อมูล">
                     <i class="align-middle fas fa-fw fa-pen"
@@ -69,7 +72,7 @@
           <div class="modal-body m-3">
             <div class="form-group">
               <label for="test" class="form-label">ปี </label>
-              <input type="text" formControlName="year" class="form-control" placeholder="กรุณากรอกปี"
+              <input type="text" formControlName="year" class="form-control" placeholder="กรุณากรอกปี" numbersOnly maxlength="4" 
               [ngClass]="{ 'is-invalid': submitted && f.year.errors }">
               <div *ngIf="submitted && f.year.errors" class="invalid-feedback">
                 <div *ngIf="f.year.errors.required">กรุณากรอกปี</div>
@@ -85,7 +88,7 @@
             </div>
             <div class="form-group">
               <label for="test" class="form-label">ไฟล์แนบ </label><br>
-              <input type="file" (change)="uploadFile($event)">
+              <input type="file" (change)="uploadFile($event)" [multiple]="false" accept="application/pdf">
             </div>
             
           </div>
@@ -126,7 +129,7 @@
       <form [formGroup]="Form" (ngSubmit)="editPremierorder(Form.value,delid)">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">แก้ไขข้อมูลเกี่ยวกับการประชุม</h5>
+          <h5 class="modal-title">แก้ไขข้อมูล</h5>
           <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -135,7 +138,7 @@
 
           <div class="form-group">
             <label  class="form-label">ปี</label>
-            <input type="text" formControlName="year" class="form-control" placeholder="กรุณากรอกปี"
+            <input type="text" formControlName="year" class="form-control" placeholder="กรุณากรอกปี" numbersOnly maxlength="4"
             [ngClass]="{ 'is-invalid': submitted && f.year.errors }">
             <div *ngIf="submitted && f.year.errors" class="invalid-feedback">
               <div *ngIf="f.year.errors.required">กรุณากรอกปี</div>
@@ -156,7 +159,7 @@
             <a href="assets/PremierorderFile/{{file}}" style="cursor: pointer;" download>
               <label>{{file}}</label>
             </a><br>
-            <input type="file" (change)="uploadFile($event)">
+            <input type="file" (change)="uploadFile($event)" [multiple]="false" accept="application/pdf">
           </div>
           
         </div>

@@ -102,7 +102,7 @@ export class CommanderReportDetailComponent implements OnInit {
   sendCommand(value) {
     this.exportReportService.sendCommand(this.reportId, value, this.userid).subscribe(res => {
       console.log("commanded: ", res);
-      this.notificationService.addNotification(this.reportData.importReportGroups[0].centralPolicyEvent.centralPolicyId, 1, this.userid, 9, this.reportId2, null)
+      this.notificationService.addNotification(this.reportData.importReportGroups[0].centralPolicyEvent.centralPolicyId, 1, this.userid, 9, this.reportId2, null,this.userid)
         .subscribe(response => {
           console.log("Noti res: ", response);
         });

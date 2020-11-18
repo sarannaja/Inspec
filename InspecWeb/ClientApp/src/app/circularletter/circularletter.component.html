@@ -36,10 +36,8 @@
               <td>{{ i + 1 }}</td>
               <td>{{item.title}}</td>
               <td>
-                <a  href="{{fileUrl}}/{{item.filename}}" download>
-                    <p>
-                      <button class="btn btn-primary">{{item.filename}}</button>
-                    </p>
+                <a  href="{{fileUrl}}/{{item.filename}}" target="_blank">
+                    {{item.filename}}
                 </a>
               </td>
               <td *ngIf="item.createdAt != null; else elseBlock">{{ item.createdAt | thaidate:'short'}}</td>
@@ -92,7 +90,7 @@
         <div class="col-12 col-xl-12">
           <div class="form-group">
             <label class="form-label w-100">แนบไฟล์</label>
-            <input type="file" (change)="uploadFile($event)" [multiple]="false">
+            <input type="file" (change)="uploadFile($event)" [multiple]="false" accept="application/pdf">
             <small class="form-text text-muted">สำหรับแนบไฟล์ ฯลฯ.</small>
             
           </div>
@@ -114,7 +112,7 @@
   <form [formGroup]="Form" (ngSubmit)="update(Form.value,id)">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">เพิ่มข้อมูล</h5>
+        <h5 class="modal-title">แก้ไขข้อมูล</h5>
         <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -138,7 +136,7 @@
             <a href="{{fileUrl}}/{{filename}}" style="cursor: pointer;" download>
               <label>{{filename}}</label>
             </a><br>
-            <input type="file" (change)="uploadFile($event)" [multiple]="false">
+            <input type="file" (change)="uploadFile($event)" [multiple]="false" accept="application/pdf">
             <small class="form-text text-muted">สำหรับแนบไฟล์ ฯลฯ.</small>
           </div>
         </div>

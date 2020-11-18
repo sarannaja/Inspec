@@ -135,7 +135,7 @@ export class AnswerCentralPolicyProvinceEditComponent implements OnInit {
   editStatus(value) {
     this.answersubjectservice.editStatusrole7(value, this.centralPolicyEventId).subscribe(result => {
       if (value.Status == "ใช้งานจริง") {
-        this.notificationService.addNotification(this.centralPolicyId, this.provinceid, this.userid, 6, this.subjectGroupId,null)
+        this.notificationService.addNotification(this.centralPolicyId, this.provinceid, this.userid, 6, this.subjectGroupId,null,this.userid)
           .subscribe(response => {
             console.log("innoti", response);
           })

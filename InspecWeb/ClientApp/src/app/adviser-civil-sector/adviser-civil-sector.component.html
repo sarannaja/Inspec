@@ -3,7 +3,7 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a [routerLink]="['/main']">หน้าหลัก</a></li>
-            <li class="breadcrumb-item active">ข้อมูลผู้ติดต่อบุคลากร</li>
+            <li class="breadcrumb-item active">ข้อมูลการผู้ติดต่อบุคลากร</li>
             <li class="breadcrumb-item active">ที่ปรึกษาผู้ตรวจราชการภาคประชาชน </li>
         </ol>
     </nav>
@@ -14,9 +14,9 @@
             <div class="card-header" style="margin-bottom: -40px;">
                 <h5 class="card-title">ที่ปรึกษาผู้ตรวจราชการภาคประชาชน </h5>
                 <div class="float-right"> 
-                    <button class="btn btn-success" (click)="excel()"
+                    <!-- <button class="btn btn-success" (click)="excel()"
                         style="margin-top: -60px;">Excel
-                    </button> 
+                    </button>  -->
                   </div>  
             </div><br>
 
@@ -32,7 +32,6 @@
                             <th>ด้าน</th>
                             <th>จังหวัด</th>                        
                             <th>เบอร์โทร</th>
-                           
                         </tr>
                     </thead>
                     <tbody>
@@ -40,7 +39,7 @@
                             <td>{{i + 1}}</td>
                             <td>{{item.prefix +item.name}}</td>
                             <td>{{item.position}}</td>
-                            <td></td>
+                            <td>{{item.sides.name}}</td>
                             <td>{{item.userProvince[0].province.name}}</td>
                             <td>{{item.phoneNumber}}</td>
                             

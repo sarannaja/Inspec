@@ -35,7 +35,7 @@ export class NotificationService {
     return this.http.get<any>(this.url + 'getnotificationsforexecutiveorder/' + id)
   }
 
-  addNotification(CentralPolicyId, ProvinceId, UserId, status, xe,title) {
+  addNotification(CentralPolicyId, ProvinceId, UserId, status, xe,title,createby) {
     // alert(status)
     this.testLoop('addNotification')
 
@@ -47,6 +47,7 @@ export class NotificationService {
     formData.append('Status', status);
     formData.append('xe', xe);
     formData.append('title', title);
+    formData.append('createby', createby);
 
     return this.http.post(this.url, formData);
   }

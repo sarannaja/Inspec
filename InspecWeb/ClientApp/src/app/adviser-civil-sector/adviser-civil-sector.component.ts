@@ -75,7 +75,13 @@ export class AdviserCivilSectorComponent implements OnInit {
           "next": "ต่อไป",
           "previous": "ย้อนกลับ"
         },
-      }
+      },
+      dom: 'Bfrtip',
+      buttons: [
+        { extend: 'excel', text: 'Excel', className: 'btn btn-success glyphicon glyphicon-list-alt' },
+        { extend: 'pdf', text: 'Pdf', className: 'btn btn-primary glyphicon glyphicon-file' },
+        { extend: 'print', text: 'Print', className: 'btn btn-primary glyphicon glyphicon-print' }
+      ]
 
     };
     this.getUser()
@@ -88,7 +94,7 @@ export class AdviserCivilSectorComponent implements OnInit {
         this.resultuser = result;
         this.loading = true
         this.spinner.hide();
-        // console.log(this.resultuser);
+        console.log("avi",this.resultuser);
       })
   }
   excel(){

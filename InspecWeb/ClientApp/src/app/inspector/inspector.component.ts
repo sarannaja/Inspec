@@ -46,7 +46,13 @@ export class InspectorComponent implements OnInit {
             "next": "ต่อไป",
             "previous": "ย้อนกลับ"
           },
-        }
+        },
+        dom: 'Bfrtip',
+        buttons: [
+          { extend: 'excel', text: 'Excel', className: 'btn btn-success glyphicon glyphicon-list-alt' },
+          { extend: 'pdf', text: 'Pdf', className: 'btn btn-primary glyphicon glyphicon-file' },
+          { extend: 'print', text: 'Print', className: 'btn btn-primary glyphicon glyphicon-print' }
+        ]
   
       };
     this.getdata()
