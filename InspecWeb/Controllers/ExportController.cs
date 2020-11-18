@@ -3172,6 +3172,28 @@ namespace InspecWeb.Controllers
             using (DocX document = DocX.Create(createfile))
             {
                 document.SetDefaultFont(new Xceed.Document.NET.Font("ThSarabunNew"));
+                document.AddHeaders();
+                document.AddFooters();
+
+                // Force the first page to have a different Header and Footer.
+                document.DifferentFirstPage = true;
+                // Force odd & even pages to have different Headers and Footers.
+                document.DifferentOddAndEvenPages = true;
+
+                // Insert a Paragraph into the first Header.
+                document.Footers.First.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy HH:mm", new CultureInfo("th-TH"))).Append(" น.").Alignment = Alignment.right;
+                // Insert a Paragraph into the even Header.
+                document.Footers.Even.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy HH:mm", new CultureInfo("th-TH"))).Append(" น.").Alignment = Alignment.right;
+                // Insert a Paragraph into the odd Header.
+                document.Footers.Odd.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy HH:mm", new CultureInfo("th-TH"))).Append(" น.").Alignment = Alignment.right;
+
+                // Add the page number in the first Footer.
+                document.Headers.First.InsertParagraph("").AppendPageNumber(PageNumberFormat.normal).Alignment = Alignment.center;
+                // Add the page number in the even Footers.
+                document.Headers.Even.InsertParagraph("").AppendPageNumber(PageNumberFormat.normal).Alignment = Alignment.center;
+                // Add the page number in the odd Footers.
+                document.Headers.Odd.InsertParagraph("").AppendPageNumber(PageNumberFormat.normal).Alignment = Alignment.center;
+
                 Image image = document.AddImage(myImageFullPath);
                 Picture picture = image.CreatePicture(85, 85);
                 var logo = document.InsertParagraph();
@@ -3180,7 +3202,7 @@ namespace InspecWeb.Controllers
                 // Add a title
                 document.PageLayout.Orientation = Orientation.Landscape;
                 var reportType = document.InsertParagraph("รายงานผู้สมัครเข้าร่วมอบรม");
-                reportType.FontSize(16d);
+                reportType.FontSize(18d);
                 reportType.SpacingBefore(15d);
                 reportType.SpacingAfter(15d);
                 reportType.Bold();
@@ -3207,9 +3229,9 @@ namespace InspecWeb.Controllers
 
                 // Fill in the columns of the first row in the table.
 
-                row.Cells[0].Paragraphs.First().Append("ชื่อ - สกุล");
-                row.Cells[1].Paragraphs.First().Append("หน่วยงาน/สังกัด");
-                row.Cells[2].Paragraphs.First().Append("คุณสมบัติ");
+                row.Cells[0].Paragraphs.First().Append("ชื่อ - สกุล").FontSize(16d);
+                row.Cells[1].Paragraphs.First().Append("หน่วยงาน/สังกัด").FontSize(16d);
+                row.Cells[2].Paragraphs.First().Append("คุณสมบัติ").FontSize(16d);
                 //row.Cells[2].Paragraphs.First().Append("จังหวัด");
                 //row.Cells[3].Paragraphs.First().Append("เรื่อง");
                 //row.Cells[4].Paragraphs.First().Append("สถานะเรื่อง");
@@ -3224,8 +3246,8 @@ namespace InspecWeb.Controllers
                 {
                     j += 1;
                     //t.Rows[j].Cells[0].Paragraphs[0].Append(j.ToString());
-                    t.Rows[j].Cells[0].Paragraphs[0].Append(data[k].Name.ToString());
-                    t.Rows[j].Cells[1].Paragraphs[0].Append(data[k].Department.ToString());
+                    t.Rows[j].Cells[0].Paragraphs[0].Append(data[k].Name.ToString()).FontSize(16d);
+                    t.Rows[j].Cells[1].Paragraphs[0].Append(data[k].Department.ToString()).FontSize(16d);
                     //t.Rows[j].Cells[1].Paragraphs[0].Append(data[k].Name.ToString());
                     //t.Rows[j].Cells[1].Paragraphs[0].Append(model.reportCalendarData[k].startDate.ToString());
                     //t.Rows[j].Cells[2].Paragraphs[0].Append(model.reportCalendarData[k].province.ToString());
@@ -3246,7 +3268,7 @@ namespace InspecWeb.Controllers
                         {
                             if (testData[kk].TrainingCondition.Name == "เกณฑ์รับสมัครต้องมีอายุอยู่ระหว่าง")
                             {
-                                t.Rows[j].Cells[2].Paragraphs[0].Append(testData[kk].TrainingCondition.Name.ToString() + " " + testData[kk].TrainingCondition.StartYear.ToString() + " - " + testData[kk].TrainingCondition.EndYear.ToString() + "\t\t" + "ผ่านคุณสมบัติ" + "\n");
+                                t.Rows[j].Cells[2].Paragraphs[0].Append(testData[kk].TrainingCondition.Name.ToString() + " " + testData[kk].TrainingCondition.StartYear.ToString() + " - " + testData[kk].TrainingCondition.EndYear.ToString() + "\t\t" + "ผ่านคุณสมบัติ" + "\n").FontSize(16d);
                             }
                             else
                             {
@@ -3257,11 +3279,11 @@ namespace InspecWeb.Controllers
                         {
                             if (testData[kk].TrainingCondition.Name == "เกณฑ์รับสมัครต้องมีอายุอยู่ระหว่าง")
                             {
-                                t.Rows[j].Cells[2].Paragraphs[0].Append(testData[kk].TrainingCondition.Name.ToString() + " " + testData[kk].TrainingCondition.StartYear.ToString() + " - " + testData[kk].TrainingCondition.EndYear.ToString() + "\t\t" + "ผ่านคุณสมบัติ" + "\n");
+                                t.Rows[j].Cells[2].Paragraphs[0].Append(testData[kk].TrainingCondition.Name.ToString() + " " + testData[kk].TrainingCondition.StartYear.ToString() + " - " + testData[kk].TrainingCondition.EndYear.ToString() + "\t\t" + "ผ่านคุณสมบัติ" + "\n").FontSize(16d);
                             }
                             else
                             {
-                                t.Rows[j].Cells[2].Paragraphs[0].Append(testData[kk].TrainingCondition.Name.ToString() + "\t\t" + "ไม่ผ่านคุณสมบัติ" + "\n");
+                                t.Rows[j].Cells[2].Paragraphs[0].Append(testData[kk].TrainingCondition.Name.ToString() + "\t\t" + "ไม่ผ่านคุณสมบัติ" + "\n").FontSize(16d);
                             }
                         }
 
@@ -3370,7 +3392,7 @@ namespace InspecWeb.Controllers
                 Directory.CreateDirectory(_environment.WebRootPath + "//Uploads//"); //สร้าง Folder Upload ใน wwwroot
             }
             var filePath = _environment.WebRootPath + "/Uploads/";
-            var filename = "รายชื่อผู้เข้ารับการฝึกอบรม" + ".docx";
+            var filename = "รายงานผู้เข้ารับการฝึกอบรม" + ".docx";
             var createfile = filePath + filename;
             var myImageFullPath = filePath + "logo01.png";
 
@@ -3382,11 +3404,37 @@ namespace InspecWeb.Controllers
             System.Console.WriteLine("in Relate");
             using (DocX document = DocX.Create(createfile))
             {
+                document.SetDefaultFont(new Xceed.Document.NET.Font("ThSarabunNew"));
+                document.AddHeaders();
+                document.AddFooters();
+
+                // Force the first page to have a different Header and Footer.
+                document.DifferentFirstPage = true;
+                // Force odd & even pages to have different Headers and Footers.
+                document.DifferentOddAndEvenPages = true;
+
+                // Insert a Paragraph into the first Header.
+                document.Footers.First.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy HH:mm", new CultureInfo("th-TH"))).Append(" น.").Alignment = Alignment.right;
+                // Insert a Paragraph into the even Header.
+                document.Footers.Even.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy HH:mm", new CultureInfo("th-TH"))).Append(" น.").Alignment = Alignment.right;
+                // Insert a Paragraph into the odd Header.
+                document.Footers.Odd.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy HH:mm", new CultureInfo("th-TH"))).Append(" น.").Alignment = Alignment.right;
+
+                // Add the page number in the first Footer.
+                document.Headers.First.InsertParagraph("").AppendPageNumber(PageNumberFormat.normal).Alignment = Alignment.center;
+                // Add the page number in the even Footers.
+                document.Headers.Even.InsertParagraph("").AppendPageNumber(PageNumberFormat.normal).Alignment = Alignment.center;
+                // Add the page number in the odd Footers.
+                document.Headers.Odd.InsertParagraph("").AppendPageNumber(PageNumberFormat.normal).Alignment = Alignment.center;
+
+
+
+
                 document.PageLayout.Orientation = Orientation.Landscape;
                 System.Console.WriteLine("4");
 
                 var reportType = document.InsertParagraph("รายชื่อผู้เข้ารับการฝึกอบรม\nหลักสูตร" + model.trainingName + " รุ่น/ปี " + model.trainingGen + "/" + model.trainingYear);
-                reportType.FontSize(20d);
+                reportType.FontSize(18d);
                 reportType.SpacingAfter(15d);
                 reportType.Bold();
                 reportType.Alignment = Alignment.center;
@@ -3424,12 +3472,12 @@ namespace InspecWeb.Controllers
                 //for (int i = 0; i < row.Cells.Count; ++i)
                 //{
 
-                row.Cells[0].Paragraphs.First().Append("ลำดับที่").Alignment = Alignment.center;
-                row.Cells[1].Paragraphs.First().Append("ชื่อ-นามสกุล").Alignment = Alignment.center;
-                row.Cells[2].Paragraphs.First().Append("ตำแหน่ง").Alignment = Alignment.center;
-                row.Cells[3].Paragraphs.First().Append("หน่วยงาน/สังกัด").Alignment = Alignment.center;
-                row.Cells[4].Paragraphs.First().Append("หมายเลขติดต่อ").Alignment = Alignment.center;
-                row.Cells[5].Paragraphs.First().Append("สรุปผลการลงเวลา\n(ประมวลผลจากข้อมูลการลงเวลาและสรุปสถานะ)").Alignment = Alignment.center;
+                row.Cells[0].Paragraphs.First().Append("ลำดับที่").FontSize(16d).Alignment = Alignment.center;
+                row.Cells[1].Paragraphs.First().Append("ชื่อ-นามสกุล").FontSize(16d).Alignment = Alignment.center;
+                row.Cells[2].Paragraphs.First().Append("ตำแหน่ง").FontSize(16d).Alignment = Alignment.center;
+                row.Cells[3].Paragraphs.First().Append("หน่วยงาน/สังกัด").FontSize(16d).Alignment = Alignment.center;
+                row.Cells[4].Paragraphs.First().Append("หมายเลขติดต่อ").FontSize(16d).Alignment = Alignment.center;
+                row.Cells[5].Paragraphs.First().Append("สรุปผลการลงเวลา\n(ประมวลผลจากข้อมูลการลงเวลาและสรุปสถานะ)").FontSize(16d).Alignment = Alignment.center;
 
                 System.Console.WriteLine("10");
                 //}
@@ -3449,12 +3497,12 @@ namespace InspecWeb.Controllers
                         pass = "ไม่ผ่าน";
                     }
 
-                    t.Rows[j].Cells[0].Paragraphs[0].Append(j.ToString()).Alignment = Alignment.center;
-                    t.Rows[j].Cells[1].Paragraphs[0].Append(model.allReportRateLogin[k].name);
-                    t.Rows[j].Cells[2].Paragraphs[0].Append(model.allReportRateLogin[k].position);
-                    t.Rows[j].Cells[3].Paragraphs[0].Append(model.allReportRateLogin[k].department);
-                    t.Rows[j].Cells[4].Paragraphs[0].Append(model.allReportRateLogin[k].phone);
-                    t.Rows[j].Cells[5].Paragraphs[0].Append("เข้าอบรม " + model.allReportRateLogin[k].count + " / " + model.allReportRateLogin[k].countCourse + "\n" + "คิดเป็น " + model.allReportRateLogin[k].rateCourse + "%" + "\n" + "สถานะ " + pass);
+                    t.Rows[j].Cells[0].Paragraphs[0].Append(j.ToString()).FontSize(16d).Alignment = Alignment.center;
+                    t.Rows[j].Cells[1].Paragraphs[0].Append(model.allReportRateLogin[k].name).FontSize(16d);
+                    t.Rows[j].Cells[2].Paragraphs[0].Append(model.allReportRateLogin[k].position).FontSize(16d);
+                    t.Rows[j].Cells[3].Paragraphs[0].Append(model.allReportRateLogin[k].department).FontSize(16d);
+                    t.Rows[j].Cells[4].Paragraphs[0].Append(model.allReportRateLogin[k].phone).FontSize(16d);
+                    t.Rows[j].Cells[5].Paragraphs[0].Append("เข้าอบรม " + model.allReportRateLogin[k].count + " / " + model.allReportRateLogin[k].countCourse + "\n" + "คิดเป็น " + model.allReportRateLogin[k].rateCourse + "%" + "\n" + "สถานะ " + pass).FontSize(16d);
                     System.Console.WriteLine("10");
                 }
 
@@ -3482,7 +3530,7 @@ namespace InspecWeb.Controllers
                 Directory.CreateDirectory(_environment.WebRootPath + "//Uploads//"); //สร้าง Folder Upload ใน wwwroot
             }
             var filePath = _environment.WebRootPath + "/Uploads/";
-            var filename = "รายชื่อหลักสูตรการฝึกอบรมบุคลากรในระบบการตรวจราชการ" + ".docx";
+            var filename = "รายงานหลักสูตรการฝึกอบรมบุคลากร" + ".docx";
             var createfile = filePath + filename;
             var myImageFullPath = filePath + "logo01.png";
 
@@ -3494,11 +3542,36 @@ namespace InspecWeb.Controllers
             System.Console.WriteLine("in Relate");
             using (DocX document = DocX.Create(createfile))
             {
+                document.SetDefaultFont(new Xceed.Document.NET.Font("ThSarabunNew"));
+                document.AddHeaders();
+                document.AddFooters();
+
+                // Force the first page to have a different Header and Footer.
+                document.DifferentFirstPage = true;
+                // Force odd & even pages to have different Headers and Footers.
+                document.DifferentOddAndEvenPages = true;
+
+                // Insert a Paragraph into the first Header.
+                document.Footers.First.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy HH:mm", new CultureInfo("th-TH"))).Append(" น.").Alignment = Alignment.right;
+                // Insert a Paragraph into the even Header.
+                document.Footers.Even.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy HH:mm", new CultureInfo("th-TH"))).Append(" น.").Alignment = Alignment.right;
+                // Insert a Paragraph into the odd Header.
+                document.Footers.Odd.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy HH:mm", new CultureInfo("th-TH"))).Append(" น.").Alignment = Alignment.right;
+
+                // Add the page number in the first Footer.
+                document.Headers.First.InsertParagraph("").AppendPageNumber(PageNumberFormat.normal).Alignment = Alignment.center;
+                // Add the page number in the even Footers.
+                document.Headers.Even.InsertParagraph("").AppendPageNumber(PageNumberFormat.normal).Alignment = Alignment.center;
+                // Add the page number in the odd Footers.
+                document.Headers.Odd.InsertParagraph("").AppendPageNumber(PageNumberFormat.normal).Alignment = Alignment.center;
+
+
+
                 document.PageLayout.Orientation = Orientation.Landscape;
                 System.Console.WriteLine("4");
 
                 var reportType = document.InsertParagraph("รายชื่อหลักสูตรการฝึกอบรมบุคลากรในระบบการตรวจราชการ");
-                reportType.FontSize(20d);
+                reportType.FontSize(18d);
                 reportType.SpacingAfter(15d);
                 reportType.Bold();
                 reportType.Alignment = Alignment.center;
@@ -3536,14 +3609,14 @@ namespace InspecWeb.Controllers
                 //for (int i = 0; i < row.Cells.Count; ++i)
                 //{
 
-                row.Cells[0].Paragraphs.First().Append("ลำดับที่").Alignment = Alignment.center;
-                row.Cells[1].Paragraphs.First().Append("รุ่น/ปี	").Alignment = Alignment.center;
-                row.Cells[2].Paragraphs.First().Append("หลักสูตร").Alignment = Alignment.center;
-                row.Cells[3].Paragraphs.First().Append("รายละเอียดโครงการ").Alignment = Alignment.center;
-                row.Cells[4].Paragraphs.First().Append("กำหนดการฝึกอบรม").Alignment = Alignment.center;
-                row.Cells[5].Paragraphs.First().Append("สถานที่จัด").Alignment = Alignment.center;
-                row.Cells[6].Paragraphs.First().Append("จำนวนผู้เข้ารับการฝึกอบรม").Alignment = Alignment.center;
-                row.Cells[7].Paragraphs.First().Append("จำนวนผู้ผ่านการฝึกอบรม").Alignment = Alignment.center;
+                row.Cells[0].Paragraphs.First().Append("ลำดับที่").FontSize(16d).Alignment = Alignment.center;
+                row.Cells[1].Paragraphs.First().Append("รุ่น/ปี	").FontSize(16d).Alignment = Alignment.center;
+                row.Cells[2].Paragraphs.First().Append("หลักสูตร").FontSize(16d).Alignment = Alignment.center;
+                row.Cells[3].Paragraphs.First().Append("รายละเอียดโครงการ").FontSize(16d).Alignment = Alignment.center;
+                row.Cells[4].Paragraphs.First().Append("กำหนดการฝึกอบรม").FontSize(16d).Alignment = Alignment.center;
+                row.Cells[5].Paragraphs.First().Append("สถานที่จัด").FontSize(16d).Alignment = Alignment.center;
+                row.Cells[6].Paragraphs.First().Append("จำนวนผู้เข้ารับการฝึกอบรม").FontSize(16d).Alignment = Alignment.center;
+                row.Cells[7].Paragraphs.First().Append("จำนวนผู้ผ่านการฝึกอบรม").FontSize(16d).Alignment = Alignment.center;
 
                 System.Console.WriteLine("10");
                 //}
@@ -3554,14 +3627,14 @@ namespace InspecWeb.Controllers
                     j += 1;
                     System.Console.WriteLine("10.1");
 
-                    t.Rows[j].Cells[0].Paragraphs[0].Append(j.ToString()).Alignment = Alignment.center;
-                    t.Rows[j].Cells[1].Paragraphs[0].Append(model.allReportTrainingRegister[k].generation + "/" + model.allReportTrainingRegister[k].year).Alignment = Alignment.center;
-                    t.Rows[j].Cells[2].Paragraphs[0].Append(model.allReportTrainingRegister[k].name);
-                    t.Rows[j].Cells[3].Paragraphs[0].Append(model.allReportTrainingRegister[k].detail);
-                    t.Rows[j].Cells[4].Paragraphs[0].Append(model.allReportTrainingRegister[k].start.ToShortDateString() + " - " + model.allReportTrainingRegister[k].end.ToShortDateString());
-                    t.Rows[j].Cells[5].Paragraphs[0].Append(model.allReportTrainingRegister[k].location);
-                    t.Rows[j].Cells[6].Paragraphs[0].Append(model.allReportTrainingRegister[k].count.ToString()).Alignment = Alignment.center;
-                    t.Rows[j].Cells[7].Paragraphs[0].Append(model.allReportTrainingRegister[k].approveCount.ToString()).Alignment = Alignment.center;
+                    t.Rows[j].Cells[0].Paragraphs[0].Append(j.ToString()).FontSize(16d).Alignment = Alignment.center;
+                    t.Rows[j].Cells[1].Paragraphs[0].Append(model.allReportTrainingRegister[k].generation + "/" + model.allReportTrainingRegister[k].year).FontSize(16d).Alignment = Alignment.center;
+                    t.Rows[j].Cells[2].Paragraphs[0].Append(model.allReportTrainingRegister[k].name).FontSize(16d);
+                    t.Rows[j].Cells[3].Paragraphs[0].Append(model.allReportTrainingRegister[k].detail).FontSize(16d);
+                    t.Rows[j].Cells[4].Paragraphs[0].Append(model.allReportTrainingRegister[k].start.ToShortDateString() + " - " + model.allReportTrainingRegister[k].end.ToShortDateString()).FontSize(16d);
+                    t.Rows[j].Cells[5].Paragraphs[0].Append(model.allReportTrainingRegister[k].location).FontSize(16d);
+                    t.Rows[j].Cells[6].Paragraphs[0].Append(model.allReportTrainingRegister[k].count.ToString()).FontSize(16d).Alignment = Alignment.center;
+                    t.Rows[j].Cells[7].Paragraphs[0].Append(model.allReportTrainingRegister[k].approveCount.ToString()).FontSize(16d).Alignment = Alignment.center;
                     System.Console.WriteLine("10");
                 }
 

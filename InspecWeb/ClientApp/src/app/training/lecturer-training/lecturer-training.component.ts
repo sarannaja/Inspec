@@ -125,14 +125,16 @@ export class LecturerTrainingComponent implements OnInit {
     this.delid = id;
     console.log(this.delid);
 
+    this.submitted = false;
     this.modalRef = this.modalService.show(template);
   }
 
   storeTraining(value) {
     console.log(value);
-    this.submitted = true;
+    
     if (this.Form.invalid) {
       console.log("in1");
+      this.submitted = true;
       return;
     } else {
 
@@ -142,7 +144,6 @@ export class LecturerTrainingComponent implements OnInit {
         console.log(value);
         this.modalRef.hide()
         this.Form.reset()
-        this.loading = false;
         this.logService.addLog(this.userid,'วิทยากรอบรม(TrainingLecturer)','เพิ่ม',value.lecturername,"").subscribe();
         this.trainingservice.gettraininglecturer()
         .subscribe(result => {
@@ -265,6 +266,10 @@ export class LecturerTrainingComponent implements OnInit {
         console.log(this.resulttraining);
       })
     })
+  }
+
+  gotoMain(){
+    this.router.navigate(['/main'])
   }
 
   gotoProgramTraining(trainingid){

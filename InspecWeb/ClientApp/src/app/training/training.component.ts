@@ -132,6 +132,10 @@ export class TrainingComponent implements OnInit {
     })
   }
 
+  gotoMain(){
+    this.router.navigate(['/main'])
+  }
+
   
   gotoPhaseTraining(trainingid){
     this.router.navigate(['/training/phase/', trainingid])

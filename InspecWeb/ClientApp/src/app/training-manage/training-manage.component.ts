@@ -100,7 +100,13 @@ export class TrainingManageComponent implements OnInit {
   //     })
   // }
 
-  
+  gotoMain(){
+    this.router.navigate(['/main'])
+  }
+
+  gotoMainTraining(){
+    this.router.navigate(['/training'])
+  }
 
 
   GotoUploadDocument(){

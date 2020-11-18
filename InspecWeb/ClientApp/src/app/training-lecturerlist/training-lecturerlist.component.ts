@@ -228,6 +228,18 @@ export class TrainingLecturerListComponent implements OnInit {
     window.history.back();
   }
 
+  gotoMain(){
+    this.router.navigate(['/main'])
+  }
+
+  gotoMainTraining(){
+    this.router.navigate(['/training'])
+  }
+
+  gotoTrainingManage(){
+    this.router.navigate(['/training/manage/', this.trainingid])
+  }
+
   gotoProcessingTraining(trainingLecturerId) {
     this.router.navigate(['/training/survey/processing/', trainingLecturerId])
   }

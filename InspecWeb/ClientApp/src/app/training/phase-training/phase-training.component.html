@@ -2,46 +2,47 @@
 
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="dashboard-default.html">จัดการหลักสูตรการอบรม</a></li>
+            <li class="breadcrumb-item"><a class="pointer text-white" (click)="gotoMain()">หน้าหลัก</a></li>
+            <li class="breadcrumb-item"><a class="pointer text-white" (click)="gotoMainTraining()">จัดการหลักสูตรการอบรม</a></li>
+            <li class="breadcrumb-item"><a href="javascript:void(0)">หลักสูตรการอบรม(ช่วง)</a></li>
         </ol>
     </nav>
 </div>
 <div class="row">
     <div class="col-12">
         <div class="card card-eiei">
-            <div class="card-header" style="margin-bottom: -40px;">
+            <div class="card-header">
                 <h5 class="card-title">
-                    จัดการหลักสูตรการอบรม / หลักสูตรอบรม(ช่วง)
+                    หลักสูตรการอบรม(ช่วง)
 
-                    <button class="btn btn-light btn-sm" (click)="gotoBack()">
+                    <!-- <button class="btn btn-light btn-sm" (click)="gotoBack()">
                         <i class="fa fa-arrow-left" aria-hidden="true"></i>
-                    </button>
+                    </button> -->
 
                 </h5>
                 <div class="float-right">
-                    <button class="btn btn-primary" (click)="openModal(modalProgram)"
-                        style="margin-top: -60px;">เพิ่มหลักสูตรอบรม(ช่วง)</button>
+                    <button class="btn btn-primary" (click)="openModal(modalProgram)">เพิ่มหลักสูตรการอบรม(ช่วง)</button>
                 </div>
             </div>
-            <div class="card-body mt-3">
+            <div class="card-body">
                 <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable
                     [dtOptions]="dtOptions">
                     <thead>
                         <tr>
                             <th width="10%">ช่วงที่</th>
-                            <th width="20%" class="text-center">ระหว่างวันที่</th>
-                            <th width="30%">รายละเอียด</th>
-                            <th width="20%">สถานที่</th>
-                            <th width="10%" class="text-center">จำนวนกลุ่ม</th>
-                            <th width="10%" class="text-center"><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
+                            <th width="20%" style="min-width: 200px;" class="text-center">ระหว่างวันที่</th>
+                            <th width="30%" style="min-width: 200px;">รายละเอียด</th>
+                            <th width="20%" style="min-width: 200px;">สถานที่</th>
+                            <th width="10%" style="min-width: 100px;" class="text-center">จำนวนกลุ่ม</th>
+                            <th width="10%" style="min-width: 200px;" class="text-center"><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let item of resulttraining; let i = index">
                             <td>{{ item.phaseNo }}</td>
-                            <td class="ellipsis text-center">{{ item.startDate | thaidate:'year'}} -
+                            <td class="text-center">{{ item.startDate | thaidate:'year'}} -
                                 {{ item.endDate | thaidate:'year'}}</td>
-                            <td class="ellipsis">{{ item.detail }}</td>
+                            <td class="">{{ item.detail }}</td>
                             <td class="" title="{{item.location}}">{{ item.location }}</td>
                             <td class="text-center">{{ item.group }}</td>
                             <td class="text-center">
@@ -69,7 +70,7 @@
         <form [formGroup]="Form" (ngSubmit)="storeTraining(Form.value)">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">เพิ่มหลักสูตรอบรม(ช่วง)</h5>
+                    <h5 class="modal-title">เพิ่มหลักสูตรการอบรม(ช่วง)</h5>
                     <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()"
                         aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -84,7 +85,7 @@
                             <div *ngIf="submitted && f.phaseno.errors" class="invalid-feedback">
                                 <div *ngIf="f.phaseno.errors.required">กรุณากรอกช่วงที่</div>
                             </div> -->
-                        <select class="form-control select2 col-5" data-toggle="select2" formControlName="phaseno">
+                        <select class="form-control select2 col-12 col-sm-5" data-toggle="select2" formControlName="phaseno">
                             <option value=null>กรุณาระบุช่วง</option>
                             <option *ngFor="let item of ddlphase; let i = index;" [value]="item">{{item}}</option>
                             <!-- <option value=2>2</option>
@@ -104,7 +105,7 @@
                             <label>ระหว่างวันที่</label>
                         </div>
                         <div class="input-group" style="margin-left: -10px;">
-                            <div class="form-group col-5">
+                            <div class="form-group col-12 col-sm-5">
                                 <my-date-picker-th formControlName="startdate" [options]="myDatePickerOptions" required>
                                 </my-date-picker-th>
 
@@ -116,7 +117,7 @@
                             </div>
 
 
-                            <div class="form-group col-5">
+                            <div class="form-group col-12 col-sm-5">
 
                                 <my-date-picker-th formControlName="enddate" [options]="myDatePickerOptions" required>
                                 </my-date-picker-th>
@@ -191,7 +192,7 @@
         <form [formGroup]="EditForm" (ngSubmit)="editTraining(EditForm.value, editid)">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">แก้ไขหลักสูตรอบรม(ช่วง)</h5>
+                    <h5 class="modal-title">แก้ไขหลักสูตรการอบรม(ช่วง)</h5>
                     <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()"
                         aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -202,7 +203,7 @@
                         <label for="test" class="form-label">ช่วงที่</label>
                         <!-- <input type="number" formControlName="phaseno" class="form-control"
                             placeholder="กรุณากรอกช่วงที่" maxlength="2" > -->
-                        <select class="form-control select2 col-5" data-toggle="select2" formControlName="phaseno">
+                        <select class="form-control select2 col-12 col-sm-5" data-toggle="select2" formControlName="phaseno">
                             <option value=null>กรุณาระบุช่วง</option>
                             <option value=1>1</option>
                             <option value=2>2</option>
@@ -222,7 +223,7 @@
                             <label>ระหว่างวันที่</label>
                         </div>
                         <div class="input-group">
-                            <div class="form-group col-5">
+                            <div class="form-group col-12 col-sm-5">
 
                                 <my-date-picker-th [selDate]="fe.value.startdate"
                                     (dateChanged)="onDateChangedStart($event)" [options]="myDatePickerOptions" required>
@@ -235,7 +236,7 @@
                             </div>
 
 
-                            <div class="form-group col-5">
+                            <div class="form-group col-12 col-sm-5">
 
                                 <!-- <my-date-picker-th formControlName="enddate" [options]="myDatePickerOptions" required>
                                 </my-date-picker-th> -->

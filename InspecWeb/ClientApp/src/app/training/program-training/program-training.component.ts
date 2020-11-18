@@ -510,6 +510,19 @@ export class ProgramTrainingComponent implements OnInit {
       this.getprogramtrainingdetail()
     })
   }
+
+  gotoMain(){
+    this.router.navigate(['/main'])
+  }
+
+  gotoMainTraining(){
+    this.router.navigate(['/training'])
+  }
+
+  gotoMainTrainingPhase(){
+    this.router.navigate(['/training/phase/', this.trainingid])
+  }
+
   gotoBack() {
     window.history.back();
   }

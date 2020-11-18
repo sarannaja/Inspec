@@ -1126,7 +1126,7 @@ namespace InspecWeb.Controllers
 
         // PUT : api/training/edit/:id
         [HttpPut("survey/edit/{id}")]
-        public void EditTrainingsurvey(long id, string name, int surveytype)
+        public TrainingSurvey EditTrainingsurvey(long id, string name, int surveytype)
         {
             var training = _context.TrainingSurveys.Find(id);
             training.Name = name;
@@ -1134,7 +1134,10 @@ namespace InspecWeb.Controllers
             _context.Entry(training).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
 
+            return training;
+
         }
+
 
         // DELETE api/Training/trainingsurvey/values/5
         [HttpDelete("trainingsurvey/{trainingid}")]
@@ -2108,6 +2111,18 @@ namespace InspecWeb.Controllers
         }
 
         //GET api/training/phase
+        [HttpGet("phase/detail/{id}")]
+        public IActionResult GetTrainingPhaseDetail(long id)
+        {
+            var districtdata = _context.TrainingPhases
+                .Include(m => m.Training)
+                .Where(m => m.Id == id);
+
+            return Ok(districtdata);
+
+        }
+
+        //GET api/training/phase
         [HttpGet("phase/count/{trainingid}")]
         public IActionResult GetTrainingPhasecount(long trainingid)
         {
@@ -2881,7 +2896,7 @@ namespace InspecWeb.Controllers
             }
             var filePath = _environment.WebRootPath + "//Uploads//";
             var filePath2 = _environment.WebRootPath + "//img//";
-            var filename = "DOC" + ".docx";
+            var filename = "รายงานวิทยากร" + ".docx";
             var createfile = filePath + filename;
             var myImageFullPath = filePath + lecturerdata.ImageProfile;
             var myImageFullPath2 = filePath2 + "user.png";
@@ -2893,6 +2908,30 @@ namespace InspecWeb.Controllers
             using (DocX document = DocX.Create(createfile))
             {
                 System.Console.WriteLine("2");
+                document.SetDefaultFont(new Xceed.Document.NET.Font("ThSarabunNew"));
+                document.AddHeaders();
+                document.AddFooters();
+
+                // Force the first page to have a different Header and Footer.
+                document.DifferentFirstPage = true;
+                // Force odd & even pages to have different Headers and Footers.
+                document.DifferentOddAndEvenPages = true;
+
+                // Insert a Paragraph into the first Header.
+                document.Footers.First.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy HH:mm", new CultureInfo("th-TH"))).Append(" น.").Alignment = Alignment.right;
+                // Insert a Paragraph into the even Header.
+                document.Footers.Even.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy HH:mm", new CultureInfo("th-TH"))).Append(" น.").Alignment = Alignment.right;
+                // Insert a Paragraph into the odd Header.
+                document.Footers.Odd.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy HH:mm", new CultureInfo("th-TH"))).Append(" น.").Alignment = Alignment.right;
+
+                // Add the page number in the first Footer.
+                document.Headers.First.InsertParagraph("").AppendPageNumber(PageNumberFormat.normal).Alignment = Alignment.center;
+                // Add the page number in the even Footers.
+                document.Headers.Even.InsertParagraph("").AppendPageNumber(PageNumberFormat.normal).Alignment = Alignment.center;
+                // Add the page number in the odd Footers.
+                document.Headers.Odd.InsertParagraph("").AppendPageNumber(PageNumberFormat.normal).Alignment = Alignment.center;
+
+
                 //Image image = document.AddImage(myImageFullPath);
                 //Picture picture = image.CreatePicture(85, 85);
                 //var logo = document.InsertParagraph();
@@ -2901,7 +2940,7 @@ namespace InspecWeb.Controllers
 
                 // Add a title
                 var title1 = document.InsertParagraph("ข้อมูลบุคคลกรของวิทยากร");
-                title1.FontSize(16d);
+                title1.FontSize(18d);
                 title1.SpacingBefore(15d);
                 title1.SpacingAfter(15d);
                 title1.Bold();

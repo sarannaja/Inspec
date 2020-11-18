@@ -101,6 +101,18 @@ export class TrainingSurveyLecturerComponent implements OnInit {
   gotoBack() {
     window.history.back();
   }
+
+  gotoMain(){
+    this.router.navigate(['/main'])
+  }
+
+  gotoMainTraining(){
+    this.router.navigate(['/training'])
+  }
+
+  gotoTrainingManage(){
+    this.router.navigate(['/training/manage/', this.trainingid])
+  }
  
   GotoSurveyLecturer(trainingid, surveyjoinlecturerid, surveytopicid){
     this.router.navigate(['/train/survey/'+ trainingid + '/' + surveyjoinlecturerid + '/' + surveytopicid])

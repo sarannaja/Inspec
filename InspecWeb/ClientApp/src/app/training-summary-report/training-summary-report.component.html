@@ -2,20 +2,23 @@
 
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="dashboard-default.html">จัดการหลักสูตรการอบรม</a></li>
+            <li class="breadcrumb-item"><a class="pointer text-white" (click)="gotoMain()">หน้าหลัก</a></li>
+            <li class="breadcrumb-item"><a class="pointer text-white" (click)="gotoMainTraining()">จัดการหลักสูตรการอบรม</a></li>
+            <li class="breadcrumb-item"><a class="pointer text-white" (click)="gotoTrainingManage()">การจัดการหลักสูตร</a></li>
+            <li class="breadcrumb-item"><a href="javascript:void(0)">รายงานสรุปผลการฝึกอบรม (ช่วงหลักสูตร)</a></li>
         </ol>
     </nav>
 </div>
 <div class="row">
     <div class="col-12">
         <div class="card card-eiei">
-            <div class="card-header" style="margin-bottom: -40px;">
+            <div class="card-header">
                 <h5 class="card-title">
-                    จัดการหลักสูตรการอบรม / หลักสูตรอบรม(ช่วง)
+                    รายงานสรุปผลการฝึกอบรม (ช่วงหลักสูตร)
 
-                    <button class="btn btn-light btn-sm" (click)="gotoBack()">
+                    <!-- <button class="btn btn-light btn-sm" (click)="gotoBack()">
                         <i class="fa fa-arrow-left" aria-hidden="true"></i>
-                    </button>
+                    </button> -->
 
                 </h5>
                 <!-- <div class="float-right">
@@ -23,15 +26,15 @@
                         style="margin-top: -60px;">เพิ่มหลักสูตรอบรม(ช่วง)</button>
                 </div> -->
             </div>
-            <div class="card-body mt-5">
+            <div class="card-body">
                 <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable
                     [dtOptions]="dtOptions">
                     <thead>
                         <tr>
-                            <th width="10%" class="text-center">ช่วงที่</th>
-                            <th width="40%" class="text-center">ระหว่างวันที่</th>
-                            <th width="20%" class="text-center">จำนวนกลุ่ม</th>
-                            <th width="30%" class="text-center"><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
+                            <th width="10%" style="min-width: 50px;" class="text-center">ช่วงที่</th>
+                            <th width="40%" style="min-width: 200px;" class="text-center">ระหว่างวันที่</th>
+                            <th width="20%" style="min-width: 100px;" class="text-center">จำนวนกลุ่ม</th>
+                            <th width="30%" style="min-width: 150px;" class="text-center"><i class="align-middle fas fa-fw fa-cog"></i> </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -44,8 +47,8 @@
                             <td class="text-center">
                                 <i class="align-middle mr-2 fas fa-fw fa-search pointer" data-toggle="tooltip"
                                     title="ดูรายงาน" (click)="gotoSummaryReportGroupTraining(item.phaseNo)"></i>
-                                <i class="align-middle mr-2 fa fa fa-address-book pointer" title="รายชื่อผู้อบรม"
-                                    (click)="gotoPlanTraining(item.id)"></i>
+                                <!-- <i class="align-middle mr-2 fa fa fa-address-book pointer" title="รายชื่อผู้อบรม"
+                                    (click)="gotoPlanTraining(item.id)"></i> -->
                             </td>
                         </tr>
                     </tbody>

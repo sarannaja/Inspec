@@ -539,6 +539,10 @@ export class TrainingService {
     return this.http.get<any[]>(this.url + 'phase/' + trainingid)
   }
 
+  getTrainingPhaseDetail(id): Observable<any[]> {
+    return this.http.get<any[]>(this.url + 'phase/detail/' + id)
+  }
+
   getTrainingPhaseCount(trainingid): Observable<string> {
     return this.http.get<string>(this.url + 'phase/count/' + trainingid)
   }

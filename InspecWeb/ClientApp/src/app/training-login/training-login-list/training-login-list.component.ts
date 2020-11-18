@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, Inject, OnInit, TemplateRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { BsModalService } from 'ngx-bootstrap/modal';
@@ -23,6 +23,8 @@ export class TrainingLoginListComponent implements OnInit {
   trainingId: any;
   loading = false;
   datalist: any[];
+  downloadUrl: string;
+  mainUrl: string;
 
   constructor(
     private router: Router,
@@ -34,9 +36,14 @@ export class TrainingLoginListComponent implements OnInit {
     private userService: UserService,
     private _NotofyService: NotofyService,
     private activatedRoute: ActivatedRoute,
-  ) {
-    this.trainingId = activatedRoute.snapshot.paramMap.get('trainingid')
-  }
+    @Inject('BASE_URL') baseUrl: string) {
+      this.downloadUrl = baseUrl + '/Uploads'
+      this.mainUrl = baseUrl
+      this.trainingId = activatedRoute.snapshot.paramMap.get('trainingid')
+    }
+  // ) {
+  //   this.trainingId = activatedRoute.snapshot.paramMap.get('trainingid')
+  // }
 
   ngOnInit() {
     this.authorize.getUser()
@@ -112,5 +119,17 @@ export class TrainingLoginListComponent implements OnInit {
 
   gotoBack() {
     window.history.back();
+  }
+
+  gotoMain(){
+    this.router.navigate(['/main'])
+  }
+
+  gotoMainTraining(){
+    this.router.navigate(['/training'])
+  }
+
+  gotoTrainingManage(){
+    this.router.navigate(['/training/manage/', this.trainingId])
   }
 }

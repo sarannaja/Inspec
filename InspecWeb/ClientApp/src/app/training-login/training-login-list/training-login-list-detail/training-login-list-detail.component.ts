@@ -148,4 +148,16 @@ export class TrainingLoginListDetailComponent implements OnInit {
     window.history.back();
   }
 
+  gotoMain(){
+    this.router.navigate(['/main'])
+  }
+
+  gotoMainTraining(){
+    this.router.navigate(['/training'])
+  }
+
+  gotoTrainingManage(){
+    this.router.navigate(['/training/manage/', this.trainingId])
+  }
+
 }

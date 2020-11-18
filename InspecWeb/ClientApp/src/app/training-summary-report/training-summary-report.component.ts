@@ -385,6 +385,18 @@ export class TrainingSummaryReportComponent implements OnInit {
     window.history.back();
   }
 
+  gotoMain(){
+    this.router.navigate(['/main'])
+  }
+
+  gotoMainTraining(){
+    this.router.navigate(['/training'])
+  }
+
+  gotoTrainingManage(){
+    this.router.navigate(['/training/manage/', this.trainingid])
+  }
+
   gotoProgramTraining(id) {
     this.router.navigate(['/training/phase/program/' + this.trainingid + '/' + id])
   }
