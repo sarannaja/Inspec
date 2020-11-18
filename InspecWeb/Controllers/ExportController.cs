@@ -385,18 +385,18 @@ namespace InspecWeb.Controllers
                     document.DifferentOddAndEvenPages = true;
 
                     // Insert a Paragraph into the first Header.
-                    document.Headers.First.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                    document.Footers.First.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy HH:mm", new CultureInfo("th-TH"))).Append(" น.").Alignment = Alignment.right;
                     // Insert a Paragraph into the even Header.
-                    document.Headers.Even.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                    document.Footers.Even.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy HH:mm", new CultureInfo("th-TH"))).Append(" น.").Alignment = Alignment.right;
                     // Insert a Paragraph into the odd Header.
-                    document.Headers.Odd.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                    document.Footers.Odd.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy HH:mm", new CultureInfo("th-TH"))).Append(" น.").Alignment = Alignment.right;
 
                     // Add the page number in the first Footer.
-                    document.Footers.First.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                    document.Headers.First.InsertParagraph("").AppendPageNumber(PageNumberFormat.normal).Alignment = Alignment.center;
                     // Add the page number in the even Footers.
-                    document.Footers.Even.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                    document.Headers.Even.InsertParagraph("").AppendPageNumber(PageNumberFormat.normal).Alignment = Alignment.center;
                     // Add the page number in the odd Footers.
-                    document.Footers.Odd.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                    document.Headers.Odd.InsertParagraph("").AppendPageNumber(PageNumberFormat.normal).Alignment = Alignment.center;
 
                     int l = 0;
                     for (int i = 0; i < model.reportData2.Length; i++)
@@ -414,7 +414,7 @@ namespace InspecWeb.Controllers
                         // Add a title
 
                         var reportType = document.InsertParagraph("รายงานผลการตรวจราชการ (" + exportData.CentralPolicyType.Name + ")" + " : " + exportData.ReportType);
-                        reportType.FontSize(16d);
+                        reportType.FontSize(18d);
                         reportType.SpacingBefore(15d);
                         reportType.SpacingAfter(15d);
                         reportType.Bold();
@@ -486,12 +486,12 @@ namespace InspecWeb.Controllers
                         // Fill in the columns of the first row in the table.
                         //for (int i = 0; i < row.Cells.Count; ++i)
                         //{
-                        row.Cells[0].Paragraphs.First().Append("ประเด็นการตรวจติดตาม");
-                        row.Cells[1].Paragraphs.First().Append("ข้อค้นพบ/ผลการตรวจ");
-                        row.Cells[2].Paragraphs.First().Append("ประเด็นปัญหา");
-                        row.Cells[3].Paragraphs.First().Append("ข้อเสนอแนะของผู้ตรวจราชการ");
-                        row.Cells[4].Paragraphs.First().Append("หน่วยรับตรวจ/หน่วยงานที่รับผิดชอบ");
-                        row.Cells[5].Paragraphs.First().Append("ความเห็นของ ที่ปรึกษา ผต.ภาคประชาชน");
+                        row.Cells[0].Paragraphs.First().Append("ประเด็นการตรวจติดตาม").FontSize(16d);
+                        row.Cells[1].Paragraphs.First().Append("ข้อค้นพบ/ผลการตรวจ").FontSize(16d);
+                        row.Cells[2].Paragraphs.First().Append("ประเด็นปัญหา").FontSize(16d);
+                        row.Cells[3].Paragraphs.First().Append("ข้อเสนอแนะของผู้ตรวจราชการ").FontSize(16d);
+                        row.Cells[4].Paragraphs.First().Append("หน่วยรับตรวจ/หน่วยงานที่รับผิดชอบ").FontSize(16d);
+                        row.Cells[5].Paragraphs.First().Append("ความเห็นของ ที่ปรึกษา ผต.ภาคประชาชน").FontSize(16d);
 
                         System.Console.WriteLine("10");
                         //}
@@ -504,7 +504,7 @@ namespace InspecWeb.Controllers
                             System.Console.WriteLine("10.1");
                             System.Console.WriteLine("JJJJJ: " + j);
                             System.Console.WriteLine("9.1: " + model.reportData2[i].tableData[k].subject);
-                            t.Rows[j].Cells[0].Paragraphs[0].Append(model.reportData2[i].tableData[k].subject);
+                            t.Rows[j].Cells[0].Paragraphs[0].Append(model.reportData2[i].tableData[k].subject).FontSize(16d);
                             // System.Console.WriteLine("9.2: " + model.reportData2[i].tableData[k].subject);
                             // t.Rows[j].Cells[1].Paragraphs[0].Append(model.reportData2[i].tableData[k].subject);
                             // System.Console.WriteLine("9.3: " + model.reportData2[i].tableData[k].subject);
@@ -531,7 +531,7 @@ namespace InspecWeb.Controllers
                         detailTitle.Bold();
                         var detail = document.InsertParagraph(exportData.DetailReport);
                         detail.SpacingBefore(5d);
-                        detail.FontSize(15d);
+                        detail.FontSize(16d);
                         // detail.UnderlineColor(Color.Black);
                         // detail.UnderlineStyle(UnderlineStyle.dotted);
 
@@ -541,7 +541,7 @@ namespace InspecWeb.Controllers
                         suggestionTitle.Bold();
                         var suggestion = document.InsertParagraph(exportData.Suggestion);
                         suggestion.SpacingBefore(5d);
-                        suggestion.FontSize(15d);
+                        suggestion.FontSize(16d);
                         // suggestion.UnderlineColor(Color.Black);
                         // suggestion.UnderlineStyle(UnderlineStyle.dotted);
 
@@ -551,7 +551,7 @@ namespace InspecWeb.Controllers
                         commandTitle.Bold();
                         var command = document.InsertParagraph(exportData.Command);
                         command.SpacingBefore(5d);
-                        command.FontSize(15d);
+                        command.FontSize(16d);
                         // command.UnderlineColor(Color.Black);
                         // command.UnderlineStyle(UnderlineStyle.dotted);
                         command.InsertPageBreakAfterSelf();
@@ -580,18 +580,18 @@ namespace InspecWeb.Controllers
                     document.DifferentOddAndEvenPages = true;
 
                     // Insert a Paragraph into the first Header.
-                    document.Headers.First.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                    document.Footers.First.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy HH:mm", new CultureInfo("th-TH"))).Append(" น.").Alignment = Alignment.right;
                     // Insert a Paragraph into the even Header.
-                    document.Headers.Even.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                    document.Footers.Even.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy HH:mm", new CultureInfo("th-TH"))).Append(" น.").Alignment = Alignment.right;
                     // Insert a Paragraph into the odd Header.
-                    document.Headers.Odd.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                    document.Footers.Odd.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy HH:mm", new CultureInfo("th-TH"))).Append(" น.").Alignment = Alignment.right;
 
                     // Add the page number in the first Footer.
-                    document.Footers.First.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                    document.Headers.First.InsertParagraph("").AppendPageNumber(PageNumberFormat.normal).Alignment = Alignment.center;
                     // Add the page number in the even Footers.
-                    document.Footers.Even.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                    document.Headers.Even.InsertParagraph("").AppendPageNumber(PageNumberFormat.normal).Alignment = Alignment.center;
                     // Add the page number in the odd Footers.
-                    document.Footers.Odd.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                    document.Headers.Odd.InsertParagraph("").AppendPageNumber(PageNumberFormat.normal).Alignment = Alignment.center;
                     int l = 0;
                     for (int i = 0; i < model.reportData2.Length; i++)
                     {
@@ -608,7 +608,7 @@ namespace InspecWeb.Controllers
                         // Add a title
 
                         var reportType = document.InsertParagraph("รายงานผลการตรวจราชการ (" + exportData.CentralPolicyType.Name + ")" + " : " + exportData.ReportType);
-                        reportType.FontSize(16d);
+                        reportType.FontSize(18d);
                         reportType.SpacingBefore(15d);
                         reportType.SpacingAfter(15d);
                         reportType.Bold();
@@ -680,12 +680,12 @@ namespace InspecWeb.Controllers
                         // Fill in the columns of the first row in the table.
                         //for (int i = 0; i < row.Cells.Count; ++i)
                         //{
-                        row.Cells[0].Paragraphs.First().Append("ประเด็นการตรวจติดตาม");
-                        row.Cells[1].Paragraphs.First().Append("ข้อค้นพบ/ผลการตรวจ");
-                        row.Cells[2].Paragraphs.First().Append("ประเด็นปัญหา");
-                        row.Cells[3].Paragraphs.First().Append("ข้อเสนอแนะของผู้ตรวจราชการ");
-                        row.Cells[4].Paragraphs.First().Append("หน่วยรับตรวจ/หน่วยงานที่รับผิดชอบ");
-                        row.Cells[5].Paragraphs.First().Append("ความเห็นของ ที่ปรึกษา ผต.ภาคประชาชน");
+                        row.Cells[0].Paragraphs.First().Append("ประเด็นการตรวจติดตาม").FontSize(16d);
+                        row.Cells[1].Paragraphs.First().Append("ข้อค้นพบ/ผลการตรวจ").FontSize(16d);
+                        row.Cells[2].Paragraphs.First().Append("ประเด็นปัญหา").FontSize(16d);
+                        row.Cells[3].Paragraphs.First().Append("ข้อเสนอแนะของผู้ตรวจราชการ").FontSize(16d);
+                        row.Cells[4].Paragraphs.First().Append("หน่วยรับตรวจ/หน่วยงานที่รับผิดชอบ").FontSize(16d);
+                        row.Cells[5].Paragraphs.First().Append("ความเห็นของ ที่ปรึกษา ผต.ภาคประชาชน").FontSize(16d);
 
                         System.Console.WriteLine("10");
                         //}
@@ -698,7 +698,7 @@ namespace InspecWeb.Controllers
                             System.Console.WriteLine("10.1");
                             System.Console.WriteLine("JJJJJ: " + j);
                             System.Console.WriteLine("9.1: " + model.reportData2[i].tableData[k].subject);
-                            t.Rows[j].Cells[0].Paragraphs[0].Append(model.reportData2[i].tableData[k].subject);
+                            t.Rows[j].Cells[0].Paragraphs[0].Append(model.reportData2[i].tableData[k].subject).FontSize(16d);
                             // System.Console.WriteLine("9.2: " + model.reportData2[i].tableData[k].subject);
                             // t.Rows[j].Cells[1].Paragraphs[0].Append(model.reportData2[i].tableData[k].subject);
                             // System.Console.WriteLine("9.3: " + model.reportData2[i].tableData[k].subject);
@@ -725,7 +725,7 @@ namespace InspecWeb.Controllers
                         detailTitle.Bold();
                         var detail = document.InsertParagraph(exportData.DetailReport);
                         detail.SpacingBefore(5d);
-                        detail.FontSize(15d);
+                        detail.FontSize(16d);
                         // detail.UnderlineColor(Color.Black);
                         // detail.UnderlineStyle(UnderlineStyle.dotted);
 
@@ -735,7 +735,7 @@ namespace InspecWeb.Controllers
                         suggestionTitle.Bold();
                         var suggestion = document.InsertParagraph(exportData.Suggestion);
                         suggestion.SpacingBefore(5d);
-                        suggestion.FontSize(15d);
+                        suggestion.FontSize(16d);
                         // suggestion.UnderlineColor(Color.Black);
                         // suggestion.UnderlineStyle(UnderlineStyle.dotted);
 
@@ -745,7 +745,7 @@ namespace InspecWeb.Controllers
                         commandTitle.Bold();
                         var command = document.InsertParagraph(exportData.Command);
                         command.SpacingBefore(5d);
-                        command.FontSize(15d);
+                        command.FontSize(16d);
                         // command.UnderlineColor(Color.Black);
                         // command.UnderlineStyle(UnderlineStyle.dotted);
                         command.InsertPageBreakAfterSelf();
@@ -774,18 +774,18 @@ namespace InspecWeb.Controllers
                     document.DifferentOddAndEvenPages = true;
 
                     // Insert a Paragraph into the first Header.
-                    document.Headers.First.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                    document.Footers.First.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy HH:mm", new CultureInfo("th-TH"))).Append(" น.").Alignment = Alignment.right;
                     // Insert a Paragraph into the even Header.
-                    document.Headers.Even.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                    document.Footers.Even.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy HH:mm", new CultureInfo("th-TH"))).Append(" น.").Alignment = Alignment.right;
                     // Insert a Paragraph into the odd Header.
-                    document.Headers.Odd.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                    document.Footers.Odd.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy HH:mm", new CultureInfo("th-TH"))).Append(" น.").Alignment = Alignment.right;
 
                     // Add the page number in the first Footer.
-                    document.Footers.First.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                    document.Headers.First.InsertParagraph("").AppendPageNumber(PageNumberFormat.normal).Alignment = Alignment.center;
                     // Add the page number in the even Footers.
-                    document.Footers.Even.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                    document.Headers.Even.InsertParagraph("").AppendPageNumber(PageNumberFormat.normal).Alignment = Alignment.center;
                     // Add the page number in the odd Footers.
-                    document.Footers.Odd.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                    document.Headers.Odd.InsertParagraph("").AppendPageNumber(PageNumberFormat.normal).Alignment = Alignment.center;
                     int l = 0;
                     for (int i = 0; i < model.reportData2.Length; i++)
                     {
@@ -802,7 +802,7 @@ namespace InspecWeb.Controllers
                         // Add a title
 
                         var reportType = document.InsertParagraph("รายงานผลการตรวจราชการ (" + exportData.CentralPolicyType.Name + ")" + " : " + exportData.ReportType);
-                        reportType.FontSize(16d);
+                        reportType.FontSize(18d);
                         reportType.SpacingBefore(15d);
                         reportType.SpacingAfter(15d);
                         reportType.Bold();
@@ -874,12 +874,12 @@ namespace InspecWeb.Controllers
                         // Fill in the columns of the first row in the table.
                         //for (int i = 0; i < row.Cells.Count; ++i)
                         //{
-                        row.Cells[0].Paragraphs.First().Append("ประเด็นการตรวจติดตาม");
-                        row.Cells[1].Paragraphs.First().Append("ข้อค้นพบ/ผลการตรวจ");
-                        row.Cells[2].Paragraphs.First().Append("ประเด็นปัญหา");
-                        row.Cells[3].Paragraphs.First().Append("ข้อเสนอแนะของผู้ตรวจราชการ");
-                        row.Cells[4].Paragraphs.First().Append("หน่วยรับตรวจ/หน่วยงานที่รับผิดชอบ");
-                        row.Cells[5].Paragraphs.First().Append("ความเห็นของ ที่ปรึกษา ผต.ภาคประชาชน");
+                        row.Cells[0].Paragraphs.First().Append("ประเด็นการตรวจติดตาม").FontSize(16d);
+                        row.Cells[1].Paragraphs.First().Append("ข้อค้นพบ/ผลการตรวจ").FontSize(16d);
+                        row.Cells[2].Paragraphs.First().Append("ประเด็นปัญหา").FontSize(16d);
+                        row.Cells[3].Paragraphs.First().Append("ข้อเสนอแนะของผู้ตรวจราชการ").FontSize(16d);
+                        row.Cells[4].Paragraphs.First().Append("หน่วยรับตรวจ/หน่วยงานที่รับผิดชอบ").FontSize(16d);
+                        row.Cells[5].Paragraphs.First().Append("ความเห็นของ ที่ปรึกษา ผต.ภาคประชาชน").FontSize(16d);
 
                         System.Console.WriteLine("10");
                         //}
@@ -892,7 +892,7 @@ namespace InspecWeb.Controllers
                             System.Console.WriteLine("10.1");
                             System.Console.WriteLine("JJJJJ: " + j);
                             System.Console.WriteLine("9.1: " + model.reportData2[i].tableData[k].subject);
-                            t.Rows[j].Cells[0].Paragraphs[0].Append(model.reportData2[i].tableData[k].subject);
+                            t.Rows[j].Cells[0].Paragraphs[0].Append(model.reportData2[i].tableData[k].subject).FontSize(16d);
                             // System.Console.WriteLine("9.2: " + model.reportData2[i].tableData[k].subject);
                             // t.Rows[j].Cells[1].Paragraphs[0].Append(model.reportData2[i].tableData[k].subject);
                             // System.Console.WriteLine("9.3: " + model.reportData2[i].tableData[k].subject);
@@ -919,7 +919,7 @@ namespace InspecWeb.Controllers
                         detailTitle.Bold();
                         var detail = document.InsertParagraph(exportData.DetailReport);
                         detail.SpacingBefore(5d);
-                        detail.FontSize(15d);
+                        detail.FontSize(16d);
                         // detail.UnderlineColor(Color.Black);
                         // detail.UnderlineStyle(UnderlineStyle.dotted);
 
@@ -929,7 +929,7 @@ namespace InspecWeb.Controllers
                         suggestionTitle.Bold();
                         var suggestion = document.InsertParagraph(exportData.Suggestion);
                         suggestion.SpacingBefore(5d);
-                        suggestion.FontSize(15d);
+                        suggestion.FontSize(16d);
                         // suggestion.UnderlineColor(Color.Black);
                         // suggestion.UnderlineStyle(UnderlineStyle.dotted);
 
@@ -939,7 +939,7 @@ namespace InspecWeb.Controllers
                         commandTitle.Bold();
                         var command = document.InsertParagraph(exportData.Command);
                         command.SpacingBefore(5d);
-                        command.FontSize(15d);
+                        command.FontSize(16d);
                         // command.UnderlineColor(Color.Black);
                         // command.UnderlineStyle(UnderlineStyle.dotted);
                         command.InsertPageBreakAfterSelf();
@@ -966,18 +966,18 @@ namespace InspecWeb.Controllers
                     document.DifferentOddAndEvenPages = true;
 
                     // Insert a Paragraph into the first Header.
-                    document.Headers.First.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                    document.Footers.First.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy HH:mm", new CultureInfo("th-TH"))).Append(" น.").Alignment = Alignment.right;
                     // Insert a Paragraph into the even Header.
-                    document.Headers.Even.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                    document.Footers.Even.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy HH:mm", new CultureInfo("th-TH"))).Append(" น.").Alignment = Alignment.right;
                     // Insert a Paragraph into the odd Header.
-                    document.Headers.Odd.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                    document.Footers.Odd.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy HH:mm", new CultureInfo("th-TH"))).Append(" น.").Alignment = Alignment.right;
 
                     // Add the page number in the first Footer.
-                    document.Footers.First.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                    document.Headers.First.InsertParagraph("").AppendPageNumber(PageNumberFormat.normal).Alignment = Alignment.center;
                     // Add the page number in the even Footers.
-                    document.Footers.Even.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                    document.Headers.Even.InsertParagraph("").AppendPageNumber(PageNumberFormat.normal).Alignment = Alignment.center;
                     // Add the page number in the odd Footers.
-                    document.Footers.Odd.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                    document.Headers.Odd.InsertParagraph("").AppendPageNumber(PageNumberFormat.normal).Alignment = Alignment.center;
                     // document.DifferentOddAndEvenPages = true;
                     // document.Sections[i].DifferentFirstPage = true;
 
@@ -997,7 +997,7 @@ namespace InspecWeb.Controllers
                         // Add a title
 
                         var reportType = document.InsertParagraph("รายงานผลการตรวจราชการ (" + exportData.CentralPolicyType.Name + ")" + " : " + exportData.ReportType);
-                        reportType.FontSize(16d);
+                        reportType.FontSize(18d);
                         reportType.SpacingBefore(15d);
                         reportType.SpacingAfter(15d);
                         reportType.Bold();
@@ -1074,12 +1074,12 @@ namespace InspecWeb.Controllers
                         // Fill in the columns of the first row in the table.
                         //for (int i = 0; i < row.Cells.Count; ++i)
                         //{
-                        row.Cells[0].Paragraphs.First().Append("ประเด็นการตรวจติดตาม");
-                        row.Cells[1].Paragraphs.First().Append("ข้อค้นพบ/ผลการตรวจ");
-                        row.Cells[2].Paragraphs.First().Append("ประเด็นปัญหา");
-                        row.Cells[3].Paragraphs.First().Append("ข้อเสนอแนะของผู้ตรวจราชการ");
-                        row.Cells[4].Paragraphs.First().Append("หน่วยรับตรวจ/หน่วยงานที่รับผิดชอบ");
-                        row.Cells[5].Paragraphs.First().Append("ความเห็นของ ที่ปรึกษา ผต.ภาคประชาชน");
+                        row.Cells[0].Paragraphs.First().Append("ประเด็นการตรวจติดตาม").FontSize(16d);
+                        row.Cells[1].Paragraphs.First().Append("ข้อค้นพบ/ผลการตรวจ").FontSize(16d);
+                        row.Cells[2].Paragraphs.First().Append("ประเด็นปัญหา").FontSize(16d);
+                        row.Cells[3].Paragraphs.First().Append("ข้อเสนอแนะของผู้ตรวจราชการ").FontSize(16d);
+                        row.Cells[4].Paragraphs.First().Append("หน่วยรับตรวจ/หน่วยงานที่รับผิดชอบ").FontSize(16d);
+                        row.Cells[5].Paragraphs.First().Append("ความเห็นของ ที่ปรึกษา ผต.ภาคประชาชน").FontSize(16d);
 
                         System.Console.WriteLine("10");
                         //}
@@ -1092,7 +1092,7 @@ namespace InspecWeb.Controllers
                             System.Console.WriteLine("10.1");
                             System.Console.WriteLine("JJJJJ: " + j);
                             System.Console.WriteLine("9.1: " + model.reportData2[i].tableData[k].subject);
-                            t.Rows[j].Cells[0].Paragraphs[0].Append(model.reportData2[i].tableData[k].subject);
+                            t.Rows[j].Cells[0].Paragraphs[0].Append(model.reportData2[i].tableData[k].subject).FontSize(16d);
                             // System.Console.WriteLine("9.2: " + model.reportData2[i].tableData[k].subject);
                             // t.Rows[j].Cells[1].Paragraphs[0].Append(model.reportData2[i].tableData[k].subject);
                             // System.Console.WriteLine("9.3: " + model.reportData2[i].tableData[k].subject);
@@ -1119,7 +1119,7 @@ namespace InspecWeb.Controllers
                         detailTitle.Bold();
                         var detail = document.InsertParagraph(exportData.DetailReport);
                         detail.SpacingBefore(5d);
-                        detail.FontSize(15d);
+                        detail.FontSize(16d);
                         // detail.UnderlineColor(Color.Black);
                         // detail.UnderlineStyle(UnderlineStyle.dotted);
 
@@ -1129,7 +1129,7 @@ namespace InspecWeb.Controllers
                         suggestionTitle.Bold();
                         var suggestion = document.InsertParagraph(exportData.Suggestion);
                         suggestion.SpacingBefore(5d);
-                        suggestion.FontSize(15d);
+                        suggestion.FontSize(16d);
                         // suggestion.UnderlineColor(Color.Black);
                         // suggestion.UnderlineStyle(UnderlineStyle.dotted);
 
@@ -1139,7 +1139,7 @@ namespace InspecWeb.Controllers
                         commandTitle.Bold();
                         var command = document.InsertParagraph(exportData.Command);
                         command.SpacingBefore(5d);
-                        command.FontSize(15d);
+                        command.FontSize(16d);
                         // command.UnderlineColor(Color.Black);
                         // command.UnderlineStyle(UnderlineStyle.dotted);
                         command.InsertPageBreakAfterSelf();
@@ -1166,18 +1166,18 @@ namespace InspecWeb.Controllers
                     document.DifferentOddAndEvenPages = true;
 
                     // Insert a Paragraph into the first Header.
-                    document.Headers.First.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                    document.Footers.First.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy HH:mm", new CultureInfo("th-TH"))).Append(" น.").Alignment = Alignment.right;
                     // Insert a Paragraph into the even Header.
-                    document.Headers.Even.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                    document.Footers.Even.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy HH:mm", new CultureInfo("th-TH"))).Append(" น.").Alignment = Alignment.right;
                     // Insert a Paragraph into the odd Header.
-                    document.Headers.Odd.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                    document.Footers.Odd.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy HH:mm", new CultureInfo("th-TH"))).Append(" น.").Alignment = Alignment.right;
 
                     // Add the page number in the first Footer.
-                    document.Footers.First.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                    document.Headers.First.InsertParagraph("").AppendPageNumber(PageNumberFormat.normal).Alignment = Alignment.center;
                     // Add the page number in the even Footers.
-                    document.Footers.Even.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                    document.Headers.Even.InsertParagraph("").AppendPageNumber(PageNumberFormat.normal).Alignment = Alignment.center;
                     // Add the page number in the odd Footers.
-                    document.Footers.Odd.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                    document.Headers.Odd.InsertParagraph("").AppendPageNumber(PageNumberFormat.normal).Alignment = Alignment.center;
                     // document.DifferentOddAndEvenPages = true;
                     // document.Sections[i].DifferentFirstPage = true;
 
@@ -1197,7 +1197,7 @@ namespace InspecWeb.Controllers
                         // Add a title
 
                         var reportType = document.InsertParagraph("รายงานผลการตรวจราชการ (" + exportData.CentralPolicyType.Name + ")" + " : " + exportData.ReportType);
-                        reportType.FontSize(16d);
+                        reportType.FontSize(18d);
                         reportType.SpacingBefore(15d);
                         reportType.SpacingAfter(15d);
                         reportType.Bold();
@@ -1284,12 +1284,12 @@ namespace InspecWeb.Controllers
                         // Fill in the columns of the first row in the table.
                         //for (int i = 0; i < row.Cells.Count; ++i)
                         //{
-                        row.Cells[0].Paragraphs.First().Append("ประเด็นการตรวจติดตาม");
-                        row.Cells[1].Paragraphs.First().Append("ข้อค้นพบ/ผลการตรวจ");
-                        row.Cells[2].Paragraphs.First().Append("ประเด็นปัญหา");
-                        row.Cells[3].Paragraphs.First().Append("ข้อเสนอแนะของผู้ตรวจราชการ");
-                        row.Cells[4].Paragraphs.First().Append("หน่วยรับตรวจ/หน่วยงานที่รับผิดชอบ");
-                        row.Cells[5].Paragraphs.First().Append("ความเห็นของ ที่ปรึกษา ผต.ภาคประชาชน");
+                        row.Cells[0].Paragraphs.First().Append("ประเด็นการตรวจติดตาม").FontSize(16d);
+                        row.Cells[1].Paragraphs.First().Append("ข้อค้นพบ/ผลการตรวจ").FontSize(16d);
+                        row.Cells[2].Paragraphs.First().Append("ประเด็นปัญหา").FontSize(16d);
+                        row.Cells[3].Paragraphs.First().Append("ข้อเสนอแนะของผู้ตรวจราชการ").FontSize(16d);
+                        row.Cells[4].Paragraphs.First().Append("หน่วยรับตรวจ/หน่วยงานที่รับผิดชอบ").FontSize(16d);
+                        row.Cells[5].Paragraphs.First().Append("ความเห็นของ ที่ปรึกษา ผต.ภาคประชาชน").FontSize(16d);
 
                         System.Console.WriteLine("10");
                         //}
@@ -1302,7 +1302,7 @@ namespace InspecWeb.Controllers
                             System.Console.WriteLine("10.1");
                             System.Console.WriteLine("JJJJJ: " + j);
                             System.Console.WriteLine("9.1: " + model.reportData2[i].tableData[k].subject);
-                            t.Rows[j].Cells[0].Paragraphs[0].Append(model.reportData2[i].tableData[k].subject);
+                            t.Rows[j].Cells[0].Paragraphs[0].Append(model.reportData2[i].tableData[k].subject).FontSize(16d);
                             // System.Console.WriteLine("9.2: " + model.reportData2[i].tableData[k].subject);
                             // t.Rows[j].Cells[1].Paragraphs[0].Append(model.reportData2[i].tableData[k].subject);
                             // System.Console.WriteLine("9.3: " + model.reportData2[i].tableData[k].subject);
@@ -1329,7 +1329,7 @@ namespace InspecWeb.Controllers
                         detailTitle.Bold();
                         var detail = document.InsertParagraph(exportData.DetailReport);
                         detail.SpacingBefore(5d);
-                        detail.FontSize(15d);
+                        detail.FontSize(16d);
                         // detail.UnderlineColor(Color.Black);
                         // detail.UnderlineStyle(UnderlineStyle.dotted);
 
@@ -1339,7 +1339,7 @@ namespace InspecWeb.Controllers
                         suggestionTitle.Bold();
                         var suggestion = document.InsertParagraph(exportData.Suggestion);
                         suggestion.SpacingBefore(5d);
-                        suggestion.FontSize(15d);
+                        suggestion.FontSize(16d);
                         // suggestion.UnderlineColor(Color.Black);
                         // suggestion.UnderlineStyle(UnderlineStyle.dotted);
 
@@ -1349,7 +1349,7 @@ namespace InspecWeb.Controllers
                         commandTitle.Bold();
                         var command = document.InsertParagraph(exportData.Command);
                         command.SpacingBefore(5d);
-                        command.FontSize(15d);
+                        command.FontSize(16d);
                         // command.UnderlineColor(Color.Black);
                         // command.UnderlineStyle(UnderlineStyle.dotted);
                         command.InsertPageBreakAfterSelf();
@@ -2062,23 +2062,23 @@ namespace InspecWeb.Controllers
                 document.DifferentOddAndEvenPages = true;
 
                 // Insert a Paragraph into the first Header.
-                document.Headers.First.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                document.Footers.First.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy HH:mm", new CultureInfo("th-TH"))).Append(" น.").Alignment = Alignment.right;
                 // Insert a Paragraph into the even Header.
-                document.Headers.Even.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                document.Footers.Even.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy HH:mm", new CultureInfo("th-TH"))).Append(" น.").Alignment = Alignment.right;
                 // Insert a Paragraph into the odd Header.
-                document.Headers.Odd.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                document.Footers.Odd.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy HH:mm", new CultureInfo("th-TH"))).Append(" น.").Alignment = Alignment.right;
 
                 // Add the page number in the first Footer.
-                document.Footers.First.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                document.Headers.First.InsertParagraph("").AppendPageNumber(PageNumberFormat.normal).Alignment = Alignment.center;
                 // Add the page number in the even Footers.
-                document.Footers.Even.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                document.Headers.Even.InsertParagraph("").AppendPageNumber(PageNumberFormat.normal).Alignment = Alignment.center;
                 // Add the page number in the odd Footers.
-                document.Footers.Odd.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                document.Headers.Odd.InsertParagraph("").AppendPageNumber(PageNumberFormat.normal).Alignment = Alignment.center;
                 document.PageLayout.Orientation = Orientation.Landscape;
                 System.Console.WriteLine("4");
 
                 var reportType = document.InsertParagraph("ทะเบียนรายงานผลการตรวจราชการ : " + model.reportType);
-                reportType.FontSize(20d);
+                reportType.FontSize(18d);
                 reportType.SpacingAfter(15d);
                 reportType.Bold();
                 reportType.Alignment = Alignment.center;
@@ -2088,7 +2088,7 @@ namespace InspecWeb.Controllers
                 var title = document.InsertParagraph("หน่วยงาน:  " + model.reportDepartment);
                 title.Alignment = Alignment.center;
                 title.SpacingAfter(15d);
-                title.FontSize(18d);
+                title.FontSize(16d);
                 title.Bold();
 
                 System.Console.WriteLine("7");
@@ -2123,12 +2123,12 @@ namespace InspecWeb.Controllers
                 // Fill in the columns of the first row in the table.
                 //for (int i = 0; i < row.Cells.Count; ++i)
                 //{
-                row.Cells[0].Paragraphs.First().Append("ลำดับที่").Alignment = Alignment.center;
-                row.Cells[1].Paragraphs.First().Append("วัน/เดือน/ปี ที่มีรายงาน").Alignment = Alignment.center;
-                row.Cells[2].Paragraphs.First().Append("ประเด็น/เรื่อง").Alignment = Alignment.center;
-                row.Cells[3].Paragraphs.First().Append("ผู้สร้างรายงาน").Alignment = Alignment.center;
-                row.Cells[4].Paragraphs.First().Append("สถานะรายงาน").Alignment = Alignment.center;
-                row.Cells[5].Paragraphs.First().Append("ข้อสั่งการของผู้บังคับบัญชา").Alignment = Alignment.center;
+                row.Cells[0].Paragraphs.First().Append("ลำดับที่").FontSize(16d).Alignment = Alignment.center;
+                row.Cells[1].Paragraphs.First().Append("วัน/เดือน/ปี ที่มีรายงาน").FontSize(16d).Alignment = Alignment.center;
+                row.Cells[2].Paragraphs.First().Append("ประเด็น/เรื่อง").FontSize(16d).Alignment = Alignment.center;
+                row.Cells[3].Paragraphs.First().Append("ผู้สร้างรายงาน").FontSize(16d).Alignment = Alignment.center;
+                row.Cells[4].Paragraphs.First().Append("สถานะรายงาน").FontSize(16d).Alignment = Alignment.center;
+                row.Cells[5].Paragraphs.First().Append("ข้อสั่งการของผู้บังคับบัญชา").FontSize(16d).Alignment = Alignment.center;
 
                 System.Console.WriteLine("10");
                 //}
@@ -2142,12 +2142,12 @@ namespace InspecWeb.Controllers
                     Thread.CurrentThread.CurrentCulture = new CultureInfo("th-TH");
                     var thDate2 = model.allReport[k].dateReport.ToString("dd MMMM yyyy");
 
-                    t.Rows[j].Cells[0].Paragraphs[0].Append(j.ToString()).Alignment = Alignment.center;
-                    t.Rows[j].Cells[1].Paragraphs[0].Append(thDate2);
-                    t.Rows[j].Cells[2].Paragraphs[0].Append(model.allReport[k].subject);
-                    t.Rows[j].Cells[3].Paragraphs[0].Append(model.allReport[k].createBy);
-                    t.Rows[j].Cells[4].Paragraphs[0].Append(model.allReport[k].status).Alignment = Alignment.center;
-                    t.Rows[j].Cells[5].Paragraphs[0].Append(model.allReport[k].command);
+                    t.Rows[j].Cells[0].Paragraphs[0].Append(j.ToString()).FontSize(16d).Alignment = Alignment.center;
+                    t.Rows[j].Cells[1].Paragraphs[0].Append(thDate2).FontSize(16d);
+                    t.Rows[j].Cells[2].Paragraphs[0].Append(model.allReport[k].subject).FontSize(16d);
+                    t.Rows[j].Cells[3].Paragraphs[0].Append(model.allReport[k].createBy).FontSize(16d);
+                    t.Rows[j].Cells[4].Paragraphs[0].Append(model.allReport[k].status).FontSize(16d).Alignment = Alignment.center;
+                    t.Rows[j].Cells[5].Paragraphs[0].Append(model.allReport[k].command).FontSize(16d);
                     System.Console.WriteLine("10");
                 }
 
@@ -2204,25 +2204,25 @@ namespace InspecWeb.Controllers
                 document.DifferentOddAndEvenPages = true;
 
                 // Insert a Paragraph into the first Header.
-                document.Headers.First.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                document.Footers.First.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy HH:mm", new CultureInfo("th-TH"))).Append(" น.").Alignment = Alignment.right;
                 // Insert a Paragraph into the even Header.
-                document.Headers.Even.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                document.Footers.Even.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy HH:mm", new CultureInfo("th-TH"))).Append(" น.").Alignment = Alignment.right;
                 // Insert a Paragraph into the odd Header.
-                document.Headers.Odd.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                document.Footers.Odd.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy HH:mm", new CultureInfo("th-TH"))).Append(" น.").Alignment = Alignment.right;
 
                 // Add the page number in the first Footer.
-                document.Footers.First.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                document.Headers.First.InsertParagraph("").AppendPageNumber(PageNumberFormat.normal).Alignment = Alignment.center;
                 // Add the page number in the even Footers.
-                document.Footers.Even.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                document.Headers.Even.InsertParagraph("").AppendPageNumber(PageNumberFormat.normal).Alignment = Alignment.center;
                 // Add the page number in the odd Footers.
-                document.Footers.Odd.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                document.Headers.Odd.InsertParagraph("").AppendPageNumber(PageNumberFormat.normal).Alignment = Alignment.center;
 
                 document.PageLayout.Orientation = Orientation.Landscape;
                 System.Console.WriteLine("4");
                 System.Console.WriteLine("4444");
 
                 var reportType = document.InsertParagraph("ทะเบียนรายงานผลการตรวจราชการ : " + model.reportType);
-                reportType.FontSize(20d);
+                reportType.FontSize(18d);
                 reportType.SpacingAfter(15d);
                 reportType.Bold();
                 reportType.Alignment = Alignment.center;
@@ -2232,7 +2232,7 @@ namespace InspecWeb.Controllers
                 var title = document.InsertParagraph("เขตตรวจราชการที่:  " + model.reportRegion);
                 title.Alignment = Alignment.center;
                 title.SpacingAfter(15d);
-                title.FontSize(18d);
+                title.FontSize(16d);
                 title.Bold();
 
                 System.Console.WriteLine("7");
@@ -2267,13 +2267,13 @@ namespace InspecWeb.Controllers
                 // Fill in the columns of the first row in the table.
                 //for (int i = 0; i < row.Cells.Count; ++i)
                 //{
-                row.Cells[0].Paragraphs.First().Append("ลำดับที่").Alignment = Alignment.center;
-                row.Cells[1].Paragraphs.First().Append("วัน/เดือน/ปี ที่มีรายงาน").Alignment = Alignment.center;
-                row.Cells[2].Paragraphs.First().Append("ประเด็น/เรื่อง").Alignment = Alignment.center;
-                row.Cells[3].Paragraphs.First().Append("จังหวัด").Alignment = Alignment.center;
-                row.Cells[4].Paragraphs.First().Append("ผู้สร้างรายงาน").Alignment = Alignment.center;
-                row.Cells[5].Paragraphs.First().Append("สถานะรายงาน").Alignment = Alignment.center;
-                row.Cells[6].Paragraphs.First().Append("ข้อสั่งการของผู้บังคับบัญชา").Alignment = Alignment.center;
+                row.Cells[0].Paragraphs.First().Append("ลำดับที่").FontSize(16d).Alignment = Alignment.center;
+                row.Cells[1].Paragraphs.First().Append("วัน/เดือน/ปี ที่มีรายงาน").FontSize(16d).Alignment = Alignment.center;
+                row.Cells[2].Paragraphs.First().Append("ประเด็น/เรื่อง").FontSize(16d).Alignment = Alignment.center;
+                row.Cells[3].Paragraphs.First().Append("จังหวัด").FontSize(16d).Alignment = Alignment.center;
+                row.Cells[4].Paragraphs.First().Append("ผู้สร้างรายงาน").FontSize(16d).Alignment = Alignment.center;
+                row.Cells[5].Paragraphs.First().Append("สถานะรายงาน").FontSize(16d).Alignment = Alignment.center;
+                row.Cells[6].Paragraphs.First().Append("ข้อสั่งการของผู้บังคับบัญชา").FontSize(16d).Alignment = Alignment.center;
 
                 System.Console.WriteLine("10");
                 //}
@@ -2287,13 +2287,13 @@ namespace InspecWeb.Controllers
                     Thread.CurrentThread.CurrentCulture = new CultureInfo("th-TH");
                     var thDate2 = model.allReport[k].dateReport.ToString("dd MMMM yyyy");
 
-                    t.Rows[j].Cells[0].Paragraphs[0].Append(j.ToString()).Alignment = Alignment.center;
-                    t.Rows[j].Cells[1].Paragraphs[0].Append(thDate2);
-                    t.Rows[j].Cells[2].Paragraphs[0].Append(model.allReport[k].subject);
-                    t.Rows[j].Cells[3].Paragraphs[0].Append(model.allReport[k].provinceReport);
-                    t.Rows[j].Cells[4].Paragraphs[0].Append(model.allReport[k].createBy);
-                    t.Rows[j].Cells[5].Paragraphs[0].Append(model.allReport[k].status).Alignment = Alignment.center;
-                    t.Rows[j].Cells[6].Paragraphs[0].Append(model.allReport[k].command);
+                    t.Rows[j].Cells[0].Paragraphs[0].Append(j.ToString()).FontSize(16d).Alignment = Alignment.center;
+                    t.Rows[j].Cells[1].Paragraphs[0].Append(thDate2).FontSize(16d);
+                    t.Rows[j].Cells[2].Paragraphs[0].Append(model.allReport[k].subject).FontSize(16d);
+                    t.Rows[j].Cells[3].Paragraphs[0].Append(model.allReport[k].provinceReport).FontSize(16d);
+                    t.Rows[j].Cells[4].Paragraphs[0].Append(model.allReport[k].createBy).FontSize(16d);
+                    t.Rows[j].Cells[5].Paragraphs[0].Append(model.allReport[k].status).FontSize(16d).Alignment = Alignment.center;
+                    t.Rows[j].Cells[6].Paragraphs[0].Append(model.allReport[k].command).FontSize(16d);
                     System.Console.WriteLine("10");
                 }
 
@@ -2343,18 +2343,18 @@ namespace InspecWeb.Controllers
                 document.DifferentOddAndEvenPages = true;
 
                 // Insert a Paragraph into the first Header.
-                document.Headers.First.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                document.Footers.First.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy HH:mm", new CultureInfo("th-TH"))).Append(" น.").Alignment = Alignment.right;
                 // Insert a Paragraph into the even Header.
-                document.Headers.Even.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                document.Footers.Even.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy HH:mm", new CultureInfo("th-TH"))).Append(" น.").Alignment = Alignment.right;
                 // Insert a Paragraph into the odd Header.
-                document.Headers.Odd.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                document.Footers.Odd.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy HH:mm", new CultureInfo("th-TH"))).Append(" น.").Alignment = Alignment.right;
 
                 // Add the page number in the first Footer.
-                document.Footers.First.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                document.Headers.First.InsertParagraph("").AppendPageNumber(PageNumberFormat.normal).Alignment = Alignment.center;
                 // Add the page number in the even Footers.
-                document.Footers.Even.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                document.Headers.Even.InsertParagraph("").AppendPageNumber(PageNumberFormat.normal).Alignment = Alignment.center;
                 // Add the page number in the odd Footers.
-                document.Footers.Odd.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                document.Headers.Odd.InsertParagraph("").AppendPageNumber(PageNumberFormat.normal).Alignment = Alignment.center;
                 //var province = _context.FiscalYearRelations
                 //    .Where(x => x.RegionId == model.reportRegionId)
                 //    .Select(x => x.Province.Name)
@@ -2364,7 +2364,7 @@ namespace InspecWeb.Controllers
                 System.Console.WriteLine("4");
 
                 var reportType = document.InsertParagraph("ทะเบียนรายงานผลการตรวจราชการ : " + model.reportType);
-                reportType.FontSize(20d);
+                reportType.FontSize(18d);
                 reportType.SpacingAfter(15d);
                 reportType.Bold();
                 reportType.Alignment = Alignment.center;
@@ -2374,7 +2374,7 @@ namespace InspecWeb.Controllers
                 var title = document.InsertParagraph("จังหวัด:  " + model.reportProvince);
                 title.Alignment = Alignment.center;
                 title.SpacingAfter(15d);
-                title.FontSize(18d);
+                title.FontSize(16d);
                 title.Bold();
 
                 System.Console.WriteLine("7");
@@ -2409,12 +2409,12 @@ namespace InspecWeb.Controllers
                 // Fill in the columns of the first row in the table.
                 //for (int i = 0; i < row.Cells.Count; ++i)
                 //{
-                row.Cells[0].Paragraphs.First().Append("ลำดับที่").Alignment = Alignment.center;
-                row.Cells[1].Paragraphs.First().Append("วัน/เดือน/ปี ที่มีรายงาน").Alignment = Alignment.center;
-                row.Cells[2].Paragraphs.First().Append("ประเด็น/เรื่อง").Alignment = Alignment.center;
-                row.Cells[3].Paragraphs.First().Append("ผู้สร้างรายงาน").Alignment = Alignment.center;
-                row.Cells[4].Paragraphs.First().Append("สถานะรายงาน").Alignment = Alignment.center;
-                row.Cells[5].Paragraphs.First().Append("ข้อสั่งการของผู้บังคับบัญชา").Alignment = Alignment.center;
+                row.Cells[0].Paragraphs.First().Append("ลำดับที่").FontSize(16d).Alignment = Alignment.center;
+                row.Cells[1].Paragraphs.First().Append("วัน/เดือน/ปี ที่มีรายงาน").FontSize(16d).Alignment = Alignment.center;
+                row.Cells[2].Paragraphs.First().Append("ประเด็น/เรื่อง").FontSize(16d).Alignment = Alignment.center;
+                row.Cells[3].Paragraphs.First().Append("ผู้สร้างรายงาน").FontSize(16d).Alignment = Alignment.center;
+                row.Cells[4].Paragraphs.First().Append("สถานะรายงาน").FontSize(16d).Alignment = Alignment.center;
+                row.Cells[5].Paragraphs.First().Append("ข้อสั่งการของผู้บังคับบัญชา").FontSize(16d).Alignment = Alignment.center;
 
                 System.Console.WriteLine("10");
                 //}
@@ -2428,12 +2428,12 @@ namespace InspecWeb.Controllers
                     Thread.CurrentThread.CurrentCulture = new CultureInfo("th-TH");
                     var thDate2 = model.allReport[k].dateReport.ToString("dd MMMM yyyy");
 
-                    t.Rows[j].Cells[0].Paragraphs[0].Append(j.ToString()).Alignment = Alignment.center;
-                    t.Rows[j].Cells[1].Paragraphs[0].Append(thDate2);
-                    t.Rows[j].Cells[2].Paragraphs[0].Append(model.allReport[k].subject);
-                    t.Rows[j].Cells[3].Paragraphs[0].Append(model.allReport[k].createBy);
-                    t.Rows[j].Cells[4].Paragraphs[0].Append(model.allReport[k].status).Alignment = Alignment.center;
-                    t.Rows[j].Cells[5].Paragraphs[0].Append(model.allReport[k].command);
+                    t.Rows[j].Cells[0].Paragraphs[0].Append(j.ToString()).FontSize(16d).Alignment = Alignment.center;
+                    t.Rows[j].Cells[1].Paragraphs[0].Append(thDate2).FontSize(16d);
+                    t.Rows[j].Cells[2].Paragraphs[0].Append(model.allReport[k].subject).FontSize(16d);
+                    t.Rows[j].Cells[3].Paragraphs[0].Append(model.allReport[k].createBy).FontSize(16d);
+                    t.Rows[j].Cells[4].Paragraphs[0].Append(model.allReport[k].status).FontSize(16d).Alignment = Alignment.center;
+                    t.Rows[j].Cells[5].Paragraphs[0].Append(model.allReport[k].command).FontSize(16d);
                     System.Console.WriteLine("10");
                 }
 
@@ -2751,22 +2751,22 @@ namespace InspecWeb.Controllers
                     document.DifferentOddAndEvenPages = true;
 
                     // Insert a Paragraph into the first Header.
-                    document.Headers.First.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                    document.Footers.First.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy HH:mm", new CultureInfo("th-TH"))).Append(" น.").Alignment = Alignment.right;
                     // Insert a Paragraph into the even Header.
-                    document.Headers.Even.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                    document.Footers.Even.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy HH:mm", new CultureInfo("th-TH"))).Append(" น.").Alignment = Alignment.right;
                     // Insert a Paragraph into the odd Header.
-                    document.Headers.Odd.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                    document.Footers.Odd.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy HH:mm", new CultureInfo("th-TH"))).Append(" น.").Alignment = Alignment.right;
 
                     // Add the page number in the first Footer.
-                    document.Footers.First.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                    document.Headers.First.InsertParagraph("").AppendPageNumber(PageNumberFormat.normal).Alignment = Alignment.center;
                     // Add the page number in the even Footers.
-                    document.Footers.Even.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                    document.Headers.Even.InsertParagraph("").AppendPageNumber(PageNumberFormat.normal).Alignment = Alignment.center;
                     // Add the page number in the odd Footers.
-                    document.Footers.Odd.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                    document.Headers.Odd.InsertParagraph("").AppendPageNumber(PageNumberFormat.normal).Alignment = Alignment.center;
                     // Add a title
                     document.PageLayout.Orientation = Orientation.Landscape;
                     var reportType = document.InsertParagraph("กำหนดการตรวจราชการรายวัน");
-                    reportType.FontSize(16d);
+                    reportType.FontSize(18d);
                     reportType.SpacingBefore(15d);
                     reportType.SpacingAfter(15d);
                     reportType.Bold();
@@ -2776,6 +2776,8 @@ namespace InspecWeb.Controllers
                     var testDate = DateTime.Now.ToString("dddd dd MMMM yyyy");
                     var year = document.InsertParagraph("วันที่เรียกรายงาน" + testDate);
                     year.Alignment = Alignment.center;
+                    year.FontSize(16d);
+                    year.Bold();
 
                     int dataCount = 0;
                     dataCount = model.reportCalendarData.Count();
@@ -2793,14 +2795,14 @@ namespace InspecWeb.Controllers
 
                     // Fill in the columns of the first row in the table.
 
-                    row.Cells[0].Paragraphs.First().Append("ลำดับที่");
-                    row.Cells[1].Paragraphs.First().Append("วัน/เดือน/ปี");
-                    row.Cells[2].Paragraphs.First().Append("จังหวัด");
-                    row.Cells[3].Paragraphs.First().Append("เรื่อง");
-                    row.Cells[4].Paragraphs.First().Append("สถานะเรื่อง");
-                    row.Cells[5].Paragraphs.First().Append("หน่วยงาน/ผต.นร./ผต.กท.");
-                    row.Cells[6].Paragraphs.First().Append("หมายเลขติดต่อ");
-                    row.Cells[7].Paragraphs.First().Append("ผู้เข้าร่วม");
+                    row.Cells[0].Paragraphs.First().Append("ที่").FontSize(16d);
+                    row.Cells[1].Paragraphs.First().Append("วัน/เดือน/ปี").FontSize(16d);
+                    row.Cells[2].Paragraphs.First().Append("จังหวัด").FontSize(16d);
+                    row.Cells[3].Paragraphs.First().Append("เรื่อง").FontSize(16d);
+                    row.Cells[4].Paragraphs.First().Append("สถานะเรื่อง").FontSize(16d);
+                    row.Cells[5].Paragraphs.First().Append("หน่วยงาน/ผต.นร./ผต.กท.").FontSize(16d);
+                    row.Cells[6].Paragraphs.First().Append("หมายเลขติดต่อ").FontSize(16d);
+                    row.Cells[7].Paragraphs.First().Append("ผู้เข้าร่วม").FontSize(16d);
                     //row.Cells[8].Paragraphs.First().Append("หมายเลขติดต่อ");
                     //row.Cells[9].Paragraphs.First().Append("สถานะการเข้าร่วม");
                     // Add rows in the table.
@@ -2809,14 +2811,14 @@ namespace InspecWeb.Controllers
                     {
                         j += 1;
 
-                        t.Rows[j].Cells[0].Paragraphs[0].Append(j.ToString());
-                        t.Rows[j].Cells[1].Paragraphs[0].Append(model.reportCalendarData[k].startDate.ToString());
-                        t.Rows[j].Cells[2].Paragraphs[0].Append(model.reportCalendarData[k].province.ToString());
-                        t.Rows[j].Cells[3].Paragraphs[0].Append(model.reportCalendarData[k].title.ToString());
-                        t.Rows[j].Cells[4].Paragraphs[0].Append(model.reportCalendarData[k].status.ToString());
-                        t.Rows[j].Cells[5].Paragraphs[0].Append(model.reportCalendarData[k].namecreatedby.ToString());
-                        t.Rows[j].Cells[6].Paragraphs[0].Append(model.reportCalendarData[k].phonenumbercreatedby.ToString());
-                        t.Rows[j].Cells[7].Paragraphs[0].Append(model.reportCalendarData[k].nameinvited.ToString());
+                        t.Rows[j].Cells[0].Paragraphs[0].Append(j.ToString()).FontSize(16d);
+                        t.Rows[j].Cells[1].Paragraphs[0].Append(model.reportCalendarData[k].startDate.ToString()).FontSize(16d);
+                        t.Rows[j].Cells[2].Paragraphs[0].Append(model.reportCalendarData[k].province.ToString()).FontSize(16d);
+                        t.Rows[j].Cells[3].Paragraphs[0].Append(model.reportCalendarData[k].title.ToString()).FontSize(16d);
+                        t.Rows[j].Cells[4].Paragraphs[0].Append(model.reportCalendarData[k].status.ToString()).FontSize(16d);
+                        t.Rows[j].Cells[5].Paragraphs[0].Append(model.reportCalendarData[k].namecreatedby.ToString()).FontSize(16d);
+                        t.Rows[j].Cells[6].Paragraphs[0].Append(model.reportCalendarData[k].phonenumbercreatedby.ToString()).FontSize(16d);
+                        t.Rows[j].Cells[7].Paragraphs[0].Append(model.reportCalendarData[k].nameinvited.ToString()).FontSize(16d);
                     }
 
                     document.Save();
@@ -2842,22 +2844,22 @@ namespace InspecWeb.Controllers
                     document.DifferentOddAndEvenPages = true;
 
                     // Insert a Paragraph into the first Header.
-                    document.Headers.First.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                    document.Footers.First.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy HH:mm", new CultureInfo("th-TH"))).Append(" น.").Alignment = Alignment.right;
                     // Insert a Paragraph into the even Header.
-                    document.Headers.Even.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                    document.Footers.Even.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy HH:mm", new CultureInfo("th-TH"))).Append(" น.").Alignment = Alignment.right;
                     // Insert a Paragraph into the odd Header.
-                    document.Headers.Odd.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                    document.Footers.Odd.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy HH:mm", new CultureInfo("th-TH"))).Append(" น.").Alignment = Alignment.right;
 
                     // Add the page number in the first Footer.
-                    document.Footers.First.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                    document.Headers.First.InsertParagraph("").AppendPageNumber(PageNumberFormat.normal).Alignment = Alignment.center;
                     // Add the page number in the even Footers.
-                    document.Footers.Even.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                    document.Headers.Even.InsertParagraph("").AppendPageNumber(PageNumberFormat.normal).Alignment = Alignment.center;
                     // Add the page number in the odd Footers.
-                    document.Footers.Odd.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                    document.Headers.Odd.InsertParagraph("").AppendPageNumber(PageNumberFormat.normal).Alignment = Alignment.center;
                     // Add a title
                     document.PageLayout.Orientation = Orientation.Landscape;
                     var reportType = document.InsertParagraph("กำหนดการตรวจราชการรายเขต : " + regiondata.Name);
-                    reportType.FontSize(16d);
+                    reportType.FontSize(18d);
                     reportType.SpacingBefore(15d);
                     reportType.SpacingAfter(15d);
                     reportType.Bold();
@@ -2867,6 +2869,8 @@ namespace InspecWeb.Controllers
                     var testDate = DateTime.Now.ToString("dddd dd MMMM yyyy");
                     var year = document.InsertParagraph("วันที่เรียกรายงาน" + testDate);
                     year.Alignment = Alignment.center;
+                    year.FontSize(16d);
+                    year.Bold();
 
                     int dataCount = 0;
                     dataCount = model.reportCalendarData.Count();
@@ -2884,14 +2888,14 @@ namespace InspecWeb.Controllers
 
                     // Fill in the columns of the first row in the table.
 
-                    row.Cells[0].Paragraphs.First().Append("ลำดับที่");
-                    row.Cells[1].Paragraphs.First().Append("วัน/เดือน/ปี");
-                    row.Cells[2].Paragraphs.First().Append("จังหวัด");
-                    row.Cells[3].Paragraphs.First().Append("เรื่อง");
-                    row.Cells[4].Paragraphs.First().Append("สถานะเรื่อง");
-                    row.Cells[5].Paragraphs.First().Append("หน่วยงาน/ผต.นร./ผต.กท.");
-                    row.Cells[6].Paragraphs.First().Append("หมายเลขติดต่อ");
-                    row.Cells[7].Paragraphs.First().Append("ผู้เข้าร่วม");
+                    row.Cells[0].Paragraphs.First().Append("ที่").FontSize(16d);
+                    row.Cells[1].Paragraphs.First().Append("วัน/เดือน/ปี").FontSize(16d);
+                    row.Cells[2].Paragraphs.First().Append("จังหวัด").FontSize(16d);
+                    row.Cells[3].Paragraphs.First().Append("เรื่อง").FontSize(16d);
+                    row.Cells[4].Paragraphs.First().Append("สถานะเรื่อง").FontSize(16d);
+                    row.Cells[5].Paragraphs.First().Append("หน่วยงาน/ผต.นร./ผต.กท.").FontSize(16d);
+                    row.Cells[6].Paragraphs.First().Append("หมายเลขติดต่อ").FontSize(16d);
+                    row.Cells[7].Paragraphs.First().Append("ผู้เข้าร่วม").FontSize(16d);
                     //row.Cells[8].Paragraphs.First().Append("หมายเลขติดต่อ");
                     //row.Cells[9].Paragraphs.First().Append("สถานะการเข้าร่วม");
                     // Add rows in the table.
@@ -2900,14 +2904,14 @@ namespace InspecWeb.Controllers
                     {
                         j += 1;
 
-                        t.Rows[j].Cells[0].Paragraphs[0].Append(j.ToString());
-                        t.Rows[j].Cells[1].Paragraphs[0].Append(model.reportCalendarData[k].startDate.ToString());
-                        t.Rows[j].Cells[2].Paragraphs[0].Append(model.reportCalendarData[k].province.ToString());
-                        t.Rows[j].Cells[3].Paragraphs[0].Append(model.reportCalendarData[k].title.ToString());
-                        t.Rows[j].Cells[4].Paragraphs[0].Append(model.reportCalendarData[k].status.ToString());
-                        t.Rows[j].Cells[5].Paragraphs[0].Append(model.reportCalendarData[k].namecreatedby.ToString());
-                        t.Rows[j].Cells[6].Paragraphs[0].Append(model.reportCalendarData[k].phonenumbercreatedby.ToString());
-                        t.Rows[j].Cells[7].Paragraphs[0].Append(model.reportCalendarData[k].nameinvited.ToString());
+                        t.Rows[j].Cells[0].Paragraphs[0].Append(j.ToString()).FontSize(16d);
+                        t.Rows[j].Cells[1].Paragraphs[0].Append(model.reportCalendarData[k].startDate.ToString()).FontSize(16d);
+                        t.Rows[j].Cells[2].Paragraphs[0].Append(model.reportCalendarData[k].province.ToString()).FontSize(16d);
+                        t.Rows[j].Cells[3].Paragraphs[0].Append(model.reportCalendarData[k].title.ToString()).FontSize(16d);
+                        t.Rows[j].Cells[4].Paragraphs[0].Append(model.reportCalendarData[k].status.ToString()).FontSize(16d);
+                        t.Rows[j].Cells[5].Paragraphs[0].Append(model.reportCalendarData[k].namecreatedby.ToString()).FontSize(16d);
+                        t.Rows[j].Cells[6].Paragraphs[0].Append(model.reportCalendarData[k].phonenumbercreatedby.ToString()).FontSize(16d);
+                        t.Rows[j].Cells[7].Paragraphs[0].Append(model.reportCalendarData[k].nameinvited.ToString()).FontSize(16d);
                     }
 
                     document.Save();
@@ -2931,22 +2935,22 @@ namespace InspecWeb.Controllers
                     document.DifferentOddAndEvenPages = true;
 
                     // Insert a Paragraph into the first Header.
-                    document.Headers.First.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                    document.Footers.First.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy HH:mm", new CultureInfo("th-TH"))).Append(" น.").Alignment = Alignment.right;
                     // Insert a Paragraph into the even Header.
-                    document.Headers.Even.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                    document.Footers.Even.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy HH:mm", new CultureInfo("th-TH"))).Append(" น.").Alignment = Alignment.right;
                     // Insert a Paragraph into the odd Header.
-                    document.Headers.Odd.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                    document.Footers.Odd.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy HH:mm", new CultureInfo("th-TH"))).Append(" น.").Alignment = Alignment.right;
 
                     // Add the page number in the first Footer.
-                    document.Footers.First.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                    document.Headers.First.InsertParagraph("").AppendPageNumber(PageNumberFormat.normal).Alignment = Alignment.center;
                     // Add the page number in the even Footers.
-                    document.Footers.Even.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                    document.Headers.Even.InsertParagraph("").AppendPageNumber(PageNumberFormat.normal).Alignment = Alignment.center;
                     // Add the page number in the odd Footers.
-                    document.Footers.Odd.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                    document.Headers.Odd.InsertParagraph("").AppendPageNumber(PageNumberFormat.normal).Alignment = Alignment.center;
                     // Add a title
                     document.PageLayout.Orientation = Orientation.Landscape;
                     var reportType = document.InsertParagraph("กำหนดการตรวจราชการรายจังหวัด : " + regiondata.Name);
-                    reportType.FontSize(16d);
+                    reportType.FontSize(18d);
                     reportType.SpacingBefore(15d);
                     reportType.SpacingAfter(15d);
                     reportType.Bold();
@@ -2956,6 +2960,8 @@ namespace InspecWeb.Controllers
                     var testDate = DateTime.Now.ToString("dddd dd MMMM yyyy");
                     var year = document.InsertParagraph("วันที่เรียกรายงาน" + testDate);
                     year.Alignment = Alignment.center;
+                    year.FontSize(16d);
+                    year.Bold();
 
                     int dataCount = 0;
                     dataCount = model.reportCalendarData.Count();
@@ -2973,13 +2979,13 @@ namespace InspecWeb.Controllers
 
                     // Fill in the columns of the first row in the table.
 
-                    row.Cells[0].Paragraphs.First().Append("ลำดับที่");
-                    row.Cells[1].Paragraphs.First().Append("วัน/เดือน/ปี");
-                    row.Cells[2].Paragraphs.First().Append("เรื่อง");
-                    row.Cells[3].Paragraphs.First().Append("สถานะเรื่อง");
-                    row.Cells[4].Paragraphs.First().Append("หน่วยงาน/ผต.นร./ผต.กท.");
-                    row.Cells[5].Paragraphs.First().Append("หมายเลขติดต่อ");
-                    row.Cells[6].Paragraphs.First().Append("ผู้เข้าร่วม");
+                    row.Cells[0].Paragraphs.First().Append("ที่").FontSize(16d);
+                    row.Cells[1].Paragraphs.First().Append("วัน/เดือน/ปี").FontSize(16d);
+                    row.Cells[2].Paragraphs.First().Append("เรื่อง").FontSize(16d);
+                    row.Cells[3].Paragraphs.First().Append("สถานะเรื่อง").FontSize(16d);
+                    row.Cells[4].Paragraphs.First().Append("หน่วยงาน/ผต.นร./ผต.กท.").FontSize(16d);
+                    row.Cells[5].Paragraphs.First().Append("หมายเลขติดต่อ").FontSize(16d);
+                    row.Cells[6].Paragraphs.First().Append("ผู้เข้าร่วม").FontSize(16d);
                     //row.Cells[7].Paragraphs.First().Append("หมายเลขติดต่อ");
                     //row.Cells[8].Paragraphs.First().Append("สถานะการเข้าร่วม");
                     // Add rows in the table.
@@ -2988,13 +2994,13 @@ namespace InspecWeb.Controllers
                     {
                         j += 1;
 
-                        t.Rows[j].Cells[0].Paragraphs[0].Append(j.ToString());
-                        t.Rows[j].Cells[1].Paragraphs[0].Append(model.reportCalendarData[k].startDate.ToString());
-                        t.Rows[j].Cells[2].Paragraphs[0].Append(model.reportCalendarData[k].title.ToString());
-                        t.Rows[j].Cells[3].Paragraphs[0].Append(model.reportCalendarData[k].status.ToString());
-                        t.Rows[j].Cells[4].Paragraphs[0].Append(model.reportCalendarData[k].namecreatedby.ToString());
-                        t.Rows[j].Cells[5].Paragraphs[0].Append(model.reportCalendarData[k].phonenumbercreatedby.ToString());
-                        t.Rows[j].Cells[6].Paragraphs[0].Append(model.reportCalendarData[k].nameinvited.ToString());
+                        t.Rows[j].Cells[0].Paragraphs[0].Append(j.ToString()).FontSize(16d);
+                        t.Rows[j].Cells[1].Paragraphs[0].Append(model.reportCalendarData[k].startDate.ToString()).FontSize(16d);
+                        t.Rows[j].Cells[2].Paragraphs[0].Append(model.reportCalendarData[k].title.ToString()).FontSize(16d);
+                        t.Rows[j].Cells[3].Paragraphs[0].Append(model.reportCalendarData[k].status.ToString()).FontSize(16d);
+                        t.Rows[j].Cells[4].Paragraphs[0].Append(model.reportCalendarData[k].namecreatedby.ToString()).FontSize(16d);
+                        t.Rows[j].Cells[5].Paragraphs[0].Append(model.reportCalendarData[k].phonenumbercreatedby.ToString()).FontSize(16d);
+                        t.Rows[j].Cells[6].Paragraphs[0].Append(model.reportCalendarData[k].nameinvited.ToString()).FontSize(16d);
                     }
 
                     document.Save();
@@ -3018,22 +3024,22 @@ namespace InspecWeb.Controllers
                     document.DifferentOddAndEvenPages = true;
 
                     // Insert a Paragraph into the first Header.
-                    document.Headers.First.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                    document.Footers.First.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy HH:mm", new CultureInfo("th-TH"))).Append(" น.").Alignment = Alignment.right;
                     // Insert a Paragraph into the even Header.
-                    document.Headers.Even.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                    document.Footers.Even.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy HH:mm", new CultureInfo("th-TH"))).Append(" น.").Alignment = Alignment.right;
                     // Insert a Paragraph into the odd Header.
-                    document.Headers.Odd.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                    document.Footers.Odd.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy HH:mm", new CultureInfo("th-TH"))).Append(" น.").Alignment = Alignment.right;
 
                     // Add the page number in the first Footer.
-                    document.Footers.First.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                    document.Headers.First.InsertParagraph("").AppendPageNumber(PageNumberFormat.normal).Alignment = Alignment.center;
                     // Add the page number in the even Footers.
-                    document.Footers.Even.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                    document.Headers.Even.InsertParagraph("").AppendPageNumber(PageNumberFormat.normal).Alignment = Alignment.center;
                     // Add the page number in the odd Footers.
-                    document.Footers.Odd.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                    document.Headers.Odd.InsertParagraph("").AppendPageNumber(PageNumberFormat.normal).Alignment = Alignment.center;
                     // Add a title
                     document.PageLayout.Orientation = Orientation.Landscape;
                     var reportType = document.InsertParagraph("กำหนดการตรวจราชการรายหน่วยงาน : " + regiondata.Name);
-                    reportType.FontSize(16d);
+                    reportType.FontSize(18d);
                     reportType.SpacingBefore(15d);
                     reportType.SpacingAfter(15d);
                     reportType.Bold();
@@ -3043,6 +3049,8 @@ namespace InspecWeb.Controllers
                     var testDate = DateTime.Now.ToString("dddd dd MMMM yyyy");
                     var year = document.InsertParagraph("วันที่เรียกรายงาน" + testDate);
                     year.Alignment = Alignment.center;
+                    year.FontSize(16d);
+                    year.Bold();
 
                     int dataCount = 0;
                     dataCount = model.reportCalendarData.Count();
@@ -3060,13 +3068,13 @@ namespace InspecWeb.Controllers
 
                     // Fill in the columns of the first row in the table.
 
-                    row.Cells[0].Paragraphs.First().Append("ลำดับที่");
-                    row.Cells[1].Paragraphs.First().Append("วัน/เดือน/ปี");
-                    row.Cells[2].Paragraphs.First().Append("เรื่อง");
-                    row.Cells[3].Paragraphs.First().Append("สถานะเรื่อง");
-                    row.Cells[4].Paragraphs.First().Append("หน่วยงาน/ผต.นร./ผต.กท.");
-                    row.Cells[5].Paragraphs.First().Append("หมายเลขติดต่อ");
-                    row.Cells[6].Paragraphs.First().Append("ผู้เข้าร่วม");
+                    row.Cells[0].Paragraphs.First().Append("ที่").FontSize(16d);
+                    row.Cells[1].Paragraphs.First().Append("วัน/เดือน/ปี").FontSize(16d);
+                    row.Cells[2].Paragraphs.First().Append("เรื่อง").FontSize(16d);
+                    row.Cells[3].Paragraphs.First().Append("สถานะเรื่อง").FontSize(16d);
+                    row.Cells[4].Paragraphs.First().Append("หน่วยงาน/ผต.นร./ผต.กท.").FontSize(16d);
+                    row.Cells[5].Paragraphs.First().Append("หมายเลขติดต่อ").FontSize(16d);
+                    row.Cells[6].Paragraphs.First().Append("ผู้เข้าร่วม").FontSize(16d);
                     //row.Cells[7].Paragraphs.First().Append("หมายเลขติดต่อ");
                     //row.Cells[8].Paragraphs.First().Append("สถานะการเข้าร่วม");
                     // Add rows in the table.
@@ -3075,13 +3083,13 @@ namespace InspecWeb.Controllers
                     {
                         j += 1;
 
-                        t.Rows[j].Cells[0].Paragraphs[0].Append(j.ToString());
-                        t.Rows[j].Cells[1].Paragraphs[0].Append(model.reportCalendarData[k].startDate.ToString());
-                        t.Rows[j].Cells[2].Paragraphs[0].Append(model.reportCalendarData[k].title.ToString());
-                        t.Rows[j].Cells[3].Paragraphs[0].Append(model.reportCalendarData[k].status.ToString());
-                        t.Rows[j].Cells[4].Paragraphs[0].Append(model.reportCalendarData[k].namecreatedby.ToString());
-                        t.Rows[j].Cells[5].Paragraphs[0].Append(model.reportCalendarData[k].phonenumbercreatedby.ToString());
-                        t.Rows[j].Cells[6].Paragraphs[0].Append(model.reportCalendarData[k].nameinvited.ToString());
+                        t.Rows[j].Cells[0].Paragraphs[0].Append(j.ToString()).FontSize(16d);
+                        t.Rows[j].Cells[1].Paragraphs[0].Append(model.reportCalendarData[k].startDate.ToString()).FontSize(16d);
+                        t.Rows[j].Cells[2].Paragraphs[0].Append(model.reportCalendarData[k].title.ToString()).FontSize(16d);
+                        t.Rows[j].Cells[3].Paragraphs[0].Append(model.reportCalendarData[k].status.ToString()).FontSize(16d);
+                        t.Rows[j].Cells[4].Paragraphs[0].Append(model.reportCalendarData[k].namecreatedby.ToString()).FontSize(16d);
+                        t.Rows[j].Cells[5].Paragraphs[0].Append(model.reportCalendarData[k].phonenumbercreatedby.ToString()).FontSize(16d);
+                        t.Rows[j].Cells[6].Paragraphs[0].Append(model.reportCalendarData[k].nameinvited.ToString()).FontSize(16d);
                     }
 
                     document.Save();
@@ -3105,22 +3113,22 @@ namespace InspecWeb.Controllers
                     document.DifferentOddAndEvenPages = true;
 
                     // Insert a Paragraph into the first Header.
-                    document.Headers.First.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                    document.Footers.First.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy HH:mm", new CultureInfo("th-TH"))).Append(" น.").Alignment = Alignment.right;
                     // Insert a Paragraph into the even Header.
-                    document.Headers.Even.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                    document.Footers.Even.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy HH:mm", new CultureInfo("th-TH"))).Append(" น.").Alignment = Alignment.right;
                     // Insert a Paragraph into the odd Header.
-                    document.Headers.Odd.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                    document.Footers.Odd.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy HH:mm", new CultureInfo("th-TH"))).Append(" น.").Alignment = Alignment.right;
 
                     // Add the page number in the first Footer.
-                    document.Footers.First.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                    document.Headers.First.InsertParagraph("").AppendPageNumber(PageNumberFormat.normal).Alignment = Alignment.center;
                     // Add the page number in the even Footers.
-                    document.Footers.Even.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                    document.Headers.Even.InsertParagraph("").AppendPageNumber(PageNumberFormat.normal).Alignment = Alignment.center;
                     // Add the page number in the odd Footers.
-                    document.Footers.Odd.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                    document.Headers.Odd.InsertParagraph("").AppendPageNumber(PageNumberFormat.normal).Alignment = Alignment.center;
                     // Add a title
                     document.PageLayout.Orientation = Orientation.Landscape;
                     var reportType = document.InsertParagraph("กำหนดการตรวจราชการรายบุคคล : " + regiondata.Prefix + " " + regiondata.Name);
-                    reportType.FontSize(16d);
+                    reportType.FontSize(18d);
                     reportType.SpacingBefore(15d);
                     reportType.SpacingAfter(15d);
                     reportType.Bold();
@@ -3130,6 +3138,8 @@ namespace InspecWeb.Controllers
                     var testDate = DateTime.Now.ToString("dddd dd MMMM yyyy");
                     var year = document.InsertParagraph("วันที่เรียกรายงาน" + testDate);
                     year.Alignment = Alignment.center;
+                    year.FontSize(16d);
+                    year.Bold();
 
                     int dataCount = 0;
                     dataCount = model.reportCalendarData.Count();
@@ -3147,13 +3157,13 @@ namespace InspecWeb.Controllers
 
                     // Fill in the columns of the first row in the table.
 
-                    row.Cells[0].Paragraphs.First().Append("ลำดับที่");
-                    row.Cells[1].Paragraphs.First().Append("วัน/เดือน/ปี");
-                    row.Cells[2].Paragraphs.First().Append("เรื่อง");
-                    row.Cells[3].Paragraphs.First().Append("สถานะเรื่อง");
-                    row.Cells[4].Paragraphs.First().Append("หน่วยงาน/ผต.นร./ผต.กท.");
-                    row.Cells[5].Paragraphs.First().Append("หมายเลขติดต่อ");
-                    row.Cells[6].Paragraphs.First().Append("ผู้เข้าร่วม");
+                    row.Cells[0].Paragraphs.First().Append("ที่").FontSize(16d);
+                    row.Cells[1].Paragraphs.First().Append("วัน/เดือน/ปี").FontSize(16d);
+                    row.Cells[2].Paragraphs.First().Append("เรื่อง").FontSize(16d);
+                    row.Cells[3].Paragraphs.First().Append("สถานะเรื่อง").FontSize(16d);
+                    row.Cells[4].Paragraphs.First().Append("หน่วยงาน/ผต.นร./ผต.กท.").FontSize(16d);
+                    row.Cells[5].Paragraphs.First().Append("หมายเลขติดต่อ").FontSize(16d);
+                    row.Cells[6].Paragraphs.First().Append("ผู้เข้าร่วม").FontSize(16d);
                     //row.Cells[7].Paragraphs.First().Append("หมายเลขติดต่อ");
                     //row.Cells[8].Paragraphs.First().Append("สถานะการเข้าร่วม");
                     // Add rows in the table.
@@ -3162,13 +3172,13 @@ namespace InspecWeb.Controllers
                     {
                         j += 1;
 
-                        t.Rows[j].Cells[0].Paragraphs[0].Append(j.ToString());
-                        t.Rows[j].Cells[1].Paragraphs[0].Append(model.reportCalendarData[k].startDate.ToString());
-                        t.Rows[j].Cells[2].Paragraphs[0].Append(model.reportCalendarData[k].title.ToString());
-                        t.Rows[j].Cells[3].Paragraphs[0].Append(model.reportCalendarData[k].status.ToString());
-                        t.Rows[j].Cells[4].Paragraphs[0].Append(model.reportCalendarData[k].namecreatedby.ToString());
-                        t.Rows[j].Cells[5].Paragraphs[0].Append(model.reportCalendarData[k].phonenumbercreatedby.ToString());
-                        t.Rows[j].Cells[6].Paragraphs[0].Append(model.reportCalendarData[k].nameinvited.ToString());
+                        t.Rows[j].Cells[0].Paragraphs[0].Append(j.ToString()).FontSize(16d);
+                        t.Rows[j].Cells[1].Paragraphs[0].Append(model.reportCalendarData[k].startDate.ToString()).FontSize(16d);
+                        t.Rows[j].Cells[2].Paragraphs[0].Append(model.reportCalendarData[k].title.ToString()).FontSize(16d);
+                        t.Rows[j].Cells[3].Paragraphs[0].Append(model.reportCalendarData[k].status.ToString()).FontSize(16d);
+                        t.Rows[j].Cells[4].Paragraphs[0].Append(model.reportCalendarData[k].namecreatedby.ToString()).FontSize(16d);
+                        t.Rows[j].Cells[5].Paragraphs[0].Append(model.reportCalendarData[k].phonenumbercreatedby.ToString()).FontSize(16d);
+                        t.Rows[j].Cells[6].Paragraphs[0].Append(model.reportCalendarData[k].nameinvited.ToString()).FontSize(16d);
                     }
 
                     document.Save();
@@ -3211,18 +3221,18 @@ namespace InspecWeb.Controllers
                 document.DifferentOddAndEvenPages = true;
 
                 // Insert a Paragraph into the first Header.
-                document.Headers.First.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                document.Footers.First.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy HH:mm", new CultureInfo("th-TH"))).Append(" น.").Alignment = Alignment.right;
                 // Insert a Paragraph into the even Header.
-                document.Headers.Even.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                document.Footers.Even.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy HH:mm", new CultureInfo("th-TH"))).Append(" น.").Alignment = Alignment.right;
                 // Insert a Paragraph into the odd Header.
-                document.Headers.Odd.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                document.Footers.Odd.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy HH:mm", new CultureInfo("th-TH"))).Append(" น.").Alignment = Alignment.right;
 
                 // Add the page number in the first Footer.
-                document.Footers.First.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                document.Headers.First.InsertParagraph("").AppendPageNumber(PageNumberFormat.normal).Alignment = Alignment.center;
                 // Add the page number in the even Footers.
-                document.Footers.Even.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                document.Headers.Even.InsertParagraph("").AppendPageNumber(PageNumberFormat.normal).Alignment = Alignment.center;
                 // Add the page number in the odd Footers.
-                document.Footers.Odd.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                document.Headers.Odd.InsertParagraph("").AppendPageNumber(PageNumberFormat.normal).Alignment = Alignment.center;
 
                 //var province = _context.FiscalYearRelations
                 //    .Where(x => x.RegionId == model.reportRegionId)
@@ -3233,7 +3243,7 @@ namespace InspecWeb.Controllers
                 System.Console.WriteLine("4");
 
                 var reportType = document.InsertParagraph("ทะเบียนรายงานผลการตรวจราชการ : " + model.reportType);
-                reportType.FontSize(20d);
+                reportType.FontSize(18d);
                 reportType.SpacingAfter(15d);
                 reportType.Bold();
                 reportType.Alignment = Alignment.center;
@@ -3246,7 +3256,7 @@ namespace InspecWeb.Controllers
                 var title = document.InsertParagraph("รายงานประจำวันที่:  " + reportDate);
                 title.Alignment = Alignment.center;
                 title.SpacingAfter(15d);
-                title.FontSize(18d);
+                title.FontSize(16d);
                 title.Bold();
 
                 System.Console.WriteLine("7");
@@ -3281,13 +3291,13 @@ namespace InspecWeb.Controllers
                 // Fill in the columns of the first row in the table.
                 //for (int i = 0; i < row.Cells.Count; ++i)
                 //{
-                row.Cells[0].Paragraphs.First().Append("ลำดับที่").Alignment = Alignment.center;
+                row.Cells[0].Paragraphs.First().Append("ลำดับที่").FontSize(16d).Alignment = Alignment.center;
                 //row.Cells[1].Paragraphs.First().Append("วัน/เดือน/ปี ที่มีรายงาน").Alignment = Alignment.center;
 
-                row.Cells[1].Paragraphs.First().Append("ผู้สร้างรายงาน").Alignment = Alignment.center;
-                row.Cells[2].Paragraphs.First().Append("ประเด็น/เรื่อง").Alignment = Alignment.center;
-                row.Cells[3].Paragraphs.First().Append("สถานะรายงาน").Alignment = Alignment.center;
-                row.Cells[4].Paragraphs.First().Append("ข้อสั่งการของผู้บังคับบัญชา").Alignment = Alignment.center;
+                row.Cells[1].Paragraphs.First().Append("ผู้สร้างรายงาน").FontSize(16d).Alignment = Alignment.center;
+                row.Cells[2].Paragraphs.First().Append("ประเด็น/เรื่อง").FontSize(16d).Alignment = Alignment.center;
+                row.Cells[3].Paragraphs.First().Append("สถานะรายงาน").FontSize(16d).Alignment = Alignment.center;
+                row.Cells[4].Paragraphs.First().Append("ข้อสั่งการของผู้บังคับบัญชา").FontSize(16d).Alignment = Alignment.center;
 
                 System.Console.WriteLine("10");
                 //}
@@ -3301,11 +3311,11 @@ namespace InspecWeb.Controllers
                     //Thread.CurrentThread.CurrentCulture = new CultureInfo("th-TH");
                     //var thDate2 = model.allReport[k].dateReport.ToString("dd MMMM yyyy");
 
-                    t.Rows[j].Cells[0].Paragraphs[0].Append(j.ToString()).Alignment = Alignment.center;
-                    t.Rows[j].Cells[1].Paragraphs[0].Append(model.allReport[k].createBy);
-                    t.Rows[j].Cells[2].Paragraphs[0].Append(model.allReport[k].subject);
-                    t.Rows[j].Cells[3].Paragraphs[0].Append(model.allReport[k].status).Alignment = Alignment.center;
-                    t.Rows[j].Cells[4].Paragraphs[0].Append(model.allReport[k].command);
+                    t.Rows[j].Cells[0].Paragraphs[0].Append(j.ToString()).FontSize(16d).Alignment = Alignment.center;
+                    t.Rows[j].Cells[1].Paragraphs[0].Append(model.allReport[k].createBy).FontSize(16d);
+                    t.Rows[j].Cells[2].Paragraphs[0].Append(model.allReport[k].subject).FontSize(16d);
+                    t.Rows[j].Cells[3].Paragraphs[0].Append(model.allReport[k].status).FontSize(16d).Alignment = Alignment.center;
+                    t.Rows[j].Cells[4].Paragraphs[0].Append(model.allReport[k].command).FontSize(16d);
                     System.Console.WriteLine("10");
                 }
 
@@ -3357,18 +3367,18 @@ namespace InspecWeb.Controllers
                 document.DifferentOddAndEvenPages = true;
 
                 // Insert a Paragraph into the first Header.
-                document.Headers.First.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                document.Footers.First.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy HH:mm", new CultureInfo("th-TH"))).Append(" น.").Alignment = Alignment.right;
                 // Insert a Paragraph into the even Header.
-                document.Headers.Even.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                document.Footers.Even.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy HH:mm", new CultureInfo("th-TH"))).Append(" น.").Alignment = Alignment.right;
                 // Insert a Paragraph into the odd Header.
-                document.Headers.Odd.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                document.Footers.Odd.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy HH:mm", new CultureInfo("th-TH"))).Append(" น.").Alignment = Alignment.right;
 
                 // Add the page number in the first Footer.
-                document.Footers.First.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                document.Headers.First.InsertParagraph("").AppendPageNumber(PageNumberFormat.normal).Alignment = Alignment.center;
                 // Add the page number in the even Footers.
-                document.Footers.Even.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                document.Headers.Even.InsertParagraph("").AppendPageNumber(PageNumberFormat.normal).Alignment = Alignment.center;
                 // Add the page number in the odd Footers.
-                document.Footers.Odd.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                document.Headers.Odd.InsertParagraph("").AppendPageNumber(PageNumberFormat.normal).Alignment = Alignment.center;
 
                 //var province = _context.FiscalYearRelations
                 //    .Where(x => x.RegionId == model.reportRegionId)
@@ -3379,7 +3389,7 @@ namespace InspecWeb.Controllers
                 System.Console.WriteLine("4");
 
                 var reportType = document.InsertParagraph("ทะเบียนรายงานผลการตรวจราชการ : " + model.reportType);
-                reportType.FontSize(20d);
+                reportType.FontSize(18d);
                 reportType.SpacingAfter(15d);
                 reportType.Bold();
                 reportType.Alignment = Alignment.center;
@@ -3389,7 +3399,7 @@ namespace InspecWeb.Controllers
                 var title = document.InsertParagraph("ภาค:  " + model.reportZone);
                 title.Alignment = Alignment.center;
                 title.SpacingAfter(15d);
-                title.FontSize(18d);
+                title.FontSize(16d);
                 title.Bold();
 
                 System.Console.WriteLine("7");
@@ -3424,13 +3434,13 @@ namespace InspecWeb.Controllers
                 // Fill in the columns of the first row in the table.
                 //for (int i = 0; i < row.Cells.Count; ++i)
                 //{
-                row.Cells[0].Paragraphs.First().Append("ลำดับที่").Alignment = Alignment.center;
-                row.Cells[1].Paragraphs.First().Append("วัน/เดือน/ปี ที่มีรายงาน").Alignment = Alignment.center;
-                row.Cells[2].Paragraphs.First().Append("ประเด็น/เรื่อง").Alignment = Alignment.center;
-                row.Cells[3].Paragraphs.First().Append("จังหวัด").Alignment = Alignment.center;
-                row.Cells[4].Paragraphs.First().Append("ผู้สร้างรายงาน").Alignment = Alignment.center;
-                row.Cells[5].Paragraphs.First().Append("สถานะรายงาน").Alignment = Alignment.center;
-                row.Cells[6].Paragraphs.First().Append("ข้อสั่งการของผู้บังคับบัญชา").Alignment = Alignment.center;
+                row.Cells[0].Paragraphs.First().Append("ลำดับที่").FontSize(16d).Alignment = Alignment.center;
+                row.Cells[1].Paragraphs.First().Append("วัน/เดือน/ปี ที่มีรายงาน").FontSize(16d).Alignment = Alignment.center;
+                row.Cells[2].Paragraphs.First().Append("ประเด็น/เรื่อง").FontSize(16d).Alignment = Alignment.center;
+                row.Cells[3].Paragraphs.First().Append("จังหวัด").FontSize(16d).Alignment = Alignment.center;
+                row.Cells[4].Paragraphs.First().Append("ผู้สร้างรายงาน").FontSize(16d).Alignment = Alignment.center;
+                row.Cells[5].Paragraphs.First().Append("สถานะรายงาน").FontSize(16d).Alignment = Alignment.center;
+                row.Cells[6].Paragraphs.First().Append("ข้อสั่งการของผู้บังคับบัญชา").FontSize(16d).Alignment = Alignment.center;
 
                 System.Console.WriteLine("10");
                 //}
@@ -3444,13 +3454,13 @@ namespace InspecWeb.Controllers
                     Thread.CurrentThread.CurrentCulture = new CultureInfo("th-TH");
                     var thDate2 = model.allReport[k].dateReport.ToString("dd MMMM yyyy");
 
-                    t.Rows[j].Cells[0].Paragraphs[0].Append(j.ToString()).Alignment = Alignment.center;
-                    t.Rows[j].Cells[1].Paragraphs[0].Append(thDate2);
-                    t.Rows[j].Cells[2].Paragraphs[0].Append(model.allReport[k].subject);
-                    t.Rows[j].Cells[3].Paragraphs[0].Append(model.allReport[k].provinceReport);
-                    t.Rows[j].Cells[4].Paragraphs[0].Append(model.allReport[k].createBy);
-                    t.Rows[j].Cells[5].Paragraphs[0].Append(model.allReport[k].status).Alignment = Alignment.center;
-                    t.Rows[j].Cells[6].Paragraphs[0].Append(model.allReport[k].command);
+                    t.Rows[j].Cells[0].Paragraphs[0].Append(j.ToString()).FontSize(16d).Alignment = Alignment.center;
+                    t.Rows[j].Cells[1].Paragraphs[0].Append(thDate2).FontSize(16d);
+                    t.Rows[j].Cells[2].Paragraphs[0].Append(model.allReport[k].subject).FontSize(16d);
+                    t.Rows[j].Cells[3].Paragraphs[0].Append(model.allReport[k].provinceReport).FontSize(16d);
+                    t.Rows[j].Cells[4].Paragraphs[0].Append(model.allReport[k].createBy).FontSize(16d);
+                    t.Rows[j].Cells[5].Paragraphs[0].Append(model.allReport[k].status).FontSize(16d).Alignment = Alignment.center;
+                    t.Rows[j].Cells[6].Paragraphs[0].Append(model.allReport[k].command).FontSize(16d);
                     System.Console.WriteLine("10");
                 }
 
