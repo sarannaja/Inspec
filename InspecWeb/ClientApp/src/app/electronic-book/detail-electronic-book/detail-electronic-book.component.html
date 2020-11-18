@@ -14,9 +14,8 @@
     <div class="card card-eiei">
       <div class="card-header">
         <h4 class="card-title mb-0">รายละเอียด</h4>
-        <button class="btn btn-primary float-right" (click)="printReport()" title="พิมพ์สมุดตรวจอิเล็กทรอนิกส์">
-          <!-- <i class="fas fa-print" style="font-size:large;"></i> -->
-          <label>พิมพ์รายงาน</label>
+        <button class="btn btn-primary float-right" (click)="printReport()"
+          title="พิมพ์สมุดตรวจอิเล็กทรอนิกส์">พิมพ์รายงาน
         </button>
         <label style="margin-top: 20px;">กำหนดการสมุดตรวจ
           {{electronicBookData.electronicBook.startDate | thaidate: 'short'}}</label>

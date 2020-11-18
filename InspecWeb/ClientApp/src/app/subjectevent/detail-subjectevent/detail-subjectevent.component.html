@@ -952,12 +952,12 @@
         </button>
       </div>
       <div class="modal-body">
-        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาหน่วยงาน" [multiple]="true"
+        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกหน่วยงาน" [multiple]="true"
           [items]="departmentSelect" name="DepartmentId" formControlName="DepartmentId"
           [ngClass]="{ 'is-invalid': submitted && faed.DepartmentId.errors }">
         </ng-select>
         <div *ngIf="submitted && faed.DepartmentId.errors" class="invalid-feedback">
-          <div *ngIf="faed.DepartmentId.errors.required">กรุณาหน่วยงาน</div>
+          <div *ngIf="faed.DepartmentId.errors.required">กรุณาเลือกหน่วยงาน</div>
         </div>
       </div>
       <div class="modal-footer">
@@ -1033,12 +1033,12 @@
       </div>
       <div class="modal-body m-3">
 
-        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาหน่วยงาน" [multiple]="true"
+        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกหน่วยงาน" [multiple]="true"
           [items]="departmentSelect" name="DepartmentId" formControlName="DepartmentId"
           [ngClass]="{ 'is-invalid': submitted && fadq.DepartmentId.errors }">
         </ng-select>
         <div *ngIf="submitted && fadq.DepartmentId.errors" class="invalid-feedback">
-          <div *ngIf="fadq.DepartmentId.errors.required">กรุณาหน่วยงาน</div>
+          <div *ngIf="fadq.DepartmentId.errors.required">กรุณาเลือกหน่วยงาน</div>
         </div>
         <div class="form-group">
           <label for="test" class="form-label">คำถาม</label>
