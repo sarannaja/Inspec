@@ -20,7 +20,7 @@ export class TrainingSummaryReportGroupComponent implements OnInit {
   name: any
   link: any
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   Form: FormGroup;
   EditForm: FormGroup;
   form: FormGroup;

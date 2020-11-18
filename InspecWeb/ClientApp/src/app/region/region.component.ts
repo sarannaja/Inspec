@@ -23,7 +23,7 @@ export class RegionComponent implements OnInit {
   EditForm: FormGroup;
   loading = false;
   submitted = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   forbiddenUsernames = ['admin', 'test', 'xxxx'];
   userid :any;
   role_id:any;

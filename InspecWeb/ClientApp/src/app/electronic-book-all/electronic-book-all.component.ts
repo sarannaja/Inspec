@@ -16,7 +16,7 @@ import { UserService } from '../services/user.service';
 export class ElectronicBookAllComponent implements OnInit {
   electronicBookData: any = [];
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   userid: string;
   delid: any;
   modalRef: BsModalRef;

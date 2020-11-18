@@ -32,7 +32,7 @@ export class ExternalRegisterComponent implements OnInit {
   selectdataprovince: Array<any>
   selectdataregion: Array<any>
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   roleId: any;
   rolename: any;
   resultuser: any[] = [];

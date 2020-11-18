@@ -34,7 +34,7 @@ export class FiscalyearComponent implements OnInit {
   submitted = false;
   userid:any;
   role_id:any;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   public myDatePickerOptions: IMyOptions = {
     // other options...
     dateFormat: 'dd/mm/yyyy',

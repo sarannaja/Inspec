@@ -9,7 +9,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
   styleUrls: ['./province-otps-table.component.css']
 })
 export class ProvinceOtpsTableComponent implements OnInit {
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   loading: boolean = false
   results: Array<ProvinceOtps>
   constructor(private external: ExternalOrganizationService,

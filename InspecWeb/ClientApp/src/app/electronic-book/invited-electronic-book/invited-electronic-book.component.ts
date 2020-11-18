@@ -16,7 +16,7 @@ export class InvitedElectronicBookComponent implements OnInit {
 
   electronicBookData: any = [];
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   userid: string;
   delid: any;
   modalRef: BsModalRef;

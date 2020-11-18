@@ -38,7 +38,7 @@ export class DetailExecutiveOrderComponent implements OnInit {
   selectdataprovince: Array<any>
   EditForm: FormGroup;
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   idAnswer: Number;
   userid: any;
   role_id: any;

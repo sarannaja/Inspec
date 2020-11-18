@@ -17,7 +17,7 @@ export class PlanTrainingComponent implements OnInit {
   downloadUrl
   resulttrainingplan: any[] = []
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   chars: any[] = []
   constructor(private modalService: BsModalService,
     private fb: FormBuilder,

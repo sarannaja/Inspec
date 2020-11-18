@@ -18,7 +18,7 @@ import { UserService } from 'src/app/services/user.service';
 export class TrainingLoginListComponent implements OnInit {
   userid: string;
   role_id: any;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   trainingProgramData: any = [];
   trainingId: any;
   loading = false;

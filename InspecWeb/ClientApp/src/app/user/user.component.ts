@@ -47,7 +47,7 @@ export class UserComponent implements OnInit {
   selectdataprovincialdepartment: any[] = []
   selectdataside: Array<any>
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   roleId: any;
   rolename: any;
   resultuser: any[] = [];

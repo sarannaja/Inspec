@@ -16,7 +16,7 @@ import { LogService } from '../services/log.service';
 })
 export class TrainingIDCodeComponent implements OnInit {
 
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   people: any = [];
   loading = false;
   trainingid: any;

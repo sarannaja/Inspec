@@ -19,7 +19,7 @@ export class TrainingSurveyComponent implements OnInit {
   modalRef: BsModalRef;
   openid: any
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   mainUrl: string;
   trainingid: any;
   Form: FormGroup;

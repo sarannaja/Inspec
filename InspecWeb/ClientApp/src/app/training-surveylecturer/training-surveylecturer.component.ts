@@ -17,7 +17,7 @@ export class TrainingSurveyLecturerComponent implements OnInit {
   modalRef: BsModalRef;
   delid: any
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   mainUrl: string;
   trainingid: any;
   Form: FormGroup;

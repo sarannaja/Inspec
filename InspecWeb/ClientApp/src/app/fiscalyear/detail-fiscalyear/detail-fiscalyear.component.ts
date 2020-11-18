@@ -18,7 +18,7 @@ import { NotofyService } from 'src/app/services/notofy.service';
 export class DetailFiscalyearComponent implements OnInit {
 
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   resultdetailfiscalyear: any[] = []
   resultregion: any[] = []
   resultprovince: any[] = []

@@ -20,7 +20,7 @@ export class UserCentralPolicyComponent implements OnInit {
   ScheduleData: any = [];
   delid: any
   modalRef: BsModalRef;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   loading = false;
   userid: string
   centralpolicyprovinceid: any

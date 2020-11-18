@@ -25,7 +25,7 @@ export class ProvincesgroupComponent implements OnInit {
     userid :any;
     role_id :any;
     submitted = false;
-    dtOptions: DataTables.Settings = {};
+    dtOptions: any = {};
 
   constructor(
     private modalService: BsModalService, 

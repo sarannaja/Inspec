@@ -14,7 +14,7 @@ export class AnswerSubjectListComponent implements OnInit {
   userid: string
   resultsubjectlist: any[]
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   resultanswersubject: any[]
   urllink
 

@@ -55,7 +55,7 @@ export class MenuComponent implements OnInit {
   m32: any = 1;
   m33: any = 1;
   m34: any = 1;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   arraynav: NavBar[] = []
   check_value: any[] = []
   constructor(

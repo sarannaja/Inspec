@@ -18,7 +18,7 @@ export class InfoSubdistrictComponent implements OnInit {
   Form: FormGroup;
   EditForm: FormGroup;
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   modalRef: BsModalRef;
 
   constructor(

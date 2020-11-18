@@ -14,7 +14,7 @@ import { IMyOptions } from 'mydatepicker-th';
 })
 export class Gcc1111TableComponent implements OnInit {
   results: Array<any>
-  // dtOptions: DataTables.Settings = {
+  // dtOptions: any = {
   dtOptions: any = {
     dom: 'Bfrtip',
     buttons: [

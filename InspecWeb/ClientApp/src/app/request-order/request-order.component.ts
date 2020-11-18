@@ -25,7 +25,7 @@ export class RequestOrderComponent implements OnInit {
   };
   resultrequestorder: any[] = []
   modalRef: BsModalRef;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   loading = false;
   userid: any;
   role_id: any;

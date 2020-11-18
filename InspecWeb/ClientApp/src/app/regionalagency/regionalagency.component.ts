@@ -16,7 +16,7 @@ export class RegionalagencyComponent implements OnInit {
 
   modalRef: BsModalRef;
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   roleId: any;
   rolename: any;
   resultuser: any[] = [];

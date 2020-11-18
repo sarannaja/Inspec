@@ -23,7 +23,7 @@ export class CircularletterComponent implements OnInit {
   modalRef:BsModalRef;
   Form : FormGroup;
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   fileUrl: any;
   filename:any;
   submitted = false;
