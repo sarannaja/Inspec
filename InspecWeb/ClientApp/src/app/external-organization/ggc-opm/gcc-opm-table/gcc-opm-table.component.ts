@@ -12,7 +12,7 @@ export class GccOpmTableComponent implements OnInit {
   results: Array<any>
   provice: any
   wara: any
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   loading: boolean = false
   provincewara: any = {
     provinces: [],

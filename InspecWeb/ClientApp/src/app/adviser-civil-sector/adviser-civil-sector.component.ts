@@ -23,7 +23,7 @@ export class AdviserCivilSectorComponent implements OnInit {
   selectdataprovince: any
   selectdataregion: any
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions:any = {};
   roleId: any;
   rolename: any;
   resultuser: any[] = [];
