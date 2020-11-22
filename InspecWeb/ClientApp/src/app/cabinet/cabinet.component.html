@@ -12,6 +12,12 @@
     <div class="card card-eiei">
       <div class="card-header" style="margin-bottom: -30px;">
         <h5 class="card-title">รายชื่อคณะรัฐมนตรี</h5>
+        <div style="margin-bottom: 0px;width: 30%;">
+        <select (change)="Changeministry($event)" [(ngModel)]="ministry" name="ministry" class="form-control select2" data-toggle="select2"> 
+          <option  [value]="0">กระทรวงทั้งหมด</option>
+          <option *ngFor="let item of selectministry" [value]="item.id">{{item.name}}</option>
+        </select>
+        </div> 
         <div class="float-right" *ngIf="role_id == 1">
           <button class="btn btn-primary" (click)="openModal(modalCabine)"
             style="margin-top: -60px;">เพิ่มรายชื่อคณะรัฐมนตรี</button>
@@ -24,12 +30,12 @@
             <tr>
               <th>#</th>
               <th>รูปภาพ</th>
+              <th>คำสั่ง</th>
+              <th>ครม.</th>
               <th>ชื่อ-นามสกุล</th>
               <th>กระทรวง</th>
               <th>ตำแหน่ง</th>
               <th>ที่อยู่</th>
-              <th>คำสั่ง</th>
-              <th>ครม.</th>
               <th>เบอร์โทร</th>
               <th *ngIf="role_id == 1"><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
             </tr>
@@ -44,13 +50,13 @@
               </div>
               <img *ngIf="item.image == null || item.image == 'null'" src="imgprofile/user.png"
                   class="img-fluid  mb-2" width="90px" alt="รูป">              
-              </td>      
+              </td>  
+              <td>{{ item.commandnumber}}</td>
+              <td>{{ item.cabinet }}</td>    
               <td>{{ item.prefix }} {{ item.name }}</td>
               <td><label class="badge badge-secondary mr-1">{{ item.ministries.name}}</label></td>
               <td>{{ item.position }}</td>
-              <td>{{ item.detail }}</td> 
-              <td>{{ item.commandnumber}}</td>
-              <td>{{ item.cabinet }}</td>
+              <td>{{ item.detail }}</td>              
               <td>{{ item.tel}} </td>                       
               <td *ngIf="role_id == 1">
                 <button class="btn btn-primary btn-pill btn-sm" title="แก้ไขข้อมูล"
@@ -152,7 +158,7 @@
           <div class="form-group">
             <label class="form-label">เบอร์โทร* </label>
             <input type="text" formControlName="tel" class="form-control" placeholder="กรุณากรอกเบอร์โทร"
-            [ngClass]="{ 'is-invalid': submitted && f.tel.errors }">
+            [ngClass]="{ 'is-invalid': submitted && f.tel.errors }" numbersOnly maxlength="10">
             <div *ngIf="submitted && f.tel.errors" class="invalid-feedback">
               <div *ngIf="f.tel.errors.required">กรุณากรอกเบอร์โทร</div>
             </div> 
@@ -278,7 +284,7 @@
       <div class="form-group">
         <label class="form-label">เบอร์โทร* </label>
         <input type="text" formControlName="tel" class="form-control" placeholder="กรุณากรอกเบอร์โทร"
-        [ngClass]="{ 'is-invalid': submitted && f.tel.errors }">
+        [ngClass]="{ 'is-invalid': submitted && f.tel.errors }" numbersOnly maxlength="10">
         <div *ngIf="submitted && f.tel.errors" class="invalid-feedback">
           <div *ngIf="f.tel.errors.required">กรุณากรอกเบอร์โทร</div>
         </div> 

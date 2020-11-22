@@ -178,21 +178,41 @@ namespace InspecWeb.Controllers
         }
 
         //<!-- ข้อมูลผู้ติดต้อ ผู้ตรวจราชการ -->
-        [HttpGet("api/[controller]/[action]")]
-        public IEnumerable<ApplicationUser> inspector()
+        [HttpGet("api/[controller]/[action]/{id}")]
+        public IEnumerable<ApplicationUser> inspector(long id)
         {
-            var users = _context.Users
-                .Include(s => s.UserRegion)
-                .ThenInclude(r => r.Region)
-                .Include(s => s.UserProvince)
-                .ThenInclude(r => r.Province)
-                .Include(s => s.Province)
-                .Include(s => s.Ministries)
-                .Where(m => m.Role_id == 3)
-                .Where(m => m.Position == "ผต.นร." || m.Position == "ผต.นร. ")
-                .Where(m => m.Active == 1);
+            if (id == 0)
+            {
+                var users = _context.Users
+                    .Include(s => s.UserRegion)
+                    .ThenInclude(r => r.Region)
+                    .Include(s => s.UserProvince)
+                    .ThenInclude(r => r.Province)
+                    .Include(s => s.Province)
+                    .Include(s => s.Ministries)
+                    .Where(m => m.Role_id == 3)
+                    .Where(m => m.Position == "ผต.นร." || m.Position == "ผต.นร. ")
+                    .Where(m => m.Active == 1);
 
-            return users;
+                return users;
+            }
+            else
+            {
+
+                var users = _context.Users
+                    .Include(s => s.UserRegion)
+                    .ThenInclude(r => r.Region)
+                    .Include(s => s.UserProvince)
+                    .ThenInclude(r => r.Province)
+                    .Include(s => s.Province)
+                    .Include(s => s.Ministries)
+                    .Where(m => m.Role_id == 3)
+                    .Where(m => m.Position == "ผต.นร." || m.Position == "ผต.นร. ")
+                    .Where(x => x.UserRegion.Any(x => x.RegionId == id))
+                    .Where(m => m.Active == 1);
+
+                return users;
+            }
         }
         //<!-- END ข้อมูลผู้ติดต้อ ผู้ตรวจราชการ -->
         // <!-- exceข้อมูลผู้ติดต้อ ผู้ตรวจราชการ excel -->
@@ -252,21 +272,40 @@ namespace InspecWeb.Controllers
 
 
         //<!-- ข้อมูลผู้ติดต้อ เจ้าหน้าที่ประจำเขตตรวจราชการ -->
-        [HttpGet("api/[controller]/[action]")]
-        public IEnumerable<ApplicationUser> districtofficer()
+        [HttpGet("api/[controller]/[action]/{id}")]
+        public IEnumerable<ApplicationUser> districtofficer(long id)
         {
-            var users = _context.Users
-                .Include(s => s.UserRegion)
-                .ThenInclude(r => r.Region)
-                .Include(s => s.UserProvince)
-                .ThenInclude(r => r.Province)
-                .Include(s => s.Province)
-                .Include(s => s.Ministries)
-                .Where(m => m.Role_id == 3)
-                .Where(m => m.Position != "ผต.นร." || m.Position != "ผต.นร. ")
-                .Where(m => m.Active == 1);
+            if (id == 0)
+            {
+                var users = _context.Users
+                   .Include(s => s.UserRegion)
+                   .ThenInclude(r => r.Region)
+                   .Include(s => s.UserProvince)
+                   .ThenInclude(r => r.Province)
+                   .Include(s => s.Province)
+                   .Include(s => s.Ministries)
+                   .Where(m => m.Role_id == 3)
+                   .Where(m => m.Position != "ผต.นร." || m.Position != "ผต.นร. ")
+                   .Where(m => m.Active == 1);
 
-            return users;
+                return users;
+            }
+            else
+            {
+                var users = _context.Users
+                    .Include(s => s.UserRegion)
+                    .ThenInclude(r => r.Region)
+                    .Include(s => s.UserProvince)
+                    .ThenInclude(r => r.Province)
+                    .Include(s => s.Province)
+                    .Include(s => s.Ministries)
+                    .Where(m => m.Role_id == 3)
+                    .Where(m => m.Position != "ผต.นร." || m.Position != "ผต.นร. ")
+                    .Where(x => x.UserRegion.Any(x => x.RegionId == id))
+                    .Where(m => m.Active == 1);
+
+                return users;
+            }
         }
         //<!-- END ข้อมูลผู้ติดต้อ เจ้าหน้าที่ประจำเขตตรวจราชการ 
         // <!-- exceข้อมูลผู้ติดต้อ เจ้าหน้าที่ประจำเขตตรวจราชการ excel -->
@@ -325,22 +364,42 @@ namespace InspecWeb.Controllers
         // <!-- END excelข้อมูลผู้ติดต้อ เจ้าหน้าที่ประจำเขตตรวจราชการ excel -->
 
         //<!-- ข้อมูลผู้ติดต้อ หน่วยงานภูมิภาค หรือ หน่วยรับตรวจ -->
-        [HttpGet("api/[controller]/[action]")]
-        public IEnumerable<ApplicationUser> regionalagency()
+        [HttpGet("api/[controller]/[action]/{id}")]
+        public IEnumerable<ApplicationUser> regionalagency(long id)
         {
-            var users = _context.Users
-                .Include(s => s.UserRegion)
-                .ThenInclude(r => r.Region)
-                .Include(s => s.UserProvince)
-                .ThenInclude(r => r.Province)
-                .Include(s => s.Province)
-                .Include(s => s.Ministries)
-                .Include(x => x.Departments)
-                .Include(x => x.ProvincialDepartments)
-                .Where(m => m.Role_id == 9)
-                .Where(m => m.Active == 1);
+            if (id == 0)
+            {
+                var users = _context.Users
+                    .Include(s => s.UserRegion)
+                    .ThenInclude(r => r.Region)
+                    .Include(s => s.UserProvince)
+                    .ThenInclude(r => r.Province)
+                    .Include(s => s.Province)
+                    .Include(s => s.Ministries)
+                    .Include(x => x.Departments)
+                    .Include(x => x.ProvincialDepartments)
+                    .Where(m => m.Role_id == 9)
+                    .Where(m => m.Active == 1);
 
-            return users;
+                return users;
+            }
+            else
+            {
+                var users = _context.Users
+                   .Include(s => s.UserRegion)
+                   .ThenInclude(r => r.Region)
+                   .Include(s => s.UserProvince)
+                   .ThenInclude(r => r.Province)
+                   .Include(s => s.Province)
+                   .Include(s => s.Ministries)
+                   .Include(x => x.Departments)
+                   .Include(x => x.ProvincialDepartments)
+                   .Where(m => m.Role_id == 9)
+                   .Where(m => m.MinistryId == id)
+                   .Where(m => m.Active == 1);
+
+                return users;
+            }
         }
         //<!-- END ข้อมูลผู้ติดต้อ หน่วยงานภูมิภาค หรือ หน่วยรับตรวจ -->
         // <!-- exceข้อมูลผู้ติดต้อ เจ้าหน้าที่ประจำเขตตรวจราชการ excel -->
@@ -402,21 +461,41 @@ namespace InspecWeb.Controllers
         // <!-- END excelข้อมูลผู้ติดต้อ เจ้าหน้าที่ประจำเขตตรวจราชการ excel -->
 
         //<!-- ข้อมูลผู้ติดต้อ ภาคประชาชน -->
-        [HttpGet("api/[controller]/[action]")]
-        public IEnumerable<ApplicationUser> publicsectoradvisor()
+        [HttpGet("api/[controller]/[action]/{id}")]
+        public IEnumerable<ApplicationUser> publicsectoradvisor(long id)
         {
-            var users = _context.Users
-                .Include(s => s.UserRegion)
-                .ThenInclude(r => r.Region)
-                .Include(s => s.UserProvince)
-                .ThenInclude(r => r.Province)
-                .Include(s => s.Province)
-                .Include(s => s.Ministries)
-                .Include(s => s.Sides)
-                .Where(m => m.Role_id == 7)
-                .Where(m => m.Active == 1);
+            if(id == 0)
+            {
+                var users = _context.Users
+               .Include(s => s.UserRegion)
+               .ThenInclude(r => r.Region)
+               .Include(s => s.UserProvince)
+               .ThenInclude(r => r.Province)
+               .Include(s => s.Province)
+               .Include(s => s.Ministries)
+               .Include(s => s.Sides)
+               .Where(m => m.Role_id == 7)
+               .Where(m => m.Active == 1);
 
-            return users;
+                return users;
+            }
+            else
+            {
+                var users = _context.Users
+               .Include(s => s.UserRegion)
+               .ThenInclude(r => r.Region)
+               .Include(s => s.UserProvince)
+               .ThenInclude(r => r.Province)
+               .Include(s => s.Province)
+               .Include(s => s.Ministries)
+               .Include(s => s.Sides)
+               .Where(m => m.Role_id == 7)
+               .Where(x => x.UserProvince.Any(x => x.ProvinceId == id))
+               .Where(m => m.Active == 1);
+
+                return users;
+            }
+           
         }
         //<!-- END ข้อมูลผู้ติดต้อ ภาคประชาชน -->
         // <!-- exceข้อมูลผู้ติดต้อ ภาคประชาชน excel -->

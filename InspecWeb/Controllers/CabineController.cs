@@ -50,6 +50,30 @@ namespace InspecWeb.Controllers
 
         }
 
+        [HttpGet("{id}")]
+        public IActionResult Get(long id)
+        {
+           
+            if (id == 0)
+            {
+                var cabinedata = from P in _context.Cabines
+                                .Include(m => m.Ministries)
+                                .OrderByDescending(m => m.Id)
+                                 select P;
+                return Ok(cabinedata);
+            }
+            else
+            {
+
+                var cabinedata = _context.Cabines
+                                 .Include(m => m.Ministries)
+                                 .Where(m => m.Ministries.Id == id)
+                                .OrderByDescending(m => m.Id);
+                return Ok(cabinedata);
+            }
+            
+        }
+
         // POST api/values
         [HttpPost]
         public async Task<IActionResult> Post([FromForm] CabineViewModel model)

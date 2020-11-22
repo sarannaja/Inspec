@@ -15,6 +15,9 @@ export class CabineService {
   getcabine() {
     return this.http.get(this.url)
   }
+  getcabineministry(id): Observable<any[]> {
+    return this.http.get<any[]>(this.url + id)
+  }
   addCabine(cabineData, file: FileList) {
     const formData = new FormData();
     formData.append('Prefix', cabineData.prefix);
@@ -29,8 +32,6 @@ export class CabineService {
     }else {
       formData.append("files", null);
     }
-    alert(cabineData.Commandnumber)
-    alert(cabineData.cabinet)
     formData.append('Commandnumber', cabineData.Commandnumber);
     formData.append('cabinet', cabineData.cabinet);
     formData.append('tel', cabineData.tel);

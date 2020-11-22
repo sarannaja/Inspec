@@ -357,26 +357,26 @@ export class UserService {
   }
 
   //<!-- ข้อมูลผู้ติดต้อ ผู้ตรวจราชการ -->
-  getuserinspectordata(): Observable<any[]> {
-    return this.http.get<any[]>(this.base + 'inspector')
+  getuserinspectordata(regionid): Observable<any[]> {
+    return this.http.get<any[]>(this.base + 'inspector/' + regionid)
   }
   //<!-- END ข้อมูลผู้ติดต้อ ผู้ตรวจราชการ -->
 
   //<!-- ข้อมูลผู้ติดต้อ เจ้าหน้าที่ประจำเขตตรวจราชการ -->
-  getuserdistrictofficerdata(): Observable<any[]> {
-    return this.http.get<any[]>(this.base + 'districtofficer')
+  getuserdistrictofficerdata(regionid): Observable<any[]> {
+    return this.http.get<any[]>(this.base + 'districtofficer/'+ regionid)
   }
-  //<!-- END ข้อมูลผู้ติดต้อ ที่ปรึกษาผู้ตรวจราชการภาคประชาชน -->
+  //<!-- END ข้อมูลผู้ติดต้อ เจ้าหน้าที่ประจำเขตตรวจราชการ -->
 
-  //<!-- ข้อมูลผู้ติดต้อ เจ้าหน้าที่ประจำเขตตรวจราชการ -->
-  getuserpublicsectoradvisordata(): Observable<any[]> {
-    return this.http.get<any[]>(this.base + 'publicsectoradvisor')
+  //<!-- ข้อมูลผู้ติดต้อ ที่ปรึกษาผู้ตรวจราชการภาคประชาชน -->
+  getuserpublicsectoradvisordata(provinceid): Observable<any[]> {
+    return this.http.get<any[]>(this.base + 'publicsectoradvisor/' + provinceid)
   }
   //<!-- END ข้อมูลผู้ติดต้อ ที่ปรึกษาผู้ตรวจราชการภาคประชาชน -->
 
     //<!-- ข้อมูลผู้ติดต่อ หน่วยงานภูมิภาค หรือ หน่วยรับตรวจ -->
-    getuserregionalagencydata(): Observable<any[]> {
-      return this.http.get<any[]>(this.base + 'regionalagency')
+    getuserregionalagencydata(ministryid): Observable<any[]> {
+      return this.http.get<any[]>(this.base + 'regionalagency/' + ministryid)
     }
     //<!-- END ข้อมูลผู้ติดต่อ หน่วยงานภูมิภาค หรือ หน่วยรับตรวจ -->
 

@@ -12,7 +12,7 @@ export class GccOpmTableComponent implements OnInit {
   results: Array<any>
   provice: any
   wara: any
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   loading: boolean = false
   provincewara: any = {
     provinces: [],
@@ -47,6 +47,7 @@ export class GccOpmTableComponent implements OnInit {
             this.provincewara.wara = result
             this.getData(this.provincewara.provinces[0].value, this.provincewara.wara[0].value)
             this.provice = this.provincewara.provinces[0].value
+            console.log("momox",this.provincewara.provinces[0].value)
             this.wara = this.provincewara.wara[0].value
           })
       })

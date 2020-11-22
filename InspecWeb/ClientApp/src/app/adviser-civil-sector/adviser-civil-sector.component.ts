@@ -23,7 +23,7 @@ export class AdviserCivilSectorComponent implements OnInit {
   selectdataprovince: any
   selectdataregion: any
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   roleId: any;
   rolename: any;
   resultuser: any[] = [];
@@ -45,6 +45,8 @@ export class AdviserCivilSectorComponent implements OnInit {
   UserRegion:any;
   files: string[] = [];
   imgprofileUrl: any;
+  selectprovince:any=[];
+  province:any;
   //END name input
   
   constructor(
@@ -59,6 +61,7 @@ export class AdviserCivilSectorComponent implements OnInit {
     private spinner: NgxSpinnerService,
     @Inject('BASE_URL') baseUrl: string
   ) {
+    this.imgprofileUrl = baseUrl + '/imgprofile';
   }
   ngOnInit() {
     this.dtOptions = {
@@ -84,19 +87,36 @@ export class AdviserCivilSectorComponent implements OnInit {
       ]
 
     };
-    this.getUser()
+    this.getDataprovincefirst()
   }
-  getUser() {
+  getUser(provinceid) {
     this.spinner.show();
-    this.userService.getuserdata("7")
+    this.userService.getuserpublicsectoradvisordata(provinceid)
       .subscribe(result => {
-        //alert(this.roleId);
         this.resultuser = result;
         this.loading = true
         this.spinner.hide();
-        console.log("avi",this.resultuser);
       })
   }
+
+  getDataprovincefirst() {
+    
+    this.provinceService.getprovincedata2()
+     .subscribe(result => {
+       this.selectprovince = result;
+       this.province = 0;
+       //console.log("momox",result[0].id)
+       this.getUser(this.province);
+       //alert(this.province)
+     });
+ }
+
+ Changeprovince(event){
+   this.province = event.target.value;
+   this.loading = false;
+   this.getUser(event.target.value);
+ }
+
   excel(){
     window.location.href = '/api/user/exceladvisercivilsector';
   }

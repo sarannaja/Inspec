@@ -14,6 +14,12 @@
       <div class="card card-eiei">
         <div class="card-header" style="margin-bottom: -30px;">
           <h5 class="card-title">ผู้ตรวจราชการ</h5>
+          <div style="margin-bottom: 20px;width: 30%;">
+            <select (change)="Change($event)" [(ngModel)]="region" name="region" class="form-control select2" data-toggle="select2"> 
+                <option  [value]="0">เขตตรวจราชการทั้งหมด</option>
+                <option *ngFor="let item of selectdataregion" [value]="item.value">{{item.label}}</option>
+            </select>
+          </div> 
           <div class="float-right"> 
             <!-- <button class="btn btn-success" (click)="excel()"
                 style="margin-top: -60px;">Excel
@@ -28,7 +34,8 @@
                 <th>#</th>
                 <th>รูป</th>
                 <th>ชื่อ-นามสกุล</th>
-                <th>เขต</th>
+                <th>กระทรวง</th>
+                <th>เขต</th>             
                 <th>ตำแหน่ง</th>
                 <th>เบอร์โทร</th>
                
@@ -46,6 +53,7 @@
                       width="90px" alt="รูป">
               </td>
               <td>{{item.prefix}}{{ item.name }}</td>
+              <td><label class="badge badge-secondary mr-1">{{ item.ministries.name}}</label></td>
               <td>
                 <div *ngFor="let item2 of item.userRegion">
                   <label  class="badge badge-warning mr-1">
