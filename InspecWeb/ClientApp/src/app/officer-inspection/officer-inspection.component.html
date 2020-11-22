@@ -13,6 +13,12 @@
       <div class="card card-eiei">
         <div class="card-header" style="margin-bottom: -40px;">
             <h5 class="card-title">เจ้าหน้าที่ประจำเขตตรวจราชการ </h5>
+            <div style="margin-bottom: 20px;width: 30%;">
+                <select (change)="Change($event)" [(ngModel)]="region" name="region" class="form-control select2" data-toggle="select2"> 
+                    <option  [value]="0">เขตตรวจราชการทั้งหมด</option>
+                    <option *ngFor="let item of selectdataregion" [value]="item.value">{{item.label}}</option>
+                </select>
+            </div> 
             <div class="float-right"> 
                 <!-- <button class="btn btn-success" (click)="excel()"
                     style="margin-top: -60px;">Excel

@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { InspectorService } from '../services/inspector.service';
 import { UserService } from '../services/user.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { RegionService } from '../services/region.service';
 
 @Component({
   selector: 'app-inspector',
@@ -12,7 +13,9 @@ import { NgxSpinnerService } from 'ngx-spinner';
 })
 export class InspectorComponent implements OnInit {
 
-  resultInspector: any = []
+  resultInspector: any = [];
+  selectdataregion:any=[];
+  region:any;
   delid: any;
   name: any;
   loading = false;
@@ -23,10 +26,16 @@ export class InspectorComponent implements OnInit {
   Form: FormGroup;
   imgprofileUrl :any;
   dtOptions: any = {};
-  constructor(private modalService: BsModalService, private fb: FormBuilder, private inspectorservice: InspectorService,
-    public share: InspectorService, private userService: UserService,private spinner: NgxSpinnerService,
-    @Inject('BASE_URL') baseUrl: string) 
-    
+  constructor(
+    private modalService: BsModalService, 
+    private fb: FormBuilder, 
+    private inspectorservice: InspectorService,
+    public share: InspectorService, 
+    private userService: UserService,
+    private spinner: NgxSpinnerService,
+    private regionService: RegionService,
+    @Inject('BASE_URL') baseUrl: string
+    ) 
     { 
       this.imgprofileUrl = baseUrl + '/imgprofile';
     }
@@ -55,7 +64,7 @@ export class InspectorComponent implements OnInit {
         ]
   
       };
-    this.getdata()
+    this.getDataRegions()
     
     this.Form = this.fb.group({
       "name": new FormControl(null, [Validators.required]),
@@ -65,14 +74,37 @@ export class InspectorComponent implements OnInit {
     })
   }
 
-  getdata(){
+  getdata(regionid){
     this.spinner.show();
-    this.userService.getuserinspectordata().subscribe(result=>{
+    this.userService.getuserinspectordata(regionid).subscribe(result=>{
       this.resultInspector = result
       this.loading = true;
       this.spinner.hide();
     })
   }
+
+  getDataRegions() {
+    this.regionService.getregiondataforuser().subscribe(res => {
+      this.selectdataregion = res.importFiscalYearRelations.filter(
+        (thing, i, arr) => arr.findIndex(t => t.regionId === thing.regionId) === i
+      ).map((item, index) => {
+        return {
+          value: item.region.id,
+          label: item.region.name
+        }
+      });
+       this.region = 0;
+       this.getdata(this.region);
+    })
+  }
+
+  Change(event){
+    this.region = event.target.value;
+    this.loading = false;
+    this.getdata(event.target.value);
+  }
+
+
   openModal(template: TemplateRef<any>, modalType:string = 'edit') {
     modalType != 'edit' ? this.Form.reset() : null;
     this.modalRef = this.modalService.show(template);

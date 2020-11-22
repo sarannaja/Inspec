@@ -5,6 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { NgxSpinnerService } from "ngx-spinner";
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { RegionService } from '../services/region.service';
 
 
 @Component({
@@ -38,6 +39,8 @@ export class OfficerInspectionComponent implements OnInit {
   UserRegion:any;
   files: string[] = [];
   imgprofileUrl: any;
+  selectdataregion:any=[];
+  region:any;
   //END name input
   
 
@@ -47,6 +50,7 @@ export class OfficerInspectionComponent implements OnInit {
     private fb: FormBuilder,
     private userService: UserService,
     private spinner: NgxSpinnerService,
+    private regionService: RegionService,
     @Inject('BASE_URL') baseUrl: string
   ) {
   
@@ -76,12 +80,12 @@ export class OfficerInspectionComponent implements OnInit {
       ]
 
     };
-    this.getUser()
+    this.getDataRegions()
   }
 
-  getUser() {
+  getdata(regionid) {
     this.spinner.show();
-    this.userService.getuserdistrictofficerdata()
+    this.userService.getuserdistrictofficerdata(regionid)
       .subscribe(result => {
         //alert(this.roleId);
         this.resultuser = result;
@@ -90,6 +94,28 @@ export class OfficerInspectionComponent implements OnInit {
         //console.log(this.resultuser);
       })
   }
+
+  getDataRegions() {
+    this.regionService.getregiondataforuser().subscribe(res => {
+      this.selectdataregion = res.importFiscalYearRelations.filter(
+        (thing, i, arr) => arr.findIndex(t => t.regionId === thing.regionId) === i
+      ).map((item, index) => {
+        return {
+          value: item.region.id,
+          label: item.region.name
+        }
+      });
+       this.region = 0;
+       this.getdata(this.region);
+    })
+  }
+
+  Change(event){
+    this.region = event.target.value;
+    this.loading = false;
+    this.getdata(event.target.value);
+  }
+
   excel(){
     window.location.href = '/api/user/excelofficerinspection';
   }

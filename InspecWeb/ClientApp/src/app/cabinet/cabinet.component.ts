@@ -16,6 +16,7 @@ import { AuthorizeService } from 'src/api-authorization/authorize.service';
 export class CabinetComponent implements OnInit {
   files: string[] = []
   resultcabine: any = []
+  selectministry:any=[];
   delid:any
   name:any
   position:any
@@ -31,6 +32,7 @@ export class CabinetComponent implements OnInit {
   userid:any;
   role_id:any;
   filename:any;
+  ministry :any;
 
   constructor(
     private modalService: BsModalService, 
@@ -44,8 +46,9 @@ export class CabinetComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-    this.getdata();
+    //this.getdata();
     this.getDataMinistries();
+    this.getDataMinistriesfirst();
     this.dtOptions = {
       pagingType: 'full_numbers',
       "language": {
@@ -82,7 +85,7 @@ export class CabinetComponent implements OnInit {
     })
   }
 
-  getdata(){
+  getdata(id){
     this.authorize.getUser()
     .subscribe(result => {
       this.userid = result.sub
@@ -91,12 +94,34 @@ export class CabinetComponent implements OnInit {
         this.role_id = result[0].role_id
       })
     })
-    this.cabineservice.getcabine().subscribe(result=>{
+    this.cabineservice.getcabineministry(id).subscribe(result=>{
       this.resultcabine = result
       //console.log("xxx",result);
       this.loading = true
       })
   }
+
+   getDataMinistriesfirst() {
+    
+     this.ministryService.getministry()
+      .subscribe(result => {
+        this.selectministry = result;
+        this.ministry = 0;
+        //console.log("momox",result[0].id)
+        this.getdata(this.ministry);
+        //alert(this.ministry)
+      });
+  }
+
+  Changeministry(event){
+    // alert(JSON.stringify(event.target));
+    // console.log("momox",event.target)
+    // alert(event.target.value);
+    this.ministry = event.target.value;
+    this.loading = false;
+    this.getdata(event.target.value);
+  }
+
   getDataMinistries() {
     var test: any = [];
     this.ministryService.getministry()
@@ -148,7 +173,7 @@ export class CabinetComponent implements OnInit {
       this.loading = false;
       this.modalRef.hide()
       this._NotofyService.onSuccess("เพิ่มข้อมูล")
-      this.getdata();
+      this.getdata(this.ministry);
     })
   }
   deleteCabine(value) {
@@ -157,7 +182,7 @@ export class CabinetComponent implements OnInit {
       this.loading = false;
       this.modalRef.hide()
       this._NotofyService.onSuccess("ลบข้อมูล")
-      this.getdata();
+      this.getdata(this.ministry);
     })
   }
   editCabine(value,delid) {
@@ -173,7 +198,7 @@ export class CabinetComponent implements OnInit {
       this.loading = false;
       this.modalRef.hide()
       this._NotofyService.onSuccess("แก้ไขข้อมูล")
-      this.getdata();
+      this.getdata(this.ministry);
     })
   }
   get f() { return this.Form.controls; }
