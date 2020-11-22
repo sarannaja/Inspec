@@ -27,7 +27,7 @@ export class ListTrainingRegisterComponent implements OnInit {
   modalRef: BsModalRef;
   delid: any
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   Form: any;
   resulttrainingCondition: any[] = []
   people: any[] = []

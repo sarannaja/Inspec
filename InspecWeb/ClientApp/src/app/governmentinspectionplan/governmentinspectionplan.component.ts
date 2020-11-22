@@ -21,7 +21,7 @@ export class GovernmentinspectionplanComponent implements OnInit {
   loading = false;
   role_id:any;
   filesname: any;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
 
   constructor(private modalService: BsModalService, private fb: FormBuilder, private governmentinspectionplanservice: GorvermentinspectionplanService,
     public share: GorvermentinspectionplanService,

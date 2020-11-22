@@ -7,7 +7,7 @@ import { Cabinets } from '../../models/otps';
   styleUrls: ['./cabinet-table.component.css']
 })
 export class CabinetTableComponent implements OnInit {
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   @Input() cabinets: Array<Cabinets>
   @Input() loading: boolean
   constructor() { }

@@ -15,7 +15,7 @@ export class AnswerRecommendationinSpectorComponent implements OnInit {
   resultrecommendationinspector: any = []
   resultanswerrecommendationinspector: any = []
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   constructor(
     private authorize: AuthorizeService,
     private answersubjectservice: AnswersubjectService,

@@ -24,7 +24,7 @@ export class ApprovaldocumentComponent implements OnInit {
   Form : FormGroup;
   loading = false;
   submitted = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   userid :any;
   fileUrl: any;
   filename:any;

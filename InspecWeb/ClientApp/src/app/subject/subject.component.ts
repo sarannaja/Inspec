@@ -42,7 +42,7 @@ export class SubjectComponent implements OnInit {
   Form: FormGroup;
   times: any[] = [];
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   subquestion: any = []
   boxcount: any = []
 

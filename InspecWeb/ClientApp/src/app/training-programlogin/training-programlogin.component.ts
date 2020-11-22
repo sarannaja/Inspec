@@ -17,7 +17,7 @@ export class TrainingProgramLoginComponent implements OnInit {
   modalRef: BsModalRef;
   delid: any
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   mainUrl: string;
   Form: FormGroup;
   qrdata = 'https://google.com';

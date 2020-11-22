@@ -23,7 +23,7 @@ export class InformationinspectionComponent implements OnInit {
   modalRef:BsModalRef;
   Form : FormGroup;
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   fileUrl: any;
   filename:any;
   title:any;

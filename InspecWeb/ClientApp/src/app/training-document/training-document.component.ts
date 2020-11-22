@@ -15,7 +15,7 @@ export class TrainingDocumentComponent implements OnInit {
   modalRef: BsModalRef;
   delid: any
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   downloadUrl: any;
 
   constructor(private modalService: BsModalService, 

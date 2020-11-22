@@ -12,7 +12,7 @@ import * as _ from 'lodash';
 })
 export class NamePlateComponent implements OnInit {
 
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   people: any[] = [];
   loading = false;
   trainingid: any;

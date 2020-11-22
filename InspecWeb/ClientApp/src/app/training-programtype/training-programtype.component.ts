@@ -15,7 +15,7 @@ export class TrainingProgramTypeComponent implements OnInit {
   modalRef: BsModalRef;
   editid: any
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   mainUrl: string;
   trainingid: any;
   Form: FormGroup;

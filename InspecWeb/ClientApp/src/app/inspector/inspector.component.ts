@@ -36,7 +36,6 @@ export class InspectorComponent implements OnInit {
     private regionService: RegionService,
     @Inject('BASE_URL') baseUrl: string
     ) 
-    
     { 
       this.imgprofileUrl = baseUrl + '/imgprofile';
     }

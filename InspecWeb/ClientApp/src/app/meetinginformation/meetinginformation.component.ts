@@ -17,7 +17,7 @@ export class MeetinginformationComponent implements OnInit {
   Form : FormGroup
   files: string[] = []
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
 
   constructor(private modalService: BsModalService, private fb: FormBuilder, private meetinginformationservice: MeetinginformationService,
     public share: MeetinginformationService) { }

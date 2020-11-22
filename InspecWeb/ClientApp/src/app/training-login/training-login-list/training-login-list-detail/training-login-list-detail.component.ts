@@ -18,7 +18,7 @@ export class TrainingLoginListDetailComponent implements OnInit {
   programType: any;
   userid: string;
   role_id: any;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   trainingProgramData: any = [];
   trainingId: any;
   loading = false;

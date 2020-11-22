@@ -26,7 +26,7 @@ export class VilageComponent implements OnInit {
   subdistrict_id:any;
   district_id:any;
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   province_id:any;
   provincename:any;
   districtname:any;

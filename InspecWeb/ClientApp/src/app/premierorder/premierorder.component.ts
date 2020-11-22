@@ -23,7 +23,7 @@ export class PremierorderComponent implements OnInit {
   files: string[] = []
   loading = false;
   submitted = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   userid :any;
   role_id :any
   file:any;

@@ -23,7 +23,7 @@ export class DistrictComponent implements OnInit {
   loading = false;
   district_id : any;
   submitted = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   userid :any;
   role_id :any;
 

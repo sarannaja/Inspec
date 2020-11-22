@@ -29,7 +29,7 @@ export class ProvinceComponent implements OnInit {
   EditForm: FormGroup;
   loading = false;
   submitted = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   selectdatasector: Array<any>=[];
   selectdataprovincesgroup: Array<any>=[];
   userid :any;

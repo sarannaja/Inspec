@@ -15,7 +15,7 @@ export class RegisterTrainingComponent implements OnInit {
   modalRef: BsModalRef;
   delid: any
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
 
   constructor(private modalService: BsModalService, private fb: FormBuilder, private trainingservice: TrainingService,
     public share: TrainingService, private router: Router) { }

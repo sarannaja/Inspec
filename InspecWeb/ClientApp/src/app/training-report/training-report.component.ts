@@ -16,7 +16,7 @@ export class TrainingReportComponent implements OnInit {
   modalRef: BsModalRef;
   delid: any
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   mainUrl: string;
 
   constructor(private modalService: BsModalService, 

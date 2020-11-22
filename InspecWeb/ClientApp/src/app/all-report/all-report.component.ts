@@ -21,7 +21,7 @@ declare var jQuery: any;
 export class AllReportComponent implements OnInit {
   electronicBookData: any = [];
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   userid: string;
   delid: any;
   modalRef: BsModalRef;

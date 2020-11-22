@@ -12,7 +12,7 @@ import { OpenVideoComponent } from './modals/open-video/open-video.component';
 })
 export class VideoComponent implements OnInit {
 
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   videos: Video[] = [];
   currentvideo = null;
   currentIndex = -1;

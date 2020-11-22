@@ -25,7 +25,7 @@ export class InstructionorderComponent implements OnInit {
   Form : FormGroup
   files: string[] = []
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   filename :any;
   submitted = false;
   userid : any;

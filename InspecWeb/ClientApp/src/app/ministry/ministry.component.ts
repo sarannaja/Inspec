@@ -24,7 +24,7 @@ export class MinistryComponent implements OnInit {
   submitted = false;
   userid :any;
   role_id :any;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
 
   constructor(private modalService: BsModalService,
     private fb: FormBuilder, 

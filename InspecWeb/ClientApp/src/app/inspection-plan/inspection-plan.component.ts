@@ -49,7 +49,7 @@ export class InspectionPlanComponent implements OnInit {
   loading = false;
   data: any = [];
   userid: string
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   centralpolicyprovinceid: any
   role_id
   timelineData: any = [];

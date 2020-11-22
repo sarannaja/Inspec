@@ -29,7 +29,7 @@ export class ExecutiveOrderComponent implements OnInit {
   executiveOrderAnswers:ExecutiveOrderAnswer[] = []
   resultexecutiveorderdetail:any=[];
   modalRef: BsModalRef;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   loading = false;
   userid: any;
   role_id: any;

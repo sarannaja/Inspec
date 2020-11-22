@@ -18,7 +18,7 @@ export class TrainingProcessingComponent implements OnInit {
   downloadUrl
   resulttrainingplan: any[] = []
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   chars: any[] = []
   lineChart: any;
   surveylikelineChart: any;

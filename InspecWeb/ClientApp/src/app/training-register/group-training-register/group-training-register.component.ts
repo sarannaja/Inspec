@@ -18,7 +18,7 @@ export class GroupTrainingRegisterComponent implements OnInit {
   modalRef: BsModalRef;
   delid: any
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   Form: any;
   resulttrainingPhase: any;
   resulttrainingPhasetable: any[] = []

@@ -26,7 +26,7 @@ export class FiscalyearnewComponent implements OnInit {
   Form: FormGroup
   loading = false;
   submitted = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   userid:any;
   role_id:any;
   year : any;

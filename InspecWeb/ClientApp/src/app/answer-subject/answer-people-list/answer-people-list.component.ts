@@ -15,7 +15,7 @@ export class AnswerPeopleListComponent implements OnInit {
   resultsubjectlist: any[]
   resultcentralpolicy: any[]
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
 
   constructor(
     private authorize: AuthorizeService,

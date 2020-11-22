@@ -40,7 +40,7 @@
 //   selectdataprovince: Array<any> = []
 //   EditForm: FormGroup;
 //   loading = false;
-//   dtOptions: DataTables.Settings = {};
+//   dtOptions: any = {};
 //   idAnswer: Number;
 //   provincefornotirole3: any;
 //   centralpolicyprovinceid: any;

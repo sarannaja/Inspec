@@ -21,7 +21,7 @@ export class CentralPolicyComponent implements OnInit {
   resultfiscalyear: any = []
   delid: any
   modalRef: BsModalRef;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   loading = false;
   userid
   userministryId

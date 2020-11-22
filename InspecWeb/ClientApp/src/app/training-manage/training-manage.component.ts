@@ -15,7 +15,7 @@ export class TrainingManageComponent implements OnInit {
   modalRef: BsModalRef;
   delid: any
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   mainUrl: string;
   datacondition = 0;
   dataconditionregis = 0;
