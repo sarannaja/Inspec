@@ -32,6 +32,7 @@ export class SubjectComponent implements OnInit {
   id
   userid
   role_id
+  userministryId
   delid: any
   name: any
   start_date: any
@@ -41,7 +42,7 @@ export class SubjectComponent implements OnInit {
   Form: FormGroup;
   times: any[] = [];
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   subquestion: any = []
   boxcount: any = []
 
@@ -106,6 +107,7 @@ export class SubjectComponent implements OnInit {
             // this.resultuser = result;
             //console.log("test" , this.resultuser);
             this.role_id = result[0].role_id
+            this.userministryId = result[0].ministryId
             // alert(this.role_id)
           })
       })

@@ -2,8 +2,10 @@
   
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="dashboard-default.html">หน้าหลัก</a></li>
-      <li class="breadcrumb-item"><a href="javascript:void(0)">บัตรผู้ร่วมอบรม</a></li>
+            <li class="breadcrumb-item"><a class="pointer text-white" (click)="gotoMain()">หน้าหลัก</a></li>
+            <li class="breadcrumb-item"><a class="pointer text-white" (click)="gotoMainTraining()">จัดการหลักสูตรการอบรม</a></li>
+            <li class="breadcrumb-item"><a class="pointer text-white" (click)="gotoTrainingManage()">การจัดการหลักสูตร</a></li>
+            <li class="breadcrumb-item"><a href="javascript:void(0)">ออกรหัสผู้เข้าร่วมอบรม</a></li>
     </ol>
   </nav>
 </div>
@@ -12,20 +14,20 @@
     <div class="card card-eiei">
       <div class="card-header">
         <h5 class="card-title">
-          ออกรหัสเข้าอบรม
+          ออกรหัสผู้เข้าร่วมอบรม
 
-          <button class="btn btn-light btn-sm" (click)="gotoBack()">
+          <!-- <button class="btn btn-light btn-sm" (click)="gotoBack()">
             <i class="fa fa-arrow-left" aria-hidden="true"></i>
-        </button>
-    </h5> 
+        </button> -->
+        </h5> 
 
       </div>
 
-      <div class="card-body mt-3">
+      <div class="card-body">
         <!-- <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
           <div class="example-box" *ngFor="let movie of movies" cdkDrag>{{movie}}</div>
         </div> -->
-        <div cdkDropList class="example-list" (cdkDropListDropped)="dropTraining($event)">
+        <div cdkDropList class="example-list" (cdkDropListDropped)="dropTraining($event)" *ngIf="trainingRegisterlist.length > 0; else datanull">
           <div class="example-box" *ngFor="let item of trainingRegisterlist;let i=index" cdkDrag>
             <!-- {{item.provincialDepartments.name+' - '+item.name +  ' : ' + genCode(i,item.training.year , item.training.courseCode) }} -->
             <div class="text-left">
@@ -41,18 +43,24 @@
               
           </div>
         </div>
+        <ng-template #datanull>
+          <label class="text-danger">
+            (ไม่พบผู้สมัครเข้าร่วมอบรมที่ผ่านการอนุมัติสิทธิ์ กรุณาตรวจสอบผู้เข้าร่วมอบรมที่เมนู "ตรวจสอบคุณสมบัติผู้สมัคร")
+          </label>
+          
+        </ng-template>
         <br />
         <br />
         <br />
         <div class="row">
           <div class="col-5 text-right">
               <!-- <button (click)="UpdateIdCode()" class="btn btn-primary">บันทึก</button> -->
-              <button (click)="openModal(modalTraining)" class="btn btn-primary">บันทึก</button>
+              <button *ngIf="trainingRegisterlist.length > 0;" (click)="openModal(modalTraining)" class="btn btn-primary">บันทึก</button>
               
           </div>
           <div class="col-1"></div>
           <div class="col-5 text-left">
-              <button (click)="gotoBack()" type="button" class="btn btn-danger">ยกเลิก</button>
+              <button (click)="gotoBack()" type="button" class="btn btn-danger">ย้อนกลับ</button>
           </div>
         </div>
         <!-- <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable

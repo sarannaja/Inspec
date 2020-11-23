@@ -31,7 +31,7 @@ export class LogService {
     formData.append('ObjectType',ObjectType); // text
     formData.append('Allid',Allid); // กรณีถ้าจะเก็บไอดี
    
-    return this.http.post(this.url, formData);
+    return this.http.post<any>(this.url, formData);
   }
 
 

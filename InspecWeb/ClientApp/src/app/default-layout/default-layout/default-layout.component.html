@@ -276,7 +276,12 @@
                                                     <span *ngIf="item.status == 25">{{item.centralPolicy.title}}</span>
                                                 </div>
                                                 <div class="text-muted small mt-1">
-                                                    {{item.createdAt | thaidate: 'short' }}</div>
+                                                   จาก {{item.notificationcreateby[0].userCreate.prefix}} {{item.notificationcreateby[0].userCreate.name}} 
+                                                    ({{item.notificationcreateby[0].userCreate.position}})
+                                                </div>
+                                                <div class="text-muted small mt-1">
+                                                    {{item.createdAt | thaidate: 'short' }}
+                                                </div>
                                             </div>
                                         </div>
                                     </a>
@@ -515,6 +520,10 @@
                         <span *ngIf="Form.get('PassWordconfirm').errors?.invalid">
                             ยืนยันรหัสผ่านไม่ถูกต้อง
                         </span>
+                    </div>
+                    
+                    <div>
+                      <p>รหัสผ่านต้องมีอักขระตัวพิมพ์ใหญ่หรืออักขระตัวพิมพ์เล็ก หรืออักขระตัวเลขโดยมีความยาวอย่างน้อย 8 ตัวอักษรแต่ไม่เกิน 16 ตัวอักษร</p>
                     </div>
 
                     <!-- <div *ngIf="submitted && f.password.errors" class="invalid-feedback">

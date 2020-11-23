@@ -30,6 +30,9 @@ namespace InspecWeb.Controllers
         public IActionResult getnotifications(string id)
         {
             var Notifications = _context.Notifications
+               .Include(m => m.User)
+               .Include(m =>m.Notificationcreateby)
+               .ThenInclude(m => m.UserCreate)
                .Include(m => m.CentralPolicy)
                .Where(m => m.UserID == id).OrderByDescending(m => m.Id);
             return Ok(Notifications);
@@ -57,7 +60,7 @@ namespace InspecWeb.Controllers
         // POST api/values
         [Route("api/[controller]")]
         [HttpPost]
-        public Notification Post(long CentralPolicyId, long ProvinceId, string UserId, long Status, long xe, string title)
+        public Notification Post(long CentralPolicyId, long ProvinceId, string UserId, long Status, long xe, string title,string createby)
         {
             System.Console.WriteLine("Status : " + Status);
 
@@ -68,8 +71,8 @@ namespace InspecWeb.Controllers
 
             if (Status == 1)
             {
-
-                _context.Notifications.Add(new Notification
+                var data = new Notification
+                
                 {
                     UserID = UserId,
                     CentralPolicyId = CentralPolicyId,
@@ -78,7 +81,16 @@ namespace InspecWeb.Controllers
                     noti = 1,
                     CreatedAt = date,
                     xe = xe
-                });
+                };
+                _context.Notifications.Add(data);
+                _context.SaveChanges();
+
+                var data2 = new Notificationcreateby
+                {
+                    NotificationId = data.Id,
+                    CreateBy = createby
+                };
+                _context.Notificationcreateby.Add(data2);
                 _context.SaveChanges();
 
                 _externalOrganizationController.SendNotification(UserId, "มีคำเชิญ" + CentralPolicyData.Title);
@@ -111,7 +123,7 @@ namespace InspecWeb.Controllers
 
                     System.Console.WriteLine("UserId : " + item.UserId);
 
-                    _context.Notifications.Add(new Notification
+                     var data4 = new Notification
                     {
                         UserID = item.UserId,
                         CentralPolicyId = CentralPolicyId,
@@ -120,7 +132,16 @@ namespace InspecWeb.Controllers
                         noti = 1,
                         CreatedAt = date,
                         xe = xe
-                    });
+                    };
+                    _context.Notifications.Add(data4);
+                    _context.SaveChanges();
+
+                    var data5 = new Notificationcreateby
+                    {
+                        NotificationId = data4.Id,
+                        CreateBy = createby
+                    };
+                    _context.Notificationcreateby.Add(data5);
                     _context.SaveChanges();
                     _externalOrganizationController.SendNotification(item.UserId, "มีประเด็น/คำถาม(ภาคประชาชน)" + CentralPolicyData.Title);
                 }
@@ -135,7 +156,7 @@ namespace InspecWeb.Controllers
                     .Where(m => m.CentralPolicyEvents.Any(i => i.CentralPolicy.Id == CentralPolicyId))
                     .FirstOrDefault();
 
-                _context.Notifications.Add(new Notification
+                var data = new Notification
                 {
                     UserID = inspectionplans.CreatedBy,
                     CentralPolicyId = CentralPolicyId,
@@ -144,7 +165,16 @@ namespace InspecWeb.Controllers
                     noti = 1,
                     CreatedAt = date,
                     xe = xe
-                });
+                };
+                _context.Notifications.Add(data);
+                _context.SaveChanges();
+
+                var data2 = new Notificationcreateby
+                {
+                    NotificationId = data.Id,
+                    CreateBy = createby
+                };
+                _context.Notificationcreateby.Add(data2);
                 _context.SaveChanges();
 
                 if (Status == 2)
@@ -191,7 +221,7 @@ namespace InspecWeb.Controllers
 
                 foreach (var item in users)
                 {
-                    _context.Notifications.Add(new Notification
+                    var data = new Notification
                     {
                         UserID = item.UserID,
                         CentralPolicyId = CentralPolicyId,
@@ -200,7 +230,16 @@ namespace InspecWeb.Controllers
                         noti = 1,
                         CreatedAt = date,
                         xe = xe
-                    });
+                    };
+                    _context.Notifications.Add(data);
+                    _context.SaveChanges();
+
+                    var data2 = new Notificationcreateby
+                    {
+                        NotificationId = data.Id,
+                        CreateBy = createby
+                    };
+                    _context.Notificationcreateby.Add(data2);
                     _context.SaveChanges();
                     _externalOrganizationController.SendNotification(item.UserID, "ผู้ตรวจกำลังจะตรวจ" + CentralPolicyData.Title);
                 }
@@ -237,7 +276,7 @@ namespace InspecWeb.Controllers
 
                         foreach (var item in users)
                         {
-                            _context.Notifications.Add(new Notification
+                            var data = new Notification
                             {
                                 UserID = item.Id,
                                 CentralPolicyId = CentralPolicyId,
@@ -246,7 +285,16 @@ namespace InspecWeb.Controllers
                                 noti = 1,
                                 CreatedAt = date,
                                 xe = xe
-                            });
+                            };
+                            _context.Notifications.Add(data);
+                            _context.SaveChanges();
+
+                            var data2 = new Notificationcreateby
+                            {
+                                NotificationId = data.Id,
+                                CreateBy = createby
+                            };
+                            _context.Notificationcreateby.Add(data2);
                             _context.SaveChanges();
                             _externalOrganizationController.SendNotification(item.Id, "มีประเด็น/คำถาม(หน่วยรับตรวจ)" + CentralPolicyData.Title);
                         }
@@ -262,7 +310,7 @@ namespace InspecWeb.Controllers
             {
                 System.Console.WriteLine("User NotiJa: " + UserId);
                 System.Console.WriteLine("User NotiJa2: " + xe);
-                _context.Notifications.Add(new Notification
+                var data = new Notification
                 {
                     UserID = UserId,
                     CentralPolicyId = CentralPolicyId,
@@ -271,7 +319,16 @@ namespace InspecWeb.Controllers
                     noti = 1,
                     CreatedAt = date,
                     xe = xe
-                });
+                };
+                _context.Notifications.Add(data);
+                _context.SaveChanges();
+
+                var data2 = new Notificationcreateby
+                {
+                    NotificationId = data.Id,
+                    CreateBy = createby
+                };
+                _context.Notificationcreateby.Add(data2);
                 _context.SaveChanges();
 
                 _externalOrganizationController.SendNotification(UserId, "สมุดตรวจอีเล็กทรอนิกส์" + CentralPolicyData.Title);
@@ -284,7 +341,7 @@ namespace InspecWeb.Controllers
                     .Where(x => x.Id == xe)
                     .FirstOrDefault();
 
-                _context.Notifications.Add(new Notification
+                var data = new Notification
                 {
                     UserID = electData.CreatedBy,
                     CentralPolicyId = CentralPolicyId,
@@ -293,14 +350,23 @@ namespace InspecWeb.Controllers
                     noti = 1,
                     CreatedAt = date,
                     xe = xe
-                });
+                };
+                _context.Notifications.Add(data);
+                _context.SaveChanges();
+
+                var data2 = new Notificationcreateby
+                {
+                    NotificationId = data.Id,
+                    CreateBy = createby
+                };
+                _context.Notificationcreateby.Add(data2);
                 _context.SaveChanges();
                 _externalOrganizationController.SendNotification(UserId, "ผู้ว่าราชการจังหวัดลงลายมือชื่อเรียบร้อย" + CentralPolicyData.Title);
             }
             //<!-- แจ้งข้อสั่งการ -->
             if (Status == 10)
             {
-                System.Console.WriteLine("st10 : " + CentralPolicyId + " : " + ProvinceId + " : " + UserId + " : " + Status + " : " + xe + " : " + title);
+                //System.Console.WriteLine("st10 : " + CentralPolicyId + " : " + ProvinceId + " : " + UserId + " : " + Status + " : " + xe + " : " + title);
 
                 var ExecutiveOrderAnswersdata = _context.ExecutiveOrderAnswers
                   .Where(m => m.ExecutiveOrderId == xe)
@@ -310,7 +376,7 @@ namespace InspecWeb.Controllers
                 {
                     System.Console.WriteLine("st10 USERID : " + item.UserID);
 
-                    _context.Notifications.Add(new Notification
+                    var data = new Notification
                     {
                         UserID = item.UserID,
                         CentralPolicyId = CentralPolicyId,
@@ -320,9 +386,19 @@ namespace InspecWeb.Controllers
                         CreatedAt = date,
                         xe = xe,
                         title = title,
-                    });
-
+                    };
+                    _context.Notifications.Add(data);
                     _context.SaveChanges();
+
+
+                    var data2 = new Notificationcreateby
+                    {
+                       NotificationId = data.Id,
+                       CreateBy = createby
+                    };
+                    _context.Notificationcreateby.Add(data2);
+                    _context.SaveChanges();
+
                     _externalOrganizationController.SendNotification(item.UserID, "ข้อสั่งการ" + title);
                 }
             }
@@ -337,7 +413,7 @@ namespace InspecWeb.Controllers
                   .First();
 
 
-                _context.Notifications.Add(new Notification
+                var data = new Notification
                 {
                     UserID = ExecutiveOrderdata.UserID,
                     CentralPolicyId = CentralPolicyId,
@@ -347,8 +423,17 @@ namespace InspecWeb.Controllers
                     CreatedAt = date,
                     xe = xe,
                     title = title,
-                });
+                };
 
+                _context.Notifications.Add(data);
+                _context.SaveChanges();
+
+                var data2 = new Notificationcreateby
+                {
+                    NotificationId = data.Id,
+                    CreateBy = createby
+                };
+                _context.Notificationcreateby.Add(data2);
                 _context.SaveChanges();
                 _externalOrganizationController.SendNotification(ExecutiveOrderdata.UserID, "รับทราบข้อสั่งการ" + title);
 
@@ -364,7 +449,7 @@ namespace InspecWeb.Controllers
                 {
                     // System.Console.WriteLine("st10 USERID : " + item.UserID);
 
-                    _context.Notifications.Add(new Notification
+                    var data = new Notification
                     {
                         UserID = item.UserID,
                         CentralPolicyId = CentralPolicyId,
@@ -374,8 +459,17 @@ namespace InspecWeb.Controllers
                         CreatedAt = date,
                         xe = xe,
                         title = title,
-                    });
+                    };
 
+                    _context.Notifications.Add(data);
+                    _context.SaveChanges();
+
+                    var data2 = new Notificationcreateby
+                    {
+                        NotificationId = data.Id,
+                        CreateBy = createby
+                    };
+                    _context.Notificationcreateby.Add(data2);
                     _context.SaveChanges();
                     _externalOrganizationController.SendNotification(item.UserID, "แจ้งคำร้อง" + title);
                 }
@@ -389,7 +483,7 @@ namespace InspecWeb.Controllers
                   .First();
 
 
-                _context.Notifications.Add(new Notification
+                var data = new Notification
                 {
                     UserID = RequestOrderdata.UserID,
                     CentralPolicyId = CentralPolicyId,
@@ -399,8 +493,17 @@ namespace InspecWeb.Controllers
                     CreatedAt = date,
                     xe = xe,
                     title = title,
-                });
+                };
 
+                _context.Notifications.Add(data);
+                _context.SaveChanges();
+
+                var data2 = new Notificationcreateby
+                {
+                    NotificationId = data.Id,
+                    CreateBy = createby
+                };
+                _context.Notificationcreateby.Add(data2);
                 _context.SaveChanges();
                 _externalOrganizationController.SendNotification(RequestOrderdata.UserID, "รับทราบแจ้งคำร้อง" + title);
             }
@@ -414,7 +517,7 @@ namespace InspecWeb.Controllers
                 foreach (var item in users)
                 {
                     System.Console.WriteLine("USERID : " + item.Id);
-                    _context.Notifications.Add(new Notification
+                    var data = new Notification
                     {
                         UserID = item.Id,
                         CentralPolicyId = CentralPolicyId,
@@ -423,8 +526,17 @@ namespace InspecWeb.Controllers
                         noti = 1,
                         CreatedAt = date,
                         xe = xe,
-                    });
+                    };
 
+                    _context.Notifications.Add(data);
+                    _context.SaveChanges();
+
+                    var data2 = new Notificationcreateby
+                    {
+                        NotificationId = data.Id,
+                        CreateBy = createby
+                    };
+                    _context.Notificationcreateby.Add(data2);
                     _context.SaveChanges();
                     //System.Console.WriteLine("success");
 
@@ -440,7 +552,7 @@ namespace InspecWeb.Controllers
                 foreach (var item in users)
                 {
                     System.Console.WriteLine("USERID : " + item.Id);
-                    _context.Notifications.Add(new Notification
+                    var data = new Notification
                     {
                         UserID = item.Id,
                         CentralPolicyId = CentralPolicyId,
@@ -449,8 +561,17 @@ namespace InspecWeb.Controllers
                         noti = 1,
                         CreatedAt = date,
                         xe = xe,
-                    });
+                    };
 
+                    _context.Notifications.Add(data);
+                    _context.SaveChanges();
+
+                    var data2 = new Notificationcreateby
+                    {
+                        NotificationId = data.Id,
+                        CreateBy = createby
+                    };
+                    _context.Notificationcreateby.Add(data2);
                     _context.SaveChanges();
                     //System.Console.WriteLine("success");
 
@@ -465,7 +586,7 @@ namespace InspecWeb.Controllers
                 foreach (var item in users)
                 {
                     System.Console.WriteLine("USERID : " + item.Id);
-                    _context.Notifications.Add(new Notification
+                    var data = new Notification
                     {
                         UserID = item.UserId,
                         CentralPolicyId = item.CentralPolicyId,
@@ -474,8 +595,17 @@ namespace InspecWeb.Controllers
                         noti = 1,
                         CreatedAt = date,
                         xe = xe,
-                    });
+                    };
 
+                    _context.Notifications.Add(data);
+                    _context.SaveChanges();
+
+                    var data2 = new Notificationcreateby
+                    {
+                        NotificationId = data.Id,
+                        CreateBy = createby
+                    };
+                    _context.Notificationcreateby.Add(data2);
                     _context.SaveChanges();
                     _externalOrganizationController.SendNotification(item.UserId, "มีคำเชิญ" + CentralPolicyData.Title);
                 }
@@ -490,7 +620,7 @@ namespace InspecWeb.Controllers
                     .Where(x => x.Role_id == 4 && x.UserProvince.Any(x => x.ProvinceId == ProvinceId))
                     .FirstOrDefault();
 
-                _context.Notifications.Add(new Notification
+                var data = new Notification
                 {
                     UserID = userProvinceRole4.Id,
                     CentralPolicyId = CentralPolicyId,
@@ -499,15 +629,26 @@ namespace InspecWeb.Controllers
                     noti = 1,
                     CreatedAt = date,
                     xe = xe
-                });
+                };
+
+                _context.Notifications.Add(data);
                 _context.SaveChanges();
+
+                var data2 = new Notificationcreateby
+                {
+                    NotificationId = data.Id,
+                    CreateBy = createby
+                };
+                _context.Notificationcreateby.Add(data2);
+                _context.SaveChanges();
+
                 _externalOrganizationController.SendNotification(UserId, "สมุดตรวจอีเล็กทรอนิกส์" + CentralPolicyData.Title);
 
                 var userProvinceRole5 = _context.Users
                    .Where(x => x.Role_id == 5 && x.UserProvince.Any(x => x.ProvinceId == ProvinceId))
                    .FirstOrDefault();
 
-                _context.Notifications.Add(new Notification
+                var data3 = new Notification
                 {
                     UserID = userProvinceRole5.Id,
                     CentralPolicyId = CentralPolicyId,
@@ -516,8 +657,19 @@ namespace InspecWeb.Controllers
                     noti = 1,
                     CreatedAt = date,
                     xe = xe
-                });
+                };
+
+                _context.Notifications.Add(data3);
                 _context.SaveChanges();
+
+                var data4 = new Notificationcreateby
+                {
+                    NotificationId = data3.Id,
+                    CreateBy = createby
+                };
+                _context.Notificationcreateby.Add(data4);
+                _context.SaveChanges();
+
                 _externalOrganizationController.SendNotification(UserId, "สมุดตรวจอีเล็กทรอนิกส์" + CentralPolicyData.Title);
                 System.Console.WriteLine("Success Noti 17");
             }
@@ -552,7 +704,7 @@ namespace InspecWeb.Controllers
                 foreach (var userData in termsList)
                 {
                     System.Console.WriteLine("in 18.5");
-                    _context.Notifications.Add(new Notification
+                    var data = new Notification
                     {
                         UserID = userData.Id,
                         CentralPolicyId = CentralPolicyId,
@@ -561,7 +713,16 @@ namespace InspecWeb.Controllers
                         noti = 1,
                         CreatedAt = date,
                         xe = xe
-                    });
+                    };
+                    _context.Notifications.Add(data);
+                    _context.SaveChanges();
+
+                    var data2 = new Notificationcreateby
+                    {
+                        NotificationId = data.Id,
+                        CreateBy = createby
+                    };
+                    _context.Notificationcreateby.Add(data2);
                     _context.SaveChanges();
                     _externalOrganizationController.SendNotification(UserId, "สมุดตรวจอีเล็กทรอนิกส์" + CentralPolicyData.Title);
                     System.Console.WriteLine("Success Noti 18");
@@ -576,7 +737,7 @@ namespace InspecWeb.Controllers
 
 
                 System.Console.WriteLine("USERID : " + users.Id);
-                _context.Notifications.Add(new Notification
+                var data = new Notification
                 {
                     UserID = users.Id,
                     CentralPolicyId = CentralPolicyId,
@@ -585,8 +746,17 @@ namespace InspecWeb.Controllers
                     noti = 1,
                     CreatedAt = date,
                     xe = xe,
-                });
+                };
 
+                _context.Notifications.Add(data);
+                _context.SaveChanges();
+
+                var data2 = new Notificationcreateby
+                {
+                    NotificationId = data.Id,
+                    CreateBy = createby
+                };
+                _context.Notificationcreateby.Add(data2);
                 _context.SaveChanges();
 
                 _externalOrganizationController.SendNotification(UserId, "ถูกมอบหมาย" + CentralPolicyData.Title);
@@ -594,7 +764,7 @@ namespace InspecWeb.Controllers
 
             if (Status == 20)
             {
-                _context.Notifications.Add(new Notification
+                var data = new Notification
                 {
                     UserID = UserId,
                     CentralPolicyId = CentralPolicyId,
@@ -603,8 +773,17 @@ namespace InspecWeb.Controllers
                     noti = 1,
                     CreatedAt = date,
                     xe = xe,
-                });
+                };
 
+                _context.Notifications.Add(data);
+                _context.SaveChanges();
+
+                var data2 = new Notificationcreateby
+                {
+                    NotificationId = data.Id,
+                    CreateBy = createby
+                };
+                _context.Notificationcreateby.Add(data2);
                 _context.SaveChanges();
                 _externalOrganizationController.SendNotification(UserId, "รายงานผลการตรวจราชการ" + CentralPolicyData.Title);
             }
@@ -617,7 +796,7 @@ namespace InspecWeb.Controllers
 
 
                 System.Console.WriteLine("USERID : " + userData.CreatedBy);
-                _context.Notifications.Add(new Notification
+                var data = new Notification
                 {
                     UserID = userData.CreatedBy,
                     CentralPolicyId = CentralPolicyId,
@@ -626,8 +805,17 @@ namespace InspecWeb.Controllers
                     noti = 1,
                     CreatedAt = date,
                     xe = xe,
-                });
+                };
 
+                _context.Notifications.Add(data);
+                _context.SaveChanges();
+
+                var data2 = new Notificationcreateby
+                {
+                    NotificationId = data.Id,
+                    CreateBy = createby
+                };
+                _context.Notificationcreateby.Add(data2);
                 _context.SaveChanges();
 
                 _externalOrganizationController.SendNotification(UserId, "ข้อสั่งการในรายงานผลการตรวจราชการ" + CentralPolicyData.Title);
@@ -664,7 +852,7 @@ namespace InspecWeb.Controllers
 
                         foreach (var item in users)
                         {
-                            _context.Notifications.Add(new Notification
+                            var data = new Notification
                             {
                                 UserID = item.Id,
                                 CentralPolicyId = CentralPolicyId,
@@ -673,7 +861,16 @@ namespace InspecWeb.Controllers
                                 noti = 1,
                                 CreatedAt = date,
                                 xe = xe
-                            });
+                            };
+                            _context.Notifications.Add(data);
+                            _context.SaveChanges();
+
+                            var data2 = new Notificationcreateby
+                            {
+                                NotificationId = data.Id,
+                                CreateBy = createby
+                            };
+                            _context.Notificationcreateby.Add(data2);
                             _context.SaveChanges();
 
                             _externalOrganizationController.SendNotification(item.Id, "ข้อเสนอแนะ" + CentralPolicyData.Title);

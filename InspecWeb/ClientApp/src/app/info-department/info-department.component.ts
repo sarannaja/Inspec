@@ -17,7 +17,7 @@ export class InfoDepartmentComponent implements OnInit {
   Form: FormGroup;
   EditForm: FormGroup;
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
  
 
   constructor(

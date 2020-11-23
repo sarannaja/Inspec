@@ -3,7 +3,7 @@
   <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a [routerLink]="['/main']">หน้าหลัก</a></li>
-        <li class="breadcrumb-item active">ข้อมูลผู้ติดต่อบุคลากร</li>
+        <li class="breadcrumb-item active">ข้อมูลการผู้ติดต่อบุคลากร</li>
         <li class="breadcrumb-item active">หน่วยงานในส่วนภูมิภาค</li>
       </ol>
   </nav>
@@ -13,10 +13,16 @@
       <div class="card card-eiei">
         <div class="card-header" style="margin-bottom: -40px;">
             <h5 class="card-title">หน่วยงานในส่วนภูมิภาค </h5>
+            <div style="margin-bottom: 20px;width: 30%;">
+                <select (change)="Changeministry($event)" [(ngModel)]="ministry" name="ministry" class="form-control select2" data-toggle="select2"> 
+                  <option  [value]="0">กระทรวงทั้งหมด</option>
+                  <option *ngFor="let item of selectministry" [value]="item.id">{{item.name}}</option>
+                </select>
+            </div> 
             <div class="float-right"> 
-                <button class="btn btn-success" (click)="excel()"
+                <!-- <button class="btn btn-success" (click)="excel()"
                     style="margin-top: -60px;">Excel
-                </button> 
+                </button>  -->
               </div>   
         </div><br>
          <!-- หน่วยงานในส่วนภูมิภาค -->

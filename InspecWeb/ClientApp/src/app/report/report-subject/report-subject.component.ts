@@ -21,7 +21,7 @@ import { ReportCentralPolicy } from 'src/app/services/nikmodel/reportCentralpoli
 })
 export class ReportSubjectComponent implements OnInit {
 
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   loading = false;
   resultcentralpolicy: any = []
   selectcentralpolicy: any = []

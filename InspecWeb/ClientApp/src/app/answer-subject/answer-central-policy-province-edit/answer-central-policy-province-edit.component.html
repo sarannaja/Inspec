@@ -1,8 +1,8 @@
 <div class="header">
-    
+
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-           <li class="breadcrumb-item"><a href="/main">หน้าหลัก</a></li>
+            <li class="breadcrumb-item"><a href="/main">หน้าหลัก</a></li>
             <li class="breadcrumb-item"><a href="javascript:void(0)" (click)="back()">แผนตรวจราชการ</a></li>
             <li class="breadcrumb-item active" aria-current="page">คำถามภาคประชาชน</li>
         </ol>
@@ -29,9 +29,20 @@
                     </div>
                     <div class="row" style="margin-top: 10px;">
                         <div class="form-group col-sm-8">
-                            <label for="city">ไฟล์แนบ</label>
+                            <label for="city">ระยะเวลา</label>
                             <div class=" d-flex flex-row"
-                                *ngFor="let item of resultsubjecteventfiles; let i = index">
+                                *ngFor="let item of resultQuestionPeople[0].centralPolicyEvent.centralPolicy && resultQuestionPeople[0].centralPolicyEvent.centralPolicy.centralPolicyDates; let i = index">
+                                <span>ช่วงที่
+                                    {{i+1}})
+                                    {{ item.startDate | thaidate: 'short' }} -
+                                    {{ item.endDate | thaidate: 'short' }}<br></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-8">
+                            <label for="city">ไฟล์แนบ</label>
+                            <div class=" d-flex flex-row" *ngFor="let item of resultsubjecteventfiles; let i = index">
                                 <a download href="{{downloadUrl}}/{{item.name}}" class="mr-5">
                                     <span>ไฟล์ที่
                                         {{i+1}})

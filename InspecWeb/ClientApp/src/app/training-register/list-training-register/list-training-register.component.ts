@@ -8,7 +8,11 @@ import { delay } from 'lodash';
 import * as moment from 'moment';
 import { ExportReportService } from 'src/app/services/export-report.service';
 
+
 import { NgxSpinnerService } from 'ngx-spinner';
+import { LogService } from 'src/app/services/log.service';
+import { NotofyService } from 'src/app/services/notofy.service';
+import { AuthorizeService } from 'src/api-authorization/authorize.service';
 
 @Component({
   selector: 'app-list-training-register',
@@ -23,7 +27,7 @@ export class ListTrainingRegisterComponent implements OnInit {
   modalRef: BsModalRef;
   delid: any
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   Form: any;
   resulttrainingCondition: any[] = []
   people: any[] = []
@@ -31,7 +35,11 @@ export class ListTrainingRegisterComponent implements OnInit {
   url = ""
 
   constructor(private modalService: BsModalService,
+    private authorize: AuthorizeService,
+    private _NotofyService: NotofyService,
     private spinner: NgxSpinnerService,
+    private logService: LogService,
+    
     private fb: FormBuilder,
     private trainingservice: TrainingService,
     public share: TrainingService,
@@ -46,7 +54,7 @@ export class ListTrainingRegisterComponent implements OnInit {
 
 
   ngOnInit() {
-
+    this.spinner.show();
     this.dtOptions = {
       pagingType: 'full_numbers',
       columnDefs: [
@@ -78,8 +86,7 @@ export class ListTrainingRegisterComponent implements OnInit {
 
 
 
-    this.getData()
-
+    this.getData();
 
     // this.trainingservice.gettrainingdata2(id)
     // .subscribe(result => {
@@ -185,10 +192,11 @@ export class ListTrainingRegisterComponent implements OnInit {
             //   //console.log("resultresultresult", arrresulttraining);
             // }, 200)
             // console.log("this.resulttrainingCondition", this.resulttrainingCondition);
-
+            this.spinner.hide();
           })
+          
       })
-      this.spinner.hide();
+      
 
   }
 
@@ -204,6 +212,62 @@ export class ListTrainingRegisterComponent implements OnInit {
   openModal(template: TemplateRef<any>, id, item = null, index = null) {
     console.log("id =>", id);
     
+    // this.trainingservice.getregistertrainingpeopledata(id)
+    //   .subscribe(result => {
+    //     // alert("123")
+    //     // console.log("etc", result);
+
+    //     //if (result != null){
+    //     this.birthdate = moment().diff(result.birthDate, 'years');
+
+    //     //}
+    //     this.peopledetail = result
+    //     this.loading = true
+    //     // alert(this.birthdate)
+    // })
+
+
+    // alert(this.peopledetail)
+    // alert(JSON.stringify(this.peopledetail))
+
+    // this.resulttrainingCondition = this.resulttrainingCondition.map(result => {
+    //   return { ...result, status: false }
+    // })
+    // this.getData()
+    this.delid = id;
+    //console.log(this.delid);
+    this.checkcondition(item, index)
+    this.modalRef = this.modalService.show(template);
+
+  }
+
+  openModalbyDetail(template: TemplateRef<any>, id, item = null, index = null) {
+    console.log("id =>", id);
+    
+    this.trainingservice.getregistertrainingpeopledata(id)
+      .subscribe(result => {
+        // alert("123")
+        console.log("etc", result);
+        console.log("peopledetail.type =>", result.type);
+        
+
+        //if (result != null){
+        this.birthdate = moment().diff(result.birthDate, 'years');
+
+        //}
+        this.peopledetail = result
+        this.loading = true
+        // alert(this.birthdate)
+    })
+
+    this.modalRef = this.modalService.show(template);
+
+  }
+
+
+  openModalbyCondition(template: TemplateRef<any>, id, item = null, index = null) {
+    console.log("id =>", id);
+    
     this.trainingservice.getregistertrainingpeopledata(id)
       .subscribe(result => {
         // alert("123")
@@ -216,17 +280,8 @@ export class ListTrainingRegisterComponent implements OnInit {
         this.peopledetail = result
         this.loading = true
         // alert(this.birthdate)
-      })
+    })
 
-    // alert(this.peopledetail)
-
-
-    // alert(JSON.stringify(this.peopledetail))
-
-    // this.resulttrainingCondition = this.resulttrainingCondition.map(result => {
-    //   return { ...result, status: false }
-    // })
-    // this.getData()
     this.delid = id;
     //console.log(this.delid);
     this.checkcondition(item, index)
@@ -423,5 +478,17 @@ export class ListTrainingRegisterComponent implements OnInit {
 
   gotoBack() {
     window.history.back();
+  }
+
+  gotoMain(){
+    this.router.navigate(['/main'])
+  }
+
+  gotoMainTraining(){
+    this.router.navigate(['/training'])
+  }
+
+  gotoTrainingManage(){
+    this.router.navigate(['/training/manage/', this.trainingid])
   }
 }

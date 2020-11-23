@@ -161,6 +161,9 @@ export class DetailSubjecteventComponent implements OnInit {
 
   get f() { return this.form.controls }
   get s() { return this.f.fileData as FormArray }
+  get faqc() { return this.FormAddQuestionsclose.controls; }
+  get faed() { return this.Form2.controls; }
+  get fadq() { return this.FormSubject.controls; }
 
   filterboxdepartments: any = []
   checkTypeReport: any;
@@ -169,6 +172,7 @@ export class DetailSubjecteventComponent implements OnInit {
   select = []
   answerpeople: any = []
   answerRecommenDationInspectors: any = []
+  checkname: any[] = []
   constructor(
     private fb: FormBuilder,
     private modalService: BsModalService,
@@ -593,7 +597,19 @@ export class DetailSubjecteventComponent implements OnInit {
     // alert("123")
     this.centralpolicyservice.getSubjecteventdetaildata(this.id, this.subjectgroupid)
       .subscribe(result => {
+
         this.resultdetailcentralpolicyprovince = result.subjectcentralpolicyprovincedata
+
+        for (let i = 0; i < result.subjectcentralpolicyprovincedata.length; i++) {
+          this.checkname[i] = result.subjectcentralpolicyprovincedata[i].name;
+        }
+
+        console.log("this.checkname", this.checkname)
+        // for(){
+
+        // }
+        // this.checkname =
+
         this.subjectgroup = result.subjectgroup
 
         //console.log("this.subjectgroup", this.subjectgroup);
@@ -707,18 +723,18 @@ export class DetailSubjecteventComponent implements OnInit {
       this.Form.reset()
 
       if (value.status == "ใช้งานจริง") {
-        this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, this.userid, 4, this.subjectgroupid, null)
+        this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, this.userid, 4, this.subjectgroupid, null,this.userid)
           .subscribe(response => {
             //console.log(response);
           })
-        this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, this.userid, 5, this.subjectgroupid, null)
+        this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, this.userid, 5, this.subjectgroupid, null,this.userid)
           .subscribe(response => {
             //console.log(response);
           })
       }
 
       if (value.statussuggestion == "ใช้งานจริง") {
-        this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, this.userid, 25, this.subjectgroupid, null)
+        this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, this.userid, 25, this.subjectgroupid, null,this.userid)
           .subscribe(response => {
             //console.log(response);
           })
@@ -736,13 +752,20 @@ export class DetailSubjecteventComponent implements OnInit {
 
   storeDepartment(value) {
     // alert(this.subjectid)
-    this.centralpolicyservice.addDepartment(value, this.subjectid).subscribe(response => {
-      this._NotofyService.onSuccess("เพื่มข้อมูล")
-      //console.log(value);
-      this.Form2.reset()
-      this.modalRef.hide()
-      this.getsubjecteventDetail();
-    })
+    this.submitted = true;
+    if (this.Form2.invalid) {
+      console.log("in1");
+      return;
+    } else {
+      this.centralpolicyservice.addDepartment(value, this.subjectid).subscribe(response => {
+        this._NotofyService.onSuccess("เพื่มข้อมูล")
+        //console.log(value);
+        this.Form2.reset()
+        this.modalRef.hide()
+        this.getsubjecteventDetail();
+      })
+    }
+
   }
 
   storepeopleanswer(value) {
@@ -754,7 +777,7 @@ export class DetailSubjecteventComponent implements OnInit {
 
 
       for (let i = 0; i < UserPeopleanswerId.length; i++) {
-        this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, UserPeopleanswerId[i], 5, 1, null)
+        this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, UserPeopleanswerId[i], 5, 1, null,this.userid)
           .subscribe(response => {
             //console.log(response);
 
@@ -1167,26 +1190,38 @@ export class DetailSubjecteventComponent implements OnInit {
   }
   AddQuestionsclose(value) {
     //console.log(value);
-    this.subquestionservice.addSubquestioncloseevent(value).subscribe(result => {
-      this._NotofyService.onSuccess("เพื่มข้อมูล")
-      //console.log(result);
-      this.FormAddQuestionsclose.reset()
-      this.modalRef.hide()
-      this.getsubjecteventDetail()
-    })
+    this.submitted = true;
+    if (this.FormAddQuestionsclose.get('name').invalid) {
+      console.log("in1");
+      return;
+    } else {
+      this.subquestionservice.addSubquestioncloseevent(value).subscribe(result => {
+        this._NotofyService.onSuccess("เพื่มข้อมูล")
+        //console.log(result);
+        this.FormAddQuestionsclose.reset()
+        this.modalRef.hide()
+        this.getsubjecteventDetail()
+      })
+    }
   }
 
   storeSubject(value) {
     // alert("123")
     // this.spinner.show();
     //console.log("valuevaluevaluevaluevaluevaluevaluevalue", value);
-    this.subjectservice.addSubjectRole3(value).subscribe(response => {
-      this._NotofyService.onSuccess("เพื่มข้อมูล")
-      this.AddForm.reset();
-      this.modalRef.hide();
-      this.getDetailCentralPolicyProvince();
-      this.getsubjecteventDetail();
-    })
+    this.submitted = true;
+    if (this.FormSubject.get('name').invalid && this.FormSubject.get('DepartmentId').invalid) {
+      console.log("in1");
+      return;
+    } else {
+      this.subjectservice.addSubjectRole3(value).subscribe(response => {
+        this._NotofyService.onSuccess("เพื่มข้อมูล")
+        this.AddForm.reset();
+        this.modalRef.hide();
+        this.getDetailCentralPolicyProvince();
+        this.getsubjecteventDetail();
+      })
+    }
   }
   storeReport() {
     this.reportservice.createReportSubject(this.resultdetailcentralpolicy, this.resultdetailcentralpolicyprovince).subscribe(result => {

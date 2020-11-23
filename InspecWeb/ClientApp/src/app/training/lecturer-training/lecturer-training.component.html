@@ -2,7 +2,9 @@
     
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="dashboard-default.html">จัดการหลักสูตรการอบรม</a></li>
+            <li class="breadcrumb-item"><a class="pointer text-white" (click)="gotoMain()">หน้าหลัก</a></li>
+            <li class="breadcrumb-item"><a href="javascript:void(0)">จัดการหลักสูตรการอบรม</a></li>
+
             <!-- <li class="breadcrumb-item active" aria-current="page">DataTables</li> -->
         </ol>
     </nav>
@@ -10,11 +12,10 @@
 <form class="row">
     <div class="col-12">
         <div class="card card-eiei">
-            <div class="card-header" style="margin-bottom: -40px;">
+            <div class="card-header" >
                 <h5 class="card-title">วิทยากรอบรม</h5>
                 <div class="float-right">
-                    <button class="btn btn-primary" (click)="openModal(modalTraining)"
-                        style="margin-top: -60px;">เพิ่มวิทยากร</button>
+                    <button class="btn btn-primary" (click)="openModal(modalTraining)">เพิ่มวิทยากร</button>
                 </div>
             </div>
             <div class="card-body">
@@ -23,12 +24,12 @@
                     <thead>
                         <tr>
                             <th width="5%">#</th>
-                            <th width="20%"></th>
-                            <th width="40%">ชื่อ-นามสกุล</th>
-                            <th width="20%">เบอร์โทรศัพท์</th>
+                            <th width="20%" style="min-width: 50px;">รูปวิทยากร</th>
+                            <th width="40%" style="min-width: 200px;">ชื่อ-นามสกุล</th>
+                            <th width="20%" style="min-width: 100px;">เบอร์โทรศัพท์</th>
                             <!-- <th width="20%">E-mail</th> -->
                             <!-- <th width="20%">ประวัติการศึกษา</th> -->
-                            <th width="15%"><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
+                            <th width="15%" style="min-width: 100px;" class="text-center"><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -61,7 +62,7 @@
         <form [formGroup]="Form" (ngSubmit)="storeTraining(Form.value)">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">ประวัติวิทยากร</h5>
+                    <h5 class="modal-title">เพิ่มวิทยากร</h5>
                     <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()"
                         aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -96,7 +97,7 @@
                         <br>
                         <label for="test" class="form-label">เบอร์โทรศัพท์</label>
                         <input type="text" formControlName="lecturerphone" class="form-control"
-                            placeholder="กรุณากรอกเบอร์โทรศัพท์" [ngClass]="{ 'is-invalid': submitted && f.lecturerphone.errors }">
+                            placeholder="กรุณากรอกเบอร์โทรศัพท์" maxlength="10" numbersOnly [ngClass]="{ 'is-invalid': submitted && f.lecturerphone.errors }">
                             <div *ngIf="submitted && f.lecturerphone.errors" class="invalid-feedback">
                                 <div *ngIf="f.lecturerphone.errors.required">กรุณากรอกเบอร์โทรศัพท์</div>
                             </div>

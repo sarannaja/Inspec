@@ -20,7 +20,7 @@ export class ListTrainingDocumentComponent implements OnInit {
   name: any
   link: any
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   Form: FormGroup;
   EditForm: FormGroup;
   form: FormGroup;
@@ -42,13 +42,26 @@ export class ListTrainingDocumentComponent implements OnInit {
   ngOnInit() {
     this.spinner.show();
     this.dtOptions = {
-      pagingType: 'full_numbers',
       columnDefs: [
         {
-          targets: [4],
+          targets: [1, 2, 3, 4],
           orderable: false
         }
-      ]
+      ],
+      pagingType: 'full_numbers',
+      "language": {
+        "lengthMenu": "แสดง  _MENU_  รายการ",
+        "search": "ค้นหา:",
+        "info": "แสดง _START_ ถึง _END_ จาก _TOTAL_ แถว",
+        "infoEmpty": "แสดง 0 ของ 0 รายการ",
+        "zeroRecords": "ไม่พบข้อมูล",
+        "paginate": {
+          "first": "หน้าแรก",
+          "last": "หน้าสุดท้าย",
+          "next": "ต่อไป",
+          "previous": "ย้อนกลับ"
+        },
+      }
 
     };
     this.Form = this.fb.group({
@@ -120,6 +133,18 @@ export class ListTrainingDocumentComponent implements OnInit {
 
   gotoBack() {
     window.history.back();
+  }
+
+  gotoMain(){
+    this.router.navigate(['/main'])
+  }
+
+  gotoMainTraining(){
+    this.router.navigate(['/training'])
+  }
+
+  gotoTrainingManage(){
+    this.router.navigate(['/training/manage/', this.trainingid])
   }
 
 }

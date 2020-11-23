@@ -15,7 +15,7 @@ export class TrainingProgramTypeComponent implements OnInit {
   modalRef: BsModalRef;
   editid: any
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   mainUrl: string;
   trainingid: any;
   Form: FormGroup;
@@ -69,6 +69,10 @@ export class TrainingProgramTypeComponent implements OnInit {
       this.resulttraining = result
       this.loading = true;
     })
+  }
+
+  gotoMain(){
+    this.router.navigate(['/main'])
   }
 
   gotoBack() {

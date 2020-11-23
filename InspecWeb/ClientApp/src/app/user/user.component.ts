@@ -47,7 +47,7 @@ export class UserComponent implements OnInit {
   selectdataprovincialdepartment: any[] = []
   selectdataside: Array<any>
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   roleId: any;
   rolename: any;
   resultuser: any[] = [];
@@ -122,7 +122,24 @@ export class UserComponent implements OnInit {
     },
 
   ]
-
+  prefix :any =[
+    {
+      id: "นาย",
+      name: "นาย"
+    },
+    {
+      id: "นาง",
+      name: "นาง"
+    },
+    {
+      id: "นางสาว",
+      name: "นางสาว"
+    },
+    {
+      id: "อื่นๆ",
+      name: "อื่นๆ"
+    },
+  ]
   isMobile: boolean = false;
   width: number = window.innerWidth;
   height: number = window.innerHeight;
@@ -130,12 +147,16 @@ export class UserComponent implements OnInit {
   user9proIndex: any = null
   username:any;
   userid:any;
+  selectprefix:any;
   fiscalYearId: any;
   date: any = { date: { year: (new Date()).getFullYear(), month: (new Date()).getMonth() + 1, day: (new Date()).getDate() } };
   title: string = 'รายชิ่อจังหวัด';
   content: string = 'Vivamus sagittis lacus vel augue laoreet rutrum faucibus.';
   html: string;
   submitted = false;
+  othertext = false;
+  otertext2 = ""; //ของอันนั้น
+  otertext3 = ""; //ของอันเก่า
   constructor(
     private _NotofyService: NotofyService,
     private modalService: BsModalService,
@@ -216,11 +237,15 @@ export class UserComponent implements OnInit {
     this.getDataProvinces();
     this.getDataMinistries();
     this.getDatafiscalyear();
-    //this.getDatafiscalyear();
+    this.getDataRegions();
     this.getDataSide();
     this.getRolename();
 
-
+    //<!-- คำนำหน้า -->
+    this.selectprefix = this.prefix.map((item, index) => {
+      return { value: item.id, label: item.name }
+    })
+    //<!-- END คำนำหน้า -->
 
     //<!-- สิทธิ์การใช้งานจะแสดงในกรณีเปลี่ยนสิทธิ์ -->
     this.selectdatarole = this.datarole.map((item, index) => {
@@ -232,6 +257,7 @@ export class UserComponent implements OnInit {
   openModal(template: TemplateRef<any>=null, IDdelete=null, UserName=null, Pw=null) {
     this.addForm.reset()
     this.submitted = false;
+    this.othertext = false;
     this.username = UserName;
     this.id = IDdelete;//ID สำหรับลบ
     this.addForm.patchValue({
@@ -250,10 +276,22 @@ export class UserComponent implements OnInit {
     // alert(Autocreateuser);
     this.addForm.reset()
     this.submitted = false;
+   
+    //<!-- ทำคำนำหน้าแบบใหม่ -->
+    if(prefix == "อื่นๆ" || prefix == "นาย" ||prefix == "นาง" ||prefix == "นางสาว" ){
+      this.othertext = false;
+      this.otertext3 = prefix;
+    }else{
+      //alert(prefix);
+      this.othertext = true;
+      this.otertext2 = prefix;
+      this.otertext3 = "อื่นๆ";
+    }
+     //<!-- END ทำคำนำหน้าแบบใหม่ -->
     this.Autocreateuser = Autocreateuser; // สร้าง UerName เองหรือป่าว
     this.id = id;
     this.img = img;
-    this.regionService.getregiondataforuser(fiscalYearId).subscribe(res => {
+    this.regionService.getregiondataforuser().subscribe(res => {
       var uniqueRegion: any = [];
       uniqueRegion = res.importFiscalYearRelations.filter(
         (thing, i, arr) => arr.findIndex(t => t.regionId === thing.regionId) === i
@@ -280,7 +318,8 @@ export class UserComponent implements OnInit {
     this.addForm.patchValue({
 
       Role_id: this.roleId,
-      Prefix: prefix,
+      Prefix: this.otertext3,
+      Othertext: this.otertext2,
       FName: fname,
       LName: lname,
       Position: position,
@@ -318,7 +357,6 @@ export class UserComponent implements OnInit {
     this.getDataDepartments({ value: ministryId })
     this.getProvincialDepartments({ value: departmentId })
     this.MinistryId = ministryId
-
     this.modalRef = this.modalService.show(template);
   }
 
@@ -330,8 +368,6 @@ export class UserComponent implements OnInit {
     this.userService.getuserdata(this.roleId)
       .subscribe(result => {
         this.resultuser = result;
-        //console.log('resultuser', result);
-
         this.loading = true
         this.spinner.hide();
         // console.log("userdata", this.resultuser);
@@ -373,8 +409,8 @@ export class UserComponent implements OnInit {
 
       })
   }
-  getDataRegions($event) {
-    this.regionService.getregiondataforuser($event.value).subscribe(res => {
+  getDataRegions() {
+    this.regionService.getregiondataforuser().subscribe(res => {
       // let uniqueRegion: any = [];
       this.selectdataregion = res.importFiscalYearRelations.filter(
         (thing, i, arr) => arr.findIndex(t => t.regionId === thing.regionId) === i
@@ -391,7 +427,7 @@ export class UserComponent implements OnInit {
 
 
   getDataRegionsForTooltip(event) {
-    this.regionService.getregiondataforuser(1).subscribe(res => {
+    this.regionService.getregiondataforuser().subscribe(res => {
       // this.html =
       //   `<span class="badge" >${res.importFiscalYearRelations.filter(
       //     // (thing, i, arr) => arr.findIndex(t => t.regionId == event.id) === i
@@ -559,6 +595,13 @@ export class UserComponent implements OnInit {
       PhoneNumber: new FormControl(null, [Validators.required]),
       Email: new FormControl(null, [Validators.required]),
       ProvinceId: new FormControl(null),
+      Othertext: [
+        null,
+        conditionalValidator(
+          (() => (this.othertext == true) === true),
+          Validators.required
+        )
+      ],
       MinistryId: [
         null,
         conditionalValidator(
@@ -574,11 +617,12 @@ export class UserComponent implements OnInit {
         )
       ], //20201027  yochigang
       FiscalYear: [
-        1,
-        conditionalValidator(
-          (() => (this.roleId == 3 || this.roleId == 6 || this.roleId == 8) === true),
-          Validators.required
-        )
+        1
+        // ,
+        // conditionalValidator(
+        //   (() => (this.roleId == 3 || this.roleId == 6 || this.roleId == 8) === true),
+        //   Validators.required
+        // )
       ],
 
       ProvincialDepartmentId: [null,
@@ -644,5 +688,16 @@ export class UserComponent implements OnInit {
     var ssss = new Date(date)
     var new_date = { date: { year: ssss.getFullYear(), month: ssss.getMonth() + 1, day: ssss.getDate() } }
     return new_date
+  }
+  showtext(event){
+   // alert(JSON.stringify(event));
+    if(event.value == "อื่นๆ"){
+     // alert("1");
+      this.othertext = true;
+    }else{
+     // alert("0");
+      this.othertext = false;
+    }
+
   }
 }

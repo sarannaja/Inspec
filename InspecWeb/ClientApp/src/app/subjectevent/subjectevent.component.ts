@@ -29,7 +29,7 @@ export class SubjecteventComponent implements OnInit {
     editableDateField: false
     // dateFormat: 'dd/mmm/yyyy', เดือนเป็นไทย
   };
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   loading = false;
   modalRef: BsModalRef;
   selectcentralpolicy: any = [];

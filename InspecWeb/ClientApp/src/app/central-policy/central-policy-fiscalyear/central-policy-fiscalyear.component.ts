@@ -22,7 +22,7 @@ export class CentralPolicyFiscalyearComponent implements OnInit {
   id: any
   delid: any
   modalRef: BsModalRef;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   loading = false;
   userid
   role_id

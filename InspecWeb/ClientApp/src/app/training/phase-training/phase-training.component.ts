@@ -33,7 +33,7 @@ export class PhaseTrainingComponent implements OnInit {
   name: any
   link: any
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   Form: FormGroup;
   EditForm: FormGroup;
   form: FormGroup;
@@ -50,6 +50,7 @@ export class PhaseTrainingComponent implements OnInit {
   submitted = false;
   editid: any;
   userid: string;
+  ddlphase: any[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   constructor(private modalService: BsModalService,
     private authorize: AuthorizeService,
@@ -73,7 +74,7 @@ export class PhaseTrainingComponent implements OnInit {
       pagingType: 'full_numbers',
       columnDefs: [
         {
-          targets: [0, 1, 2, 3, 4, 5],
+          targets: [1, 2, 3, 4, 5],
           orderable: false
         }
       ],
@@ -113,6 +114,10 @@ export class PhaseTrainingComponent implements OnInit {
       group: new FormControl(null, [Validators.required]),
     })
 
+
+
+    //[1, 2, 3, 4, 5];
+
     this.getTrainingPhase()
 
 
@@ -125,6 +130,8 @@ export class PhaseTrainingComponent implements OnInit {
           this.Form.patchValue({
             'programdate': this.startdate
           })
+          
+
           console.log(this.startdate)
           console.log(this.enddate);
           console.log(this.dateOption);
@@ -139,6 +146,9 @@ export class PhaseTrainingComponent implements OnInit {
 
 
   }
+
+  
+
   getTrainingPhase() {
     this.trainingservice.getTrainingPhase(this.trainingid)
       .subscribe(result => {
@@ -146,13 +156,19 @@ export class PhaseTrainingComponent implements OnInit {
         this.loading = true;
         this.spinner.hide();
         console.log(this.resulttraining);
+
+        this.ddlphase = this.ddlphase.filter(x => result.every(y => y.phaseNo != x))
+        // ddlphase.push();
+        // this.ddlphase =  this.ddlphase.filter(x => result.every(y => y.phaseNo != x))
+        console.log("ddlphase =>", this.ddlphase);
+
       })
   }
 
 
   dateOptionF(start, end) {
     //console.log("dateOptionF =>", start, end);
-    
+
     var startDate = new Date(start);
     var endDate = new Date(end);
     var dateDayRemoveStart = new Date()
@@ -251,7 +267,7 @@ export class PhaseTrainingComponent implements OnInit {
         month: new Date(startdate).getMonth() + 1,
         day: new Date(startdate).getDate()
       },
-      enddate:  {
+      enddate: {
         year: new Date(enddate).getFullYear(),
         month: new Date(enddate).getMonth() + 1,
         day: new Date(enddate).getDate()
@@ -326,7 +342,7 @@ export class PhaseTrainingComponent implements OnInit {
         console.log("result:", response);
         this.Form.reset();
         this.loading = false;
-        this.logService.addLog(this.userid,'TrainingPhases','เพิ่ม', response.title,response.id).subscribe();
+        this.logService.addLog(this.userid, 'TrainingPhases', 'เพิ่ม', response.title, response.id).subscribe();
         this.getTrainingPhase();
         this._NotofyService.onSuccess("เพิ่มข้อมูล");
       })
@@ -346,7 +362,7 @@ export class PhaseTrainingComponent implements OnInit {
         this.modalRef.hide();
         //this.EditForm.reset();
         this.loading = false;
-        this.logService.addLog(this.userid,'TrainingPhases','แก้ไข', value.name,"").subscribe();
+        this.logService.addLog(this.userid, 'TrainingPhases', 'แก้ไข', value.name, "").subscribe();
         this.getTrainingPhase();
         this._NotofyService.onSuccess("แก้ไขข้อมูล");
 
@@ -373,11 +389,20 @@ export class PhaseTrainingComponent implements OnInit {
       //console.log(value);
       this.modalRef.hide()
       this.loading = false;
-      this.logService.addLog(this.userid,'ตารางกำหนดการหลักสูตรการอบรม(ช่วง)(TrainingPhases)','ลบ', value.name,"").subscribe();
+      this.logService.addLog(this.userid, 'ตารางกำหนดการหลักสูตรการอบรม(ช่วง)(TrainingPhases)', 'ลบ', value.name, "").subscribe();
       this.getTrainingPhase()
       this._NotofyService.onSuccess("ลบข้อมูล");
     })
   }
+
+  gotoMain(){
+    this.router.navigate(['/main'])
+  }
+
+  gotoMainTraining(){
+    this.router.navigate(['/training'])
+  }
+
   gotoBack() {
     window.history.back();
   }

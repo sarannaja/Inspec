@@ -25,7 +25,7 @@ interface addInput {
 })
 export class ReportInspectionPlanEventComponent implements OnInit {
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   resultschedule: any[] = []
   role_id
   userid

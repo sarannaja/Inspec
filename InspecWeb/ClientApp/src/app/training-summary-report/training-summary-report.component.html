@@ -1,0 +1,375 @@
+<div class="header">
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a class="pointer text-white" (click)="gotoMain()">หน้าหลัก</a></li>
+            <li class="breadcrumb-item"><a class="pointer text-white" (click)="gotoMainTraining()">จัดการหลักสูตรการอบรม</a></li>
+            <li class="breadcrumb-item"><a class="pointer text-white" (click)="gotoTrainingManage()">การจัดการหลักสูตร</a></li>
+            <li class="breadcrumb-item"><a href="javascript:void(0)">รายงานสรุปผลการฝึกอบรม (ช่วงหลักสูตร)</a></li>
+        </ol>
+    </nav>
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="card card-eiei">
+            <div class="card-header">
+                <h5 class="card-title">
+                    รายงานสรุปผลการฝึกอบรม (ช่วงหลักสูตร)
+
+                    <!-- <button class="btn btn-light btn-sm" (click)="gotoBack()">
+                        <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                    </button> -->
+
+                </h5>
+                <!-- <div class="float-right">
+                    <button class="btn btn-primary" (click)="openModal(modalProgram)"
+                        style="margin-top: -60px;">เพิ่มหลักสูตรอบรม(ช่วง)</button>
+                </div> -->
+            </div>
+            <div class="card-body">
+                <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable
+                    [dtOptions]="dtOptions">
+                    <thead>
+                        <tr>
+                            <th width="10%" style="min-width: 50px;" class="text-center">ช่วงที่</th>
+                            <th width="40%" style="min-width: 200px;" class="text-center">ระหว่างวันที่</th>
+                            <th width="20%" style="min-width: 100px;" class="text-center">จำนวนกลุ่ม</th>
+                            <th width="30%" style="min-width: 150px;" class="text-center"><i class="align-middle fas fa-fw fa-cog"></i> </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of resulttraining; let i = index">
+                            <td class="text-center">{{ item.phaseNo }}</td>
+                            <td class="ellipsis">
+                                {{ item.startDate | thaidate:'short'}} - {{ item.endDate | thaidate:'short'}}
+                            </td>
+                            <td class="text-center">{{ item.group }}</td>
+                            <td class="text-center">
+                                <i class="align-middle mr-2 fas fa-fw fa-search pointer" data-toggle="tooltip"
+                                    title="ดูรายงาน" (click)="gotoSummaryReportGroupTraining(item.phaseNo)"></i>
+                                <!-- <i class="align-middle mr-2 fa fa fa-address-book pointer" title="รายชื่อผู้อบรม"
+                                    (click)="gotoPlanTraining(item.id)"></i> -->
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- BEGIN primary modal -->
+    <ng-template #modalProgram class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+        <form [formGroup]="Form" (ngSubmit)="storeTraining(Form.value)">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">เพิ่มหลักสูตรอบรม(ช่วง)</h5>
+                    <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()"
+                        aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body m-3">
+                    <div class="form-group">
+
+                        <label for="test" class="form-label">ช่วงที่</label>
+                        <!-- <input type="number" formControlName="phaseno" class="form-control col-6"
+                            placeholder="กรุณากรอกช่วงที่" maxlength="2" [ngClass]="{ 'is-invalid': submitted && f.phaseno.errors }">
+                            <div *ngIf="submitted && f.phaseno.errors" class="invalid-feedback">
+                                <div *ngIf="f.phaseno.errors.required">กรุณากรอกช่วงที่</div>
+                            </div> -->
+                        <select class="form-control select2 col-5" data-toggle="select2" formControlName="phaseno">
+                            <option value=null>กรุณาระบุช่วง</option>
+                            <option value=1>1</option>
+                            <option value=2>2</option>
+                            <option value=3>3</option>
+                            <option value=4>4</option>
+                            <option value=5>5</option>
+                            <option value=6>6</option>
+                            <option value=7>7</option>
+                            <option value=8>8</option>
+                            <option value=9>9</option>
+                            <option value=10>10</option>
+                        </select>
+
+                        <br>
+
+                        <div class="">
+                            <label>ระหว่างวันที่</label>
+                        </div>
+                        <div class="input-group" style="margin-left: -10px;">
+                            <div class="form-group col-5">
+                                <my-date-picker-th formControlName="startdate" [options]="myDatePickerOptions" required>
+                                </my-date-picker-th>
+
+                            </div>
+
+
+                            <div class="form-group col-1" align="center">
+                                ถึง
+                            </div>
+
+
+                            <div class="form-group col-5">
+
+                                <my-date-picker-th formControlName="enddate" [options]="myDatePickerOptions" required>
+                                </my-date-picker-th>
+
+                            </div>
+                        </div>
+                        <br>
+
+                        <label for="test" class="form-label">หัวข้อเรื่องช่วง</label>
+                        <input type="text" formControlName="title" class="form-control"
+                            placeholder="กรุณากรอกหัวข้อเรื่องช่วง"
+                            [ngClass]="{ 'is-invalid': submitted && f.title.errors }">
+                        <div *ngIf="submitted && f.title.errors" class="invalid-feedback">
+                            <div *ngIf="f.title.errors.required">กรุณากรอกหัวข้อเรื่องช่วง</div>
+                        </div>
+                        <br>
+
+                        <label for="test" class="form-label">รายละเอียดช่วง</label>
+                        <textarea formControlName="detail" class="form-control" placeholder="กรุณากรอกรายละเอียดกิจกรรม"
+                            [ngClass]="{ 'is-invalid': submitted && f.detail.errors }"></textarea>
+                        <div *ngIf="submitted && f.detail.errors" class="invalid-feedback">
+                            <div *ngIf="f.detail.errors.required">กรุณากรอกรายละเอียดกิจกรรม</div>
+                        </div>
+                        <br>
+
+                        <label for="test" class="form-label">สถานที่</label>
+                        <input type="text" formControlName="location" class="form-control"
+                            placeholder="กรุณากรอกสถานที่" [ngClass]="{ 'is-invalid': submitted && f.location.errors }">
+                        <div *ngIf="submitted && f.location.errors" class="invalid-feedback">
+                            <div *ngIf="f.location.errors.required">กรุณากรอกสถานที่</div>
+                        </div>
+                        <br>
+
+
+
+                        <label for="test" class="form-label">จำนวนกลุ่ม</label>
+                        
+                            <select class="form-control select2" data-toggle="select2" formControlName="group" [ngClass]="{ 'is-invalid': submitted && f.group.errors }">
+                                <option value=null>กรุณาระบุจำนวนกลุ่ม</option>
+                                <option value=1>1 กลุ่ม</option>
+                                <option value=2>2 กลุ่ม</option>
+                                <option value=3>3 กลุ่ม</option>
+                                <option value=4>4 กลุ่ม</option>
+                                <option value=5>5 กลุ่ม</option>
+                                <option value=6>6 กลุ่ม</option>
+                                <option value=7>7 กลุ่ม</option>
+                                <option value=8>8 กลุ่ม</option>
+                                <option value=9>9 กลุ่ม</option>
+                                <option value=10>10 กลุ่ม</option>
+                            </select>
+                            <div *ngIf="submitted && f.group.errors" class="invalid-feedback">
+                                <div *ngIf="f.group.errors.required">กรุณาเลือกจำนวนกลุ่ม</div>
+                            </div>
+                        
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">บันทึก</button>
+                    <button type="button" class="btn btn-danger" (click)="modalRef.hide()"
+                        data-dismiss="modal">ปิด</button>
+                </div>
+            </div>
+        </form>
+        <!-- </div> -->
+    </ng-template>
+    <!-- END primary modal -->
+
+
+    <!-- BEGIN primary modal -->
+    <ng-template #modalPhaseEdit class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+        <form [formGroup]="EditForm" (ngSubmit)="editTraining(EditForm.value, editid)">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">แก้ไขหลักสูตรอบรม(ช่วง)</h5>
+                    <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()"
+                        aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body m-3">
+                    <div class="form-group">
+                        <label for="test" class="form-label">ช่วงที่</label>
+                        <!-- <input type="number" formControlName="phaseno" class="form-control"
+                            placeholder="กรุณากรอกช่วงที่" maxlength="2" > -->
+                        <select class="form-control select2 col-5" data-toggle="select2" formControlName="phaseno">
+                            <option value=null>กรุณาระบุช่วง</option>
+                            <option value=1>1</option>
+                            <option value=2>2</option>
+                            <option value=3>3</option>
+                            <option value=4>4</option>
+                            <option value=5>5</option>
+                            <option value=6>6</option>
+                            <option value=7>7</option>
+                            <option value=8>8</option>
+                            <option value=9>9</option>
+                            <option value=10>10</option>
+                        </select>
+
+                        <br>
+
+                        <div class="">
+                            <label>ระหว่างวันที่</label>
+                        </div>
+                        <div class="input-group">
+                            <div class="form-group col-5">
+
+                                <my-date-picker-th [selDate]="fe.value.startdate"
+                                    (dateChanged)="onDateChangedStart($event)" [options]="myDatePickerOptions" required>
+                                </my-date-picker-th>
+                            </div>
+
+
+                            <div class="form-group col-1" align="center">
+                                ถึง
+                            </div>
+
+
+                            <div class="form-group col-5">
+
+                                <!-- <my-date-picker-th formControlName="enddate" [options]="myDatePickerOptions" required>
+                                </my-date-picker-th> -->
+                                <my-date-picker-th [selDate]="fe.value.enddate"
+                                    (dateChanged)="onDateChangedEnd($event)" [options]="myDatePickerOptions" required>
+                                </my-date-picker-th>
+
+                            </div>
+                        </div>
+                        <br>
+
+                        <label for="test" class="form-label">หัวข้อเรื่องช่วง</label>
+                        <input type="text" formControlName="title" class="form-control"
+                            placeholder="กรุณากรอกหัวข้อเรื่องช่วง" [ngClass]="{ 'is-invalid': submitted && f.title.errors }">
+                            <div *ngIf="submitted && f.title.errors" class="invalid-feedback">
+                                <div *ngIf="f.title.errors.required">กรุณากรอกหัวข้อเรื่องช่วง</div>
+                            </div>
+                        <br>
+
+                        <label for="test" class="form-label">รายละเอียดช่วง</label>
+                        <!-- <input type="text" formControlName="detail" class="form-control"
+                            placeholder="กรุณากรอกรายละเอียดกิจกรรม" > -->
+                        <textarea formControlName="detail" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.detail.errors }"></textarea>
+                        <div *ngIf="submitted && f.detail.errors" class="invalid-feedback">
+                            <div *ngIf="f.detail.errors.required">กรุณากรอกรายละเอียดช่วง</div>
+                        </div>
+                        <br>
+
+                        <label for="test" class="form-label">สถานที่</label>
+                        <input type="text" formControlName="location" class="form-control"
+                            placeholder="กรุณากรอกสถานที่" [ngClass]="{ 'is-invalid': submitted && f.location.errors }">
+                        <div *ngIf="submitted && f.location.errors" class="invalid-feedback">
+                            <div *ngIf="f.location.errors.required">กรุณากรอกสถานที่</div>
+                        </div>
+                        <br>
+
+                        <label for="test" class="form-label">จำนวนกลุ่ม</label>
+                        <select class="form-control select2" data-toggle="select2" formControlName="group" [ngClass]="{ 'is-invalid': submitted && f.group.errors }">
+                            <option value=null>กรุณาระบุจำนวนกลุ่ม</option>
+                            <option value=1>1 กลุ่ม</option>
+                            <option value=2>2 กลุ่ม</option>
+                            <option value=3>3 กลุ่ม</option>
+                            <option value=4>4 กลุ่ม</option>
+                            <option value=5>5 กลุ่ม</option>
+                            <option value=6>6 กลุ่ม</option>
+                            <option value=7>7 กลุ่ม</option>
+                            <option value=8>8 กลุ่ม</option>
+                            <option value=9>9 กลุ่ม</option>
+                            <option value=10>10 กลุ่ม</option>
+                        </select>
+                        <div *ngIf="submitted && f.group.errors" class="invalid-feedback">
+                            <div *ngIf="f.group.errors.required">กรุณาเลือกจำนวนกลุ่ม</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">บันทึก</button>
+                    <button type="button" class="btn btn-danger" (click)="modalRef.hide()"
+                        data-dismiss="modal">ปิด</button>
+                </div>
+            </div>
+        </form>
+        <!-- </div> -->
+    </ng-template>
+    <!-- END primary modal -->
+
+
+
+
+    <!-- BEGIN primary modal -->
+    <ng-template #modalDetailProgram class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"
+        style="width: 1000px;">
+        <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">กำหนดการ</h5>
+                <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body m-3">
+                <table *ngIf="loading" class="table table-responsive-lg">
+                    <thead>
+                        <tr>
+                            <th width="20%">วันที่</th>
+                            <th width="20%">เวลา</th>
+                            <th width="55%">รายละเอียดกิจกรรม</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of resulttraining; let i = index">
+                            <td class="ellipsis">{{ item.programDate | thaidate:'year'}}</td>
+                            <td class="ellipsis">{{ item.minuteStartDate }} - {{ item.minuteEndDate }}</td>
+                            <td class="ellipsis">
+                                <b>หัวข้อ : </b>{{ item.programTopic }}
+                                <br>
+                                <b>รายละเอียด : </b>{{ item.programDetail }}
+                                <br>
+                                <b>ผู้ดำเนินรายการ : </b>{{ item.lecturerId }}
+                            </td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+            </div>
+        </div>
+
+        <!-- </div> -->
+    </ng-template>
+    <!-- END primary modal -->
+
+
+    <!-- BEGIN primary modal -->
+    <ng-template #modaldelete class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-body text-center" style="background-color: white; border-radius: 5px;">
+            <i class="fa fa-info-circle delete-icon"></i>
+            <p style="font-size: xx-large; color: #565656; margin-top: 20px;">
+                ลบข้อมูล
+            </p>
+            <p style="font-size: medium; color: #545454;">
+                คุณต้องการลบข้อมูลนี้ใช่หรือไม่ ?
+            </p>
+            <button type="button" class="btn btn-primary btnMargin" (click)="deleteTraining(delid)">
+                ใช่
+            </button>
+            <button type="button" class="btn btn-danger btnMargin" (click)="modalRef.hide()">
+                ไม่ใช่
+            </button>
+        </div>
+    </ng-template>
+    <!-- END primary modal -->
+</div>
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">
+    <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>

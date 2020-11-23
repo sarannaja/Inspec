@@ -20,7 +20,7 @@ export class UserCentralPolicyComponent implements OnInit {
   ScheduleData: any = [];
   delid: any
   modalRef: BsModalRef;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   loading = false;
   userid: string
   centralpolicyprovinceid: any
@@ -212,7 +212,7 @@ export class UserCentralPolicyComponent implements OnInit {
 
         let CentralpolicyId: any[] = this.resultcentralpolicy
         for (let i = 0; i < CentralpolicyId.length; i++) {
-          this.notificationService.addNotification(CentralpolicyId[i].centralPolicyId, this.provinceid, this.userid, 2, this.id,null)
+          this.notificationService.addNotification(CentralpolicyId[i].centralPolicyId, this.provinceid, this.userid, 2, this.id,null,this.userid)
             .subscribe(response => {
               console.log(response);
             })
@@ -239,7 +239,7 @@ export class UserCentralPolicyComponent implements OnInit {
 
         let CentralpolicyId: any[] = this.resultcentralpolicy
         for (let i = 0; i < CentralpolicyId.length; i++) {
-          this.notificationService.addNotification(CentralpolicyId[i].centralPolicyId, this.provinceid, this.userid, 2, this.id,null)
+          this.notificationService.addNotification(CentralpolicyId[i].centralPolicyId, this.provinceid, this.userid, 2, this.id,null,this.userid)
             .subscribe(response => {
               console.log(response);
             })
@@ -262,7 +262,7 @@ export class UserCentralPolicyComponent implements OnInit {
 
       let CentralpolicyId: any[] = this.resultcentralpolicy
       for (let i = 0; i < CentralpolicyId.length; i++) {
-        this.notificationService.addNotification(CentralpolicyId[i].centralPolicyId, this.provinceid, this.userid, 2, this.id,null)
+        this.notificationService.addNotification(CentralpolicyId[i].centralPolicyId, this.provinceid, this.userid, 2, this.id,null,this.userid)
           .subscribe(response => {
             console.log(response);
           })
@@ -280,7 +280,7 @@ export class UserCentralPolicyComponent implements OnInit {
 
       let CentralpolicyId2: any[] = this.resultcentralpolicy
       for (let i = 0; i < CentralpolicyId2.length; i++) {
-        this.notificationService.addNotification(CentralpolicyId2[i].centralPolicyId, this.provinceid, value.UserId, 19, this.id,null)
+        this.notificationService.addNotification(CentralpolicyId2[i].centralPolicyId, this.provinceid, value.UserId, 19, this.id,null,this.userid)
           .subscribe(response => {
             console.log(response);
           })
@@ -288,7 +288,7 @@ export class UserCentralPolicyComponent implements OnInit {
 
       let CentralpolicyId: any[] = this.resultcentralpolicy
       for (let i = 0; i < CentralpolicyId.length; i++) {
-        this.notificationService.addNotification(CentralpolicyId[i].centralPolicyId, this.provinceid, this.userid, 2, this.id,null)
+        this.notificationService.addNotification(CentralpolicyId[i].centralPolicyId, this.provinceid, this.userid, 2, this.id,null,this.userid)
           .subscribe(response => {
             console.log(response);
           })
@@ -339,9 +339,9 @@ export class UserCentralPolicyComponent implements OnInit {
 
         var checked = _.filter(this.resultministrypeople[i].userProvince, (v) => _.includes(this.userProvince.map(result => { return result.provinceId }), v.provinceId)).length
         if (checked > 0) {
-          if (this.ministryId == this.resultministrypeople[i].ministryId) {
+          // if (this.ministryId == this.resultministrypeople[i].ministryId) {
             await this.selectdataministrypeople.push({ value: this.resultministrypeople[i].id, label: this.resultministrypeople[i].ministries.name + " - " + this.resultministrypeople[i].name })
-          }
+          // }
         }
 
       }
@@ -372,9 +372,9 @@ export class UserCentralPolicyComponent implements OnInit {
       for (var i = 0; i < this.resultdepartmentpeople.length; i++) {
         var checked = _.filter(this.resultdepartmentpeople[i].userProvince, (v) => _.includes(this.userProvince.map(result => { return result.provinceId }), v.provinceId)).length
         if (checked > 0) {
-          if (this.ministryId == this.resultdepartmentpeople[i].ministryId) {
+          // if (this.ministryId == this.resultdepartmentpeople[i].ministryId) {
             await this.selectdatadepartmentpeople.push({ value: this.resultdepartmentpeople[i].id, label: this.resultdepartmentpeople[i].ministries.name + " - " + this.resultdepartmentpeople[i].name })
-          }
+          // }
         }
       }
 

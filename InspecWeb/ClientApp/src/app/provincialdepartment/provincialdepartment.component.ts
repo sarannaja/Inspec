@@ -33,7 +33,7 @@ export class ProvincialDepartmentComponent implements OnInit {
   Form: FormGroup;
   EditForm: FormGroup;
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   modalRef: BsModalRef;
   submitted = false;
   userid :any;

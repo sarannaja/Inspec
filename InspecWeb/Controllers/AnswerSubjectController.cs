@@ -257,6 +257,10 @@ namespace InspecWeb.Controllers
             var centralpolicydata = _context.CentralPolicyUsers
                 .Include(m => m.CentralPolicy)
                 .ThenInclude(m => m.Typeexaminationplan)
+                .Include(m => m.CentralPolicy)
+                .ThenInclude(m => m.CentralPolicyDates)
+                .Include(m => m.CentralPolicy)
+                .ThenInclude(m => m.FiscalYearNew)
                 .OrderByDescending(m => m.Id)
                 .Where(m => m.InspectionPlanEvent.Status == "ใช้งานจริง")
                 .Where(m => m.Status == "ตอบรับ")
@@ -375,6 +379,7 @@ namespace InspecWeb.Controllers
             var question = _context.CentralPolicyEventQuestions
                 .Include(m => m.CentralPolicyEvent)
                 .ThenInclude(m => m.CentralPolicy)
+                .ThenInclude(m => m.CentralPolicyDates)
                 .Include(m => m.CentralPolicyEvent)
                 .ThenInclude(m => m.InspectionPlanEvent)
                 .ThenInclude(m => m.Province)

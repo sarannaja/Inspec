@@ -21,7 +21,7 @@ export class NationalstrategyComponent implements OnInit {
   loading = false;
   role_id:any;
   namefile :any;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
 
   constructor(private modalService: BsModalService, 
     private fb: FormBuilder, 

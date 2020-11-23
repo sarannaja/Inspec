@@ -19,7 +19,7 @@ export class TrainingComponent implements OnInit {
   modalRef: BsModalRef;
   delid: any
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   downloadUrl: any;
   mainUrl: string;
   Form: any;
@@ -130,6 +130,10 @@ export class TrainingComponent implements OnInit {
         console.log(this.resulttraining);
       })
     })
+  }
+
+  gotoMain(){
+    this.router.navigate(['/main'])
   }
 
   

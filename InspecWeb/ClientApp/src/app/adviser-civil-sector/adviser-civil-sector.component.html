@@ -3,7 +3,7 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a [routerLink]="['/main']">หน้าหลัก</a></li>
-            <li class="breadcrumb-item active">ข้อมูลผู้ติดต่อบุคลากร</li>
+            <li class="breadcrumb-item active">ข้อมูลการผู้ติดต่อบุคลากร</li>
             <li class="breadcrumb-item active">ที่ปรึกษาผู้ตรวจราชการภาคประชาชน </li>
         </ol>
     </nav>
@@ -13,11 +13,15 @@
         <div class="card card-eiei">
             <div class="card-header" style="margin-bottom: -40px;">
                 <h5 class="card-title">ที่ปรึกษาผู้ตรวจราชการภาคประชาชน </h5>
-                <div class="float-right"> 
-                    <button class="btn btn-success" (click)="excel()"
-                        style="margin-top: -60px;">Excel
-                    </button> 
-                  </div>  
+                <div style="margin-bottom: 20px;width: 30%;">
+                    <select (change)="Changeprovince($event)" [(ngModel)]="province" name="province" class="form-control select2" data-toggle="select2"> 
+                        <option  [value]="0">จังหวัดทั้งหมด</option>
+                        <option *ngFor="let item of selectprovince" [value]="item.id">{{item.name}}</option>
+                    </select>
+                </div> 
+                <div class="float-right">
+
+                </div>
             </div><br>
 
             <!-- ผู้ตรวจภาคประชาชน -->
@@ -27,20 +31,28 @@
                     <thead>
                         <tr>
                             <th>No.</th>
+                            <th>รูป</th>
                             <th>ชื่อ-นามสกุล</th>
                             <th>ตำแหน่ง</th>
                             <th>ด้าน</th>
                             <th>จังหวัด</th>                        
                             <th>เบอร์โทร</th>
-                           
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let item of resultuser; let i = index">
                             <td>{{i + 1}}</td>
+                            <td>
+                                <div *ngIf="item.img != null">
+                                    <img *ngIf="item.img != 'null'" src="{{imgprofileUrl}}/{{item.img}}"
+                                        class="img-fluid  mb-2" width="90px" alt="รูป">
+                                </div>
+                                <img *ngIf="item.img == null || item.img == 'null'" src="{{imgprofileUrl}}/user.png" class="img-fluid  mb-2"
+                                    width="90px" alt="รูป">
+                            </td>
                             <td>{{item.prefix +item.name}}</td>
                             <td>{{item.position}}</td>
-                            <td></td>
+                            <td>{{item.sides.name}}</td>
                             <td>{{item.userProvince[0].province.name}}</td>
                             <td>{{item.phoneNumber}}</td>
                             

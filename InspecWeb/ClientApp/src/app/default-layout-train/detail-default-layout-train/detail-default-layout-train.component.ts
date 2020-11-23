@@ -23,8 +23,8 @@ export class DetailDefaultLayoutTrainComponent implements OnInit {
   modalRef: BsModalRef;
   delid: any
   loading = false;
-  dtOptions: DataTables.Settings = {};
-  dtOptions2: DataTables.Settings = {};
+  dtOptions: any = {};
+  dtOptions2: any = {};
   name: string;
   createdAt: Date;
   detail: string;

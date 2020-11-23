@@ -30,9 +30,9 @@ export class SurveyDefaultLayoutTrainComponent implements OnInit {
   modalRef: BsModalRef;
   delid: any
   loading = false;
-  dtOptions: DataTables.Settings = {}; //data training value
-  dtOptions2: DataTables.Settings = {}; //data trainging all
-  dtOptions3: DataTables.Settings = {}; //data register training
+  dtOptions: any = {}; //data training value
+  dtOptions2: any = {}; //data trainging all
+  dtOptions3: any = {}; //data register training
   name: string;
   createdAt: Date;
   detail: string;

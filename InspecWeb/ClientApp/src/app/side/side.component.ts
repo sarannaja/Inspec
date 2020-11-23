@@ -22,7 +22,7 @@ export class SideComponent implements OnInit {
   Form : FormGroup
   EditForm: FormGroup;
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   submitted = false;
   userid :any;
   role_id :any;

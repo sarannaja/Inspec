@@ -29,7 +29,7 @@ export class DepartmentComponent implements OnInit {
   Form: FormGroup;
   EditForm: FormGroup;
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   modalRef: BsModalRef;
   submitted = false;
   userid :any;

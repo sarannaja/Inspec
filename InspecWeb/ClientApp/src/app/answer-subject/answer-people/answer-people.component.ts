@@ -16,7 +16,7 @@ export class AnswerPeopleComponent implements OnInit {
   resultuserdetail: any = []
   resultanswersubject: any = []
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
 
   constructor(
     private authorize: AuthorizeService,
@@ -33,7 +33,7 @@ export class AnswerPeopleComponent implements OnInit {
       pagingType: 'full_numbers',
       columnDefs: [
         {
-          targets: [3],
+          targets: [4],
           orderable: false
         }
       ],

@@ -18,7 +18,7 @@ export class TrainingLoginListDetailComponent implements OnInit {
   programType: any;
   userid: string;
   role_id: any;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   trainingProgramData: any = [];
   trainingId: any;
   loading = false;
@@ -146,6 +146,18 @@ export class TrainingLoginListDetailComponent implements OnInit {
 
   gotoBack() {
     window.history.back();
+  }
+
+  gotoMain(){
+    this.router.navigate(['/main'])
+  }
+
+  gotoMainTraining(){
+    this.router.navigate(['/training'])
+  }
+
+  gotoTrainingManage(){
+    this.router.navigate(['/training/manage/', this.trainingId])
   }
 
 }

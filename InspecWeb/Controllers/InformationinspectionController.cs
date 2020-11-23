@@ -92,7 +92,7 @@ namespace InspecWeb.Controllers
             }
             // <!--END อัพไฟล์  -->
             System.Console.WriteLine("5 : ");
-            return Ok(new { Id = data.Id });
+            return Ok(new { Id = data.Id ,title = request.Title});
         }
 
         // PUT api/values/5
@@ -141,7 +141,7 @@ namespace InspecWeb.Controllers
             }
             // <!--END อัพไฟล์  -->
             System.Console.WriteLine("5 : ");
-            return Ok(new { Id = data.Id });
+            return Ok(new { Id = data.Id, title = request.Title });
 
         }
 

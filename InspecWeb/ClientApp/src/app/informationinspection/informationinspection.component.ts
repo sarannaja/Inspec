@@ -6,6 +6,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { UserService } from '../services/user.service';
 import { InformationinspectionService } from '../services/informationinspection.service';
+import { LogService } from '../services/log.service';
+import { NotofyService } from '../services/notofy.service';
 
 
 @Component({
@@ -21,10 +23,12 @@ export class InformationinspectionComponent implements OnInit {
   modalRef:BsModalRef;
   Form : FormGroup;
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   fileUrl: any;
   filename:any;
-
+  title:any;
+  userid:any;
+  submitted =false;
   constructor(
     private authorize: AuthorizeService,
     private modalService: BsModalService, 
@@ -33,9 +37,11 @@ export class InformationinspectionComponent implements OnInit {
     private informationinspectionservice: InformationinspectionService,
     private userService: UserService,
     private spinner: NgxSpinnerService,
+    private logService: LogService,
+    private _NotofyService: NotofyService,
     @Inject('BASE_URL') baseUrl: string,
     ) { 
-      this.fileUrl = baseUrl + '/circularletters';
+      this.fileUrl = baseUrl + '/informationinspections';
     }
 
   ngOnInit() {
@@ -61,13 +67,13 @@ export class InformationinspectionComponent implements OnInit {
   }
   getdata(){
     this.spinner.show();
-    //<!-- เช็ค role  -->
     this.authorize.getUser()
     .subscribe(result => {
-      this.userService.getuserfirstdata(result.sub)
-          .subscribe(result => {
-            this.role_id = result[0].role_id
-          })
+      this.userid = result.sub
+      this.userService.getuserfirstdata(this.userid)
+        .subscribe(result => {
+        this.role_id = result[0].role_id
+      })
     })
     //<!-- END เช็ค role -->
 
@@ -89,7 +95,9 @@ export class InformationinspectionComponent implements OnInit {
 
   openModal(template: TemplateRef<any>,id,title,filename) {
     this.Form.reset()
+    this.submitted =false;
     this.id = id;
+    this.title = title;
     this.filename = filename;
     this.modalRef = this.modalService.show(template);
     this.Form.patchValue({
@@ -106,20 +114,32 @@ export class InformationinspectionComponent implements OnInit {
   }
 
   store(value){
+    this.submitted = true;
+    if (this.Form.invalid) {
+        return;
+    }
     this.informationinspectionservice.store(value, this.Form.value.files)
     .subscribe(result => {
+      this.logService.addLog(this.userid,'Informationinspections','เพิ่ม',result.title,result.id).subscribe();
       this.Form.reset();
       this.loading = false;
+      this._NotofyService.onSuccess("เพิ่มข้อมูล")
       this.getdata();
       this.modalRef.hide();
     })
   }
 
   update(value,id){
+    this.submitted = true;
+    if (this.Form.invalid) {
+        return;
+    }
     this.informationinspectionservice.update(value, this.Form.value.files,id)
     .subscribe(result => {
+      this.logService.addLog(this.userid,'Informationinspections','แก้ไข',result.title,result.id).subscribe();
       this.Form.reset();
       this.loading = false;
+      this._NotofyService.onSuccess("แก้ไขข้อมูล")
       this.getdata();
       this.modalRef.hide();
     })
@@ -128,10 +148,13 @@ export class InformationinspectionComponent implements OnInit {
   destroy(id){
     this.informationinspectionservice.destroy(id)
     .subscribe(result => {
+      this.logService.addLog(this.userid,'Informationinspections','ลบ',this.title,this.id).subscribe();
       this.Form.reset();
       this.loading = false;
+      this._NotofyService.onSuccess("ลบข้อมูล")
       this.getdata();
       this.modalRef.hide();
     })
   }
+  get f() { return this.Form.controls; }
 }

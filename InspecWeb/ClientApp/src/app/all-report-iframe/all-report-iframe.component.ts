@@ -20,7 +20,7 @@ export class AllReportIframeComponent implements OnInit {
 
   electronicBookData: any = [];
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   userid: string;
   delid: any;
   modalRef: BsModalRef;
@@ -152,7 +152,7 @@ export class AllReportIframeComponent implements OnInit {
   }
 
   gotoDetail(id) {
-    this.router.navigate(['/allreport/detail/' + id])
+    this.router.navigate(['/allreportiframe/detail/' + id])
   }
 
   openModal(template: TemplateRef<any>) {

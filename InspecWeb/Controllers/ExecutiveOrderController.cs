@@ -470,7 +470,28 @@ namespace InspecWeb.Controllers {
             System.Console.WriteLine ("in create");
             using (DocX document = DocX.Create (createfile)) //สร้าง
             {
-              
+                document.SetDefaultFont(new Xceed.Document.NET.Font("ThSarabunNew"));
+                document.AddHeaders();
+                document.AddFooters();
+
+                // Force the first page to have a different Header and Footer.
+                document.DifferentFirstPage = true;
+                // Force odd & even pages to have different Headers and Footers.
+                document.DifferentOddAndEvenPages = true;
+
+                // Insert a Paragraph into the first Header.
+                document.Footers.First.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy HH:mm", new CultureInfo("th-TH"))).Append(" น.").Alignment = Alignment.right;
+                // Insert a Paragraph into the even Header.
+                document.Footers.Even.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy HH:mm", new CultureInfo("th-TH"))).Append(" น.").Alignment = Alignment.right;
+                // Insert a Paragraph into the odd Header.
+                document.Footers.Odd.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy HH:mm", new CultureInfo("th-TH"))).Append(" น.").Alignment = Alignment.right;
+
+                // Add the page number in the first Footer.
+                document.Headers.First.InsertParagraph("").AppendPageNumber(PageNumberFormat.normal).Alignment = Alignment.center;
+                // Add the page number in the even Footers.
+                document.Headers.Even.InsertParagraph("").AppendPageNumber(PageNumberFormat.normal).Alignment = Alignment.center;
+                // Add the page number in the odd Footers.
+                document.Headers.Odd.InsertParagraph("").AppendPageNumber(PageNumberFormat.normal).Alignment = Alignment.center;
 
                 System.Console.WriteLine ("5");
 
@@ -595,7 +616,28 @@ namespace InspecWeb.Controllers {
             System.Console.WriteLine("in create");
             using (DocX document = DocX.Create(createfile)) //สร้าง
             {
-             
+                document.SetDefaultFont(new Xceed.Document.NET.Font("ThSarabunNew"));
+                document.AddHeaders();
+                document.AddFooters();
+
+                // Force the first page to have a different Header and Footer.
+                document.DifferentFirstPage = true;
+                // Force odd & even pages to have different Headers and Footers.
+                document.DifferentOddAndEvenPages = true;
+
+                // Insert a Paragraph into the first Header.
+                document.Footers.First.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy HH:mm", new CultureInfo("th-TH"))).Append(" น.").Alignment = Alignment.right;
+                // Insert a Paragraph into the even Header.
+                document.Footers.Even.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy HH:mm", new CultureInfo("th-TH"))).Append(" น.").Alignment = Alignment.right;
+                // Insert a Paragraph into the odd Header.
+                document.Footers.Odd.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy HH:mm", new CultureInfo("th-TH"))).Append(" น.").Alignment = Alignment.right;
+
+                // Add the page number in the first Footer.
+                document.Headers.First.InsertParagraph("").AppendPageNumber(PageNumberFormat.normal).Alignment = Alignment.center;
+                // Add the page number in the even Footers.
+                document.Headers.Even.InsertParagraph("").AppendPageNumber(PageNumberFormat.normal).Alignment = Alignment.center;
+                // Add the page number in the odd Footers.
+                document.Headers.Odd.InsertParagraph("").AppendPageNumber(PageNumberFormat.normal).Alignment = Alignment.center;
                 System.Console.WriteLine("5");
 
                 // Add a title
@@ -727,6 +769,28 @@ namespace InspecWeb.Controllers {
             using (DocX document = DocX.Create(createfile)) //สร้าง
 
             {
+                document.SetDefaultFont(new Xceed.Document.NET.Font("ThSarabunNew"));
+                document.AddHeaders();
+                document.AddFooters();
+
+                // Force the first page to have a different Header and Footer.
+                document.DifferentFirstPage = true;
+                // Force odd & even pages to have different Headers and Footers.
+                document.DifferentOddAndEvenPages = true;
+
+                // Insert a Paragraph into the first Header.
+                document.Footers.First.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy HH:mm", new CultureInfo("th-TH"))).Append(" น.").Alignment = Alignment.right;
+                // Insert a Paragraph into the even Header.
+                document.Footers.Even.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy HH:mm", new CultureInfo("th-TH"))).Append(" น.").Alignment = Alignment.right;
+                // Insert a Paragraph into the odd Header.
+                document.Footers.Odd.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy HH:mm", new CultureInfo("th-TH"))).Append(" น.").Alignment = Alignment.right;
+
+                // Add the page number in the first Footer.
+                document.Headers.First.InsertParagraph("").AppendPageNumber(PageNumberFormat.normal).Alignment = Alignment.center;
+                // Add the page number in the even Footers.
+                document.Headers.Even.InsertParagraph("").AppendPageNumber(PageNumberFormat.normal).Alignment = Alignment.center;
+                // Add the page number in the odd Footers.
+                document.Headers.Odd.InsertParagraph("").AppendPageNumber(PageNumberFormat.normal).Alignment = Alignment.center;
                 System.Console.WriteLine("5");
 
                 // Add a title

@@ -22,7 +22,7 @@ export class PreviewTrainingSurveyComponent implements OnInit {
   modalRef: BsModalRef;
   delid: any;
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   
   trainingname: string;
   

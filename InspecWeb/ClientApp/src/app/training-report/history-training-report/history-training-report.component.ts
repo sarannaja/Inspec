@@ -20,7 +20,7 @@ export class HistoryTrainingReportComponent implements OnInit {
   modalRef: BsModalRef;
   delid: any
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   Form: any;
   userid: string;
   resultuser: any;

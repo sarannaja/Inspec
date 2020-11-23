@@ -170,9 +170,15 @@ namespace InspecWeb.Data
         public DbSet<TrainingLogin> TrainingLogins { get; set; }
 
         public DbSet<Menu> Menu { get; set; }
+        public DbSet<Role> Roles { get; set; }
 
         public DbSet<TrainingProgramType> TrainingProgramTypes { get; set; }
         public DbSet<TrainingLecturerType> TrainingLecturerTypes { get; set; }
+        public DbSet<Notificationcreateby> Notificationcreateby { get; set; }
+
+        public DbSet<TrainingSummaryReport> TrainingSummaryReports { get; set; }
+
+        public DbSet<TrainingSummaryReportPhase> TrainingSummaryReportPhases { get; set; }
 
         //method 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -502,12 +508,13 @@ namespace InspecWeb.Data
             builder.ApplyConfiguration(new RelationSeeder());
             builder.ApplyConfiguration(new ProvincialDepartmentSeeder());//หน่วยงานส่วนภูมิถาค
             builder.ApplyConfiguration(new ProvincialDepartmentProvinceSeeder());//หน่วยงานส่วนภูมิถาค เชื่อมจังหวัด
-            builder.ApplyConfiguration(new CabineSeeder());//คณะรัฐมนตรี
+            //builder.ApplyConfiguration(new CabineSeeder());//คณะรัฐมนตรี
             builder.ApplyConfiguration(new VillageSeeder());//หมู่บ้าน
             builder.ApplyConfiguration(new FiscalYearNewSeeder());//ปีที่แท้
             builder.ApplyConfiguration(new TypeexaminationplanSeeder());//ประเภทแผนการตรวจ
             builder.ApplyConfiguration(new SideSeeder());//ประเภทด้านภาคประชาชน
             builder.ApplyConfiguration(new MenuSeeder());//สิทธิ์เมนู
+            builder.ApplyConfiguration(new RoleSeeder());//สิทธิ์เมนู
 
 
         }

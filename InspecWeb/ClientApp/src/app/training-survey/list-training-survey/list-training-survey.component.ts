@@ -26,10 +26,11 @@ export class ListTrainingSurveyComponent implements OnInit {
   surveytype: any
   link: any
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   Form: FormGroup;
   EditForm: FormGroup;
   userid: string;
+  submitted = false;
 
   constructor(private modalService: BsModalService,
     private authorize: AuthorizeService,
@@ -80,7 +81,7 @@ export class ListTrainingSurveyComponent implements OnInit {
     })
 
     this.EditForm = this.fb.group({
-      surveytype: new FormControl(null, [Validators.required]),
+      surveytype: new FormControl("", [Validators.required]),
       name: new FormControl(null, [Validators.required]),
     })
     console.log("surveytopicid =>", this.surveytopicid);
@@ -106,33 +107,43 @@ export class ListTrainingSurveyComponent implements OnInit {
 
   openModal(template: TemplateRef<any>, id) {
      this.openid = id;
+     this.submitted = false;
     // console.log(this.delid);
 
     this.modalRef = this.modalService.show(template);
   }
 
   storeTraining(value) {
-    //alert(JSON.stringify(value))
-    console.log(value);
-    this.trainingservice.addTrainingsurvey(value, this.surveytopicid).subscribe(response => {
-      
-      this.Form.reset()
-      this.modalRef.hide()
-      this.loading = false;
-      //this.router.navigate(['/training/surveylist/',trainingid])
-      //this.router.navigate(['training'])
-      console.log("response =>", response.name, response.id);
-      
-      this.logService.addLog(this.userid,'TrainingSurveys','เพิ่ม',response.name,response.id).subscribe();
-      this.trainingservice.getlisttrainingsurveydata(this.surveytopicid)
-      .subscribe(result => {
-        this.resulttraining = result
-        this.loading = true
-        //console.log(this.resulttraining);
-        this._NotofyService.onSuccess("เพิ่มข้อมูล")
+    if (this.Form.invalid) {
+      console.log("in1");
+      this.submitted = true;
+      return;
+      } else {
+      //alert(JSON.stringify(value))
+      console.log(value);
+      this.trainingservice.addTrainingsurvey(value, this.surveytopicid).subscribe(response => {
+        
+        this.Form.reset()
+        this.modalRef.hide()
+        this.loading = false;
+        //this.router.navigate(['/training/surveylist/',trainingid])
+        //this.router.navigate(['training'])
+        console.log("response =>", response.name, response.id);
+        
+        this.logService.addLog(this.userid,'TrainingSurveys','เพิ่ม',response.name,response.id).subscribe();
+        this.trainingservice.getlisttrainingsurveydata(this.surveytopicid)
+        .subscribe(result => {
+          this.resulttraining = result
+          this.loading = true
+          //console.log(this.resulttraining);
+          this._NotofyService.onSuccess("เพิ่มข้อมูล")
+        })
+
       })
 
-    })
+
+
+    }
   }
 
   deleteTrainingSurvey() {
@@ -151,6 +162,10 @@ export class ListTrainingSurveyComponent implements OnInit {
   }
 
   editModal(template: TemplateRef<any>, id, name, surveytype) {
+    console.log("surveytype =>", surveytype);
+    this.submitted = false;
+
+
     this.openid = id;
     this.name = name;
     this.surveytype = surveytype;
@@ -167,27 +182,43 @@ export class ListTrainingSurveyComponent implements OnInit {
     
   }
 
+  get f() { return this.Form.controls }
+  get fd() { return this.EditForm.controls }
+
   editTrainingSurvey(value) {
-    // alert(JSON.stringify(value));
-    // console.clear();
-    // console.log("kkkk" + JSON.stringify(value));
-    this.trainingservice.editTrainingSurvey(value, this.openid).subscribe(response => {
-      this.Form.reset()
-      this.modalRef.hide()
-      this.loading = false
-      this.logService.addLog(this.userid,'TrainingSurveys','แก้ไข', response.name, response.id).subscribe();
-      this.trainingservice.getlisttrainingsurveydata(this.surveytopicid)
-      .subscribe(result => {
-        this.resulttraining = result
-        this.loading = true
-        this._NotofyService.onSuccess("แก้ไขข้อมูล")
-        //console.log(this.resulttraining);
+
+    if (this.EditForm.invalid) {
+      console.log("in1");
+      this.submitted = true;
+      return;
+    } else {
+      // alert(JSON.stringify(value));
+      // console.clear();
+      // console.log("kkkk" + JSON.stringify(value));
+      this.trainingservice.editTrainingSurvey(value, this.openid).subscribe(response => {
+        this.Form.reset()
+        this.modalRef.hide()
+        this.loading = false
+        this.logService.addLog(this.userid,'TrainingSurveys','แก้ไข', response.name, response.id).subscribe();
+        this.trainingservice.getlisttrainingsurveydata(this.surveytopicid)
+        .subscribe(result => {
+          this.resulttraining = result
+          this.loading = true
+          this._NotofyService.onSuccess("แก้ไขข้อมูล")
+          //console.log(this.resulttraining);
+        })
       })
-    })
+
+
+    }
   }
 
   gotoBack() {
     window.history.back();
+  }
+
+  gotoMain(){
+    this.router.navigate(['/main'])
   }
 
 

@@ -43,21 +43,35 @@ namespace InspecWeb.Controllers
         public IEnumerable<Cabine> Get()
         {
             var cabinedata = from P in _context.Cabines
-                               select P;
+                             .Include(m => m.Ministries)
+                             .OrderByDescending(m => m.Id)
+                                select P;
             return cabinedata;
 
-            //return 
-            //_context.Provinces
-            //   .Include(p => p.Districts)
-            //   .Where(p => p.Id == 1)
-            //   .ToList();
         }
 
-        // GET api/values/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult Get(long id)
         {
-            return "value";
+           
+            if (id == 0)
+            {
+                var cabinedata = from P in _context.Cabines
+                                .Include(m => m.Ministries)
+                                .OrderByDescending(m => m.Id)
+                                 select P;
+                return Ok(cabinedata);
+            }
+            else
+            {
+
+                var cabinedata = _context.Cabines
+                                 .Include(m => m.Ministries)
+                                 .Where(m => m.Ministries.Id == id)
+                                .OrderByDescending(m => m.Id);
+                return Ok(cabinedata);
+            }
+            
         }
 
         // POST api/values
@@ -103,6 +117,10 @@ namespace InspecWeb.Controllers
                 Image = imagename,
                 Prefix = model.Prefix,
                 Detail = model.Detail,
+                Commandnumber = model.Commandnumber,
+                tel = model.tel,
+                cabinet = model.cabinet,
+                MinistryId = model.MinistryId,
                 CreatedAt = date
             };
             _context.Cabines.Add(cabinedata);
@@ -113,17 +131,55 @@ namespace InspecWeb.Controllers
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(long id, string name, string position, /*string image,*/ string prefix, string detail)
+        public async Task<IActionResult> Put([FromForm] CabineViewModel model ,long id)
         {
+
+            var imagename = model.Filename;
+            var random = RandomString(5);
+
+            if (!Directory.Exists(_environment.WebRootPath + "/assets" + "//CabineFile//"))
+            {
+                Directory.CreateDirectory(_environment.WebRootPath + "/assets" + "//CabineFile//"); //สร้าง Folder Upload ใน wwwroot
+            }
+
+            var filePath = _environment.WebRootPath + "/assets" + "//CabineFile//";
+
+            if (model.files != null)
+            {
+                foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
+
+                {
+                    string filePath2 = formFile.Value.FileName;
+                    string filename = Path.GetFileName(filePath2);
+                    string ext = Path.GetExtension(filename);
+
+                    if (formFile.Value.Length > 0)
+                    {
+
+                        using (var stream = System.IO.File.Create(filePath + random + ext))
+                        {
+                            await formFile.Value.CopyToAsync(stream);
+
+                            imagename = random + ext;
+                        }
+                    }
+                }
+            }
+
             var cabine = _context.Cabines.Find(id);
-            cabine.Name = name;
-            cabine.Position = position;
-            //cabine.Image = image;
-            cabine.Prefix = prefix;
-            cabine.Detail = detail;
+            cabine.Name = model.Name;
+            cabine.Position = model.Position;
+            cabine.Image = imagename;
+            cabine.MinistryId = 1;
+            cabine.Prefix = model.Prefix;
+            cabine.Detail = model.Detail;
+            cabine.Commandnumber = model.Commandnumber;
+            cabine.tel = model.tel;
+            cabine.cabinet = model.cabinet;
+            cabine.MinistryId = model.MinistryId;
             _context.Entry(cabine).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
-
+            return Ok(cabine);
         }
 
         // DELETE api/values/5

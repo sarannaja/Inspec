@@ -18,7 +18,7 @@ export class TrainingProcessingComponent implements OnInit {
   downloadUrl
   resulttrainingplan: any[] = []
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   chars: any[] = []
   lineChart: any;
   surveylikelineChart: any;
@@ -108,30 +108,96 @@ export class TrainingProcessingComponent implements OnInit {
 
     };
 
-      console.log("horizontalBarChartData =>", this.horizontalBarChartData);
+      console.log("horizontalBarChartDataLine1 =>", this.horizontalBarChartData);
 
-      this.lineChart = new Chart('lineChart', { // สร้าง object และใช้ชื่อ id lineChart ในการอ้างอิงเพื่อนำมาเเสดงผล
-        type: 'horizontalBar', // ใช้ชนิดแผนภูมิแบบเส้นสามารถเปลี่ยนชิดได้
-        data: this.horizontalBarChartData,
-        //{ // ข้อมูลภายในแผนภูมิแบบเส้น
-            //labels: ["หัวข้อที่ 1","หัวข้อที่ 2","หัวข้อที่ 3","หัวข้อที่ 4","หัวข้อที่ 5","หัวข้อที่ 6","หัวข้อที่ 7","หัวข้อที่ 8","หัวข้อที่ 9","หัวข้อที่ 10","หัวข้อที่ 11","หัวข้อที่ 12"], // ชื่อของข้อมูลในแนวแกน x
-            //labels: [this.inputtrainingsurveyanswer], // ชื่อของข้อมูลในแนวแกน x
-            // datasets: [{ // กำหนดค่าข้อมูลภายในแผนภูมิแบบเส้น
-            //   label: 'Number of items sold in months',
-            //   data: [9,7,3,5,2,10,15,61,19,3,1,9],
-            //   fill: false,
-            //   lineTension: 0.2,
-            //   borderColor: "red", // สีของเส้น
-            //   borderWidth: 1
-            // }]
-        // },
-        // options: {
-        //   title: { // ข้อความที่อยู่ด้านบนของแผนภูมิ
-        //       text: "ประมวณผลทางสถิติ",
-        //       display: true
-        //   }
-        // }
-      })
+    //   this.lineChart = new Chart('lineChart', { // สร้าง object และใช้ชื่อ id lineChart ในการอ้างอิงเพื่อนำมาเเสดงผล
+    //     type: 'horizontalBar', // ใช้ชนิดแผนภูมิแบบเส้นสามารถเปลี่ยนชิดได้
+    //     data: this.horizontalBarChartData,
+    //     //{ // ข้อมูลภายในแผนภูมิแบบเส้น
+    //         //labels: ["หัวข้อที่ 1","หัวข้อที่ 2","หัวข้อที่ 3","หัวข้อที่ 4","หัวข้อที่ 5","หัวข้อที่ 6","หัวข้อที่ 7","หัวข้อที่ 8","หัวข้อที่ 9","หัวข้อที่ 10","หัวข้อที่ 11","หัวข้อที่ 12"], // ชื่อของข้อมูลในแนวแกน x
+    //         //labels: [this.inputtrainingsurveyanswer], // ชื่อของข้อมูลในแนวแกน x
+    //         // datasets: [{ // กำหนดค่าข้อมูลภายในแผนภูมิแบบเส้น
+    //         //   label: 'Number of items sold in months',
+    //         //   data: [9,7,3,5,2,10,15,61,19,3,1,9],
+    //         //   fill: false,
+    //         //   lineTension: 0.2,
+    //         //   borderColor: "red", // สีของเส้น
+    //         //   borderWidth: 1
+    //         // }]
+    //     // },
+    //     // options: {
+    //     //   title: { // ข้อความที่อยู่ด้านบนของแผนภูมิ
+    //     //       text: "ประมวณผลทางสถิติ",
+    //     //       display: true
+    //     //   }
+    //     // }
+    //   })
+
+    //กราฟแบบประเมินใช่หรือไม่
+    var ctx = document.getElementById("lineChart");
+    debugger;
+    var data = this.horizontalBarChartData
+    var myChart = new Chart("lineChart", {
+      type: 'horizontalBar',
+      data: this.horizontalBarChartData,
+      options: {
+        "hover": {
+          "animationDuration": 0
+        },
+        "animation": {
+          "duration": 1,
+          "onComplete": function() {
+            var chartInstance = this.chart,
+              ctx = chartInstance.ctx;
+    
+            ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'bottom';
+    
+            this.data.datasets.forEach(function(dataset, i) {
+              var meta = chartInstance.controller.getDatasetMeta(i);
+              meta.data.forEach(function(bar, index) {
+                var data = dataset.data[index];
+                ctx.fillText(data, bar._model.x + 5, bar._model.y);
+              });
+            });
+          }
+        },
+        legend: {
+          "display": true
+        },
+        tooltips: {
+          "enabled": true
+        },
+        scales: {
+          yAxes: [{
+            display: true,
+            gridLines: {
+              display: true
+            },
+            ticks: {
+              // max: Math.max(...data.datasets[0].data) + 10,
+              display: true,
+              beginAtZero: true,
+              
+            }
+          }],
+          xAxes: [{
+            gridLines: {
+              display: true
+            },
+            ticks: {
+              beginAtZero: true,
+              max: Math.max(...data.datasets[0].data) + 10,
+              min: 0,
+              stepSize: 1
+            }
+          }]
+        }
+      }
+    });
+
+
 
     })
 
@@ -227,30 +293,114 @@ export class TrainingProcessingComponent implements OnInit {
     
         };
 
+        console.log("horizontalBarChartDataLine2 =>", this.surveyLikeBarChartData);
         
-      this.surveylikelineChart = new Chart('lineChart2', { // สร้าง object และใช้ชื่อ id lineChart ในการอ้างอิงเพื่อนำมาเเสดงผล
-        type: 'horizontalBar', // ใช้ชนิดแผนภูมิแบบเส้นสามารถเปลี่ยนชิดได้
+    //   this.surveylikelineChart = new Chart('lineChart2', { // สร้าง object และใช้ชื่อ id lineChart ในการอ้างอิงเพื่อนำมาเเสดงผล
+    //     type: 'horizontalBar', // ใช้ชนิดแผนภูมิแบบเส้นสามารถเปลี่ยนชิดได้
+    //     data: this.surveyLikeBarChartData,
+    //     // { // ข้อมูลภายในแผนภูมิแบบเส้น
+    //     //     labels: ["หัวข้อที่ 1","หัวข้อที่ 2","หัวข้อที่ 3","หัวข้อที่ 4","หัวข้อที่ 5","หัวข้อที่ 6","หัวข้อที่ 7","หัวข้อที่ 8","หัวข้อที่ 9","หัวข้อที่ 10","หัวข้อที่ 11","หัวข้อที่ 12"], // ชื่อของข้อมูลในแนวแกน x
+    //     //     //labels: [this.inputtrainingsurveyanswer], // ชื่อของข้อมูลในแนวแกน x
+    //     //     datasets: [{ // กำหนดค่าข้อมูลภายในแผนภูมิแบบเส้น
+    //     //       label: 'Number of items sold in months',
+    //     //       data: [9,7,3,5,2,10,15,61,19,3,1,9],
+    //     //       fill: false,
+    //     //       lineTension: 0.2,
+    //     //       borderColor: "red", // สีของเส้น
+    //     //       borderWidth: 1
+    //     //     }]
+    //     // },
+    //     // options: {
+    //     //   title: { // ข้อความที่อยู่ด้านบนของแผนภูมิ
+    //     //       text: "ประมวณผลทางสถิติ",
+    //     //       display: true
+    //     //   }
+    //     // }
+    //   })
+    // })
+
+
+
+
+
+
+
+
+
+
+
+
+
+      //กราฟแบบประเมินความพอใจ
+      var ctx = document.getElementById("lineChart2");
+      debugger;
+      var data = this.surveyLikeBarChartData
+      var myChart = new Chart("lineChart2", {
+        type: 'horizontalBar',
         data: this.surveyLikeBarChartData,
-        // { // ข้อมูลภายในแผนภูมิแบบเส้น
-        //     labels: ["หัวข้อที่ 1","หัวข้อที่ 2","หัวข้อที่ 3","หัวข้อที่ 4","หัวข้อที่ 5","หัวข้อที่ 6","หัวข้อที่ 7","หัวข้อที่ 8","หัวข้อที่ 9","หัวข้อที่ 10","หัวข้อที่ 11","หัวข้อที่ 12"], // ชื่อของข้อมูลในแนวแกน x
-        //     //labels: [this.inputtrainingsurveyanswer], // ชื่อของข้อมูลในแนวแกน x
-        //     datasets: [{ // กำหนดค่าข้อมูลภายในแผนภูมิแบบเส้น
-        //       label: 'Number of items sold in months',
-        //       data: [9,7,3,5,2,10,15,61,19,3,1,9],
-        //       fill: false,
-        //       lineTension: 0.2,
-        //       borderColor: "red", // สีของเส้น
-        //       borderWidth: 1
-        //     }]
-        // },
-        // options: {
-        //   title: { // ข้อความที่อยู่ด้านบนของแผนภูมิ
-        //       text: "ประมวณผลทางสถิติ",
-        //       display: true
-        //   }
-        // }
-      })
+        options: {
+          "hover": {
+            "animationDuration": 0
+          },
+          "animation": {
+            "duration": 1,
+            "onComplete": function() {
+              var chartInstance = this.chart,
+                ctx = chartInstance.ctx;
+      
+              ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
+              ctx.textAlign = 'center';
+              ctx.textBaseline = 'bottom';
+      
+              this.data.datasets.forEach(function(dataset, i) {
+                var meta = chartInstance.controller.getDatasetMeta(i);
+                meta.data.forEach(function(bar, index) {
+                  var data = dataset.data[index];
+                  ctx.fillText(data, bar._model.x + 5, bar._model.y);
+                });
+              });
+            }
+          },
+          legend: {
+            "display": true
+          },
+          tooltips: {
+            "enabled": true
+          },
+          scales: {
+            yAxes: [{
+              display: true,
+              gridLines: {
+                display: true
+              },
+              ticks: {
+                // max: Math.max(...data.datasets[0].data) + 10,
+                display: true,
+                beginAtZero: true,
+                
+              }
+            }],
+            xAxes: [{
+              gridLines: {
+                display: true
+              },
+              ticks: {
+                beginAtZero: true,
+                max: Math.max(...data.datasets[0].data) + 10,
+                min: 0,
+                stepSize: 1
+              }
+            }]
+          }
+        }
+      });
+
+
+
+
     })
+
+    
     
   
 
@@ -301,6 +451,15 @@ export class TrainingProcessingComponent implements OnInit {
     window.history.back();
   }
 
+  gotoMain(){
+    this.router.navigate(['/main'])
+  }
+
+  gotoMainTraining(){
+    this.router.navigate(['/training'])
+  }
+
+
   print(): void {
     // let printContents, popupWin;
     // printContents = document.getElementById('print-section').innerHTML;
@@ -348,4 +507,5 @@ export class TrainingProcessingComponent implements OnInit {
   //     pdf.save('MYPdf.pdf'); // Generated PDF   
   //   });
   // }
+  
 }

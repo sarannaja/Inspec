@@ -1,11 +1,8 @@
 <div class="header">
-  <h1 class="header-title">
-  รายชื่อคณะรัฐมนตรี
-  </h1>
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a [routerLink]="['/main']">หน้าหลัก</a></li>
-      <li class="breadcrumb-item"><a [routerLink]="['/supportgovernment']">ข้อมูลสนับสนุน</a></li>
+      <li class="breadcrumb-item active">ข้อมูลการติดต่อบุคลากร</li>
       <li class="breadcrumb-item active">รายชื่อคณะรัฐมนตรี</li>
     </ol>
   </nav>
@@ -13,11 +10,17 @@
 <form class="row">
   <div class="col-12">
     <div class="card card-eiei">
-      <div class="card-header" style="margin-bottom: -40px;">
+      <div class="card-header" style="margin-bottom: -30px;">
         <h5 class="card-title">รายชื่อคณะรัฐมนตรี</h5>
-        <div class="float-right">
-          <!-- <button class="btn btn-primary" (click)="openModal(modalCabine)"
-            style="margin-top: -60px;">เพิ่มรายชื่อคณะรัฐมนตรี</button> -->
+        <div style="margin-bottom: 0px;width: 30%;">
+        <select (change)="Changeministry($event)" [(ngModel)]="ministry" name="ministry" class="form-control select2" data-toggle="select2"> 
+          <option  [value]="0">กระทรวงทั้งหมด</option>
+          <option *ngFor="let item of selectministry" [value]="item.id">{{item.name}}</option>
+        </select>
+        </div> 
+        <div class="float-right" *ngIf="role_id == 1">
+          <button class="btn btn-primary" (click)="openModal(modalCabine)"
+            style="margin-top: -60px;">เพิ่มรายชื่อคณะรัฐมนตรี</button>
         </div>
       </div>
       <div class="card-body">
@@ -25,32 +28,46 @@
         [dtOptions]="dtOptions">
           <thead>
             <tr>
-              <th style="width: 5%;">#</th>
-              <th style="width: 15%;">รูปภาพ</th>
-              <th style="width: 15%;">รายนาม</th>
-              <th style="width: 15%;">ตำแหน่ง</th>
-              <th style="width: 40%;">รายละเอียด</th>
-              <!-- <th>วันที่สร้าง</th> -->
-              <th style="width: 10%;"><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
+              <th>#</th>
+              <th>รูปภาพ</th>
+              <th>คำสั่ง</th>
+              <th>ครม.</th>
+              <th>ชื่อ-นามสกุล</th>
+              <th>กระทรวง</th>
+              <th>ตำแหน่ง</th>
+              <th>ที่อยู่</th>
+              <th>เบอร์โทร</th>
+              <th *ngIf="role_id == 1"><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let item of resultcabine; let i = index">
               <td>{{ i + 1 }}.</td>
-              <td><img src="assets/CabineFile/{{item.image}}" width="100" height="120"></td>
-              
-              <td>{{ item.prefix }}{{ item.name }}</td>
-              <td>{{ item.position }}</td>
-              <td>{{ item.detail }}</td>
-              
-              <!-- <td><a href="/src/assets/GovernmentinspectionplanFile/plan59.pdf" download>{{ item.file }}</a></td> -->
-              <!-- <td>{{ item.createdAt | date:'dd / MM / yyyy'}}</td> -->
               <td>
-                <!-- <i class="align-middle mr-2 fas fa-fw fa-search"></i> -->
-                <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
-                  (click)="openModal(modaleditCabine, item.id, item.name, item.position, item.prefix, item.detail, item.image)"></i>
-                <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
-                  (click)="openModal(modaldeleteCabine, item.id)"></i>
+                <div *ngIf="item.image != null">
+                  <img *ngIf="item.image != 'null'" src="assets/CabineFile/{{item.image}}"
+                      class="img-fluid  mb-2" width="90px" alt="รูป">
+              </div>
+              <img *ngIf="item.image == null || item.image == 'null'" src="imgprofile/user.png"
+                  class="img-fluid  mb-2" width="90px" alt="รูป">              
+              </td>  
+              <td>{{ item.commandnumber}}</td>
+              <td>{{ item.cabinet }}</td>    
+              <td>{{ item.prefix }} {{ item.name }}</td>
+              <td><label class="badge badge-secondary mr-1">{{ item.ministries.name}}</label></td>
+              <td>{{ item.position }}</td>
+              <td>{{ item.detail }}</td>              
+              <td>{{ item.tel}} </td>                       
+              <td *ngIf="role_id == 1">
+                <button class="btn btn-primary btn-pill btn-sm" title="แก้ไขข้อมูล"
+                  (click)="openModal(modaleditCabine, item.id, item.name, item.position, item.prefix, item.detail,item.commandnumber,
+                  item.cabinet,item.tel,item.image,item.ministries.id)">
+                  <i class="align-middle fas fa-fw fa-pen"></i>
+                </button>
+                <button class="btn btn-danger btn-pill btn-sm" title="ลบข้อมูล"
+                  (click)="openModal(modaldeleteCabine, item.id, item.name)">
+                    <i class="align-middle fas fa-fw fa-trash-alt"></i>
+                </button>
               </td>
             </tr>
           </tbody>
@@ -72,30 +89,88 @@
         </div>
 
         <div class="modal-body m-3">
-          <div class="form-group">
-            <label for="test" class="form-label">คำนำหน้า* </label>
-            <!-- <div class="form-group col-md-3">
-                <div class="mb-3">
-                  <select class="form-control select2" data-toggle="select2" formControlName="prefix" >
-                    <option value=null>กรุณาเลือกคำนำหน้า</option>
-                    <option value="นาย">นาย </option>
-                    <option value="นาง">นาง </option>
-                    <option value="นางสาว">นางสาว </option>
-                  </select>
-                </div>
-              </div> -->
 
-            <input type="text" formControlName="prefix" class="form-control" placeholder="กรุณากรอกคำนำหน้า"><br>
-            <label for="test" class="form-label">ชื่อ* </label>
-            <input type="text" formControlName="name" class="form-control" placeholder="กรุณากรอกชื่อ"><br>
-            <label for="test" class="form-label">ตำแหน่ง* </label>
-            <input type="text" formControlName="position" class="form-control" placeholder="กรุณากรอกตำแหน่ง"><br>
-            <label for="test" class="form-label">รายละเอียด* </label>
-            <input type="text" formControlName="detail" class="form-control" placeholder="กรุณากรอกรายละเอียด"><br>
-            <label for="test" class="form-label">รูปภาพ* </label><br>
-            <input type="file" multiple (change)="uploadFile($event)">
-            <small class="form-text text-muted">สำหรับแนบรูปภาพ (768x960 pixel) </small>
+          <div class="form-group">
+            <label class="form-label">เลขที่คำสั่ง* </label>
+            <input type="text" formControlName="Commandnumber" class="form-control" placeholder="กรุณากรอกเลขที่คำสั่ง"
+            [ngClass]="{ 'is-invalid': submitted && f.Commandnumber.errors }">
+            <div *ngIf="submitted && f.Commandnumber.errors" class="invalid-feedback">
+              <div *ngIf="f.Commandnumber.errors.required">กรุณากรอกเลขที่คำสั่ง</div>
+            </div> 
           </div>
+
+          <div class="form-group">
+            <label class="form-label">ครม.* </label>
+            <input type="text" formControlName="cabinet" class="form-control" placeholder="กรุณากรอกครม."
+            [ngClass]="{ 'is-invalid': submitted && f.cabinet.errors }">
+            <div *ngIf="submitted && f.cabinet.errors" class="invalid-feedback">
+              <div *ngIf="f.cabinet.errors.required">กรุณากรอกครม.</div>
+            </div> 
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">กระทรวง* </label>
+            <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกกระทรวง"
+                formControlName="MinistryId" [items]="selectdataministry"              
+                [ngClass]="{ 'is-invalid': submitted && f.MinistryId.errors }">
+            </ng-select>
+            <div *ngIf="submitted && f.MinistryId.errors" class="invalid-feedback">
+                <div *ngIf="f.MinistryId.errors.required">กรุณาเลือกกระทรวง</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">คำนำหน้า* </label>
+            <input type="text" formControlName="prefix" class="form-control" placeholder="กรุณากรอกคำนำหน้า"
+            [ngClass]="{ 'is-invalid': submitted && f.prefix.errors }">
+            <div *ngIf="submitted && f.prefix.errors" class="invalid-feedback">
+              <div *ngIf="f.prefix.errors.required">กรุณากรอกคำนำหน้า</div>
+            </div> 
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">ชื่อ-นามสกุล* </label>
+            <input type="text" formControlName="name" class="form-control" placeholder="กรุณากรอกชื่อ-นามสกุล"
+            [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+            <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+              <div *ngIf="f.name.errors.required">กรุณากรอกชื่อ-นามสกุล</div>
+            </div> 
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">ตำแหน่ง* </label>
+            <input type="text" formControlName="position" class="form-control" placeholder="กรุณากรอกตำแหน่ง"
+            [ngClass]="{ 'is-invalid': submitted && f.position.errors }">
+            <div *ngIf="submitted && f.position.errors" class="invalid-feedback">
+              <div *ngIf="f.position.errors.required">กรุณากรอกตำแหน่ง</div>
+            </div> 
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">ที่อยู่* </label>
+            <input type="text" formControlName="detail" class="form-control" placeholder="กรุณากรอกที่อยู่"
+            [ngClass]="{ 'is-invalid': submitted && f.detail.errors }">
+            <div *ngIf="submitted && f.detail.errors" class="invalid-feedback">
+              <div *ngIf="f.detail.errors.required">กรุณากรอกที่อยู่</div>
+            </div> 
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">เบอร์โทร* </label>
+            <input type="text" formControlName="tel" class="form-control" placeholder="กรุณากรอกเบอร์โทร"
+            [ngClass]="{ 'is-invalid': submitted && f.tel.errors }" numbersOnly maxlength="10">
+            <div *ngIf="submitted && f.tel.errors" class="invalid-feedback">
+              <div *ngIf="f.tel.errors.required">กรุณากรอกเบอร์โทร</div>
+            </div> 
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">รูปภาพ* </label>
+            <input type="file" (change)="uploadFile($event)" accept="image/gif, image/jpeg, image/png">
+            <small class="form-text text-muted">สำหรับแนบรูปภาพ </small>
+          </div>
+          
+
         </div>
         <div class="modal-footer">
           <button type="submit" class="btn btn-primary">บันทึก</button>
@@ -134,41 +209,99 @@
     <form [formGroup]="Form" (ngSubmit)="editCabine(Form.value,delid)">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">จัดการคณะรัฐมนตรี</h5>
+        <h5 class="modal-title">แก้ไขรายชื่อคณะรัฐมนตรี</h5>
         <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-
       <div class="modal-body m-3">
-        <div class="form-group">
-          <label for="test" class="form-label">คำนำหน้า* </label>
-          <!-- <div class="form-group col-md-3">
-              <div class="mb-3">
-                <select class="form-control select2" data-toggle="select2" formControlName="prefix" >
-                  <option value=null>กรุณาเลือกคำนำหน้า</option>
-                  <option value="หม่อมราชวงศ์">หม่อมราชวงศ์ </option>
-                  <option value="คุณหญิง">คุณหญิง </option>
-                  <option value="พลเอก">พลเอก</option>
-                  <option value="ร้อยเอก">ร้อยเอก</option>
-                  <option value="นาย">นาย </option>
-                  <option value="นาง">นาง </option>
-                  <option value="นางสาว">นางสาว </option>
-                </select>
-              </div>
-            </div> -->
 
-            <input type="text" formControlName="prefix" class="form-control" placeholder="กรุณากรอกคำนำหน้า"><br>
-            <label for="test" class="form-label">ชื่อ </label>
-            <input type="text" value="{{name}}"formControlName="name" class="form-control" placeholder="กรุณากรอกชื่อ"><br>
-            <label for="test" class="form-label">ตำแหน่ง </label>
-            <input type="text" value="{{position}}"formControlName="position" class="form-control" placeholder="กรุณากรอกตำแหน่ง"><br>
-            <label for="test" class="form-label">รายละเอียด </label>
-            <input type="text" value="{{detail}}"formControlName="detail" class="form-control" placeholder="กรุณากรอกรายละเอียด"><br>
-            <label for="test" class="form-label">รูปภาพ </label><br>
-            <input type="file" multiple (change)="uploadFile($event)">
-            <small class="form-text text-muted">สำหรับแนบรูปภาพ</small>
+      <div class="form-group">
+        <label class="form-label">เลขที่คำสั่ง* </label>
+        <input type="text" formControlName="Commandnumber" class="form-control" placeholder="กรุณากรอกเลขที่คำสั่ง"
+        [ngClass]="{ 'is-invalid': submitted && f.Commandnumber.errors }">
+        <div *ngIf="submitted && f.Commandnumber.errors" class="invalid-feedback">
+          <div *ngIf="f.Commandnumber.errors.required">กรุณากรอกเลขที่คำสั่ง</div>
+        </div> 
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">ครม.* </label>
+        <input type="text" formControlName="cabinet" class="form-control" placeholder="กรุณากรอกครม."
+        [ngClass]="{ 'is-invalid': submitted && f.cabinet.errors }">
+        <div *ngIf="submitted && f.cabinet.errors" class="invalid-feedback">
+          <div *ngIf="f.cabinet.errors.required">กรุณากรอกครม.</div>
+        </div> 
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">กระทรวง* </label>
+        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกกระทรวง"
+            formControlName="MinistryId" [items]="selectdataministry"              
+            [ngClass]="{ 'is-invalid': submitted && f.MinistryId.errors }">
+        </ng-select>
+        <div *ngIf="submitted && f.MinistryId.errors" class="invalid-feedback">
+            <div *ngIf="f.MinistryId.errors.required">กรุณาเลือกกระทรวง</div>
         </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">คำนำหน้า* </label>
+        <input type="text" formControlName="prefix" class="form-control" placeholder="กรุณากรอกคำนำหน้า"
+        [ngClass]="{ 'is-invalid': submitted && f.prefix.errors }">
+        <div *ngIf="submitted && f.prefix.errors" class="invalid-feedback">
+          <div *ngIf="f.prefix.errors.required">กรุณากรอกคำนำหน้า</div>
+        </div> 
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">ชื่อ-นามสกุล* </label>
+        <input type="text" formControlName="name" class="form-control" placeholder="กรุณากรอกชื่อ-นามสกุล"
+        [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+        <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+          <div *ngIf="f.name.errors.required">กรุณากรอกชื่อ-นามสกุล</div>
+        </div> 
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">ตำแหน่ง* </label>
+        <input type="text" formControlName="position" class="form-control" placeholder="กรุณากรอกตำแหน่ง"
+        [ngClass]="{ 'is-invalid': submitted && f.position.errors }">
+        <div *ngIf="submitted && f.position.errors" class="invalid-feedback">
+          <div *ngIf="f.position.errors.required">กรุณากรอกตำแหน่ง</div>
+        </div> 
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">ที่อยู่* </label>
+        <input type="text" formControlName="detail" class="form-control" placeholder="กรุณากรอกที่อยู่"
+        [ngClass]="{ 'is-invalid': submitted && f.detail.errors }">
+        <div *ngIf="submitted && f.detail.errors" class="invalid-feedback">
+          <div *ngIf="f.detail.errors.required">กรุณากรอกที่อยู่</div>
+        </div> 
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">เบอร์โทร* </label>
+        <input type="text" formControlName="tel" class="form-control" placeholder="กรุณากรอกเบอร์โทร"
+        [ngClass]="{ 'is-invalid': submitted && f.tel.errors }" numbersOnly maxlength="10">
+        <div *ngIf="submitted && f.tel.errors" class="invalid-feedback">
+          <div *ngIf="f.tel.errors.required">กรุณากรอกเบอร์โทร</div>
+        </div> 
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">รูปภาพ* </label>
+        <div *ngIf="filename != null">
+          <img *ngIf="filename != 'null'" src="assets/CabineFile/{{filename}}"
+              class="img-fluid  mb-2" width="90px" alt="รูป">
+        </div>
+        <img *ngIf="filename == null || filename == 'null'" src="imgprofile/user.png"
+          class="img-fluid  mb-2" width="90px" alt="รูป">    
+        <input type="file" (change)="uploadFile($event)" accept="image/jpeg, image/png">
+        <small class="form-text text-muted">สำหรับแนบรูปภาพ </small>
+      </div>
+
       </div>
       <div class="modal-footer">
         <button type="submit" class="btn btn-primary">บันทึก</button>
