@@ -16,7 +16,7 @@ export class ListTrainingReportComponent implements OnInit {
   modalRef: BsModalRef;
   delid: any
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   url: any;
 
   constructor(private modalService: BsModalService,
@@ -58,6 +58,18 @@ export class ListTrainingReportComponent implements OnInit {
   gotoBack() {
     window.history.back();
   }
+
+  gotoMain(){
+    this.router.navigate(['/main'])
+  }
+
+  gotoMainTraining(){
+    this.router.navigate(['/training'])
+  }
+
+  // gotoTrainingManage(){
+  //   this.router.navigate(['/training/manage/', this.trainingid])
+  // }
 
   printReport() {
     this.exportService.reportTrainingList(this.resulttraining).subscribe(res => {

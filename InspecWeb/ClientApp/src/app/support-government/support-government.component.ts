@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class SupportGovernmentComponent implements OnInit {
 
   loading = true;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   datasupport: any = [
     {
       id:1,

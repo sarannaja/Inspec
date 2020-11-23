@@ -53,12 +53,12 @@
 
           <div class="row" style="margin-top: 10px;" *ngIf="subjectgroup.subjectNotificationDate == null">
             <!-- null -->
-            <div class="col-6">
+            <div class="col-12 col-md-6">
               <label>วันที่แจ้งเตือน</label>
               <my-date-picker-th formControlName="notificationsubjectdate" [options]="myDatePickerOptions" required>
               </my-date-picker-th>
             </div>
-            <div class="col-6">
+            <div class="col-12 col-md-6">
               <label>วันกำหนดส่ง</label>
               <my-date-picker-th formControlName="deadlinesubjectdate" [options]="myDatePickerOptions" required>
               </my-date-picker-th>
@@ -67,13 +67,13 @@
 
           <div class="row" style="margin-top: 10px;" *ngIf="subjectgroup.subjectNotificationDate != null">
             <!-- not null -->
-            <div class="col-6">
+            <div class="col-12 col-md-6">
               <label>วันที่แจ้งเตือน</label>
               <my-date-picker-th [selDate]="notificationsubjectDate" [options]="myDatePickerOptions" required
                 (dateChanged)="onStartDateChanged($event)">
               </my-date-picker-th>
             </div>
-            <div class="col-6">
+            <div class="col-12 col-md-6">
               <label>วันกำหนดส่ง</label>
               <my-date-picker-th [selDate]="deadlinesubjectDate" [options]="myDatePickerOptions" required
                 (dateChanged)="onEndDateChanged($event)">
@@ -89,9 +89,9 @@
                   <tr>
                     <div class="" style="margin-top: 10px;">
                       <td style="border-top: none; width: 1%;">
-                        <div class="row">
+                        <div class="row" *ngIf="checkname[i] != checkname[i-1]">
                           <i class="fa fa-tags" style="margin-top: 5px;"></i>
-                          <h4 style="margin-left: 15px;">ประเด็นการตรวจติดตาม</h4>
+                          <span class="mb-2" style="margin-left: 15px; font-size: 20px"><b>ประเด็นการตรวจติดตาม</b></span>
 
 
 
@@ -112,7 +112,7 @@
                         </div>
                       </td>
                       <div class="row" style="margin-left: 47px; margin-top: 10px;">
-                        <h5>
+                        <h5 class="card-title">
                           <u style="margin-top: 20px;">หน่วยงานผู้ให้ข้อมูล</u>
                           <i class="fas fa-chevron-down" style="margin-left: 5px; font-size: large;"
                             id="department{{i}}" data-toggle="collapse" [attr.data-target]="'#departments' + i"
@@ -383,15 +383,15 @@
 
 
           <div class="form-group" *ngIf="subjectgroupland == 'ลงพื้นที่'" style="margin-top: 10px;">
-            <div class="row" style="margin-top: 10px;" *ngIf="subjectgroup.peopleQuestionNotificationDate == null">
+            <div class="row col-12" style="margin-top: 10px;" *ngIf="subjectgroup.peopleQuestionNotificationDate == null">
               <!-- null -->
-              <div class="col-6">
+              <div class="col-12 col-md-6">
                 <label>วันที่แจ้งเตือน</label>
                 <my-date-picker-th formControlName="notificationpeoplequestiondate" [options]="myDatePickerOptions"
                   required>
                 </my-date-picker-th>
               </div>
-              <div class="col-6">
+              <div class="col-12 col-md-6">
                 <label>วันกำหนดส่ง</label>
                 <my-date-picker-th formControlName="deadlinepeoplequestiondate" [options]="myDatePickerOptions"
                   required>
@@ -401,13 +401,13 @@
 
             <div class="row" style="margin-top: 10px;" *ngIf="subjectgroup.peopleQuestionDeadlineDate != null">
               <!-- not null -->
-              <div class="col-6">
+              <div class="col-12 col-md-6">
                 <label>วันที่แจ้งเตือน</label>
                 <my-date-picker-th [selDate]="notificationpeoplequestionDate" [options]="myDatePickerOptions" required
                   (dateChanged)="onStartDateChanged2($event)">
                 </my-date-picker-th>
               </div>
-              <div class="col-6">
+              <div class="col-12 col-md-6">
                 <label>วันกำหนดส่ง</label>
                 <my-date-picker-th [selDate]="deadlinepeoplequestionDate" [options]="myDatePickerOptions" required
                   (dateChanged)="onEndDateChanged2($event)">
@@ -419,7 +419,7 @@
             <div class="col-md-12">
               <div class="row">
                 <i class="fa fa-tags" style="margin-top: 15px;"></i>
-                <h4 style="margin-top: 10px;margin-left: 15px;">คำถามภาคประชาชน</h4> &nbsp;&nbsp;
+                <span style="margin-top: 10px;margin-left: 15px;font-size: 20px;"><b>คำถามภาคประชาชน</b></span> &nbsp;&nbsp;
                 <button *ngIf="subjectgroupstatus == 'ร่างกำหนดการ'" type="button" class="btn btn-success btn-xs"
                   (click)="openModalQuestionPeople(modalQuestionPeople)">เพิ่มคำถาม</button>
                 <!-- <button *ngIf="subjectgroupstatus == 'ใช้งานจริง'" style="margin-right: 15px;" type="button"
@@ -634,7 +634,7 @@
   <form [formGroup]="FormQuestion" (ngSubmit)="storeQuestion(FormQuestion.value)">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">คำถามที่ปรึกษาผู้ตรวจราชการภาคประชาชน</h5>
+        <span class="modal-title">คำถามที่ปรึกษาผู้ตรวจราชการภาคประชาชน</span>
         <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -747,7 +747,7 @@
   <form [formGroup]="EditForm" (ngSubmit)="editsubquestionclose(EditForm.value,editid)">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">จัดการคำถาม</h5>
+        <span class="modal-title">จัดการคำถาม</span>
         <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -771,7 +771,7 @@
   <form [formGroup]="EditForm2" (ngSubmit)="editsubquestionclosechoice(EditForm2.value,editid)">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">จัดการคำถาม</h5>
+        <span class="modal-title">จัดการคำถาม</span>
         <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -795,7 +795,7 @@
   <form [formGroup]="EditForm3" (ngSubmit)="editsubject(EditForm3.value,editid)">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">จัดการเรื่องประเด็น</h5>
+        <span class="modal-title">จัดการเรื่องประเด็น</span>
         <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -819,7 +819,7 @@
   <form [formGroup]="EditForm4" (ngSubmit)="editsubjectquestionopen(EditForm4.value,editid)">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">จัดการคำถามปลายเปิด</h5>
+        <span class="modal-title">จัดการคำถามปลายเปิด</span>
         <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -883,7 +883,7 @@
   <form [formGroup]="editAnswerForm" (ngSubmit)="editAnswer(editAnswerForm.value,editid)">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">จัดการคำตอบปลายเปิด</h5>
+        <span class="modal-title">จัดการคำตอบปลายเปิด</span>
         <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -906,7 +906,7 @@
 <ng-template #answerPeopleModal class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-content">
     <div class="modal-header">
-      <h5 class="modal-title">คำตอบภาคประชาชน</h5>
+      <span class="modal-title">คำตอบภาคประชาชน</span>
       <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -946,15 +946,19 @@
   <form [formGroup]="Form2" (ngSubmit)="storeDepartment(Form2.value)">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">เชิญหน่วยงานเพิ่มเติม</h5>
+        <span class="modal-title">เชิญหน่วยงานเพิ่มเติม</span>
         <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาหน่วยงาน" [multiple]="true"
-          [items]="departmentSelect" name="DepartmentId" formControlName="DepartmentId">
+        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกหน่วยงาน" [multiple]="true"
+          [items]="departmentSelect" name="DepartmentId" formControlName="DepartmentId"
+          [ngClass]="{ 'is-invalid': submitted && faed.DepartmentId.errors }">
         </ng-select>
+        <div *ngIf="submitted && faed.DepartmentId.errors" class="invalid-feedback">
+          <div *ngIf="faed.DepartmentId.errors.required">กรุณาเลือกหน่วยงาน</div>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="submit" class="btn btn-primary">บันทึก</button>
@@ -971,7 +975,7 @@
   <form [formGroup]="FormAddQuestionsclose" (ngSubmit)="AddQuestionsclose(FormAddQuestionsclose.value)">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">เพิ่มคำถาม</h5>
+        <span class="modal-title">เพิ่มคำถาม</span>
         <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -979,13 +983,17 @@
       <div class="modal-body m-3">
         <div class="form-group">
           <label for="test" class="form-label">คำถาม</label>
-          <input type="text" formControlName="name" class="form-control" placeholder="กรุณากรอกคำถาม">
+          <input type="text" formControlName="name" class="form-control" placeholder="กรุณากรอกคำถาม"
+            [ngClass]="{ 'is-invalid': submitted && faqc.name.errors }">
+          <div *ngIf="submitted && faqc.name.errors" class="invalid-feedback">
+            <div *ngIf="faqc.name.errors.required">กรุณากรอกคำถาม</div>
+          </div>
           <div formArrayName="inputanswerclose">
             <div *ngFor="let X of FormAddQuestionsclose['controls'].inputanswerclose['controls']; let ix=index">
               <div formGroupName="{{ix}}">
                 <div class="row">
                   <div class="col-11 col-xl-11">
-                    <input type="text" formControlName="answerclose" class="form-control" placeholder="กรุณากรอกคำถาม">
+                    <input type="text" formControlName="answerclose" class="form-control" placeholder="กรุณากรอกคำตอบ">
                   </div>
                   <div class="col-1">
                     <div class="col-1 margin-plus-icon" *ngIf="ix == 0; else elseBlock">
@@ -1018,26 +1026,33 @@
   <form [formGroup]="FormSubject" (ngSubmit)="storeSubject(FormSubject.value)">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">เพิ่มประเด็นการตรวจติดตาม</h5>
+        <span class="modal-title">เพิ่มประเด็นการตรวจติดตาม</span>
         <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body m-3">
 
-        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาหน่วยงาน" [multiple]="true"
-          [items]="departmentSelect" name="DepartmentId" formControlName="DepartmentId">
+        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกหน่วยงาน" [multiple]="true"
+          [items]="departmentSelect" name="DepartmentId" formControlName="DepartmentId"
+          [ngClass]="{ 'is-invalid': submitted && fadq.DepartmentId.errors }">
         </ng-select>
-
+        <div *ngIf="submitted && fadq.DepartmentId.errors" class="invalid-feedback">
+          <div *ngIf="fadq.DepartmentId.errors.required">กรุณาเลือกหน่วยงาน</div>
+        </div>
         <div class="form-group">
           <label for="test" class="form-label">คำถาม</label>
-          <input type="text" formControlName="name" class="form-control" placeholder="กรุณากรอกคำถาม">
+          <input type="text" formControlName="name" class="form-control" placeholder="กรุณากรอกคำถาม"
+            [ngClass]="{ 'is-invalid': submitted && fadq.name.errors }">
+          <div *ngIf="submitted && fadq.name.errors" class="invalid-feedback">
+            <div *ngIf="fadq.name.errors.required">กรุณากรอกคำถาม</div>
+          </div>
           <div formArrayName="inputanswerclose">
             <div *ngFor="let X of FormSubject['controls'].inputanswerclose['controls']; let ix=index">
               <div formGroupName="{{ix}}">
                 <div class="row">
                   <div class="col-11 col-xl-11">
-                    <input type="text" formControlName="answerclose" class="form-control" placeholder="กรุณากรอกคำถาม">
+                    <input type="text" formControlName="answerclose" class="form-control" placeholder="กรุณากรอกคำตอบ">
                   </div>
                   <div class="col-1">
                     <div class="col-1 margin-plus-icon" *ngIf="ix == 0; else elseBlock">
@@ -1088,7 +1103,7 @@
 <!-- <ng-template #modalreportreportperformance class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-content">
     <div class="modal-header">
-      <h5 class="modal-title">รายงานผลการดำเนินการของหน่วยรับตรวจ</h5>
+      <span class="modal-title">รายงานผลการดำเนินการของหน่วยรับตรวจ</span>
       <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -1156,7 +1171,7 @@
   <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
   <div class="modal-content">
     <div class="modal-header">
-      <h5 class="modal-title">รายงานผลการดำเนินการตามข้อเสนอแนะของผู้ตรวจราชการ</h5>
+      <span class="modal-title">รายงานผลการดำเนินการตามข้อเสนอแนะของผู้ตรวจราชการ</span>
       <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -1209,7 +1224,7 @@
 <!-- <ng-template #modalreportcomment class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-content">
     <div class="modal-header">
-      <h5 class="modal-title">รายงานความคิดเห็นของที่ปรึกษาผู้ตรวจราชการภาคประชาชน</h5>
+      <span class="modal-title">รายงานความคิดเห็นของที่ปรึกษาผู้ตรวจราชการภาคประชาชน</span>
       <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>

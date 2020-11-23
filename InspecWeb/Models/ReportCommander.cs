@@ -21,7 +21,7 @@ namespace InspecWeb.Models
 
         public string Status { get; set; }
 
-        [Description("คำสั่งการ")]
+        [Description("ข้อสั่งการ")]
         public string Command { get; set; }
 
         [ForeignKey("User")]
@@ -29,8 +29,12 @@ namespace InspecWeb.Models
         public string UserCommanderId { get; set; }
         public virtual ApplicationUser User { get; set; }
 
-        [Description("วันที่สร้าง")]
+        [Description("วันที่ส่งรายงาน")]
         [DataType(DataType.Date)]
         public DateTime? CreateAt { get; set; }
+
+        [Description("วันที่มีสั่งข้อสั่งการ")]
+        [DataType(DataType.Date)]
+        public DateTime? CommandDate { get; set; }
     }
 }

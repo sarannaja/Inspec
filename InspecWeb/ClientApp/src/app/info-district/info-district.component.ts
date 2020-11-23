@@ -17,7 +17,7 @@ export class InfoDistrictComponent implements OnInit {
   Form: FormGroup;
   EditForm: FormGroup;
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   // router: any
 
   constructor(

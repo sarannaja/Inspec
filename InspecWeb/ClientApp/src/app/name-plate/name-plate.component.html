@@ -2,8 +2,10 @@
 
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="dashboard-default.html">หน้าหลัก</a></li>
-      <li class="breadcrumb-item"><a href="javascript:void(0)">บัตรผู้ร่วมอบรม</a></li>
+            <li class="breadcrumb-item"><a class="pointer text-white" (click)="gotoMain()">หน้าหลัก</a></li>
+            <li class="breadcrumb-item"><a class="pointer text-white" (click)="gotoMainTraining()">จัดการหลักสูตรการอบรม</a></li>
+            <li class="breadcrumb-item"><a class="pointer text-white" (click)="gotoTrainingManage()">การจัดการหลักสูตร</a></li>
+            <li class="breadcrumb-item"><a href="javascript:void(0)">บัตรผู้เข้าร่วมอบรม</a></li>
     </ol>
   </nav>
 </div>
@@ -12,11 +14,11 @@
     <div class="card card-eiei">
       <div class="card-header">
         <h5 class="card-title">
-          บัตรผู้ร่วมอบรม
+          บัตรผู้เข้าร่วมอบรม
 
-          <button class="btn btn-light btn-sm" (click)="gotoBack()">
+          <!-- <button class="btn btn-light btn-sm" (click)="gotoBack()">
             <i class="fa fa-arrow-left" aria-hidden="true"></i>
-          </button>
+          </button> -->
           <div class="float-right">
             <div>
               <div>
@@ -47,70 +49,81 @@
         </button>
       </div> -->
 
-      <div class="card-body mt-3">
+      <div class="card-body" >
+        <div *ngIf="trainingRegisterData.length > 0; else datanull">
+          <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable
+            [dtOptions]="dtOptions">
+            <thead>
+              <tr>
+                <th width="5%">#</th>
+                <th width="25%" style="min-width: 200px;">
+                  <input type="checkbox" [checked]="trainingRegisterData.length == people.length"
+                    (change)="addAllPeoples()">
+                  <a class="ml-4 text-primary" href="javascript:void(0)" (click)="addAllPeoples()">ชื่อ-นามสกุล</a>
+                </th>
+                <th width="25%" style="min-width: 200px;" class="text-center">รหัสผู้ร่วมอบรม</th>
+                <th width="25%" style="min-width: 150px;" class="text-center">วันที่สมัคร</th>
+                <!-- <th width="20%">ตรววจสอบคุณสมบัติ</th> -->
+                <th width="20%" style="min-width: 150px;" class="text-center">สิทธิ์การรับฝึกอบรม</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of trainingRegisterData; let i = index">
+                <td>{{ i + 1 }}</td>
 
-        <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable
-          [dtOptions]="dtOptions">
-          <thead>
-            <tr>
-              <th width="5%">#</th>
-              <th width="25%">
-                <input type="checkbox" [checked]="trainingRegisterData.length == people.length"
-                  (change)="addAllPeoples()">
-                <a class="ml-4 text-primary" href="javascript:void(0)" (click)="addAllPeoples()">ชื่อ-นามสกุล</a>
-              </th>
-              <th width="10%">รหัสผู้ร่วมอบรม</th>
-              <th width="10%">วันที่สมัคร</th>
-              <!-- <th width="20%">ตรววจสอบคุณสมบัติ</th> -->
-              <th width="20%">สิทธิ์การรับฝึกอบรม</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let item of trainingRegisterData; let i = index">
-              <td>{{ i + 1 }}</td>
+                <td class="ellipsis">
 
-              <td class="ellipsis">
+                  <input type="checkbox" [checked]="checkPeople(item.id)" (change)="addsPeoples(item.id)">
+                  &nbsp;&nbsp;&nbsp;
 
-                <input type="checkbox" [checked]="checkPeople(item.id)" (change)="addsPeoples(item.id)">
-                &nbsp;&nbsp;&nbsp;
-
-                <!-- <span class="pointer text-primary" (click)="openModal(modaldetail, item.id)">{{ item.name }}</span> -->
-                <a class=" text-primary" href="javascript:void(0)" (click)="addsPeoples(item.id)">{{ item.name }}</a>
-              </td>
-              <td class="ellipsis">{{ item.idCode}}</td>
-              <td class="ellipsis">{{ item.createdAt | thaidate:'short'}}</td>
-              <!-- <td>
-                <span (click)="openModal(modalCondition, item.id,item,i)"><i
-                    [ngClass]="item.register_status == true ?'align-middle mr-2 fas fa fa-info-circle  pointer text-success':'align-middle mr-2 fas fa fa-info-circle  pointer text-muted'"
-                    aria-hidden="true"></i>
-                  <label
-                    [ngClass]="item.register_status == true ?' pointer text-success':' pointer text-muted'">{{item.register_status == true ? "ตรวจสอบคุณสมบัติแล้ว" : "รอการตรวจสอบคุณสมบัติ"}}</label></span>
-              </td> -->
-              <td>
-                <ng-container *ngIf="item.status == 0;else second">
-                  <i class="align-middle mr-2 fas fa fa-info-circle text-muted" aria-hidden="true"></i><label
-                    class="text-muted">รอการอนุมัติ</label>
-                </ng-container>
-                <ng-template #second>
-                  <ng-container *ngIf="item.status == 1;else third">
-                    <i class="align-middle mr-2 fas fa-fw fa-check-circle text-success"></i><label
-                      class="text-success">ได้รับสิทธิ์</label>
-
+                  <!-- <span class="pointer text-primary" (click)="openModal(modaldetail, item.id)">{{ item.name }}</span> -->
+                  <a class=" text-primary" href="javascript:void(0)" (click)="addsPeoples(item.id)">{{ item.name }}</a>
+                </td>
+                <td class="text-center">
+                  <span *ngIf="item.idCode != null">{{ item.idCode}}</span>
+                  <span *ngIf="item.idCode == null" class="text-danger">(กรุณาออกรหัสผู้เข้าร่วมอบรม)</span>
+                </td>
+                <td class="text-center">{{ item.createdAt | thaidate:'forlog'}}</td>
+                <!-- <td>
+                  <span (click)="openModal(modalCondition, item.id,item,i)"><i
+                      [ngClass]="item.register_status == true ?'align-middle mr-2 fas fa fa-info-circle  pointer text-success':'align-middle mr-2 fas fa fa-info-circle  pointer text-muted'"
+                      aria-hidden="true"></i>
+                    <label
+                      [ngClass]="item.register_status == true ?' pointer text-success':' pointer text-muted'">{{item.register_status == true ? "ตรวจสอบคุณสมบัติแล้ว" : "รอการตรวจสอบคุณสมบัติ"}}</label></span>
+                </td> -->
+                <td class="text-center">
+                  <ng-container *ngIf="item.status == 0;else second">
+                    <i class="align-middle mr-2 fas fa fa-info-circle text-muted" aria-hidden="true"></i><label
+                      class="text-muted">รอการอนุมัติ</label>
                   </ng-container>
-                </ng-template>
-                <ng-template #third>
-                  <ng-container *ngIf="item.status == 2;">
+                  <ng-template #second>
+                    <ng-container *ngIf="item.status == 1;else third">
+                      <i class="align-middle mr-2 fas fa-fw fa-check-circle text-success"></i><label
+                        class="text-success">ได้รับสิทธิ์</label>
 
-                    <i class="align-middle mr-2 fas fa-fw fa-times-circle text-danger"></i><label
-                      class="text-danger">ไม่ได้รับสิทธิ์</label>
+                    </ng-container>
+                  </ng-template>
+                  <ng-template #third>
+                    <ng-container *ngIf="item.status == 2;">
 
-                  </ng-container>
-                </ng-template>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+                      <i class="align-middle mr-2 fas fa-fw fa-times-circle text-danger"></i><label
+                        class="text-danger">ไม่ได้รับสิทธิ์</label>
+
+                    </ng-container>
+                  </ng-template>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+       </div>
       </div>
+
+      <ng-template #datanull>
+        <label class="text-danger">
+          (ไม่พบผู้สมัครเข้าร่วมอบรมที่ผ่านการอนุมัติสิทธิ์ กรุณาตรวจสอบผู้เข้าร่วมอบรมที่เมนู "ตรวจสอบคุณสมบัติผู้สมัคร")
+        </label>
+        
+      </ng-template>
     </div>
   </div>
 </div>

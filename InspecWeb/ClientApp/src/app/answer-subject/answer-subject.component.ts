@@ -14,7 +14,7 @@ export class AnswerSubjectComponent implements OnInit {
   userid: string
   resultuserdetail: any = []
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
 
   constructor(
     private authorize: AuthorizeService,

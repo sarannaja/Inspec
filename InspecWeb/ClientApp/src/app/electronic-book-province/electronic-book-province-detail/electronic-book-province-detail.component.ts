@@ -244,7 +244,7 @@ export class ElectronicBookProvinceDetailComponent implements OnInit {
       this.electronicBookService.provinceAddSignature(value, this.form.value.files, this.electId, this.userid, this.userProvinceId).subscribe(res => {
         // console.log("signatureRES: ", res);
         if (this.electronicBookData.electronicBookGroup.length == 0) {
-          this.notificationService.addNotification(1, 1, this.userid, 8, this.electId, null)
+          this.notificationService.addNotification(1, 1, this.userid, 8, this.electId, null,this.userid)
             .subscribe(response => {
               console.log("Noti res: ", response);
             })
@@ -253,7 +253,7 @@ export class ElectronicBookProvinceDetailComponent implements OnInit {
           this.modalRef.hide();
           this._NotofyService.onSuccess("รับทราบรายการสมุดตรวจ",)
         } else {
-          this.notificationService.addNotification(this.electronicBookData.electronicBookGroup[0].centralPolicyId, 1, this.userid, 8, this.electId, null)
+          this.notificationService.addNotification(this.electronicBookData.electronicBookGroup[0].centralPolicyId, 1, this.userid, 8, this.electId, null,this.userid)
             .subscribe(response => {
               console.log("Noti res: ", response);
             })

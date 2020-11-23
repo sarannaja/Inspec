@@ -6,40 +6,61 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class CabineService {
-  // url = "";
+  url = "";
   files: FileList;
-  constructor(private http: HttpClient, @Inject('BASE_URL') private url: string) { }
+  constructor(private http: HttpClient,  @Inject('BASE_URL') baseUrl: string) {
+    this.url = baseUrl + 'api/cabine/';
+   }
+
   getcabine() {
     return this.http.get(this.url)
   }
+  getcabineministry(id): Observable<any[]> {
+    return this.http.get<any[]>(this.url + id)
+  }
   addCabine(cabineData, file: FileList) {
-    //alert(JSON.stringify(cabineData))
     const formData = new FormData();
     formData.append('Prefix', cabineData.prefix);
     formData.append('Name', cabineData.name);
     formData.append('Position', cabineData.position);
     formData.append('Detail', cabineData.detail);
-    for (var iii = 0; iii < file.length; iii++) {
-      formData.append("files", file[iii]);
+
+    if(file != null){
+      for (var iii = 0; iii < file.length; iii++) {
+        formData.append("files", file[iii]);
+      }
+    }else {
+      formData.append("files", null);
     }
-    return this.http.post(this.url, formData);
+    formData.append('Commandnumber', cabineData.Commandnumber);
+    formData.append('cabinet', cabineData.cabinet);
+    formData.append('tel', cabineData.tel);
+    formData.append('MinistryId', cabineData.MinistryId);
+
+    return this.http.post<any>(this.url, formData);
   }
   deleteCabine(id) {
     return this.http.delete(this.url + id);
   }
-  editCabine(cabineData, id) {
-    console.log(cabineData);
+  editCabine(cabineData,file:FileList,filename, id) {
     const formData = new FormData();
-    //alert(JSON.stringify(cabineData))
     formData.append('Prefix', cabineData.prefix);
     formData.append('Name', cabineData.name);
     formData.append('Position', cabineData.position);
     formData.append('Detail', cabineData.detail);
-    for (var iii = 0; iii < File.length; iii++) {
-      formData.append("files", File[iii]);
-    }
 
-    console.log('FORMDATA: ' + JSON.stringify(formData));
-    return this.http.put(this.url + id, formData);
+    if(file != null){
+      for (var iii = 0; iii < file.length; iii++) {
+        formData.append("files", file[iii]);
+      }
+    }else {
+      formData.append("files", null);
+    }
+    formData.append('Commandnumber', cabineData.Commandnumber);
+    formData.append('cabinet', cabineData.cabinet);
+    formData.append('tel', cabineData.tel);
+    formData.append('MinistryId', cabineData.MinistryId);
+    formData.append('Filename', filename);
+    return this.http.put<any>(this.url + id, formData);
   }
 }

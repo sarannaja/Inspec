@@ -176,6 +176,13 @@ import { PhaseTrainingComponent } from './training/phase-training/phase-training
 import { PlanTrainingComponent } from './training/plan-training/plan-training.component';
 import { ProgramTrainingComponent } from './training/program-training/program-training.component';
 import { TrainingComponent } from './training/training.component';
+import { TrainingSummaryReportComponent } from './training-summary-report/training-summary-report.component';
+import { TrainingSummaryReportPhaseComponent } from './training-summary-report/training-summary-report-phase/training-summary-report-phase.component';
+import { TrainingSummaryReportGroupComponent } from './training-summary-report/training-summary-report-group/training-summary-report-group.component';
+import { TrainingSummaryReportProjectComponent } from './training-summary-report-project/training-summary-report-project.component';
+
+
+
 import { TypeexamibationplanComponent } from './typeexamibationplan/typeexamibationplan.component';
 import { UserComponent } from './user/user.component';
 import { AppComponent } from './app.component';
@@ -245,6 +252,7 @@ const routes: Routes = [
       { path: 'district/:id/:name', component: DistrictComponent, canActivate: [AuthorizeGuard] },
       { path: 'subdistrict/:id/:provincename/:districtname', component: SubdistrictComponent, canActivate: [AuthorizeGuard] },
       { path: 'vilage/:iddistrict/:subdistrictid/:provincename/:districtname/:subdistrictname', component: VilageComponent, canActivate: [AuthorizeGuard] },
+      { path: 'cabinetserver', component: CabinetComponent, canActivate: [AuthorizeGuard] },
       //----Training----
       { path: 'training', component: TrainingComponent, canActivate: [AuthorizeGuard] },
       { path: 'training/createtraining', component: CreateTrainingComponent, canActivate: [AuthorizeGuard] },
@@ -278,7 +286,12 @@ const routes: Routes = [
 
       { path: 'training/programtype', component: TrainingProgramTypeComponent, canActivate: [AuthorizeGuard] },
       { path: 'training/lecturertype', component: TrainingLecturerTypeComponent, canActivate: [AuthorizeGuard] },
-
+      { path: 'training/report/summary/phase/:trainingid', component: TrainingSummaryReportComponent, canActivate: [AuthorizeGuard] },
+      { path: 'training/report/summary/phase/group/:trainingid/:phaseid', component: TrainingSummaryReportPhaseComponent, canActivate: [AuthorizeGuard] },
+      { path: 'training/report/summary/phase/group/detail/:trainingid/:phaseid/:group', component: TrainingSummaryReportGroupComponent, canActivate: [AuthorizeGuard] },
+      { path: 'training/report/summary/project/:trainingid', component: TrainingSummaryReportProjectComponent, canActivate: [AuthorizeGuard] },
+      
+      
 
       //---------------
       { path: 'training/idcode/:id', loadChildren: () => import('./training-idcode/training-idcode.module').then(m => m.TrainingIdcodeModule) },
@@ -418,7 +431,7 @@ const routes: Routes = [
   { path: 'train/register/:id', component: RegisterDefaultLayoutTrainComponent, canActivate: [AuthorizeGuard] },
   { path: 'train/register-external/:id', component: RegisterDefaultLayoutTrainComponent },
   { path: 'train/list/:id', component: ListDefaultLayoutTrainComponent },
-  { path: 'train/survey/:id/:suveyjoinlecid', component: SurveyDefaultLayoutTrainComponent, canActivate: [AuthorizeGuard] },
+  { path: 'train/survey/:id/:suveyjoinlecid/:surveytopicid', component: SurveyDefaultLayoutTrainComponent, canActivate: [AuthorizeGuard] },
   { path: 'train/register-success/:id', component: SuccessDefaultLayoutTrainComponent, canActivate: [AuthorizeGuard] },
   {
     path: 'train', component: DefaultLayoutTrainComponent,

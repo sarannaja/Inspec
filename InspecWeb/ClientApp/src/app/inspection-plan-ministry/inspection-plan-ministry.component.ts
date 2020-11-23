@@ -49,7 +49,7 @@ export class InspectionPlanMinistryComponent implements OnInit {
   loading = false;
   data: any = [];
   userid: string
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   centralpolicyprovinceid: any
   role_id
   timelineData: any = [];
@@ -308,7 +308,7 @@ export class InspectionPlanMinistryComponent implements OnInit {
         // this.modalService.show('modaldeleteProvince');
 
         for (let i = 0; i < CentralpolicyId.length; i++) {
-          this.notificationService.addNotification(CentralpolicyId[i], this.provinceid, this.userid, 3, 1, null)
+          this.notificationService.addNotification(CentralpolicyId[i], this.provinceid, this.userid, 3, 1, null,this.userid)
             .subscribe(response => {
               console.log(response);
             })
@@ -467,18 +467,18 @@ export class InspectionPlanMinistryComponent implements OnInit {
     await this.userservice.getuserdata(7).subscribe(async result => {
       this.resultpeople = result
       console.log("tttt:", this.resultpeople);
-      if (this.role_id == 3) {
-        for (var i = 0; i < this.resultpeople.length; i++) {
-          await this.selectdatapeople.push({ value: this.resultpeople[i].id, label: "ด้าน" + this.resultpeople[i].sides.name + " - " + this.resultpeople[i].name })
-        }
-      } else {
+      // if (this.role_id == 3) {
+      //   for (var i = 0; i < this.resultpeople.length; i++) {
+      //     await this.selectdatapeople.push({ value: this.resultpeople[i].id, label: "ด้าน" + this.resultpeople[i].sides.name + " - " + this.resultpeople[i].name })
+      //   }
+      // } else {
         for (var i = 0; i < this.resultpeople.length; i++) {
           var checked = _.filter(this.resultpeople[i].userProvince, (v) => _.includes(this.userProvince.map(result => { return result.provinceId }), v.provinceId)).length
           if (checked > 0) {
-            await this.selectdatapeople.push({ value: this.resultpeople[i].id, label: "ด้าน" + this.resultpeople[i].sides.name + " - " + this.resultpeople[i].name })
+            await this.selectdatapeople.push({ value: this.resultpeople[i].id, label: "ด้าน" + this.resultpeople[i].sides.name + " - " + this.resultpeople[i].name + " จังหวัด" +  this.resultpeople[i].userProvince[0].province.name })
           }
         }
-      }
+      // }
       var data: any[] = this.peopleuserdata.map(result => {
         return result.user.id
       })
@@ -493,35 +493,42 @@ export class InspectionPlanMinistryComponent implements OnInit {
     this.selectdatadepartmentpeople = []
     await this.userservice.getuserdata(10).subscribe(async result => {
       this.resultdepartmentpeople = result // All
-      if (this.role_id == 3) {
-        for (var i = 0; i < this.resultdepartmentpeople.length; i++) {
+      // if (this.role_id == 3) {
+      //   for (var i = 0; i < this.resultdepartmentpeople.length; i++) {
 
-          var userregion = "";
-          for (var j = 0; j < this.resultdepartmentpeople[i].userRegion.length; j++) {
+      //     var userregion = "";
+      //     for (var j = 0; j < this.resultdepartmentpeople[i].userRegion.length; j++) {
 
-            if (this.resultdepartmentpeople[i].userRegion[j].region.name == "เขตตรวจราชส่วนกลาง") {
-              this.resultdepartmentpeople[i].userRegion[j].region.name = "ส่วนกลาง"
-            } else {
-              this.resultdepartmentpeople[i].userRegion[j].region.name = this.resultdepartmentpeople[i].userRegion[j].region.name.replace('เขตตรวจราชการที่', '');
-            }
+      //       if (this.resultdepartmentpeople[i].userRegion[j].region.name == "เขตตรวจราชส่วนกลาง") {
+      //         this.resultdepartmentpeople[i].userRegion[j].region.name = "ส่วนกลาง"
+      //       } else {
+      //         this.resultdepartmentpeople[i].userRegion[j].region.name = this.resultdepartmentpeople[i].userRegion[j].region.name.replace('เขตตรวจราชการที่', '');
+      //       }
 
-            if (j == (this.resultdepartmentpeople[i].userRegion.length - 1)) {
-              userregion += this.resultdepartmentpeople[i].userRegion[j].region.name
-            } else {
-              userregion += this.resultdepartmentpeople[i].userRegion[j].region.name + ", "
-            }
-          }
+      //       if (j == (this.resultdepartmentpeople[i].userRegion.length - 1)) {
+      //         userregion += this.resultdepartmentpeople[i].userRegion[j].region.name
+      //       } else {
+      //         userregion += this.resultdepartmentpeople[i].userRegion[j].region.name + ", "
+      //       }
+      //     }
 
-          await this.selectdatadepartmentpeople.push({ value: this.resultdepartmentpeople[i].id, label: this.resultdepartmentpeople[i].departments.name + " - " + this.resultdepartmentpeople[i].name + " เขต " + userregion })
-        }
-      } else {
+      //     await this.selectdatadepartmentpeople.push({ value: this.resultdepartmentpeople[i].id, label: this.resultdepartmentpeople[i].departments.name + " - " + this.resultdepartmentpeople[i].name + " เขต " + userregion })
+      //   }
+      // } else {
         for (var i = 0; i < this.resultdepartmentpeople.length; i++) {
           var checked = _.filter(this.resultdepartmentpeople[i].userProvince, (v) => _.includes(this.userProvince.map(result => { return result.provinceId }), v.provinceId)).length
           if (checked > 0) {
-            if (this.ministryId == this.resultdepartmentpeople[i].ministryId) {
+            // if (this.ministryId == this.resultdepartmentpeople[i].ministryId) {
 
               var userregion = "";
               for (var j = 0; j < this.resultdepartmentpeople[i].userRegion.length; j++) {
+
+                if (this.resultdepartmentpeople[i].userRegion[j].region.name == "เขตตรวจราชส่วนกลาง") {
+                  this.resultdepartmentpeople[i].userRegion[j].region.name = "ส่วนกลาง"
+                } else {
+                  this.resultdepartmentpeople[i].userRegion[j].region.name = this.resultdepartmentpeople[i].userRegion[j].region.name.replace('เขตตรวจราชการที่', '');
+                }
+
                 if (j == (this.resultdepartmentpeople[i].userRegion.length - 1)) {
                   userregion += this.resultdepartmentpeople[i].userRegion[j].region.name
                 } else {
@@ -530,10 +537,10 @@ export class InspectionPlanMinistryComponent implements OnInit {
               }
 
               await this.selectdatadepartmentpeople.push({ value: this.resultdepartmentpeople[i].id, label: this.resultdepartmentpeople[i].departments.name + " - " + this.resultdepartmentpeople[i].name + " เขต " + userregion })
-            }
+            // }
           }
         }
-      }
+      // }
       var data: any[] = this.departmentuserdata.map(result => {
         return result.user.id
       })
@@ -550,18 +557,18 @@ export class InspectionPlanMinistryComponent implements OnInit {
     await this.userservice.getuserdata(9).subscribe(async result => {
       this.resultprovincialdepartmentpeople = result
       console.log("tttt:", this.resultprovincialdepartmentpeople);
-      if (this.role_id == 3) {
-        for (var i = 0; i < this.resultprovincialdepartmentpeople.length; i++) {
-          await this.selectdataprovincialdepartmentpeople.push({ value: this.resultprovincialdepartmentpeople[i].id, label: this.resultprovincialdepartmentpeople[i].provincialDepartments.name + " - " + this.resultprovincialdepartmentpeople[i].name })
-        }
-      } else {
+      // if (this.role_id == 3) {
+      //   for (var i = 0; i < this.resultprovincialdepartmentpeople.length; i++) {
+      //     await this.selectdataprovincialdepartmentpeople.push({ value: this.resultprovincialdepartmentpeople[i].id, label: this.resultprovincialdepartmentpeople[i].provincialDepartments.name + " - " + this.resultprovincialdepartmentpeople[i].name })
+      //   }
+      // } else {
         for (var i = 0; i < this.resultprovincialdepartmentpeople.length; i++) {
           var checked = _.filter(this.resultprovincialdepartmentpeople[i].userProvince, (v) => _.includes(this.userProvince.map(result => { return result.provinceId }), v.provinceId)).length
           if (checked > 0) {
             await this.selectdataprovincialdepartmentpeople.push({ value: this.resultprovincialdepartmentpeople[i].id, label: this.resultprovincialdepartmentpeople[i].provincialDepartments.name + " - " + this.resultprovincialdepartmentpeople[i].name })
           }
         }
-      }
+      // }
       console.log("this.provincialdepartmentuserdata", this.provincialdepartmentuserdata);
 
       var data: any[] = this.provincialdepartmentuserdata.map(result => {
@@ -635,7 +642,7 @@ export class InspectionPlanMinistryComponent implements OnInit {
           if (UserMinistryId != null) {
             if (this.timelineData.status == "ใช้งานจริง") {
               for (let i = 0; i < UserMinistryId.length; i++) {
-                this.notificationService.addNotification(this.data[j].centralPolicyId, this.provinceid, UserMinistryId[i], 1, this.id, null)
+                this.notificationService.addNotification(this.data[j].centralPolicyId, this.provinceid, UserMinistryId[i], 1, this.id, null,this.userid)
                   .subscribe(response => {
                     console.log(response);
                   })
@@ -645,7 +652,7 @@ export class InspectionPlanMinistryComponent implements OnInit {
           if (UserDepartmentId != null) {
             if (this.timelineData.status == "ใช้งานจริง") {
               for (let i = 0; i < UserDepartmentId.length; i++) {
-                this.notificationService.addNotification(this.data[j].centralPolicyId, this.provinceid, UserDepartmentId[i], 1, this.id, null)
+                this.notificationService.addNotification(this.data[j].centralPolicyId, this.provinceid, UserDepartmentId[i], 1, this.id, null,this.userid)
                   .subscribe(response => {
                     console.log(response);
                   })
@@ -655,7 +662,7 @@ export class InspectionPlanMinistryComponent implements OnInit {
           if (UserProvincialDepartmentId != null) {
             if (this.timelineData.status == "ใช้งานจริง") {
               for (let i = 0; i < UserProvincialDepartmentId.length; i++) {
-                this.notificationService.addNotification(this.data[j].centralPolicyId, this.provinceid, UserProvincialDepartmentId[i], 1, this.id, null)
+                this.notificationService.addNotification(this.data[j].centralPolicyId, this.provinceid, UserProvincialDepartmentId[i], 1, this.id, null,this.userid)
                   .subscribe(response => {
                     console.log(response);
                   })
@@ -666,7 +673,7 @@ export class InspectionPlanMinistryComponent implements OnInit {
           if (UserPeopleId != null) {
             if (this.timelineData.status == "ใช้งานจริง") {
               for (let i = 0; i < UserPeopleId.length; i++) {
-                this.notificationService.addNotification(this.data[j].centralPolicyId, this.provinceid, UserPeopleId[i], 1, this.id, null)
+                this.notificationService.addNotification(this.data[j].centralPolicyId, this.provinceid, UserPeopleId[i], 1, this.id, null,this.userid)
                   .subscribe(response => {
                     console.log(response);
                   })
@@ -705,7 +712,7 @@ export class InspectionPlanMinistryComponent implements OnInit {
       // location.reload();
       this.getTimeline();
 
-      this.notificationService.addNotification(1, this.provinceid, 1, 16, this.id, null)
+      this.notificationService.addNotification(1, this.provinceid, 1, 16, this.id, null,this.userid)
         .subscribe(response => {
           console.log(response);
         })

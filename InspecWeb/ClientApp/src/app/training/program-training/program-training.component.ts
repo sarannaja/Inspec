@@ -36,7 +36,7 @@ export class ProgramTrainingComponent implements OnInit {
   name: any
   link: any
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   Form: FormGroup;
   EditForm: FormGroup;
   form: FormGroup;
@@ -510,6 +510,19 @@ export class ProgramTrainingComponent implements OnInit {
       this.getprogramtrainingdetail()
     })
   }
+
+  gotoMain(){
+    this.router.navigate(['/main'])
+  }
+
+  gotoMainTraining(){
+    this.router.navigate(['/training'])
+  }
+
+  gotoMainTrainingPhase(){
+    this.router.navigate(['/training/phase/', this.trainingid])
+  }
+
   gotoBack() {
     window.history.back();
   }

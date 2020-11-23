@@ -24,7 +24,7 @@ export class SubdistrictComponent implements OnInit {
   modalRef: BsModalRef;
   subdistrict_id:any;
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   province_id:any;
   provincename:any;
   districtname:any;

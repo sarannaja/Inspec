@@ -16,7 +16,7 @@ import { LogService } from '../services/log.service';
 })
 export class TrainingIDCodeComponent implements OnInit {
 
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   people: any = [];
   loading = false;
   trainingid: any;
@@ -147,6 +147,18 @@ export class TrainingIDCodeComponent implements OnInit {
 
   gotoBack() {
     window.history.back();
+  }
+
+  gotoMain(){
+    this.router.navigate(['/main'])
+  }
+
+  gotoMainTraining(){
+    this.router.navigate(['/training'])
+  }
+
+  gotoTrainingManage(){
+    this.router.navigate(['/training/manage/', this.trainingid])
   }
 
   openModal(template: TemplateRef<any>) {

@@ -2,6 +2,10 @@
     background : none;
 }
 
+.pointer {
+    cursor:pointer;
+}
+
 html, body, h1, h2, h3, h4, p, img {
     margin: 0;
   }
@@ -48,6 +52,8 @@ html, body, h1, h2, h3, h4, p, img {
         width: 100% !important;
     }
   
+    
+
     .page {
       margin: 0;
       border: initial;

@@ -38,7 +38,7 @@ export class DetailExecutiveOrderComponent implements OnInit {
   selectdataprovince: Array<any>
   EditForm: FormGroup;
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   idAnswer: Number;
   userid: any;
   role_id: any;
@@ -168,7 +168,7 @@ export class DetailExecutiveOrderComponent implements OnInit {
 
         this.executive_id = result.id;
 
-        this.notificationService.addNotification(this.id, value.provinceId, this.userid, 10, this.executive_id,null)
+        this.notificationService.addNotification(this.id, value.provinceId, this.userid, 10, this.executive_id,null,this.userid)
           .subscribe(result => {
           })
 
@@ -208,7 +208,7 @@ export class DetailExecutiveOrderComponent implements OnInit {
       .subscribe(result => {
 
         // alert(result.id);
-        this.notificationService.addNotification(this.id, this.provincefornotirole3, 1, 11, result.id,null)
+        this.notificationService.addNotification(this.id, this.provincefornotirole3, 1, 11, result.id,null,this.userid)
           .subscribe(result => {
           })
         this.modalRef.hide();

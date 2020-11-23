@@ -19,7 +19,7 @@ export class TrainingSurveyComponent implements OnInit {
   modalRef: BsModalRef;
   openid: any
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   mainUrl: string;
   trainingid: any;
   Form: FormGroup;
@@ -88,6 +88,10 @@ export class TrainingSurveyComponent implements OnInit {
       .subscribe(result => {
         this.userid = result.sub
       })
+  }
+
+  gotoMain(){
+    this.router.navigate(['/main'])
   }
 
   gotoBack() {
@@ -163,7 +167,6 @@ export class TrainingSurveyComponent implements OnInit {
       })
     }
   }
-
 
 
 }

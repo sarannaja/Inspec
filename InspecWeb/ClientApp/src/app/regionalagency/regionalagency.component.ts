@@ -5,6 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { NgxSpinnerService } from "ngx-spinner";
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { MinistryService } from '../services/ministry.service';
 
 
 @Component({
@@ -16,7 +17,7 @@ export class RegionalagencyComponent implements OnInit {
 
   modalRef: BsModalRef;
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   roleId: any;
   rolename: any;
   resultuser: any[] = [];
@@ -38,6 +39,8 @@ export class RegionalagencyComponent implements OnInit {
   UserRegion:any;
   files: string[] = [];
   imgprofileUrl: any;
+  selectministry:any=[];
+  ministry :any;
   //END name input
   
 
@@ -47,6 +50,7 @@ export class RegionalagencyComponent implements OnInit {
     private fb: FormBuilder,
     private userService: UserService,
     private spinner: NgxSpinnerService,
+    private ministryService: MinistryService,
     @Inject('BASE_URL') baseUrl: string
   ) {
     this.imgprofileUrl = baseUrl + '/imgprofile';
@@ -67,15 +71,21 @@ export class RegionalagencyComponent implements OnInit {
           "next": "ต่อไป",
           "previous": "ย้อนกลับ"
         },
-      }
+      },
+      dom: 'Bfrtip',
+      buttons: [
+        { extend: 'excel', text: 'Excel', className: 'btn btn-success glyphicon glyphicon-list-alt' },
+        { extend: 'pdf', text: 'Pdf', className: 'btn btn-primary glyphicon glyphicon-file' },
+        { extend: 'print', text: 'Print', className: 'btn btn-primary glyphicon glyphicon-print' }
+      ]
 
     };
-    this.getUser()
+    this.getDataMinistriesfirst()
   }
 
-  getUser() {
+  getdata(id) {
     this.spinner.show();
-    this.userService.getuserregionalagencydata()
+    this.userService.getuserregionalagencydata(id)
       .subscribe(result => {
         //alert(this.roleId);
         this.resultuser = result;
@@ -84,6 +94,26 @@ export class RegionalagencyComponent implements OnInit {
         // console.log(this.resultuser);
       })
   }
+  getDataMinistriesfirst() {
+    
+    this.ministryService.getministry()
+     .subscribe(result => {
+       this.selectministry = result;
+       this.ministry = 0;
+       //console.log("momox",result[0].id)
+       this.getdata(this.ministry);
+       //alert(this.ministry)
+     });
+ }
+
+ Changeministry(event){
+   // alert(JSON.stringify(event.target));
+   // console.log("momox",event.target)
+   // alert(event.target.value);
+   this.ministry = event.target.value;
+   this.loading = false;
+   this.getdata(event.target.value);
+ }
   excel(){
     window.location.href = '/api/user/excelregionalagency';
   }

@@ -18,7 +18,7 @@ export class RateloginTrainingReportComponent implements OnInit {
   modalRef: BsModalRef;
   delid: any
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   downloadUrl: any;
   mainUrl: string;
   Form: FormGroup;
@@ -71,6 +71,18 @@ export class RateloginTrainingReportComponent implements OnInit {
 
   gotoBack() {
     window.history.back();
+  }
+
+  gotoMain(){
+    this.router.navigate(['/main'])
+  }
+
+  gotoMainTraining(){
+    this.router.navigate(['/training'])
+  }
+
+  gotoTrainingManage(){
+    this.router.navigate(['/training/manage/', this.trainingid])
   }
 
   printReport() {

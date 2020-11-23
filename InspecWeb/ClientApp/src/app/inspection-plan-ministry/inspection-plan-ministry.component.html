@@ -26,13 +26,36 @@
           {{ScheduleData.userData.name}}</label>
         <br>
         <label>สร้างเมื่อ : {{ScheduleData.scheduleData.createdAt | thaidate: 'short'}}</label>
+        <div class="float-right" style="margin-top: -120px;">
+          <!-- <button *ngIf="role_id == 6 && data.length != 0" type="button" (click)="openModal(modalInviteMinistryPeople)"
+          style="margin-top: -60px;" class="btn btn-primary">เชิญผู้ตรวจราชการกระทรวง</button> -->
+
+          <i *ngIf="role_id == 6 && data.length != 0 && watch == 0" (click)="openModal(modalInviteMinistryPeople)"
+            title="เชิญผู้ร่วมตรวจราชการ/ระบุหน่วยรับตรวจ" style="margin-top: -60px;"
+            class="align-middle fas fa-fw fa-user-plus pointer"></i>
+
+          &nbsp;&nbsp;
+
+          <button class="btn btn-primary" title="เพิ่มเรื่องที่ตรวจติดตาม" style="margin-top: -60px;"
+            *ngIf="role_id == 6 && timelineData.status == 'ร่างกำหนดการ' && watch == 0"
+            (click)="openModal(modalCentralPolicyEventRelation)">
+            <i class="align-middle fas fa-fw fa-plus pointer"></i></button>
+
+          <!-- <button *ngIf="role_id == 6" class="btn btn-success" (click)="openModal(modalCentralPolicyEventRelation)"
+          style="margin-top: -60px;">เพิ่มเรื่องที่ตรวจติดตามจากแผน</button>
+        &nbsp;&nbsp;
+        <button *ngIf="role_id == 6" class="btn btn-success" (click)="CrateInspectionPlan(id)"
+          style="margin-top: -60px;">เพิ่มเรื่องที่ตรวจติดตามอื่นๆ</button> -->
+        </div>
         <div class="row-12">
-          <div class="row" style="margin-left: 5px;">
-            <input style="width: 12%;" class="form-control" value="{{timelineData.startDate | thaidate: 'short'}}"
+          <div class="row ml-1">
+            <span class="card" style="border-width: 0.5px; padding: 5px;">{{timelineData.startDate | thaidate: 'short'}}
+              - {{timelineData.endDate | thaidate: 'short'}}</span>
+            <!-- <input style="width: 12%;" class="form-control" value="{{timelineData.startDate | thaidate: 'short'}}"
               readonly>
             <label style="margin-left: 5px; margin-right: 5px; font-weight: bold;"> - </label>
             <input style="width: 12%;" class="form-control" value="{{timelineData.endDate | thaidate: 'short'}}"
-              readonly>
+              readonly> -->
 
             <i *ngIf="role_id == 6 && timelineData.status == 'ร่างกำหนดการ' && watch == 0"
               (click)="openModal(modalChangeDate)" style="margin-left: 5px;margin-top: 8px;"
@@ -89,32 +112,12 @@
           <!-- <div>456</div> -->
           <!-- <div>สถานะกำหนดการตรวจ {{ScheduleData.scheduleData.status}}</div> -->
 
-          <div class="float-right" style="margin-top: -120px;">
-            <!-- <button *ngIf="role_id == 6 && data.length != 0" type="button" (click)="openModal(modalInviteMinistryPeople)"
-            style="margin-top: -60px;" class="btn btn-primary">เชิญผู้ตรวจราชการกระทรวง</button> -->
 
-            <i *ngIf="role_id == 6 && data.length != 0 && watch == 0" (click)="openModal(modalInviteMinistryPeople)"
-              title="เพิ่มผู้ร่วมตรวจ" style="margin-top: -60px;"
-              class="align-middle fas fa-fw fa-user-plus pointer"></i>
-
-            &nbsp;&nbsp;
-
-            <button class="btn btn-primary" title="เพิ่มเรื่องที่ตรวจติดตาม" style="margin-top: -60px;"
-              *ngIf="role_id == 6 && timelineData.status == 'ร่างกำหนดการ' && watch == 0"
-              (click)="openModal(modalCentralPolicyEventRelation)">
-              <i class="align-middle fas fa-fw fa-plus pointer"></i></button>
-
-            <!-- <button *ngIf="role_id == 6" class="btn btn-success" (click)="openModal(modalCentralPolicyEventRelation)"
-            style="margin-top: -60px;">เพิ่มเรื่องที่ตรวจติดตามจากแผน</button>
-          &nbsp;&nbsp;
-          <button *ngIf="role_id == 6" class="btn btn-success" (click)="CrateInspectionPlan(id)"
-            style="margin-top: -60px;">เพิ่มเรื่องที่ตรวจติดตามอื่นๆ</button> -->
-          </div>
         </div>
       </div>
       <div class="card-header" style="margin-top: -20px;">
         <!-- <br> -->
-        <h3>ผู้ร่วมตรวจ</h3>
+        <span style="font-size: 20px;"><b>ผู้ร่วมตรวจ</b></span>
         <!-- <div class="row"> -->
         <!-- <div>
           <u style="font-weight: bold;">ผู้ตรวจราชการกระทรวง {{ministryuserdata.length}} คน</u>
@@ -151,7 +154,7 @@
           </div>
         </div>
         <br>
-        <h3 style="color: #3b7ddd;">หน่วยรับตรวจ</h3>
+        <span style="color: #3b7ddd;font-size: 20px;"><b>หน่วยรับตรวจ</b></span>
         <div>
           <u style="font-weight: bold;color: #3b7ddd;">หน่วยรับตรวจ {{provincialdepartmentuserdata.length}} คน</u>
           <i class="fas fa-chevron-down" style="margin-left: 10px;color: #3b7ddd; font-size: large; cursor: pointer;"
@@ -293,7 +296,7 @@
 
   <div class="modal-content">
     <div class="modal-header">
-      <h5 class="modal-title">จัดการแผนการตรวจราชการประจำปี</h5>
+      <span class="modal-title">จัดการแผนการตรวจราชการประจำปี</span>
       <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -433,7 +436,7 @@
   <form [formGroup]="Form2" (ngSubmit)="storeMinistryPeople(Form2.value)">
     <div class="modal-content" *ngIf="loading">
       <div class="modal-header">
-        <h5 class="modal-title">เชิญผู้ร่วมตรวจราชการ</h5>
+        <span class="modal-title">เชิญผู้ร่วมตรวจราชการ/ระบุหน่วยรับตรวจ</span>
         <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -449,12 +452,12 @@
           [items]="DepartmentSelect" name="UserDepartmentId" formControlName="UserDepartmentId">
         </ng-select>
         <br>
-        <label class="form-label">เชิญผู้ตรวจราชการภาคประชาชน</label>
+        <label class="form-label">เชิญที่ปรึกษาผู้ตรวจราชการภาคประชาชน</label>
         <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกชื่อ-นามสกุล" [multiple]="true"
           [items]="PeopleSelect" name="UserPeopleId" formControlName="UserPeopleId">
         </ng-select>
         <br>
-        <label class="form-label">เชิญหน่วยรับตรวจ</label>
+        <label class="form-label">ระบุหน่วยรับตรวจ</label>
         <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกชื่อ-นามสกุล" [multiple]="true"
           [items]="ProvincialDepartmentSelect" name="UserProvincialDepartmentId"
           formControlName="UserProvincialDepartmentId">
@@ -497,7 +500,7 @@
   <!-- <form [formGroup]="FormEditdate" (ngSubmit)="EditDateofPlan(FormEditdate.value)"> -->
   <div class="modal-content">
     <div class="modal-header">
-      <h5 class="modal-title">แก้ไขกำหนดการตรวจ</h5>
+      <span class="modal-title">แก้ไขกำหนดการตรวจ</span>
       <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -565,7 +568,7 @@
   <form [formGroup]="EditForm" (ngSubmit)="EditCentralPolicy(EditForm.value)">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">จัดการแผนตรวจราชการ</h5>
+        <span class="modal-title">จัดการแผนตรวจราชการ</span>
         <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>

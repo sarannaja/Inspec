@@ -16,7 +16,7 @@ export class SubjectService {
     return this.http.get<any[]>(this.url + id)
   }
   getsubjectdetaildata(id) {
-    return this.http.get(this.url + "subjectdetail/" + id)
+    return this.http.get<any>(this.url + "subjectdetail/" + id)
   }
   addSubject(subjectData, centralpolicyid, userid) {
     var subjectdepartment = subjectData.inputsubjectdepartment

@@ -19,7 +19,7 @@ export class InfoMinistryComponent implements OnInit {
   Form : FormGroup
   EditForm: FormGroup;
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
 
   constructor(private modalService: BsModalService,
     private fb: FormBuilder, 

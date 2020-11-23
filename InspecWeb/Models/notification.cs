@@ -30,7 +30,7 @@ namespace InspecWeb.Models
 
         [Description("เรื่องจากจังหวัดไหน")]
         public long ProvinceId { get; set; }
-        
+
         [Description("สถานะ")]
         public long status { get; set; }
 
@@ -43,6 +43,11 @@ namespace InspecWeb.Models
         [Description("title")]
         public string title { get; set; }
 
+        //[ForeignKey("UserCreate")]
+        //[Description("FK: UserCreate")]
+        //public string CreateBy { get; set; }
+        //public virtual ApplicationUser UserCreate { get; set; }
+
         [Description("วันที่ส่งแจ้งเตือน")]
         [DataType(DataType.Date)]
         public DateTime? CreatedAt { get; set; }
@@ -51,5 +56,7 @@ namespace InspecWeb.Models
         [DataType(DataType.Date)]
         public DateTime? ActiveDate { get; set; }
 
+        //public ICollection<ApplicationUser> ApplicationUsers { get; set; }
+        public ICollection<Notificationcreateby> Notificationcreateby { get; set; }
     }
 }

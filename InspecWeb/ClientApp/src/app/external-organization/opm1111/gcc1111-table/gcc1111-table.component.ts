@@ -14,7 +14,7 @@ import { IMyOptions } from 'mydatepicker-th';
 })
 export class Gcc1111TableComponent implements OnInit {
   results: Array<any>
-  // dtOptions: DataTables.Settings = {
+  // dtOptions: any = {
   dtOptions: any = {
     dom: 'Bfrtip',
     buttons: [
@@ -127,18 +127,14 @@ export class Gcc1111TableComponent implements OnInit {
 
     // alert(JSON.stringify(event))
   }
-  enddate(event, i) {
 
-    this.end_date = event
-    // this.value.emit({ start_date: this.setDateTime(this.start_date), end_date: this.setDateTime(this.end_date) })
-
-  }
   checkStarttoResetEndDate(index) {
     this.end_date = void 0;
     // this.value.emit({ start_date: this.setDateTime(this.start_date), end_date: this.setDateTime(this.end_date) })
   }
   starttime(event, i) {
     this.start_date = event
+    this.end_date = null
     // this.value.emit({ start_date: this.setDateTime(this.start_date), end_date: this.setDateTime(this.end_date) })
 
   }
@@ -158,6 +154,13 @@ export class Gcc1111TableComponent implements OnInit {
 
       })
     setTimeout(() => { this.getData() }, 100)
+  }
+  enddate(event, i) {
+
+    this.end_date = event
+    // this.value.emit({ start_date: this.setDateTime(this.start_date), end_date: this.setDateTime(this.end_date) })
+    let value = { start_date: this.start_date, end_date: event }
+    this.onDateRangeChanged(value)
   }
   onDateRangeChanged(value) {
     // //console.log(value);

@@ -20,7 +20,7 @@ export class TrainingLecturerTypeComponent implements OnInit {
   modalRef: BsModalRef;
   editid: any
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   mainUrl: string;
   trainingid: any;
   Form: FormGroup;
@@ -80,6 +80,10 @@ export class TrainingLecturerTypeComponent implements OnInit {
       this.loading = true;
       this.spinner.hide();
     })
+  }
+
+  gotoMain(){
+    this.router.navigate(['/main'])
   }
 
   gotoBack() {

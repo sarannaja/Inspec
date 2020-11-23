@@ -18,7 +18,7 @@ export class GroupTrainingRegisterComponent implements OnInit {
   modalRef: BsModalRef;
   delid: any
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   Form: any;
   resulttrainingPhase: any;
   resulttrainingPhasetable: any[] = []
@@ -37,12 +37,25 @@ export class GroupTrainingRegisterComponent implements OnInit {
   ngOnInit() {
     this.dtOptions = {
       pagingType: 'full_numbers',
-      columnDefs: [
-        {
-          targets: [3, 4],
-          orderable: false
-        }
-      ]
+      // columnDefs: [
+      //   {
+      //     targets: [3, 4],
+      //     orderable: false
+      //   }
+      // ],
+      "language": {
+        "lengthMenu": "แสดง  _MENU_  รายการ",
+        "search": "ค้นหา:",
+        "info": "แสดง _START_ ถึง _END_ จาก _TOTAL_ แถว",
+        "infoEmpty": "แสดง 0 ของ 0 รายการ",
+        "zeroRecords": "ไม่พบข้อมูล",
+        "paginate": {
+          "first": "หน้าแรก",
+          "last": "หน้าสุดท้าย",
+          "next": "ต่อไป",
+          "previous": "ย้อนกลับ"
+        },
+      }
     };
 
     this.Form = this.fb.group({
@@ -174,6 +187,18 @@ export class GroupTrainingRegisterComponent implements OnInit {
 
   gotoBack() {
     window.history.back();
+  }
+
+  gotoMain(){
+    this.router.navigate(['/main'])
+  }
+
+  gotoMainTraining(){
+    this.router.navigate(['/training'])
+  }
+
+  gotoTrainingManage(){
+    this.router.navigate(['/training/manage/', this.trainingid])
   }
 
   selectgroup(value, phase, array_number) {

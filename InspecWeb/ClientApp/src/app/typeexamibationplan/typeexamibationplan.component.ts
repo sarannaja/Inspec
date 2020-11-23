@@ -22,7 +22,7 @@ export class TypeexamibationplanComponent implements OnInit {
     Form : FormGroup
     loading = false;
     userid :any;
-    dtOptions: DataTables.Settings = {}; 
+    dtOptions: any = {}; 
     role_id :any;
     submitted = false;
 

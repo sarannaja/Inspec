@@ -21,7 +21,7 @@ declare var jQuery: any;
 export class AllReportComponent implements OnInit {
   electronicBookData: any = [];
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   userid: string;
   delid: any;
   modalRef: BsModalRef;
@@ -49,7 +49,10 @@ export class AllReportComponent implements OnInit {
   inputdate: any = [{ start_date: '', end_date: '' }];
   startDate: any;
   zoneData: any = [];
-
+  provinceId
+  regionId
+  filter: any = new Object;
+  startdateforexport
   myDatePickerOptions: IMyOptions = {
     // other options...
     dateFormat: 'dd/mm/yyyy',
@@ -114,12 +117,15 @@ export class AllReportComponent implements OnInit {
       }
     };
 
+    this.getImportFiscalYears();
+
     this.getImportedReport();
-    this.getDepartment();
-    this.getRegion();
-    this.getZone();
-    this.getProvince();
-    this.getPresident();
+    // this.getRegion();
+    // this.getZone();
+    // this.getPresident();
+
+    // this.getProvince();
+    // this.getDepartment();
 
     this.reportForm = this.fb.group({
       centralPolicyEvent: new FormControl(null, [Validators.required]),
@@ -163,6 +169,7 @@ export class AllReportComponent implements OnInit {
   }
 
   openModal(template: TemplateRef<any>) {
+    this.reportForm.reset();
     this.checkType = 0;
     this.modalRef = this.modalService.show(template);
   }
@@ -237,13 +244,34 @@ export class AllReportComponent implements OnInit {
   exportDepartment(value) {
     console.log("Department Value: ", value);
     this.exportReportService.getAllReportByDepartment(value).subscribe(res => {
-      // console.log("RESSS: ", res);
+      console.log("RESSS55555kkk: ", res.reports);
+      if (res.reports.length == 0) {
+        console.log("IN NO DATA");
 
-      this.exportReportService.reportDepartment(res, this.checkType).subscribe(res => {
-        console.log("export: ", res);
-        window.open(this.url + "Uploads/" + res.data);
-        this.modalRef.hide();
-      })
+        this._NotofyService.onFalse("ขออภัย", "ไม่มีข้อมูล")
+      } else {
+        this.filter = res;
+        if (this.startDate != undefined) {
+          this.filter.reports = res.reports.filter(result => {
+            let createAt = new Date(result.createAt)
+            console.log("result.createAt123", createAt.toLocaleDateString());
+            return (createAt.toLocaleDateString() == this.startdateforexport)
+          })
+        }
+        console.log("filterssss ", this.filter);
+
+        if (this.filter.reports.length == 0) {
+          console.log("IN NO DATA");
+
+          this._NotofyService.onFalse("ขออภัย", "ไม่มีข้อมูล")
+        } else {
+          this.exportReportService.reportDepartment(this.filter, this.checkType).subscribe(res => {
+            console.log("export: ", res);
+            window.open(this.url + "Uploads/" + res.data);
+            this.modalRef.hide();
+          })
+        }
+      }
     })
   }
 
@@ -268,7 +296,18 @@ export class AllReportComponent implements OnInit {
       // alert(JSON.stringify(value.president[i].regionId))
       // alert(value.president[i].regionId)
       this.exportReportService.getAllReportByPresidentId(value.president[i].regionId).subscribe(res => {
-        this.exportReportService.reportRegion(res, "รายเขต").subscribe(res => {
+        console.log("RES President => ", res);
+
+        this.filter = res;
+        if (this.startDate != undefined) {
+          this.filter.reports = res.reports.filter(result => {
+            let createAt = new Date(result.createAt)
+            console.log("result.createAt123", createAt.toLocaleDateString());
+            return (createAt.toLocaleDateString() == this.startdateforexport)
+          })
+        }
+        console.log("Filter President => ", this.filter);
+        this.exportReportService.reportRegion(this.filter, "รายเขต").subscribe(res => {
           console.log("export: ", res);
           window.open(this.url + "Uploads/" + res.data);
           this.modalRef.hide();
@@ -294,24 +333,60 @@ export class AllReportComponent implements OnInit {
     this.exportReportService.getAllReportByRegionId(value).subscribe(res => {
       // console.log("RESSS: ", res);
 
-      this.exportReportService.reportRegion(res, this.checkType).subscribe(res => {
-        console.log("export: ", res);
-        window.open(this.url + "Uploads/" + res.data);
-        this.modalRef.hide();
-      })
+      if (res.reports.length == 0) {
+        console.log("IN NO DATA");
+        this._NotofyService.onFalse("ขออภัย", "ไม่มีข้อมูล");
+      } else {
+        this.filter = res;
+        if (this.startDate != undefined) {
+          this.filter.reports = res.reports.filter(result => {
+            let createAt = new Date(result.createAt)
+            console.log("result.createAt123", createAt.toLocaleDateString());
+            return (createAt.toLocaleDateString() == this.startdateforexport)
+          })
+        }
+        // console.log("this.filter", this.filter)
+        if (this.filter.reports.length == 0) {
+          console.log("IN NO DATA");
+          this._NotofyService.onFalse("ขออภัย", "ไม่มีข้อมูล");
+        } else {
+          this.exportReportService.reportRegion(this.filter, this.checkType).subscribe(res => {
+            console.log("export: ", res);
+            window.open(this.url + "Uploads/" + res.data);
+            this.modalRef.hide();
+          })
+        }
+      }
     })
   }
 
   exportZone(value) {
     console.log("Department Value: ", value);
     this.exportReportService.getAllReportByZoneId(value).subscribe(res => {
-      // console.log("RESSS: ", res);
-
-      this.exportReportService.reportZone(res, this.checkType).subscribe(res => {
-        console.log("export: ", res);
-        window.open(this.url + "Uploads/" + res.data);
-        this.modalRef.hide();
-      })
+      if (res.reports.length == 0) {
+        console.log("IN NO DATA");
+        this._NotofyService.onFalse("ขออภัย", "ไม่มีข้อมูล");
+      } else {
+        this.filter = res;
+        if (this.startDate != undefined) {
+          this.filter.reports = res.reports.filter(result => {
+            let createAt = new Date(result.createAt)
+            console.log("result.createAt123", createAt.toLocaleDateString());
+            return (createAt.toLocaleDateString() == this.startdateforexport)
+          })
+        }
+        // console.log("this.filter", this.filter)
+        if (this.filter.reports.length == 0) {
+          console.log("IN NO DATA");
+          this._NotofyService.onFalse("ขออภัย", "ไม่มีข้อมูล");
+        } else {
+          this.exportReportService.reportZone(this.filter, this.checkType).subscribe(res => {
+            console.log("export: ", res);
+            window.open(this.url + "Uploads/" + res.data);
+            this.modalRef.hide();
+          })
+        }
+      }
 
       // this.reportForm.reset();
       // this.loading = false;
@@ -337,13 +412,30 @@ export class AllReportComponent implements OnInit {
     console.log("Province Value: ", value);
     this.exportReportService.getAllReportProvinceId(value).subscribe(res => {
       // console.log("RESSS: ", res);
+      if (res.reports.length == 0) {
+        console.log("IN NO DATA");
+        this._NotofyService.onFalse("ขออภัย", "ไม่มีข้อมูล");
+      } else {
+        this.filter = res;
+        if (this.startDate != undefined) {
+          this.filter.reports = res.reports.filter(result => {
+            let createAt = new Date(result.createAt)
+            console.log("result.createAt123", createAt.toLocaleDateString());
+            return (createAt.toLocaleDateString() == this.startdateforexport)
+          })
+        }
 
-      this.exportReportService.reportProvince(res, this.checkType).subscribe(res => {
-        console.log("export: ", res);
-        window.open(this.url + "Uploads/" + res.data);
-        this.modalRef.hide();
-      })
-
+        if (this.filter.reports.length == 0) {
+          console.log("IN NO DATA");
+          this._NotofyService.onFalse("ขออภัย", "ไม่มีข้อมูล");
+        } else {
+          this.exportReportService.reportProvince(this.filter, this.checkType).subscribe(res => {
+            console.log("export: ", res);
+            window.open(this.url + "Uploads/" + res.data);
+            this.modalRef.hide();
+          })
+        }
+      }
       // this.reportForm.reset();
       // this.loading = false;
       // this.getImportedReport();
@@ -355,30 +447,35 @@ export class AllReportComponent implements OnInit {
     // console.log("Day Value: ", value);
     this.exportReportService.getAllReportDay(value).subscribe(res => {
       console.log("RESSS: ", res);
+      if (res.reports.length == 0) {
+        console.log("IN NO DATA");
+        this._NotofyService.onFalse("ขออภัย", "ไม่มีข้อมูล");
+      } else {
+        this.exportReportService.reportDay(res, this.checkType).subscribe(res => {
+          console.log("export: ", res);
+          window.open(this.url + "Uploads/" + res.data);
+          this.modalRef.hide();
+        })
 
-      this.exportReportService.reportDay(res, this.checkType).subscribe(res => {
-        console.log("export: ", res);
-        window.open(this.url + "Uploads/" + res.data);
-        this.modalRef.hide();
-      })
-
-      // this.reportForm.reset();
-      // this.loading = false;
-      // this.getImportedReport();
-      // this.modalRef.hide();
+        // this.reportForm.reset();
+        // this.loading = false;
+        // this.getImportedReport();
+        // this.modalRef.hide();
+      }
     })
   }
 
   onStartDateChanged(value) {
     console.log("startDateChange: ", value);
     this.startDate = value.date.year + '-' + value.date.month + '-' + value.date.day;
+    this.startdateforexport = value.date.month + '/' + value.date.day + '/' + value.date.year;
     console.log("Date ja: ", this.startDate);
   }
 
   getZone() {
     this.exportReportService.getZones().subscribe(res => {
       console.log("getZones: ", res);
-      this.presidentData = res.sectors.map((item, index) => {
+      this.zoneData = res.sectors.map((item, index) => {
         return {
           value: item.id,
           label: item.name
@@ -396,4 +493,105 @@ export class AllReportComponent implements OnInit {
       this.getImportedReport();
     })
   }
+
+  ExportAll(value) {
+
+    // alert(JSON.stringify(value.zone))
+    if (value.zone == null) {
+      this.checkType = "รายวัน";
+      this.exportDay(value);
+      return;
+    }
+
+    if (value.president == null) {
+      this.checkType = "รายภาค";
+      this.exportZone(value);
+    } else if (value.region == null) {
+      this.checkType = "รายเขตนายก";
+      this.exportPresident(value);
+    } else if (value.province == null) {
+      this.checkType = "รายเขต";
+      this.exportRegion(value);
+    } else if (value.department == null) {
+      this.checkType = "รายจังหวัด";
+      this.exportProvince(value);
+    } else {
+      this.checkType = "รายหน่วยงาน";
+      this.exportDepartment(value);
+    }
+
+    console.log("valuevaluevalue", value)
+  }
+
+  getImportFiscalYears() {
+    this.exportReportService.getImportReportFiscalYears().subscribe(res => {
+      console.log("fiscalYear1: ", res);
+      this.fiscalYearData = res.importFiscalYear.map((item, index) => {
+        return {
+          value: item.id,
+          label: item.year
+        }
+      })
+      console.log("fiscalYear: ", this.fiscalYearData);
+    })
+  }
+
+  selectFiscalYear(value) {
+    this.fiscalYearId = value.value;
+    this.getZone();
+    // this.getImportFiscalYearRelations();
+  }
+
+  selectZone() {
+    // alert(123)
+    // this.fiscalYearId = value.value;
+    this.getPresident();
+    // this.getImportFiscalYearRelations();
+  }
+  selectPresident() {
+    this.getRegion();
+    // this.fiscalYearId = value.value;
+    // this.getZone();
+    // this.getImportFiscalYearRelations();
+  }
+  selectRegion(value) {
+    this.regionId = value.value;
+    this.exportReportService.getImportReportprovinceFiscalYearRelations(this.fiscalYearId, this.regionId).subscribe(res => {
+      console.log("fiscalYearRelations: ", res);
+
+      var uniqueRegion: any = [];
+      uniqueRegion = res.importFiscalYearRelations.filter(
+        (thing, i, arr) => arr.findIndex(t => t.provinceId === thing.provinceId) === i
+      );
+      console.log("uniqueProvinces: ", uniqueRegion);
+
+      this.provinceData = uniqueRegion.map((item, index) => {
+        return {
+          value: item.province.id,
+          label: item.province.name
+        }
+      })
+    })
+  }
+
+  selectProvince(value) {
+    this.provinceId = value.value;
+    this.exportReportService.getImportReportdepartmentFiscalYearRelations(this.provinceId).subscribe(res => {
+      console.log("fiscalYearRelations: ", res);
+
+      var uniqueRegion: any = [];
+      uniqueRegion = res.importFiscalYearRelations.filter(
+        (thing, i, arr) => arr.findIndex(t => t.provincialDepartmentId === thing.provincialDepartmentId) === i
+      );
+      console.log("uniqueDepartments: ", uniqueRegion);
+
+      this.departmentData = uniqueRegion.map((item, index) => {
+        return {
+          value: item.provincialDepartment.id,
+          label: item.provincialDepartment.name
+        }
+      })
+    })
+  }
+
 }

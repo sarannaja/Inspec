@@ -211,7 +211,7 @@ export class InspectionPlanEventComponent implements OnInit {
         locale: 'th',
         viewRender: function (view, element) {
           setTimeout(function () {
-            var strDate = $.trim($(".fc-center").find("h2").text());
+            var strDate = $.trim($(".fc-center").find("h2").addClass("card-title").text());
             var arrDate = strDate.split(" ");
             var lengthArr = arrDate.length;
             var newstrDate = "";
@@ -223,7 +223,7 @@ export class InspectionPlanEventComponent implements OnInit {
                 newstrDate += arrDate[i] + " ";
               }
             }
-            $(".fc-center").find("h2").text(newstrDate);
+            $(".fc-center").find("h2").addClass("card-title").text(newstrDate);
           }, 5);
         },
         navLinks: true,

@@ -17,7 +17,7 @@ export class DefaultLayoutTrainComponent implements OnInit {
   modalRef: BsModalRef;
   delid: any;
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   downloadUrl: any;
   mainUrl: any;
   // constructor() { }

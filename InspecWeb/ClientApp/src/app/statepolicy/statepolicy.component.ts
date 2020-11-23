@@ -15,7 +15,7 @@ export class StatepolicyComponent implements OnInit {
   Form : FormGroup
   files: string[] = []
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
 
   constructor(
     private modalService: BsModalService, 

@@ -22,7 +22,7 @@ export class SectorComponent implements OnInit {
     Form : FormGroup
     loading = false;
     submitted = false;
-    dtOptions: DataTables.Settings = {};
+    dtOptions: any = {};
     userid :any;
     role_id :any;
   constructor(

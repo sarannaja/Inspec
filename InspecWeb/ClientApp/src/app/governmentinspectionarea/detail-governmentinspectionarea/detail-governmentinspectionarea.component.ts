@@ -17,7 +17,7 @@ import { NgxSpinnerService } from "ngx-spinner";
 export class DetailGovernmentinspectionareaComponent implements OnInit {
 
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   resultdetailfiscalyear: any[] = []
   resultregion: any[] = []
   resultprovince: any[] = []

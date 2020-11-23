@@ -19,7 +19,7 @@ export class InfomationProvinceComponent implements OnInit {
   Form: FormGroup;
   EditForm: FormGroup;
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   forbiddenUsernames = ['admin', 'test', 'xxxx'];
   url = "";
 

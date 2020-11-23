@@ -33,7 +33,7 @@
               <th>ประเภทรายงาน</th>
               <th>ประเภทการออกรายงาน</th>
               <th>วันที่สร้าง</th>
-              <th>ผู้ออกรายงาน</th>
+              <th>สถานะ</th>
               <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
             </tr>
           </thead>
@@ -41,14 +41,14 @@
             <tr *ngFor="let item of importedReport.commanderReport; let i = index">
               <td width=5%>{{ i + 1 }}</td>
               <td width=25%>
-                <div *ngFor="let items of item.importReportGroups">
+                <div *ngFor="let items of item.importReport.importReportGroups">
                   {{items.centralPolicyEvent.centralPolicy.title}}
                 </div>
               </td>
-              <td width=20%>{{item.centralPolicyType.name}}</td>
-              <td width=15%>{{item.reportType}}</td>
-              <td width=10%>{{item.createAt | thaidate: 'year'}}</td>
-              <td width=15%>{{item.user.prefix}} {{item.user.name}}</td>
+              <td width=20%>{{item.importReport.centralPolicyType.name}}</td>
+              <td width=15%>{{item.importReport.reportType}}</td>
+              <td width=10%>{{item.importReport.createAt | thaidate: 'year'}}</td>
+              <td width=15%>{{item.status}}</td>
               <td width=10%>
                 <i class="align-middle mr-2 fas fa-fw fa-search pointer" (click)="gotoDetail(item.id)"></i>
               </td>

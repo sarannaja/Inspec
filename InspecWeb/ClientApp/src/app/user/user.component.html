@@ -192,7 +192,7 @@
                 </div>
 
                 <div *ngIf="roleId == 3 || roleId == 6 || roleId == 8 || roleId == 10;">
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label>คำสั่งกำหนดเขตตรวจราชการ*</label>
                         <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกคำสั่งกำหนดเขตตรวจราชการ"
                             [items]="selectdatafiscalyear" name="FiscalYear" formControlName="FiscalYear"
@@ -202,7 +202,7 @@
                         <div *ngIf="submitted && k.FiscalYear.errors" class="invalid-feedback">
                             <div *ngIf="k.FiscalYear.errors.required">กรุณาเลือกคำสั่งกำหนดเขตตรวจราชการ</div>
                         </div>
-                    </div>
+                    </div> -->
 
                     <div class="form-group">
                         <label>เขตตรวจราชการ*</label>
@@ -288,21 +288,21 @@
 
                 <div>
                     <div class="row">
-                        <label class="form-label col-6">ตามคำสั่งเลขที่</label>
-                        <label class="form-label col-6">ลงวันที่ตามคำสั่งเลขที่</label>
+                        <label class="form-label col-6">เลขที่คำสั่งมอบหมายเขตตรวจ</label>
+                        <label class="form-label col-6">วันที่ของคำสั่งมอบหมายเขตตรวจ</label>
                     </div>
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
                                 <input type="text" formControlName="Commandnumber" class="form-control"
-                                    placeholder="กรุณากรอกตามคำสั่งเลขที่">
+                                    placeholder="กรุณากรอกเลขที่คำสั่งมอบหมายเขตตรวจ">
                             </div>
                         </div>
 
                         <div class="col-6">
                             <div class="form-group">
                                 <my-date-picker-th formControlName="Commandnumberdate" [options]="myDatePickerOptions"
-                                    placeholder="กรุณาเลือกลงวันที่ตามคำสั่งเลขที่">
+                                    placeholder="กรุณาเลือกวันที่ของคำสั่งมอบหมายเขตตรวจ">
                                 </my-date-picker-th>
                             </div>
                         </div>
@@ -328,14 +328,27 @@
 
                         <div class="col-6">
                             <div class="form-group">
-                                <input type="text" formControlName="Prefix" class="form-control" required
+                                <!-- <input type="text" formControlName="Prefix" class="form-control" required
                                     placeholder="กรุณากรอกคำนำหน้า"
+                                    [ngClass]="{ 'is-invalid': submitted && k.Prefix.errors }"> -->
+                                <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกคำนำหน้า" formControlName="Prefix"
+                                    [items]="selectprefix" (change)="showtext($event)"
                                     [ngClass]="{ 'is-invalid': submitted && k.Prefix.errors }">
+                                </ng-select>
                                 <div *ngIf="submitted && k.Prefix.errors" class="invalid-feedback">
-                                    <div *ngIf="k.Prefix.errors.required">กรุณากรอกคำนำหน้า</div>
+                                    <div *ngIf="k.Prefix.errors.required">กรุณาเลือกคำนำหน้า</div>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+
+                <div class="form-group" *ngIf="othertext == true">
+                    <input type="text" formControlName="Othertext" class="form-control" required
+                        placeholder="กรุณาเลือกคำนำหน้า"
+                        [ngClass]="{ 'is-invalid': submitted && k.Othertext.errors }">
+                    <div *ngIf="submitted && k.Othertext.errors" class="invalid-feedback">
+                        <div *ngIf="k.Othertext.errors.required">กรุณาเลือกคำนำหน้า</div>
                     </div>
                 </div>
 
@@ -388,7 +401,7 @@
 
                 <div>
                     <div class="row">
-                        <label class="form-label col-6">ตำแหน่ง*</label>
+                        <label class="form-label col-6">ตำแหน่ง(ไม่ใช้ตัวย่อ)*</label>
                         <label class="form-label col-6">โทรศัพท์*</label>
                     </div>
                     <div class="row">
@@ -405,8 +418,8 @@
 
                         <div class="col-6">
                             <div class="form-group">
-                                <input type="text" max="10" formControlName="PhoneNumber" class="form-control" required
-                                    placeholder="กรุณากรอกเบอร์โทรศัพท์" numbersOnly
+                                <input type="text" formControlName="PhoneNumber" class="form-control" required
+                                    placeholder="กรุณากรอกเบอร์โทรศัพท์" numbersOnly maxlength="10"
                                     [ngClass]="{ 'is-invalid': submitted && k.PhoneNumber.errors }">
                                 <div *ngIf="submitted && k.PhoneNumber.errors" class="invalid-feedback">
                                     <div *ngIf="k.PhoneNumber.errors.required">กรุณากรอกเบอร์โทรศัพท์</div>
@@ -605,7 +618,7 @@
 
                 <div *ngIf="roleId == 3 || roleId == 6 || roleId == 8 || roleId == 10;">
 
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label>คำสั่งกำหนดเขตตรวจราชการ*</label>
                         <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกคำสั่งกำหนดเขตตรวจราชการ"
                             [items]="selectdatafiscalyear" name="FiscalYear" formControlName="FiscalYear"
@@ -615,7 +628,7 @@
                         <div *ngIf="submitted && k.FiscalYear.errors" class="invalid-feedback">
                             <div *ngIf="k.FiscalYear.errors.required">กรุณาเลือกคำสั่งกำหนดเขตตรวจราชการ</div>
                         </div>
-                    </div>
+                    </div> -->
 
                     <div class="form-group">
                         <label>เขตตรวจราชการ*</label>
@@ -700,18 +713,18 @@
 
                 <div class="form-group">
                     <div class="row">
-                        <label class="form-label col-6">ตามคำสั่งเลขที่</label>
-                        <label class="form-label col-6">ลงวันที่ตามคำสั่งเลขที่</label>
+                        <label class="form-label col-6">เลขที่คำสั่งมอบหมายเขตตรวจ</label>
+                        <label class="form-label col-6">วันที่ของคำสั่งมอบหมายเขตตรวจ</label>
                     </div>
                     <div class="row">
                         <div class="col-6">
                             <input type="text" formControlName="Commandnumber" class="form-control"
-                                placeholder="กรุณากรอกตามคำสั่งเลขที่">
+                                placeholder="กรุณากรอกเลขที่คำสั่งมอบหมายเขตตรวจ">
                         </div>
 
                         <div class="col-6">
                             <my-date-picker-th formControlName="Commandnumberdate" [options]="myDatePickerOptions"
-                                placeholder="กรุณาเลือกวันที่">
+                                placeholder="กรุณาเลือกวันที่ของคำสั่งมอบหมายเขตตรวจ">
                             </my-date-picker-th>
                         </div>
                     </div>
@@ -736,16 +749,29 @@
 
                         <div class="col-6">
                             <div class="form-group">
-                                <input type="text" formControlName="Prefix" class="form-control" required
+                                <!-- <input type="text" formControlName="Prefix" class="form-control" required
                                     placeholder="กรุณากรอกคำนำหน้า"
+                                    [ngClass]="{ 'is-invalid': submitted && k.Prefix.errors }"> -->
+                                <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกคำนำหน้า" formControlName="Prefix"
+                                    [items]="selectprefix" (change)="showtext($event)"
                                     [ngClass]="{ 'is-invalid': submitted && k.Prefix.errors }">
+                                </ng-select>
                                 <div *ngIf="submitted && k.Prefix.errors" class="invalid-feedback">
-                                    <div *ngIf="k.Prefix.errors.required">กรุณากรอกคำนำหน้า</div>
+                                    <div *ngIf="k.Prefix.errors.required">กรุณาเลือกคำนำหน้า</div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
+                </div>
+
+                <div class="form-group" *ngIf="othertext == true">
+                    <input type="text" formControlName="Othertext" class="form-control" required
+                        placeholder="กรุณาเลือกคำนำหน้า"
+                        [ngClass]="{ 'is-invalid': submitted && k.Othertext.errors }">
+                    <div *ngIf="submitted && k.Othertext.errors" class="invalid-feedback">
+                        <div *ngIf="k.Othertext.errors.required">กรุณาเลือกคำนำหน้า</div>
+                    </div>
                 </div>
 
                 <div>
@@ -796,7 +822,7 @@
 
                 <div>
                     <div class="row">
-                        <label class="form-label col-6">ตำแหน่ง*</label>
+                        <label class="form-label col-6">ตำแหน่ง(ไม่ใช้ตัวย่อ)**</label>
                         <label class="form-label col-6">โทรศัพท์*</label>
                     </div>
                     <div class="row">
@@ -813,8 +839,8 @@
 
                         <div class="col-6">
                             <div class="form-group">
-                                <input type="text" max="10" formControlName="PhoneNumber" class="form-control" required
-                                    placeholder="กรุณากรอกโทรศัพท์" numbersOnly
+                                <input type="text"  formControlName="PhoneNumber" class="form-control" required
+                                    placeholder="กรุณากรอกโทรศัพท์" numbersOnly maxlength="10"
                                     [ngClass]="{ 'is-invalid': submitted && k.PhoneNumber.errors }">
                                 <div *ngIf="submitted && k.PhoneNumber.errors" class="invalid-feedback">
                                     <div *ngIf="k.PhoneNumber.errors.required">กรุณากรอกโทรศัพท์</div>

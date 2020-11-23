@@ -38,7 +38,7 @@ export class ChartComponent implements OnInit {
         "yaxismaxvalue": "10",
         "numdivlines": "4",
         // "decimals": "2",
-        // "showvalues": "1",
+        "showvalues": "1",
         // "forcedecimals": "1",
         // "yaxisvaluedecimals": "2",
         // "forceyaxisvaluedecimals": "1",

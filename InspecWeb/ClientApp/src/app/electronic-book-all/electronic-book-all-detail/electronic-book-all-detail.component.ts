@@ -283,7 +283,7 @@ export class ElectronicBookAllDetailComponent implements OnInit {
         console.log("NOTI: ", value.Status);
 
         value.user.forEach(element => {
-          this.notificationService.addNotification(this.electronicBookData.electronicBookGroup[0].centralPolicyId, 1, element, 7, this.electId,null)
+          this.notificationService.addNotification(this.electronicBookData.electronicBookGroup[0].centralPolicyId, 1, element, 7, this.electId,null,this.userid)
             .subscribe(response => {
               console.log("Noti res: ", response);
             })
@@ -315,14 +315,14 @@ export class ElectronicBookAllDetailComponent implements OnInit {
 
 
       this.provinceId.forEach(element => {
-        this.notificationService.addNotification(this.electronicBookData.electronicBookGroup[0].centralPolicyId, element, this.userid, 17, this.electId,null)
+        this.notificationService.addNotification(this.electronicBookData.electronicBookGroup[0].centralPolicyId, element, this.userid, 17, this.electId,null,this.userid)
           .subscribe(response => {
             console.log("Noti 17 province: ", response);
           })
       });
 
       this.provincialDepartmentId.forEach(element2 => {
-        this.notificationService.addNotification(this.electronicBookData.electronicBookGroup[0].centralPolicyId, element2, this.userid, 18, this.electId,null)
+        this.notificationService.addNotification(this.electronicBookData.electronicBookGroup[0].centralPolicyId, element2, this.userid, 18, this.electId,null,this.userid)
           .subscribe(response => {
             console.log("Noti 18 provincial:", response);
           })

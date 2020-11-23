@@ -25,7 +25,7 @@ export class RequestOrderComponent implements OnInit {
   };
   resultrequestorder: any[] = []
   modalRef: BsModalRef;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   loading = false;
   userid: any;
   role_id: any;
@@ -285,7 +285,7 @@ export class RequestOrderComponent implements OnInit {
         this._NotofyService.onSuccess("เพิ่มข้อมูล")
         this.modalRef.hide();
       }else{
-        this.notificationService.addNotification(1, 1, 1, 12, result.id,result.title)
+        this.notificationService.addNotification(1, 1, 1, 12, result.id,result.title,this.userid)
          .subscribe(result => {
           this.Form.reset();
           this.loading = false;
@@ -313,7 +313,7 @@ export class RequestOrderComponent implements OnInit {
           this._NotofyService.onSuccess("แก้ไขข้อมูล")
           this.modalRef.hide();
         }else{
-          this.notificationService.addNotification(1, 1, 1, 12, result.id,result.title)
+          this.notificationService.addNotification(1, 1, 1, 12, result.id,result.title,this.userid)
            .subscribe(result => {
             this.Form.reset();
             this.getuserinfo();
@@ -351,7 +351,7 @@ export class RequestOrderComponent implements OnInit {
   //<!-- รับทราบข้อสั่งการ -->
   gotitrequestorder(){ 
     this.requestOrderService.gotitrequestorder(this.requestorderid,this.idrequestorderanswer).subscribe(result => {
-      this.notificationService.addNotification(1, 1, 1, 13, this.requestorderid,this.vsubject)
+      this.notificationService.addNotification(1, 1, 1, 13, this.requestorderid,this.vsubject,this.userid)
       .subscribe(result => {
        this.loading = false;
        this.getuserinfo();

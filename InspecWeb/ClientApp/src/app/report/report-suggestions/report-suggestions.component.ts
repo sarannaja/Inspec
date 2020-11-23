@@ -26,7 +26,7 @@ export class ReportSuggestionsComponent implements OnInit {
   // resultsubject: any = []
   // selectsubject: any = []
   loading = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   // Form: FormGroup;
 
   constructor(

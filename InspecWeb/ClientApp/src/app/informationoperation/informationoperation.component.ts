@@ -26,7 +26,7 @@ export class InformationoperationComponent implements OnInit {
   files: string[] = []
   loading = false;
   submitted = false;
-  dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
   userid :any;
   role_id :any;
   file:any;
@@ -87,6 +87,7 @@ export class InformationoperationComponent implements OnInit {
   openModal(template: TemplateRef<any>=null, id=null, location=null, name=null, detail=null, tel=null, province=null, district=null,file=null) {
     this.delid = id;
     this.location = location;
+    this.submitted =false;
     this.name = name;
     this.detail = detail;
     this.tel = tel;
