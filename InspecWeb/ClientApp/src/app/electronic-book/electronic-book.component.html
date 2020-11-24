@@ -19,6 +19,9 @@
             style="margin-top: -60px;">สร้างสมุดตรวจอิเล็กทรอนิกส์</button>
         </div> -->
         <div class="float-right">
+          <button class="btn btn-primary mr-2" title="เรียงข้อมูลตามวัน" (click)="sortDate()" style="margin-top: -60px;"> <i
+              class="fas fa-calendar-week"></i>
+          </button>
           <button class="btn btn-primary" title="สร้างสมุดตรวจอิเล็กทรอนิกส์" (click)="createElectronicBook()"
             style="margin-top: -60px;"> <i class="align-middle fas fa-fw fa-plus pointer"></i>
           </button>
@@ -69,7 +72,8 @@
                   title="จัดการสมุดตรวจอิเล็กทรอนิกส์"></i>
                 <!-- <i *ngIf="item.status != 'ใช้งานจริง'" class="align-middle mr-2 fas fa-fw fa-pen pointer"
                   (click)="gotoEdit2(item.id)"></i> -->
-                <i class="align-middle mr-2 fas fa-fw fa fa-book pointer" (click)="gotoTheme(item.id)" title="รูปแบบแสดงข้อมูล"></i>
+                <i class="align-middle mr-2 fas fa-fw fa fa-book pointer" (click)="gotoTheme(item.id)"
+                  title="รูปแบบแสดงข้อมูล"></i>
                 <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
                   (click)="openModal(deleteElectronicBookModal, item.id)" title="ลบสมุดตรวจอิเล็กทรอนิกส์"></i>
               </td>

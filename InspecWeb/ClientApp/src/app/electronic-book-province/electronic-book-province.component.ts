@@ -23,6 +23,7 @@ export class ElectronicBookProvinceComponent implements OnInit {
   role_id;
   provinceId;
   provincialDepartmentID: any;
+  checkSort = 0;
 
   constructor(
     private router: Router,
@@ -134,5 +135,23 @@ export class ElectronicBookProvinceComponent implements OnInit {
 
     this.router.navigate(['/electronicbook/edit/' + id, { electronicBookId: elecId }])
   }
+
+  sortDate() {
+    this.loading = false;
+    if (this.checkSort == 0) {
+      this.electronicBookService.sortDate(this.userid).subscribe(res => {
+        this.electronicBookData = res;
+        this.loading = true;
+        this.checkSort = 1;
+      })
+    } else {
+      this.electronicBookService.sortDateDESC(this.userid).subscribe(res => {
+        this.electronicBookData = res;
+        this.loading = true;
+        this.checkSort = 0;
+      })
+    }
+  }
+
 }
 
