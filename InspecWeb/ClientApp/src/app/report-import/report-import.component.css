@@ -14,3 +14,9 @@
 .margin-plus-icon {
   margin-top: 5px;
 }
+table.dataTable tbody td {
+  vertical-align: top;
+}
+table.dataTable thead th {
+  vertical-align: top;
+}
