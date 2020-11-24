@@ -104,7 +104,7 @@ export class TrainingService {
     formData.append('EndDate', trainingData.end_date.year + '-' + trainingData.end_date.month + '-' + trainingData.end_date.day);
     formData.append('RegisStartDate', trainingData.regis_start_date.year + '-' + trainingData.regis_start_date.month + '-' + trainingData.regis_start_date.day);
     formData.append('RegisEndDate', trainingData.regis_end_date.year + '-' + trainingData.regis_end_date.month + '-' + trainingData.regis_end_date.day);
-    
+
     if (files != null) {
       for (var index = 0; index < files.length; index++) {
         formData.append("files", files[index]);
@@ -123,22 +123,25 @@ export class TrainingService {
   editRegisterList(trainingregisterlistData, id, trainingid) {
     console.log("editRegisterList =>", trainingregisterlistData);
 
-    const formData = new FormData();
-    formData.append('status', trainingregisterlistData.approve);
-    console.log('FORMDATA: ' + JSON.stringify(formData));
-    return this.http.post(this.url + 'registerlist/' + id + '/' + trainingid, formData);
+    // const formData = new FormData();
+    // formData.append('status', trainingregisterlistData.approve);
+    // console.log('FORMDATA: ' + JSON.stringify(formData));
+    return this.http.get(this.url + 'registerlist/' + id + '/' + trainingid + '/' + trainingregisterlistData.approve);
   }
 
   editRegisterList2(trainingregisterlistData, id, trainingid) {
     console.log(trainingregisterlistData);
- 
-    const formData = new FormData();
-    formData.append('status', trainingregisterlistData.approve);
 
-
-    for (var iii = 0; iii < id.length; iii++) {
-      formData.append("traningregisterid", id[iii]);
+    const formData = {
+      status: trainingregisterlistData.approve,
+      traningregisterid: id
     }
+    // formData.append('status', trainingregisterlistData.approve);
+
+
+    // for (var iii = 0; iii < id.length; iii++) {
+    //   formData.append("traningregisterid", id[iii]);
+    // }
 
     // const formData = {
     //   status: parseInt(trainingregisterlistData.approve),
@@ -287,7 +290,7 @@ export class TrainingService {
 
 
   //---------zone training survey--------
-  
+
 
   //insert training survey topic
   addTrainingsurveytopic(trainingData) {
@@ -858,12 +861,12 @@ export class TrainingService {
   }
 
   //รายงานข้อมูลบุคคลของวิทยากร
-  reportTrainingLecturer(trainingLecturerId,name,year){
+  reportTrainingLecturer(trainingLecturerId, name, year) {
     const formData = new FormData();
     formData.append('trainingLecturerId', trainingLecturerId);
     formData.append('trainingname', name);
     formData.append('year', year);
-    return this.http.post<any>(this.url+'reportlecturer',formData);
+    return this.http.post<any>(this.url + 'reportlecturer', formData);
   }
   //ตั้งค่าการประกาศหลักสูตร
   SettingTraining(trainingData, id) {
@@ -881,7 +884,7 @@ export class TrainingService {
 
 
   //เก็บข้อมูลรายงานสรุปผลการฝึกอบรม(กลุ่ม)
-  addTrainingSummaryReportGroup(trainingData, file: FileList, phaseId , group) {
+  addTrainingSummaryReportGroup(trainingData, file: FileList, phaseId, group) {
     //alert('service:' + JSON.stringify(trainingData))
     const formData = new FormData();
     formData.append('Detail', trainingData.detail);
@@ -920,7 +923,7 @@ export class TrainingService {
     console.log('FORMDATA: ' + formData);
     //console.log("test", formData.getAll('detail'));
     //console.log("yyy", formData.getAll('files'));
-    return this.http.post(this.url + 'summaryreport/project/add/' + trainingid , formData);
+    return this.http.post(this.url + 'summaryreport/project/add/' + trainingid, formData);
   }
 
   //ดึงข้อมูลรายงานสรุปผลการฝึกอบรม(ทั้งหลักสูตร)

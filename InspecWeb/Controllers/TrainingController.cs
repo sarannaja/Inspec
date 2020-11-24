@@ -392,14 +392,19 @@ namespace InspecWeb.Controllers {
             _context.Trainings.Remove (trainingdata);
             _context.SaveChanges ();
         }
-        //--------end zone training----------
+        //--------end zone training---------- 
 
         //------zone training register-------
         // PUT api/values/5
         [HttpGet ("registerlist/{id}/{trainingid}/{status}")]
         public async void EditRegisterList (long id, long trainingid, long status) {
+            System.Console.WriteLine (id);
+            System.Console.WriteLine (trainingid);
+            System.Console.WriteLine (status);
             var training = _context.TrainingRegisters.Find (id);
             training.Status = status;
+            _context.Entry (training).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges ();
 
             string Emailregis = _context.TrainingRegisters
                 .Where (m => m.Id == id)
@@ -446,6 +451,7 @@ namespace InspecWeb.Controllers {
                 mailbody = textbodyHead + "<br /> ท่านได้รับอนุมัติสิทธิ์ในการเข้าร่วมอบรมหลักสูตร ท่านสามารถดาวน์โหลดไฟล์เพื่อประกอบการฝึกอบรมตาม วัน/เวลา การอบรม <br />" + textbody + textFoot;
             } else if (status == 2) {
                 mailbody = textbodyHead + "<br /> ท่านไม่ผ่านสมัครเข้าร่วมอบรมหลักสูตร เนื่องจากท่านไม่ตรงตามเงื่อนไขคุณสมบัติของหลักสูตรอบรม <br />" + textFoot;
+                System.Console.WriteLine (mailbody);
             }
 
             ///----------------email
@@ -458,15 +464,16 @@ namespace InspecWeb.Controllers {
                     //Host = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}",
                 };
                 await mailService.SendEmailAsync (send);
-                _context.Entry (training).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-                _context.SaveChanges ();
+                
 
                 // return Ok (send);
 
             } catch (Exception ex) {
 
-                throw ex;
+                // throw ex;
             }
+
+            
             //---------------
 
             // if (status == 1){
@@ -539,11 +546,13 @@ namespace InspecWeb.Controllers {
         }
 
         [HttpPost ("registerlist2/{trainingId}")]
-        public async Task<IActionResult> EditRegisterList2 (long[] traningregisterid, long status, long trainingId) {
-            foreach (var id in traningregisterid) {
-
+        public async Task<IActionResult> EditRegisterList2 ([FromBody] Traningregisterid traningregisterid, long trainingId) {
+            System.Console.WriteLine (traningregisterid.traningregisterid.ToString ());
+            
+            
+            foreach (var id in traningregisterid.traningregisterid) {
                 var training = _context.TrainingRegisters.Find (id);
-                training.Status = status;
+                training.Status = traningregisterid.status;
 
                 string Emailregis = _context.TrainingRegisters
                     .Where (m => m.Id == id)
@@ -559,29 +568,32 @@ namespace InspecWeb.Controllers {
                     .Where (m => m.TrainingProgram.TrainingPhase.TrainingId == trainingId)
                     .ToList ();
 
+                System.Console.WriteLine ("Count" + databody.Count().ToString ());
                 List<string> termsList = new List<string> ();
                 string textbodyHead = "<h1>" + databody[0].TrainingProgram.TrainingPhase.Training.Name + "</h1>";
-                string textbody = "";
+
                 string Host = $"<a href='{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}/upload/";
                 string textFoot = "<br /><br /> ระบบตรวจราชการอิเล็กทรอนิกส์ <br /> สำนักงานปลัดสำนักนายกรัฐมนตรี";
                 //string EndHost = "></a>";
-
+                string textbody = "";
                 foreach (var data in databody) {
-
+                    
                     textbody = textbody + Host + data.Name + "' > " + data.TrainingProgram.ProgramTopic + " วันที่ " + data.TrainingProgram.ProgramDate + " (" + data.TrainingProgram.MinuteStartDate + "-" + data.TrainingProgram.MinuteEndDate + ")" + "</a><br />";
                     //termsList.Add(data.Name);
 
                 }
+                
                 //string xxx = termsList.ToString().Replace(",", " <br>");
 
                 //return Ok(textbody);
-
-                var mailbody = "";
-                if (status == 1) {
+                string mailbody = "";
+                if (traningregisterid.status == 1) {
                     mailbody = textbodyHead + "<br /> ท่านได้รับอนุมัติสิทธิ์ในการเข้าร่วมอบรมหลักสูตร ท่านสามารถดาวน์โหลดไฟล์เพื่อประกอบการฝึกอบรมตาม วัน/เวลา การอบรม <br />" + textbody + textFoot;
-                } else if (status == 2) {
+                } else if (traningregisterid.status == 2) {
                     mailbody = textbodyHead + "<br /> ท่านไม่ผ่านสมัครเข้าร่วมอบรมหลักสูตร เนื่องจากท่านไม่ตรงตามเงื่อนไขคุณสมบัติของหลักสูตรอบรม <br />" + textFoot;
                 }
+
+                System.Console.WriteLine(mailbody);
 
                 ///----------------email
                 try {
@@ -593,6 +605,7 @@ namespace InspecWeb.Controllers {
                         //Host = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}",
                     };
                     await mailService.SendEmailAsync (send);
+                    _context.Entry (training).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
 
                 } catch (Exception ex) {
 
@@ -600,11 +613,11 @@ namespace InspecWeb.Controllers {
                 }
                 //---------------
 
-                _context.Entry (training).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-                _context.SaveChanges ();
-
             }
+
+            _context.SaveChanges ();
             return Ok (true);
+
         }
 
         [HttpPut ("editRegisterConditionList")]
@@ -2825,3 +2838,13 @@ namespace InspecWeb.Controllers {
     }
 
 }
+
+public class Traningregisterid {
+
+    public long[] traningregisterid { get; set; }
+    public long status { get; set; }
+    public long trainingId { get; set; }
+
+}
+
+//   long[] traningregisterid, long status, long trainingId
