@@ -443,7 +443,7 @@ namespace InspecWeb.Controllers
 
         //------zone training register-------
         // PUT api/values/5
-        [HttpPut("registerlist/{id}/{trainingid}")]
+        [HttpPost("registerlist/{id}/{trainingid}")]
         public async Task<IActionResult> EditRegisterList(long id, long status, long trainingid)
         {
             var training = _context.TrainingRegisters.Find(id);
@@ -605,7 +605,7 @@ namespace InspecWeb.Controllers
         }
 
 
-        [HttpPut("registerlist2/{trainingId}")]
+        [HttpPost("registerlist2/{trainingId}")]
         public async Task<IActionResult> EditRegisterList2(long[] traningregisterid, long status ,long trainingId)
         {
             foreach (var id in traningregisterid)
@@ -2580,8 +2580,8 @@ namespace InspecWeb.Controllers
 
             }
 
-            //return Ok(result.OrderBy(m => m.AnsCount));
-            return Ok(result);
+            return Ok(result.OrderBy(m => m.AnsCount));
+            //return Ok(result);
 
         }
 

@@ -126,7 +126,7 @@ export class TrainingService {
     const formData = new FormData();
     formData.append('status', trainingregisterlistData.approve);
     console.log('FORMDATA: ' + JSON.stringify(formData));
-    return this.http.put(this.url + 'registerlist/' + id + '/' + trainingid, formData);
+    return this.http.post(this.url + 'registerlist/' + id + '/' + trainingid, formData);
   }
 
   editRegisterList2(trainingregisterlistData, id, trainingid) {
@@ -145,7 +145,7 @@ export class TrainingService {
     //   traningregisterid: id,
     // }
     console.log('FORMDATA: ' + JSON.stringify(formData));
-    return this.http.put(this.url + 'registerlist2/' + trainingid, formData);
+    return this.http.post(this.url + 'registerlist2/' + trainingid, formData);
   }
 
   editRegisterConditionList(trainingregisterlistData, id) {
