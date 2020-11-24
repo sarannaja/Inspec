@@ -508,7 +508,7 @@ namespace InspecWeb.Controllers
                 {
                     //ToEmail = "toey.aphisit@outlook.com",
                     ToEmail = Emailregis,
-                    Body = mailbody,
+                    Body = "",
                     Subject = "ระบบตรวจราชการอิเล็กทรอนิกส์"
                     //Host = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}",
                 };
