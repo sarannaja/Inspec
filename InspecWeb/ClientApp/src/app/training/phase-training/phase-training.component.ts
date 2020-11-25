@@ -321,8 +321,9 @@ export class PhaseTrainingComponent implements OnInit {
 
   storeTraining(value) {
     console.log("storeTraining => ", value);
-    this.submitted = true;
+    
     if (this.Form.invalid) {
+      this.submitted = true;
       console.log("in1");
       return;
     } else {
@@ -352,8 +353,9 @@ export class PhaseTrainingComponent implements OnInit {
 
   editTraining(value, id) {
     console.log("editTraining => ", value);
-    this.submitted = true;
+    
     if (this.EditForm.invalid) {
+      this.submitted = true;
       console.log("in1");
       return;
     } else {
@@ -362,7 +364,7 @@ export class PhaseTrainingComponent implements OnInit {
         this.modalRef.hide();
         //this.EditForm.reset();
         this.loading = false;
-        this.logService.addLog(this.userid, 'TrainingPhases', 'แก้ไข', value.name, "").subscribe();
+        this.logService.addLog(this.userid, 'TrainingPhases', 'แก้ไข', response.title, response.id).subscribe();
         this.getTrainingPhase();
         this._NotofyService.onSuccess("แก้ไขข้อมูล");
 

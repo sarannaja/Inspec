@@ -1282,6 +1282,8 @@ namespace InspecWeb.Controllers
                     _context.TrainingDocuments.Add(Trainingdata);
                     _context.SaveChanges();
                     System.Console.WriteLine("Start Uplond4.2");
+
+                    return Ok(Trainingdata);
                 }
             }
             return Ok(new { status = true });
@@ -1478,17 +1480,24 @@ namespace InspecWeb.Controllers
             _context.TrainingPrograms.Add(trainingprogramdata);
             _context.SaveChanges();
 
-            foreach (var id in model.TrainingLecturerId)
+            if (model.TrainingLecturerId != null)
             {
-                var trainingprogramlecturerdata = new TrainingProgramLecturer
+                foreach (var id in model.TrainingLecturerId)
                 {
-                    TrainingProgramId = trainingprogramdata.Id,
-                    TrainingLecturerId = id
-                };
-                _context.TrainingProgramLecturers.Add(trainingprogramlecturerdata);
-                _context.SaveChanges();
+                    var trainingprogramlecturerdata = new TrainingProgramLecturer
+                    {
+                        TrainingProgramId = trainingprogramdata.Id,
+                        TrainingLecturerId = id
+                    };
+                    _context.TrainingProgramLecturers.Add(trainingprogramlecturerdata);
+                    _context.SaveChanges();
+
+                }
 
             }
+
+                
+                
 
 
 
@@ -1683,6 +1692,19 @@ namespace InspecWeb.Controllers
 
             return data;
         }
+
+        //GET api/training/lecturer/{id}
+        [HttpGet("lecturer/use/get/{id}")]
+        public IEnumerable<TrainingProgramLecturer> GetUseTrainingLecturersByid(long id)
+        {
+            var data = _context.TrainingProgramLecturers
+                .Where(m => m.TrainingLecturerId == id)
+                .ToList();
+
+            return data;
+        }
+
+
 
         //GET api/training/lecturerlist
         [HttpGet("lecturerlist/{trainingid}")]
@@ -1883,6 +1905,9 @@ namespace InspecWeb.Controllers
                     _context.TrainingLecturers.Add(Trainingdata);
                     _context.SaveChanges();
                     System.Console.WriteLine("Start Uplond4.2");
+
+                    //return Ok(new { status = true });
+                    return Ok(Trainingdata);
                 }
             }
             return Ok(new { status = true });
@@ -1923,58 +1948,89 @@ namespace InspecWeb.Controllers
             // path ที่เก็บไฟล์
             var filePath = _environment.WebRootPath + "//Uploads//";
 
+            var training = _context.TrainingLecturers.Find(id);
 
-            foreach (var formFile in model.ImageProfile.Select((value, index) => new { Value = value, Index = index }))
-            //foreach (var formFile in data.files)
+            if (model.ImageProfile != null)
             {
-                System.Console.WriteLine("Start Uplond3");
-                var random = RandomString(10);
-                string filePath2 = formFile.Value.FileName;
-                string filename = Path.GetFileName(filePath2);
-                string ext = Path.GetExtension(filename);
-
-                if (formFile.Value.Length > 0)
+                foreach (var formFile in model.ImageProfile.Select((value, index) => new { Value = value, Index = index }))
+                //foreach (var formFile in data.files)
                 {
-                    System.Console.WriteLine("Start Uplond4");
-                    // using (var stream = System.IO.File.Create(filePath + formFile.Value.FileName))
-                    using (var stream = System.IO.File.Create(filePath + random + filename))
-                    {
-                        await formFile.Value.CopyToAsync(stream);
-                    }
-                    System.Console.WriteLine("Start Uplond4.1");
-                    //var Trainingdata = new TrainingLecturer
-                    //{
-                    //    LecturerType = model.LecturerType,
-                    //    LecturerName = model.LecturerName,
-                    //    Phone = model.Phone,
-                    //    Email = model.Email,
-                    //    Education = model.Education,
-                    //    WorkHistory = model.WorkHistory,
-                    //    Experience = model.Experience,
-                    //    DetailPlus = model.DetailPlus,
-                    //    CreatedAt = date,
-                    //    ImageProfile = random + filename
-                    //};
-                    System.Console.WriteLine("Start Uplond4.2");
-                    //_context.TrainingLecturers.Add(Trainingdata);
-                    var training = _context.TrainingLecturers.Find(id);
-                    training.LecturerType = model.LecturerType;
-                    training.LecturerName = model.LecturerName;
-                    training.Phone = model.Phone;
-                    training.Email = model.Email;
-                    training.Education = model.Education;
-                    training.WorkHistory = model.WorkHistory;
-                    training.Experience = model.Experience;
-                    training.DetailPlus = model.DetailPlus;
-                    training.CreatedAt = date;
-                    training.ImageProfile = random + filename;
+                    System.Console.WriteLine("Start Uplond3");
+                    var random = RandomString(10);
+                    string filePath2 = formFile.Value.FileName;
+                    string filename = Path.GetFileName(filePath2);
+                    string ext = Path.GetExtension(filename);
 
-                    _context.Entry(training).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-                    _context.SaveChanges();
-                    System.Console.WriteLine("Start Uplond4.3");
+                    if (formFile.Value.Length > 0)
+                    {
+                        System.Console.WriteLine("Start Uplond4");
+                        // using (var stream = System.IO.File.Create(filePath + formFile.Value.FileName))
+                        using (var stream = System.IO.File.Create(filePath + random + filename))
+                        {
+                            await formFile.Value.CopyToAsync(stream);
+                        }
+                        System.Console.WriteLine("Start Uplond4.1");
+                        //var Trainingdata = new TrainingLecturer
+                        //{
+                        //    LecturerType = model.LecturerType,
+                        //    LecturerName = model.LecturerName,
+                        //    Phone = model.Phone,
+                        //    Email = model.Email,
+                        //    Education = model.Education,
+                        //    WorkHistory = model.WorkHistory,
+                        //    Experience = model.Experience,
+                        //    DetailPlus = model.DetailPlus,
+                        //    CreatedAt = date,
+                        //    ImageProfile = random + filename
+                        //};
+                        System.Console.WriteLine("Start Uplond4.2");
+                        //_context.TrainingLecturers.Add(Trainingdata);
+                        
+                        //training.LecturerType = model.LecturerType;
+                        //training.LecturerName = model.LecturerName;
+                        //training.Phone = model.Phone;
+                        //training.Email = model.Email;
+                        //training.Education = model.Education;
+                        //training.WorkHistory = model.WorkHistory;
+                        //training.Experience = model.Experience;
+                        //training.DetailPlus = model.DetailPlus;
+                        //training.CreatedAt = date;
+                        training.ImageProfile = random + filename;
+
+                        _context.Entry(training).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                        _context.SaveChanges();
+                        System.Console.WriteLine("Start Uplond4.3");
+
+                        return Ok(training);
+                    }
+
                 }
+
+                
+
+
             }
-            return Ok(new { status = true });
+
+            System.Console.WriteLine("Start Uplond5.0");
+            //_context.TrainingLecturers.Add(Trainingdata);
+
+            training.LecturerType = model.LecturerType;
+            training.LecturerName = model.LecturerName;
+            training.Phone = model.Phone;
+            training.Email = model.Email;
+            training.Education = model.Education;
+            training.WorkHistory = model.WorkHistory;
+            training.Experience = model.Experience;
+            training.DetailPlus = model.DetailPlus;
+            training.CreatedAt = date;
+
+            _context.Entry(training).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+            System.Console.WriteLine("Edit Success");
+
+            return Ok(training);
+
+            //return Ok(new { status = true });
 
         }
 
@@ -2161,7 +2217,8 @@ namespace InspecWeb.Controllers
 
         // PUT : api/training/phase/edit/:id
         [HttpPut("phase/edit/{id}")]
-        public void EditTrainingPhase(long id, long PhaseNo, DateTime StartDate, DateTime EndDate, string Title, string Detail, string Location, long Group)
+        public TrainingPhase EditTrainingPhase(long id, long PhaseNo, DateTime StartDate, DateTime EndDate, string Title, string Detail, string Location, long Group)
+        //public void EditTrainingPhase(long id, long PhaseNo, DateTime StartDate, DateTime EndDate, string Title, string Detail, string Location, long Group)
         {
             var training = _context.TrainingPhases.Find(id);
             training.PhaseNo = PhaseNo;
@@ -2174,6 +2231,8 @@ namespace InspecWeb.Controllers
 
             _context.Entry(training).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
+
+            return training;
 
         }
 
@@ -2217,7 +2276,8 @@ namespace InspecWeb.Controllers
 
         // PUT : api/training/edit/:id
         [HttpPut("condition/edit/{id}")]
-        public void EditTrainingCondtion(string name, long id, int startyear, int endyear, int conditiontype)
+        public TrainingCondition EditTrainingCondtion(string name, long id, int startyear, int endyear, int conditiontype)
+        //public void EditTrainingCondtion(string name, long id, int startyear, int endyear, int conditiontype)
         {
             var training = _context.TrainingConditions.Find(id);
             training.Name = name;
@@ -2227,6 +2287,8 @@ namespace InspecWeb.Controllers
 
             _context.Entry(training).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
+
+            return training;
 
         }
 
@@ -2288,6 +2350,7 @@ namespace InspecWeb.Controllers
         [HttpGet("plan/{id}")]
         public IActionResult Plan(long id)
         {
+
             var districtdata = _context.TrainingProgramLecturers
                 .Include(m => m.TrainingProgram)
                 .ThenInclude(m => m.TrainingPhase)
@@ -3107,6 +3170,8 @@ namespace InspecWeb.Controllers
                     _context.TrainingSummaryReportPhases.Add(Trainingdata);
                     _context.SaveChanges();
                     System.Console.WriteLine("Start Uplond4.2");
+
+                    return Ok(Trainingdata);
                 }
             }
             return Ok(new { status = true });

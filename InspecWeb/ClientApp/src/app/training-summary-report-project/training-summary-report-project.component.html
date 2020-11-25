@@ -44,7 +44,7 @@
                           <td class="ellipsis">{{ item.createdAt | thaidate:'forlog'}}</td>
                           <td>
                               <i class="align-middle mr-2 fas fa-fw fa-trash pointer"
-                                  (click)="openModal(modaldelete, item.id)"></i>
+                                  (click)="opendeleteModal(modaldelete, item.id, item.detail)"></i>
                           </td>
                       </tr>
                   </tbody>

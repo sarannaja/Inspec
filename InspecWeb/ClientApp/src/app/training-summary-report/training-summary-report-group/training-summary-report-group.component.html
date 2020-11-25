@@ -48,7 +48,7 @@
                           <td class="ellipsis">{{ item.createdAt | thaidate:'forlog'}}</td>
                           <td>
                               <i class="align-middle mr-2 fas fa-fw fa-trash pointer"
-                                  (click)="openModal(modaldelete, item.id)"></i>
+                                  (click)="opendeleteModal(modaldelete, item.id, item.detail)"></i>
                           </td>
                       </tr>
                   </tbody>
@@ -113,4 +113,8 @@
     <!-- END primary modal -->
 
   </div>
+
+  <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">
+    <p style="font-size: 20px; color: white">Loading...</p>
+  </ngx-spinner>
 
