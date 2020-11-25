@@ -680,11 +680,13 @@ namespace InspecWeb.Controllers
 
                 worksheet.Cell(currentRow, 1).Value = "รายชื่อคณะรัฐมนตรี";
                 worksheet.Cell(currentRow, 2).Value = "ตำแหน่ง";
+                worksheet.Cell(currentRow, 3).Value = "คำสั่งที่";
                 foreach (var data in model)
                 {
                     currentRow++;
                     worksheet.Cell(currentRow, 1).Value = data.Name;
                     worksheet.Cell(currentRow, 2).Value = data.Position;
+                    worksheet.Cell(currentRow, 3).Value = data.Cabinet.Name;
                 }
 
                 using (var stream = new MemoryStream())
