@@ -429,7 +429,7 @@ import { UserComponent } from './user/user.component';
     AnswerRecommendationinSpectorDetailComponent,
     AnswerRecommendationinSpectorEditComponent,
     ConfirmationDialogComponent,
-    // DateLengthComponent,
+    DateLengthComponent,
     NamePlateComponent,
     NamePlatePreviewComponent,
     NameLabelPreviewComponent,

@@ -117,6 +117,8 @@ export class SubjecteventComponent implements OnInit {
   role_id
   start_date_search
   end_date_search
+  checkSort = 0
+
   constructor(
     private spinner: NgxSpinnerService,
     private modalService: BsModalService,
@@ -486,6 +488,7 @@ export class SubjecteventComponent implements OnInit {
 
   inspect(myradio) {
     // alert(myradio)
+
     this.checkInspec = true;
   }
   notInspec(value) {
@@ -1016,5 +1019,24 @@ export class SubjecteventComponent implements OnInit {
 
   onDateChangedend(value: IMyDateModel) {
     this.end_date_search = value.date;
+  }
+
+
+  sortDate() {
+    this.loading = false;
+    if (this.checkSort == 0) {
+      this.subjectservice.sortDate(this.userid).subscribe(result => {
+        this.resultsubjectevent = result
+        this.loading = true;
+        this.checkSort = 1;
+
+      })
+    } else {
+      this.subjectservice.sortDateDESC(this.userid).subscribe(result => {
+        this.resultsubjectevent = result
+        this.loading = true;
+        this.checkSort = 0;
+      })
+    }
   }
 }
