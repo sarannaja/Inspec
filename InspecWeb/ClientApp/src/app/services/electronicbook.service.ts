@@ -16,7 +16,7 @@ export class ElectronicbookService {
   }
 
   getElectronicBook(userId) {
-    return this.http.get(this.url + userId)
+    return this.http.get<any[]>(this.url + userId)
   }
 
   getElectronicBookInvited(userId) {
@@ -783,6 +783,14 @@ export class ElectronicbookService {
 
   getElectronicBookAll() {
     return this.http.get(this.url + "all")
+  }
+
+  sortDate(userId) {
+    return this.http.get(this.url + "sortDate/" + userId)
+  }
+
+  sortDateDESC(userId) {
+    return this.http.get(this.url + "sortDateDESC/" + userId)
   }
 }
 

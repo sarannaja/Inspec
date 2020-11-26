@@ -3995,7 +3995,7 @@ namespace InspecWeb.Controllers
         public IActionResult GetCommanderReportDetailById(long reportId)
         {
 
-            
+
             var importData = _context.ReportCommanders
 
                 .Include(x => x.ImportReport)
@@ -4054,6 +4054,45 @@ namespace InspecWeb.Controllers
             return Ok(new { importData });
         }
 
+        [HttpGet("sortDate/{userId}")]
+        public IActionResult getSortDate(string userId)
+        {
+            var importData = _context.ImportReports
+                .Include(x => x.ReportCommanders)
+                .Include(x => x.CentralPolicyType)
+                .Include(x => x.ImportReportGroups)
+                .ThenInclude(x => x.CentralPolicyEvent)
+                .ThenInclude(x => x.InspectionPlanEvent)
+
+                .Include(x => x.ImportReportGroups)
+                .ThenInclude(x => x.CentralPolicyEvent)
+                .ThenInclude(x => x.CentralPolicy)
+                .Where(x => x.CreatedBy == userId)
+                .OrderBy(x => x.CreateAt)
+                .ToList();
+
+            return Ok(new { importData });
+        }
+
+        [HttpGet("sortDateDESC/{userId}")]
+        public IActionResult getSortDateDESC(string userId)
+        {
+            var importData = _context.ImportReports
+                 .Include(x => x.ReportCommanders)
+                 .Include(x => x.CentralPolicyType)
+                 .Include(x => x.ImportReportGroups)
+                 .ThenInclude(x => x.CentralPolicyEvent)
+                 .ThenInclude(x => x.InspectionPlanEvent)
+
+                 .Include(x => x.ImportReportGroups)
+                 .ThenInclude(x => x.CentralPolicyEvent)
+                 .ThenInclude(x => x.CentralPolicy)
+                 .Where(x => x.CreatedBy == userId)
+                 .OrderByDescending(x => x.CreateAt)
+                 .ToList();
+
+            return Ok(new { importData });
+        }
 
     }
 }

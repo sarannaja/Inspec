@@ -112,7 +112,8 @@ namespace InspecWeb.Controllers
                 Directory.CreateDirectory(_environment.WebRootPath + "//Uploads//"); //สร้าง Folder Upload ใน wwwroot
             }
             var filePath = _environment.WebRootPath + "/Uploads/";
-            var filename = "DOC" + DateTime.Now.ToString("dddd_dd_MMMM_yyyy_HH_mm_ss") + ".docx";
+            //var filename = "DOC" + DateTime.Now.ToString("dddd_dd_MMMM_yyyy_HH_mm_ss") + ".docx";
+            var filename = "ข่าวประชาสัมพันธ์ผลการตรวจราชการ" + DateTime.Now.ToString("dd MM yyyy") + ".docx";
             var createfile = filePath + filename;
             var myImageFullPath = filePath + "logo01.png";
             //var CentralPolicyProvince = _context.CentralPolicyProvinces.Where(x => x.Id == model.ProvinId).FirstOrDefault();
@@ -197,7 +198,7 @@ namespace InspecWeb.Controllers
             {
                 using (DocX document = DocX.Create(createfile))
                 {
-
+                    document.SetDefaultFont(new Xceed.Document.NET.Font("ThSarabunNew"));
                     Image image = document.AddImage(myImageFullPath);
 
                   
@@ -322,7 +323,7 @@ namespace InspecWeb.Controllers
                 using (DocX document = DocX.Create(createfile))
                 {
 
-
+                    document.SetDefaultFont(new Xceed.Document.NET.Font("ThSarabunNew"));
                     Image image = document.AddImage(myImageFullPath);
 
                    
@@ -442,6 +443,7 @@ namespace InspecWeb.Controllers
             {
                 using (DocX document = DocX.Create(createfile))
                 {
+                    document.SetDefaultFont(new Xceed.Document.NET.Font("ThSarabunNew"));
 
                     Image image = document.AddImage(myImageFullPath);
 
@@ -569,7 +571,7 @@ namespace InspecWeb.Controllers
             {
                 using (DocX document = DocX.Create(createfile))
                 {
-
+                    document.SetDefaultFont(new Xceed.Document.NET.Font("ThSarabunNew"));
                     Image image = document.AddImage(myImageFullPath);
 
                     //Image image2 = document.AddImage(filePath + file[0]);
@@ -697,7 +699,7 @@ namespace InspecWeb.Controllers
             {
                 using (DocX document = DocX.Create(createfile))
                 {
-
+                    document.SetDefaultFont(new Xceed.Document.NET.Font("ThSarabunNew"));
                     Image image = document.AddImage(myImageFullPath);
 
                     //Image image2 = document.AddImage(filePath + file[0]);
@@ -805,7 +807,7 @@ namespace InspecWeb.Controllers
             {
                 using (DocX document = DocX.Create(createfile))
                 {
-
+                    document.SetDefaultFont(new Xceed.Document.NET.Font("ThSarabunNew"));
                     Image image = document.AddImage(myImageFullPath);
 
                     //Image image2 = document.AddImage(filePath + file[0]);
@@ -931,7 +933,7 @@ namespace InspecWeb.Controllers
             {
                 using (DocX document = DocX.Create(createfile))
                 {
-
+                    document.SetDefaultFont(new Xceed.Document.NET.Font("ThSarabunNew"));
                     Image image = document.AddImage(myImageFullPath);
 
                     //Image image2 = document.AddImage(filePath + file[0]);
@@ -1048,7 +1050,7 @@ namespace InspecWeb.Controllers
             {
                 using (DocX document = DocX.Create(createfile))
                 {
-
+                    document.SetDefaultFont(new Xceed.Document.NET.Font("ThSarabunNew"));
                     Image image = document.AddImage(myImageFullPath);
 
                     //Image image2 = document.AddImage(filePath + file[0]);
@@ -1153,7 +1155,7 @@ namespace InspecWeb.Controllers
             {
                 using (DocX document = DocX.Create(createfile))
                 {
-
+                    document.SetDefaultFont(new Xceed.Document.NET.Font("ThSarabunNew"));
                     Image image = document.AddImage(myImageFullPath);
 
                     //Image image2 = document.AddImage(filePath + file[0]);
@@ -1255,7 +1257,7 @@ namespace InspecWeb.Controllers
             {
                 using (DocX document = DocX.Create(createfile))
                 {
-
+                    document.SetDefaultFont(new Xceed.Document.NET.Font("ThSarabunNew"));
                     Image image = document.AddImage(myImageFullPath);
 
                     //Image image2 = document.AddImage(filePath + file[0]);
