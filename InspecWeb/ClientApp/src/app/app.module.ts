@@ -299,7 +299,7 @@ import { UserComponent } from './user/user.component';
     PhaseTrainingComponent,
     TrainingConditionComponent,
     TrainingManageComponent,
-    TrainingProgramLoginComponent,
+
 
     TrainingLecturerListComponent,
     RateloginTrainingReportComponent,
@@ -476,7 +476,7 @@ import { UserComponent } from './user/user.component';
     NgSelectModule,
     NgbModule,
     TooltipModule.forRoot(),
-    QRCodeModule,
+    // QRCodeModule,
     AppRoutingModule
 
   ], exports: [

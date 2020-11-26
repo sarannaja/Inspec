@@ -69,13 +69,13 @@ namespace InspecWeb {
                     options.ExpireTimeSpan = new TimeSpan (0, 1, 0);
                 })
                 .AddIdentityServerJwt ();
-            services.AddHttpClient ("testlo", c => {
-                c.BaseAddress = new Uri ("http://127.0.0.1:3000/");
-                // Github API versioning
-                c.DefaultRequestHeaders.Add ("Content-Type", "application/json");
-                // Github requires a user-agent
-                // c.DefaultRequestHeaders.Add("User-Agent", "HttpClientFactory-Sample");
-            });
+            // services.AddHttpClient ("testlo", c => {
+            //     c.BaseAddress = new Uri ("http://127.0.0.1:3000/");
+            //     // Github API versioning
+            //     c.DefaultRequestHeaders.Add ("Content-Type", "application/json");
+            //     // Github requires a user-agent
+            //     // c.DefaultRequestHeaders.Add("User-Agent", "HttpClientFactory-Sample");
+            // });
 
             // เพิ่ม controller ไว้สำหรับทำ cronjob
             services.AddTransient<Controllers.UtinityController, Controllers.UtinityController> ();
@@ -107,11 +107,11 @@ namespace InspecWeb {
             //         ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
             // });
 
-            services.Configure<ForwardedHeadersOptions> (options => {
-                options.ForwardLimit = 2;
-                options.KnownProxies.Add (IPAddress.Parse ("127.0.10.1"));
-                options.ForwardedForHeaderName = "X-Forwarded-For-My-Custom-Header-Name";
-            });
+            // services.Configure<ForwardedHeadersOptions> (options => {
+            //     options.ForwardLimit = 2;
+            //     options.KnownProxies.Add (IPAddress.Parse ("127.0.10.1"));
+            //     options.ForwardedForHeaderName = "X-Forwarded-For-My-Custom-Header-Name";
+            // });
             services.AddSingleton<BackgroundService, MyTestHostedService> ();
             services.AddHostedService<MyTestHostedService> ();
             services.Configure<MailSettings> (Configuration.GetSection ("MailSettings"));

@@ -278,7 +278,9 @@ const routes: Routes = [
       { path: 'training/condition/:id', component: TrainingConditionComponent, canActivate: [AuthorizeGuard] },
       { path: 'training/phase/plan/:id', component: PlanTrainingComponent, canActivate: [AuthorizeGuard] },
       { path: 'training/manage/:id', component: TrainingManageComponent, canActivate: [AuthorizeGuard] },
-      { path: 'training/programlogin/:id', component: TrainingProgramLoginComponent, canActivate: [AuthorizeGuard] },
+      { path: 'training/programlogin/:id',loadChildren: () => import('./training-programlogin/training-programlogin.module')
+      .then(m => m.TrainingProgramloginModule), canActivate: [AuthorizeGuard] },
+      // { path: 'training/programlogin/:id', component: TrainingProgramLoginComponent, canActivate: [AuthorizeGuard] },
       { path: 'training/lecturerlist/:id', component: TrainingLecturerListComponent, canActivate: [AuthorizeGuard] },
       { path: 'training/surveylecturer', component: TrainingSurveyLecturerComponent, canActivate: [AuthorizeGuard] },
       { path: 'training/survey/processing/:id', component: TrainingProcessingComponent, canActivate: [AuthorizeGuard] },
