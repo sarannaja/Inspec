@@ -44,7 +44,7 @@ namespace InspecWeb {
 
             //<!-- เช็ทพาสเวิร์ด -->
             services.AddDefaultIdentity<ApplicationUser> (options => {
-                    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes (1);
+                    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromHours (3);
                     options.SignIn.RequireConfirmedAccount = false;
                     options.Password.RequiredLength = 8;
                     options.Password.RequireNonAlphanumeric = false;
@@ -102,10 +102,10 @@ namespace InspecWeb {
             // services.AddTransient<IEmailSender, EmailSender>();
             //end mail
             //mail
-            // services.Configure<ForwardedHeadersOptions> (options => {
-            //     options.ForwardedHeaders =
-            //         ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
-            // });
+            services.Configure<ForwardedHeadersOptions> (options => {
+                options.ForwardedHeaders =
+                    ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+            });
 
             // services.Configure<ForwardedHeadersOptions> (options => {
             //     options.ForwardLimit = 2;
