@@ -5,6 +5,9 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { NgxSpinnerService } from "ngx-spinner";
+import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { NotofyService } from 'src/app/services/notofy.service';
+import { LogService } from 'src/app/services/log.service';
 
 @Component({
   selector: 'app-list-training-document',
@@ -26,13 +29,18 @@ export class ListTrainingDocumentComponent implements OnInit {
   form: FormGroup;
   files: string[] = []
   downloadUrl: string;
+  userid: string;
+  namefile: any;
 
   constructor(private modalService: BsModalService,
+    private authorize: AuthorizeService,
+    private _NotofyService: NotofyService,
+    private spinner: NgxSpinnerService,
+    private logService: LogService,
     private fb: FormBuilder,
     private trainingservice: TrainingService,
     public share: TrainingService,
     private router: Router,
-    private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
     @Inject('BASE_URL') baseUrl: string) {
     this.trainingid = activatedRoute.snapshot.paramMap.get('id')
@@ -41,6 +49,7 @@ export class ListTrainingDocumentComponent implements OnInit {
 
   ngOnInit() {
     this.spinner.show();
+    this.getuserinfo();
     this.dtOptions = {
       columnDefs: [
         {
@@ -74,9 +83,18 @@ export class ListTrainingDocumentComponent implements OnInit {
 
     this.trainingservice.getlisttrainingdocumentdata(this.trainingid)
       .subscribe(result => {
-        this.resulttraining = result
-        this.loading = true
+        this.resulttraining = result;
+        this.loading = true;
+        this.spinner.hide();
         //console.log(this.resulttraining);
+      })
+  }
+
+  //start getuser
+  getuserinfo() {
+    this.authorize.getUser()
+      .subscribe(result => {
+        this.userid = result.sub
       })
   }
 
@@ -86,19 +104,27 @@ export class ListTrainingDocumentComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
 
+  opendeleteModal(template: TemplateRef<any>, id: any = null, name) {
+    this.delid = id;
+    this.namefile = name;
+    //console.log(this.delid);
+    this.modalRef = this.modalService.show(template);
+  }
+
 
   storeTraining(value) {
     //alert(JSON.stringify(value))
     //alert(this.form.value.files)
     this.trainingservice.addTrainingDocument(value, this.form.value.files, this.trainingid).subscribe(response => {
-      console.log(value);
+      console.log("addTrainingDocument =>", response);
       this.Form.reset()
       this.modalRef.hide()
       this.loading = false;
-
+      this.logService.addLog(this.userid,'TrainingDocument','เพิ่ม',response.detail,response.id).subscribe();
       this.trainingservice.getlisttrainingdocumentdata(this.trainingid).subscribe(result => {
-        this.resulttraining = result
-        this.loading = true
+        this.resulttraining = result;
+        this.loading = true;
+        this._NotofyService.onSuccess("เพิ่มข้อมูล");
         //console.log(this.resulttraining);
       })
     })
@@ -123,9 +149,11 @@ export class ListTrainingDocumentComponent implements OnInit {
       //console.log(value);
       this.modalRef.hide()
       this.loading = false;
+      this.logService.addLog(this.userid,'TrainingDocument','ลบ',this.namefile,this.delid).subscribe();
       this.trainingservice.getlisttrainingdocumentdata(this.trainingid).subscribe(result => {
         this.resulttraining = result
         this.loading = true;
+        this._NotofyService.onSuccess("ลบข้อมูล")
         //console.log(this.resulttraining);
       })
     })

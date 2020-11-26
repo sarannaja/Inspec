@@ -33,6 +33,7 @@ export class LecturerTrainingComponent implements OnInit {
   userid: string;
   resulttraininglecturerById: any[];
   ImgProfile: any;
+  lecturerName: any;
 
 
   constructor(private modalService: BsModalService,
@@ -50,7 +51,7 @@ export class LecturerTrainingComponent implements OnInit {
     }
 
   ngOnInit() {
-
+    this.getuserinfo();
     this.dtOptions = {
       pagingType: 'full_numbers',
       columnDefs: [
@@ -104,7 +105,7 @@ export class LecturerTrainingComponent implements OnInit {
           return { value: item.id, label: item.name }
         })
       }
-      this.loading = true;
+      this.spinner.hide();
     })
   }
   get f() { return this.Form.controls }
@@ -118,6 +119,8 @@ export class LecturerTrainingComponent implements OnInit {
       })
   }
 
+  
+
   CreateTraining(){
     this.router.navigate(['/training/createtraining'])
   }
@@ -129,8 +132,34 @@ export class LecturerTrainingComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
 
+  deleteModal(template: TemplateRef<any>, id, lecturerName, template2: TemplateRef<any>) {
+    this.submitted = false;
+    this.delid = id;
+    this.lecturerName = lecturerName;
+    console.log(this.delid);
+
+    this.trainingservice.getUsetraininglecturer(id)
+      .subscribe(result => {
+        console.log("getUsetraininglecturer =>", result);
+        console.log("getUsetraininglecturer result.length  =>", result.length );
+        
+        if(result.length > 0){
+          this.modalRef = this.modalService.show(template2);
+        }
+        else{
+          this.modalRef = this.modalService.show(template);
+        }
+
+      })
+    
+    
+    
+    
+  }
+
+
   storeTraining(value) {
-    console.log(value);
+    console.log("storeTraining =>", value);
     
     if (this.Form.invalid) {
       console.log("in1");
@@ -141,10 +170,11 @@ export class LecturerTrainingComponent implements OnInit {
 
       //alert(JSON.stringify(value))
       this.trainingservice.addTraininglecturer(value, this.Form.value.picFiles).subscribe(response => {
-        console.log(value);
+        //alert(JSON.stringify(response))
+        console.log("addTraininglecturer =>", response);
         this.modalRef.hide()
         this.Form.reset()
-        this.logService.addLog(this.userid,'วิทยากรอบรม(TrainingLecturer)','เพิ่ม',value.lecturername,"").subscribe();
+        this.logService.addLog(this.userid,'TrainingLecturer','เพิ่ม', response.lecturerName, response.id).subscribe();
         this.trainingservice.gettraininglecturer()
         .subscribe(result => {
           this.resulttraining = result
@@ -160,7 +190,7 @@ export class LecturerTrainingComponent implements OnInit {
   ViewModal(template: TemplateRef<any>, id, lecturerType, lecturerName, phone, email, education, workHistory, experience, detailplus, imgProfile) {
     this.delid = id;
     this.ImgProfile = imgProfile;
-    console.log(this.ImgProfile);
+    console.log(detailplus);
 
     this.modalRef = this.modalService.show(template);
     this.ViewForm = this.fb.group({
@@ -244,26 +274,29 @@ export class LecturerTrainingComponent implements OnInit {
       this.EditForm.reset()
       this.modalRef.hide()
       this.loading = false
-
+      this.logService.addLog(this.userid,'TrainingLecturer','แก้ไข', response.lecturerName, response.id).subscribe();
       this.trainingservice.gettraininglecturer()
       .subscribe(result => {
         this.resulttraining = result
         this.loading = true;
         console.log(this.resulttraining);
+        this._NotofyService.onSuccess("แก้ไขข้อมูล")
       })
     })
   }
 
   deleteTraining(value) {
+    console.log(value);
     this.trainingservice.deleteTrainingLecturer(value).subscribe(response => {
-      console.log(value);
       this.modalRef.hide()
       this.loading = false;
+      this.logService.addLog(this.userid,'TrainingLecturer','ลบ', this.lecturerName, this.delid).subscribe();
       this.trainingservice.gettraininglecturer()
       .subscribe(result => {
         this.resulttraining = result
         this.loading = true;
         console.log(this.resulttraining);
+        this._NotofyService.onSuccess("ลบข้อมูล")
       })
     })
   }
