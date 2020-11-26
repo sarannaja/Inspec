@@ -3,9 +3,9 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --configuration es5",
-    "build": "node --max_old_space_size=4096 node_modules/@angular/cli/bin/ng build  --configuration es5",
-    "build:prod": "node --max_old_space_size=4096 node_modules/@angular/cli/bin/ng build  --configuration es5",
+    "start": "ng serve",
+    "build": "node --max_old_space_size=4096 node_modules/@angular/cli/bin/ng build --prod",
+    "build:prod": "node --max_old_space_size=4096 node_modules/@angular/cli/bin/ng build --prod",
     "build:ssr": "ng run InspecWeb:server:dev",
     "test": "ng test",
     "lint": "ng lint",
