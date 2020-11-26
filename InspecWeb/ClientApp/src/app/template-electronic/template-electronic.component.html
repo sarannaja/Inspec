@@ -1,7 +1,7 @@
 
 
 <div class="header">
-  
+
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="dashboard-default.html">หน้าหลัก</a></li>
@@ -33,7 +33,7 @@
       <div class="col-lg-3" *ngFor="let items of Data">
         <div class="card card-eiei" style="margin-top: 10px; text-align: center;">
           <div style="padding-top: 10px; align-self: center;">
-            <img [src]="url + 'Theme/' + items.name" alt="photo" class="imgSize"
+            <img style="cursor: pointer;" [src]="url + 'Theme/' + items.name" alt="photo" class="imgSize"
             (click)="exportToWord(items.id)" >
             <br>
             <span class="badge badge-warning text-center"

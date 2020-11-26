@@ -49,7 +49,6 @@
       <ExcludeFromSingleFile>false</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content> -->
-    <Folder Include="wwwroot\reportrequestorder\" />
   </ItemGroup>
 
   <!-- <ItemGroup>

@@ -52,6 +52,7 @@ export class AllReportComponent implements OnInit {
   provinceId
   regionId
   filter: any = new Object;
+  checkSort = 0;
   startdateforexport
   myDatePickerOptions: IMyOptions = {
     // other options...
@@ -592,6 +593,24 @@ export class AllReportComponent implements OnInit {
         }
       })
     })
+  }
+
+  sortDate() {
+    this.loading = false;
+    if (this.checkSort == 0) {
+      this.exportReportService.sortDate(this.userid).subscribe(res => {
+        console.log("importReport: ", res);
+        this.importedReport = res;
+        this.loading = true;
+        this.checkSort = 1;
+      })
+    } else {
+      this.exportReportService.sortDateDESC(this.userid).subscribe(res => {
+        this.importedReport = res;
+        this.loading = true;
+        this.checkSort = 0;
+      })
+    }
   }
 
 }

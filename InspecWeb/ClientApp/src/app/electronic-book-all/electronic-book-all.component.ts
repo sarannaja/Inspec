@@ -21,7 +21,9 @@ export class ElectronicBookAllComponent implements OnInit {
   delid: any;
   modalRef: BsModalRef;
   centralpolicyprovinceid: any;
-  role_id
+  role_id;
+  checkSort = 0;
+
   constructor(
     private router: Router,
     private electronicBookService: ElectronicbookService,
@@ -131,6 +133,23 @@ export class ElectronicBookAllComponent implements OnInit {
     // alert(this.centralpolicyprovinceid)
 
     this.router.navigate(['/electronicbook/edit/' + id, { electronicBookId: elecId }])
+  }
+
+  sortDate() {
+    this.loading = false;
+    if (this.checkSort == 0) {
+      this.electronicBookService.sortDate(this.userid).subscribe(res => {
+        this.electronicBookData = res;
+        this.loading = true;
+        this.checkSort = 1;
+      })
+    } else {
+      this.electronicBookService.sortDateDESC(this.userid).subscribe(res => {
+        this.electronicBookData = res;
+        this.loading = true;
+        this.checkSort = 0;
+      })
+    }
   }
 
 }

@@ -82,6 +82,7 @@ export class InspectionPlanComponent implements OnInit {
   watch
   submitted = false;
   lastpath
+  checkSort = 0
 
   constructor(private modalService: BsModalService,
     private notificationService: NotificationService,
@@ -133,7 +134,7 @@ export class InspectionPlanComponent implements OnInit {
       pagingType: 'full_numbers',
       columnDefs: [
         {
-          targets: [3],
+          targets: [],
           orderable: false
         }
       ],
@@ -906,4 +907,22 @@ export class InspectionPlanComponent implements OnInit {
   // var distinctThings: any[] = result.filter(
   //       (thing, i, arr) => arr.findIndex(t => t.id === thing.id) === i
   //     );
+  sortDate() {
+    this.loading = false;
+    if (this.checkSort == 0) {
+      // this.subjectservice.sortDate(this.userid).subscribe(result => {
+      //   this.resultsubjectevent = result
+      //   this.loading = true;
+      //   this.checkSort = 1;
+
+      // })
+    } else {
+      // this.subjectservice.sortDateDESC(this.userid).subscribe(result => {
+      //   this.resultsubjectevent = result
+      //   this.loading = true;
+      //   this.checkSort = 0;
+      // })
+    }
+  }
+
 }

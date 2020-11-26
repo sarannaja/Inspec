@@ -2269,5 +2269,45 @@ namespace InspecWeb.Controllers
 
             return Ok(ebook);
         }
+
+        [HttpGet("sortDate/{userId}")]
+        public IActionResult getSortDate(string userId)
+        {
+            System.Console.WriteLine("UserIdNaja: " + userId);
+
+            var ebook = _context.ElectronicBooks
+                .Include(x => x.ElectronicBookGroups)
+                .ThenInclude(x => x.CentralPolicyEvent)
+                .ThenInclude(x => x.CentralPolicy)
+
+                .Include(x => x.ElectronicBookGroups)
+                .ThenInclude(x => x.CentralPolicyEvent)
+                .ThenInclude(x => x.InspectionPlanEvent)
+                .Where(x => x.CreatedBy == userId)
+                .OrderBy(x => x.StartDate)
+                .ToList();
+
+            return Ok(ebook);
+        }
+
+        [HttpGet("sortDateDESC/{userId}")]
+        public IActionResult getSortDateDESC(string userId)
+        {
+            System.Console.WriteLine("UserIdNaja: " + userId);
+
+            var ebook = _context.ElectronicBooks
+                .Include(x => x.ElectronicBookGroups)
+                .ThenInclude(x => x.CentralPolicyEvent)
+                .ThenInclude(x => x.CentralPolicy)
+
+                .Include(x => x.ElectronicBookGroups)
+                .ThenInclude(x => x.CentralPolicyEvent)
+                .ThenInclude(x => x.InspectionPlanEvent)
+                .Where(x => x.CreatedBy == userId)
+                .OrderByDescending(x => x.StartDate)
+                .ToList();
+
+            return Ok(ebook);
+        }
     }
 }
