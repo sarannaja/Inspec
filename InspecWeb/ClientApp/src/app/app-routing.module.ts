@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthorizeGuard } from 'src/api-authorization/authorize.guard';
-import { LogoutComponent } from 'src/api-authorization/logout/logout.component';
+// import { LogoutComponent } from 'src/api-authorization/logout/logout.component';
 import { AdviserCivilSectorComponent } from './adviser-civil-sector/adviser-civil-sector.component';
 import { AllReportIframeDetailComponent } from './all-report-iframe/all-report-iframe-detail/all-report-iframe-detail.component';
 import { AllReportIframeComponent } from './all-report-iframe/all-report-iframe.component';
@@ -197,10 +197,15 @@ import { ThaiDatePipe } from './services/Pipe/thaidate.service';
 import { ChartComponent } from './subjectevent/detail-subjectevent/chart/chart.component';
 import { RegisterTrainingComponent } from './training/register-training/register-training.component';
 import { VilageComponent } from './vilage/vilage.component';
+import { ApplicationPaths } from 'src/api-authorization/api-authorization.constants';
+import { NewLoginComponent } from 'src/api-authorization/new-login/new-login.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'main', pathMatch: 'full' },
   // { path: '', redirectTo: 'video', pathMatch: 'full' },
+  { path: ApplicationPaths.Login, component: NewLoginComponent },
+  // { path: ApplicationPaths.Login, loadChildren: () => import('../api-authorization/new-login/new-login.module').then(m => m.NewLoginModule) },
+
   { path: 'counter', component: CounterComponent },
   { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthorizeGuard] },
   // { path: 'login', component: LoginComponent },
@@ -228,7 +233,10 @@ const routes: Routes = [
       title: 'หน้าหลัก'
     },
     children: [
+
+
       { path: 'main', component: MainComponent, canActivate: [AuthorizeGuard] }, //ออเทน
+      // { path: '', loadChildren: () => import('../api-authorization/api-authorization.module') },
       { path: 'centralpolicy/createcentralpolicy', component: CreateCentralPolicyComponent, canActivate: [AuthorizeGuard] },
       { path: 'inspectionplan/createinspectionplan/:id', component: CreateInspectionPlanComponent, canActivate: [AuthorizeGuard] },
       { path: 'inspectionplan/editinspectionplan/:id', component: EditInspectionPlanComponent, canActivate: [AuthorizeGuard] },
@@ -292,8 +300,8 @@ const routes: Routes = [
       { path: 'training/report/summary/phase/group/:trainingid/:phaseid', component: TrainingSummaryReportPhaseComponent, canActivate: [AuthorizeGuard] },
       { path: 'training/report/summary/phase/group/detail/:trainingid/:phaseid/:group', component: TrainingSummaryReportGroupComponent, canActivate: [AuthorizeGuard] },
       { path: 'training/report/summary/project/:trainingid', component: TrainingSummaryReportProjectComponent, canActivate: [AuthorizeGuard] },
-      
-      
+
+
 
       //---------------
       { path: 'training/idcode/:id', loadChildren: () => import('./training-idcode/training-idcode.module').then(m => m.TrainingIdcodeModule) },
@@ -316,9 +324,9 @@ const routes: Routes = [
       { path: 'ministermonitoring', component: MinistermonitoringComponent, canActivate: [AuthorizeGuard] },
       { path: 'acceptcentralpolicy/:id', component: AcceptCentralPolicyComponent, canActivate: [AuthorizeGuard] },
       { path: 'usercentralpolicy', component: UserCentralPolicyComponent, canActivate: [AuthorizeGuard] },
-      { path: 'test/logout', component: LogoutComponent },
+      // { path: 'test/logout', component: LogoutComponent },
       { path: 'usercentralpolicy/:id/:provinceid', component: UserCentralPolicyComponent, canActivate: [AuthorizeGuard] },
-      { path: 'test/logout', component: LogoutComponent },
+      // { path: 'test/logout', component: LogoutComponent },
       { path: 'centralpolicy/editcentralpolicy/:id', component: EditCentralPolicyComponent, canActivate: [AuthorizeGuard] },
       { path: 'subject/editsubject/:id', component: EditSubjectComponent, canActivate: [AuthorizeGuard] },
       { path: 'subject/detailsubject/:id', component: DetailSubjectComponent, canActivate: [AuthorizeGuard] },
@@ -452,7 +460,7 @@ const routes: Routes = [
 
   imports: [
     // CommonModule,
-    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules, initialNavigation: 'enabled' })
+    RouterModule.forRoot(routes)
   ],
   exports: [RouterModule]
 })

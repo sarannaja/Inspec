@@ -38,7 +38,7 @@
     "angular-datatables": "^8.0.0",
     "angular-fusioncharts": "^3.0.4",
     "angular2-chartjs": "^0.5.1",
-    "angularx-qrcode": "^10.0.10",
+    "angularx-qrcode": "^2.1.4",
     "apexcharts": "3.19.0",
     "aspnet-prerendering": "^3.0.1",
     "autoprefixer": "9.7.1",

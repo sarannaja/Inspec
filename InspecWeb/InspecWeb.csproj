@@ -45,11 +45,7 @@
     
   </ItemGroup>
 
-  <ItemGroup><!-- <Content Include="ClientApp\src\assets\favicon.ico">
-      <ExcludeFromSingleFile>false</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content> -->
-  </ItemGroup>
+  
 
   <!-- <ItemGroup>
     <Folder Include="Data\Migrations\" />

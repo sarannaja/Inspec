@@ -4,8 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { ExternalOrganizationService } from 'src/app/services/external-organization.service';
 import { NewRegion, FiscalYear, Projects } from 'src/app/external-organization/models/Region';
 import { FiscalYear as FiscalYear2 } from 'src/app/models/otpsprovince';
-import { ChartOptions, ChartType } from 'chart.js';
-import { Label, SingleDataSet, monkeyPatchChartJsTooltip, monkeyPatchChartJsLegend, Color } from 'ng2-charts';
+import { ChartOptions, ChartType, } from 'chart.js';
+import { Label, SingleDataSet, monkeyPatchChartJsTooltip, monkeyPatchChartJsLegend } from 'ng2-charts';
 
 @Component({
   selector: 'app-region',
@@ -26,9 +26,9 @@ export class RegionComponent implements OnInit {
   public pieChartType: ChartType = 'pie';
   public pieChartLegend = true;
   public pieChartPlugins = [];
-  public pieChartcolors: Color[] = [
+  public pieChartcolors: any[] = [
     {
-      backgroundColor: []
+      backgroundColor: 'rgba(255,0,0,0.3)',
     }
   ];
   public pieChartOptions: ChartOptions = {
