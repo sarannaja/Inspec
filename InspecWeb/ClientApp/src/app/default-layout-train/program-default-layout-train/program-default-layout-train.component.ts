@@ -107,9 +107,9 @@ export class ProgramDefaultLayoutTrainComponent implements OnInit {
           //console.log(this.resulttraining);
         })
     })
-    this.trainingservice.getTrainingPlan(this.trainingphaseid).subscribe(result => {
+    this.trainingservice.getTrainingPlantable(this.trainingphaseid).subscribe(result => {
 
-      this.chars = result.map(result2 => { return { ...result2, programDate: result2.trainingProgram.programDate } })
+      this.chars = result.map(result2 => { return { ...result2, programDate: result2.programDate } })
       this.chars = _.chain(this.chars)
         .groupBy("programDate")
         // `key` is group's name (color), `value` is the array of objects

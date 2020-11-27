@@ -265,7 +265,7 @@ namespace InspecWeb.Controllers
         public async Task<IActionResult> Post([FromForm] TrainingViewModel model)
         {
             var date = DateTime.Now;
-           
+
             System.Console.WriteLine("Start Uplond");
             if (!Directory.Exists(_environment.WebRootPath + "//Uploads//"))
             {
@@ -320,8 +320,8 @@ namespace InspecWeb.Controllers
                 }
 
             }
-            return Ok( new { status = true});
-            
+            return Ok(new { status = true });
+
 
 
         }
@@ -476,7 +476,8 @@ namespace InspecWeb.Controllers
             string textFoot = "<br /><br /> ระบบตรวจราชการอิเล็กทรอนิกส์ <br /> สำนักงานปลัดสำนักนายกรัฐมนตรี";
             //string EndHost = "></a>";
 
-            if (databody.Count > 0) {
+            if (databody.Count > 0)
+            {
                 foreach (var data in databody)
                 {
 
@@ -485,7 +486,7 @@ namespace InspecWeb.Controllers
 
                 }
             }
-            
+
             //string xxx = termsList.ToString().Replace(",", " <br>");
 
             //return Ok(textbody);
@@ -596,7 +597,7 @@ namespace InspecWeb.Controllers
             {
                 xxx = xxx + data.Name + " <br />";
                 //termsList.Add(data.Name);
-                
+
             }
             //string xxx = termsList.ToString().Replace(",", " <br>");
             string Host = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}/upload/";
@@ -606,7 +607,7 @@ namespace InspecWeb.Controllers
 
 
         [HttpPost("registerlist2/{trainingId}")]
-        public async Task<IActionResult> EditRegisterList2(long[] traningregisterid, long status ,long trainingId)
+        public async Task<IActionResult> EditRegisterList2(long[] traningregisterid, long status, long trainingId)
         {
             foreach (var id in traningregisterid)
             {
@@ -669,7 +670,7 @@ namespace InspecWeb.Controllers
                         //Host = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}",
                     };
                     await mailService.SendEmailAsync(send);
-                   
+
 
                 }
                 catch (Exception ex)
@@ -682,7 +683,7 @@ namespace InspecWeb.Controllers
                 _context.Entry(training).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                 _context.SaveChanges();
 
-             
+
             }
             return Ok(true);
         }
@@ -2299,6 +2300,22 @@ namespace InspecWeb.Controllers
 
         }
 
+        //GET api/Training/plan
+        [HttpGet("plantable/{id}")]
+        public IActionResult Plantable(long id)
+        {
+
+            var plandata = _context.TrainingPrograms
+                .Include(m => m.TrainingPhase)
+                .Include(m => m.TrainingProgramFiles)
+                .Include(m => m.TrainingProgramLecturers)
+                .ThenInclude(m => m.TrainingLecturer)
+                .Where(m => m.TrainingPhaseId == id);
+
+            return Ok(plandata);
+
+        }
+
         // PUT api/training/register/group/:id
         [HttpPut("register/group/{id}")]
         public void EditRegisterGroup(long id, long approve1, long approve2, long approve3, long approve4, long approve5, long approve6, long approve7, long approve8, long approve9, long approve10)
@@ -2608,7 +2625,7 @@ namespace InspecWeb.Controllers
             var result = new List<object>();
 
             long dataTrainingSurveyTopicId = _context.TrainingLecturerJoinSurveys
-                .Where(m => m.Id == trainingLecturerJoinSurveysId )
+                .Where(m => m.Id == trainingLecturerJoinSurveysId)
                 .Select(m => m.TrainingSurveyTopicId)
               .FirstOrDefault();
 
@@ -2671,7 +2688,7 @@ namespace InspecWeb.Controllers
         {
             var result = new List<object>();
 
-            
+
 
             var data = _context.TrainingSurveyAnswers
                 .Include(m => m.TrainingSurvey)
@@ -3031,7 +3048,7 @@ namespace InspecWeb.Controllers
             return Ok(new { data = filename });
         }
 
-          // PUT : api/trainingsetting/edit/:id
+        // PUT : api/trainingsetting/edit/:id
         [HttpPut("trainingsetting/edit/{id}")]
         public Training EditTrainingSetting(long id, int status)
         {
@@ -3042,7 +3059,7 @@ namespace InspecWeb.Controllers
 
             return training;
         }
-        
+
         //GET api/training/check_TrainingProgramLoginQRDate/get
         [HttpGet("check_TrainingProgramLoginQRDate/get/{trainingid}")]
         public IActionResult GetCheckTrainingProgramLoginQRDate(long trainingid)

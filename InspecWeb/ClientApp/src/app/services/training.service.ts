@@ -2,6 +2,7 @@ import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { TrainingRegisterlist } from './toeymodel/trainingregisterlist';
+import { Ngong } from '../training/plan-training/plan-training.component';
 
 @Injectable({
   providedIn: 'root'
@@ -633,10 +634,12 @@ export class TrainingService {
     console.log('FORMDATA: ' + formData);
     return this.http.post<any[]>(this.url + "printNamePlate", formData);
   }
-  getTrainingPlan(trainingphaseid): Observable<any[]> {
-    return this.http.get<any[]>(this.url + 'plan/' + trainingphaseid)
+  getTrainingPlan(trainingphaseid): Observable<Ngong[]> {
+    return this.http.get<Ngong[]>(this.url + 'plan/' + trainingphaseid)
   }
-
+  getTrainingPlantable(trainingphaseid): Observable<any[]> {
+    return this.http.get<any[]>(this.url + 'plantable/' + trainingphaseid)
+  }
   getchecktrainingregister(trainingid, userid): Observable<any[]> {
     return this.http.get<any[]>(this.url + 'checktrainingregister/' + trainingid + '/' + userid)
   }
