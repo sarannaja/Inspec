@@ -241,10 +241,11 @@ namespace InspecWeb.Controllers {
         public async Task<IActionResult> Post ([FromForm] TrainingViewModel model) {
             var date = DateTime.Now;
 
-            System.Console.WriteLine ("Start Uplond");
-            if (!Directory.Exists (_environment.WebRootPath + "//Uploads//")) {
-                System.Console.WriteLine ("Start Uplond2");
-                Directory.CreateDirectory (_environment.WebRootPath + "//Uploads//"); //สร้าง Folder Upload ใน wwwroot
+            System.Console.WriteLine("Start Uplond");
+            if (!Directory.Exists(_environment.WebRootPath + "//Uploads//"))
+            {
+                System.Console.WriteLine("Start Uplond2");
+                Directory.CreateDirectory(_environment.WebRootPath + "//Uploads//"); //สร้าง Folder Upload ใน wwwroot
             }
 
             //var BaseUrl = url.ActionContext.HttpContext.Request.Scheme;
@@ -290,7 +291,9 @@ namespace InspecWeb.Controllers {
                 }
 
             }
-            return Ok (new { status = true });
+            return Ok(new { status = true });
+
+
 
         }
 
@@ -433,8 +436,10 @@ namespace InspecWeb.Controllers {
             string textFoot = "<br /><br /> ระบบตรวจราชการอิเล็กทรอนิกส์ <br /> สำนักงานปลัดสำนักนายกรัฐมนตรี";
             //string EndHost = "></a>";
 
-            if (databody.Count > 0) {
-                foreach (var data in databody) {
+            if (databody.Count > 0)
+            {
+                foreach (var data in databody)
+                {
 
                     textbody = textbody + Host + data.Name + "' > " + data.TrainingProgram.ProgramTopic + " วันที่ " + data.TrainingProgram.ProgramDate + " (" + data.TrainingProgram.MinuteStartDate + "-" + data.TrainingProgram.MinuteEndDate + ")" + "</a><br />";
                     //termsList.Add(data.Name);
@@ -2102,6 +2107,22 @@ namespace InspecWeb.Controllers {
                 .Where (m => m.TrainingProgram.TrainingPhaseId == id);
 
             return Ok (districtdata);
+
+        }
+
+        //GET api/Training/plan
+        [HttpGet("plantable/{id}")]
+        public IActionResult Plantable(long id)
+        {
+
+            var plandata = _context.TrainingPrograms
+                .Include(m => m.TrainingPhase)
+                .Include(m => m.TrainingProgramFiles)
+                .Include(m => m.TrainingProgramLecturers)
+                .ThenInclude(m => m.TrainingLecturer)
+                .Where(m => m.TrainingPhaseId == id);
+
+            return Ok(plandata);
 
         }
 
