@@ -63,9 +63,6 @@
             ]
           },
           "configurations": {
-            "es5": {
-              "tsConfig": "./tsconfig.es5.json"
-            },
             "production": {
               "fileReplacements": [
                 {
@@ -91,9 +88,6 @@
             "browserTarget": "InspecWeb:build"
           },
           "configurations": {
-            "es5": {
-              "browserTarget": "InspecWeb:build:es5"
-            },
             "production": {
               "browserTarget": "InspecWeb:build:production"
             }

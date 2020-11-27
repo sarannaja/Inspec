@@ -171,9 +171,9 @@ export class TrainingProgramLoginComponent implements OnInit {
     // console.log("id", id);
     // console.log("type", type);
     
-    var textqrcode = this.mainUrl + 'training/login/' + phaseid + '/' + id + '/' + type ;
+    // var textqrcode = 
     //console.log("xxx:",textqrcode);
-    return textqrcode;
+    return this.mainUrl + 'training/login/' + phaseid + '/' + id + '/' + type ;
   }
 
   gotoBack() {

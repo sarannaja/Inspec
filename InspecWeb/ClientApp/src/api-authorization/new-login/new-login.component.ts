@@ -7,6 +7,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { PasswordStrengthValidator } from './password-strength.validators';
+import { UserService } from 'src/app/services/user.service';
 
 // The main responsibility of this component is to handle the user's login process.
 // This is the starting point for the login process. Any component that needs to authenticate
@@ -26,11 +27,13 @@ export class NewLoginComponent implements OnInit {
   submitted = false;
   returnUrl: string;
   loginfail: any
-  remeberMe: boolean = true
+  remeberMe: boolean = false
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
+    private userService: UserService,
+
     private authorize: AuthorizeService,
     private spinner: NgxSpinnerService,
 
@@ -42,47 +45,109 @@ export class NewLoginComponent implements OnInit {
     //   // this.router.navigate(['/']);
     // }
   }
+  userid
+  role_id
 
+  async test() {
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+
+    const action = this.route.snapshot.url[1];
+    switch (action.path) {
+      case LoginActions.Login:
+        console.log(' LoginActions.Login:');
+        await this.login(this.getReturnUrl());
+        break;
+      case LoginActions.LoginCallback:
+        console.log(' LoginActions.LoginCallback:');
+
+        await this.processLoginCallback();
+        break;
+      case LoginActions.LoginFailed:
+        console.log('LoginActions.LoginFailed:');
+        const message = this.route.snapshot.queryParamMap.get(QueryParameterNames.Message);
+        this.message.next(message);
+        break;
+      case LoginActions.Profile:
+        console.log('LoginActions.Profile:');
+
+        this.redirectToProfile();
+        break;
+      case LoginActions.Register:
+        console.log('LoginActions.Register:');
+        this.redirectToRegister();
+        break;
+      default:
+        throw new Error(`Invalid action '${action}'`);
+    }
+
+  }
   ngOnInit() {
 
     this.authorize.isAuthenticated().subscribe(async result => {
-      this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
 
-      console.log('isAuthenticated', result);
+      console.log('isAuthenticatedssss', result);
+
       if (result) {
-        return;
+        this.test()
         // this.router.navigate([this.returnUrl])
+        // return
+        // this.authorize.signOut({ local: true })
+        // // return;
         // await this.login(this.getReturnUrl());
         // this.spinner.hide()
       } else {
-        const action = this.route.snapshot.url[1];
-        switch (action.path) {
-          case LoginActions.Login:
-            console.log(' LoginActions.Login:');
-            await this.login(this.getReturnUrl());
-            break;
-          case LoginActions.LoginCallback:
-            console.log(' LoginActions.LoginCallback:');
+        console.log('ddd', false);
 
-            await this.processLoginCallback();
-            break;
-          case LoginActions.LoginFailed:
-            console.log('LoginActions.LoginFailed:');
-            const message = this.route.snapshot.queryParamMap.get(QueryParameterNames.Message);
-            this.message.next(message);
-            break;
-          case LoginActions.Profile:
-            console.log('LoginActions.Profile:');
 
-            this.redirectToProfile();
-            break;
-          case LoginActions.Register:
-            console.log('LoginActions.Register:');
-            this.redirectToRegister();
-            break;
-          default:
-            throw new Error(`Invalid action '${action}'`);
-        }
+        this.authorize.getUser()
+          .subscribe(result => {
+            // this.authorize.signOut({ local: true })
+            console.log(result, 'result');
+            this.userid = result ? result.sub : null
+            // console.log();
+            result ? console.log(Date.now().toLocaleString(), new Date(result.auth_time), 'result.auth_time')
+              : ''
+            if (result) {
+              // return
+            } else {
+              this.test()
+
+            }
+            // return
+            // alert(this.userid)
+            // this.userService.getuserfirstdata(this.userid)
+            //   .subscribe(result => {
+            //     this.role_id = result[0].role_id
+            //   })
+          })
+        // const action = this.route.snapshot.url[1];
+        // switch (action.path) {
+        //   case LoginActions.Login:
+        //     console.log(' LoginActions.Login:');
+        //     await this.login(this.getReturnUrl());
+        //     break;
+        //   case LoginActions.LoginCallback:
+        //     console.log(' LoginActions.LoginCallback:');
+
+        //     await this.processLoginCallback();
+        //     break;
+        //   case LoginActions.LoginFailed:
+        //     console.log('LoginActions.LoginFailed:');
+        //     const message = this.route.snapshot.queryParamMap.get(QueryParameterNames.Message);
+        //     this.message.next(message);
+        //     break;
+        //   case LoginActions.Profile:
+        //     console.log('LoginActions.Profile:');
+
+        //     this.redirectToProfile();
+        //     break;
+        //   case LoginActions.Register:
+        //     console.log('LoginActions.Register:');
+        //     this.redirectToRegister();
+        //     break;
+        //   default:
+        //     throw new Error(`Invalid action '${action}'`);
+        // }
         this.spinner.hide()
       }
 

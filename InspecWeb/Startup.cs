@@ -44,7 +44,7 @@ namespace InspecWeb {
 
             //<!-- เช็ทพาสเวิร์ด -->
             services.AddDefaultIdentity<ApplicationUser> (options => {
-                    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes (1);
+                    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromHours (10);
                     options.SignIn.RequireConfirmedAccount = false;
                     options.Password.RequiredLength = 8;
                     options.Password.RequireNonAlphanumeric = false;
@@ -66,7 +66,7 @@ namespace InspecWeb {
             services.AddAuthentication (CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie (CookieAuthenticationDefaults.AuthenticationScheme, options => {
                     options.SlidingExpiration = true;
-                    options.ExpireTimeSpan = new TimeSpan (0, 1, 0);
+                    // options.ExpireTimeSpan = new TimeSpan (0, 0, 10);
                 })
                 .AddIdentityServerJwt ();
             services.AddHttpClient ("testlo", c => {
@@ -182,6 +182,7 @@ namespace InspecWeb {
                 spa.Options.SourcePath = "ClientApp";
                 if (env.IsDevelopment ()) {
                     spa.UseAngularCliServer (npmScript: "start");
+                    // spa.UseProxyToSpaDevelopmentServer("http://127.0.0.1:4200");
                 }
             });
         }
