@@ -23,7 +23,7 @@ const config = {
   appId: "1:336991440347:web:61f568bcdb790b92046bfe"
 };
 @NgModule({
-  declarations: [ThaiDatePipe2,DateLengthComponent,TitleModalComponent],
+  declarations: [ThaiDatePipe2, TitleModalComponent],
   imports: [
     CommonModule,
     DataTablesModule,
@@ -37,6 +37,7 @@ const config = {
 
     MyDatePickerTHModule
   ],
+  entryComponents: [],
   exports: [
     CommonModule,
     ThaiDatePipe2,
@@ -49,7 +50,7 @@ const config = {
     MyDatePickerTHModule,
     ModalModule,
     ReactiveFormsModule,
-    DateLengthComponent,
+    
     MatVideoModule
   ],
   providers: [VideoService]

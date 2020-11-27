@@ -303,7 +303,6 @@ import { NewLoginComponent } from 'src/api-authorization/new-login/new-login.com
     TrainingConditionComponent,
     TrainingManageComponent,
 
-
     TrainingLecturerListComponent,
     RateloginTrainingReportComponent,
     TrainingSurveyLecturerComponent,
@@ -452,9 +451,10 @@ import { NewLoginComponent } from 'src/api-authorization/new-login/new-login.com
     AllReportIframeComponent,
     AllReportIframeDetailComponent,
     VilageComponent,
-    NewLoginComponent
+    NewLoginComponent,
+    DateLengthComponent ,
   ],
-
+  
   imports: [
     // BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     BrowserModule,
@@ -480,7 +480,7 @@ import { NewLoginComponent } from 'src/api-authorization/new-login/new-login.com
     NgSelectModule,
     NgbModule,
     TooltipModule.forRoot(),
-    // QRCodeModule,
+    QRCodeModule,
     AppRoutingModule
 
   ], exports: [
