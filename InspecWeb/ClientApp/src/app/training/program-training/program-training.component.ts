@@ -62,6 +62,7 @@ export class ProgramTrainingComponent implements OnInit {
   selectdataprogramtype: { value: any; label: any; }[];
   userid: any;
   programtopic: any;
+  trainingidtrue: string;
   constructor(private modalService: BsModalService,
     private authorize: AuthorizeService,
     private _NotofyService: NotofyService,
@@ -74,6 +75,7 @@ export class ProgramTrainingComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     @Inject('BASE_URL') baseUrl: string) {
     this.trainingid = activatedRoute.snapshot.paramMap.get('id')
+    this.trainingidtrue = activatedRoute.snapshot.paramMap.get('phaseid')
     this.downloadUrl = baseUrl + '/Uploads'
   }
 
@@ -523,7 +525,7 @@ export class ProgramTrainingComponent implements OnInit {
   }
 
   gotoMainTrainingPhase(){
-    this.router.navigate(['/training/phase/', this.trainingid])
+    this.router.navigate(['/training/phase/', this.trainingidtrue])
   }
 
   gotoBack() {
