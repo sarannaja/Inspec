@@ -115,18 +115,23 @@ export class ListTrainingDocumentComponent implements OnInit {
   storeTraining(value) {
     //alert(JSON.stringify(value))
     //alert(this.form.value.files)
+    this.spinner.show();
     this.trainingservice.addTrainingDocument(value, this.form.value.files, this.trainingid).subscribe(response => {
       console.log("addTrainingDocument =>", response);
       this.Form.reset()
       this.modalRef.hide()
       this.loading = false;
       this.logService.addLog(this.userid,'TrainingDocument','เพิ่ม',response.detail,response.id).subscribe();
-      this.trainingservice.getlisttrainingdocumentdata(this.trainingid).subscribe(result => {
-        this.resulttraining = result;
-        this.loading = true;
-        this._NotofyService.onSuccess("เพิ่มข้อมูล");
-        //console.log(this.resulttraining);
-      })
+      this.trainingservice.sendmaildocument(this.trainingid).subscribe(resultmail => {
+        this.trainingservice.getlisttrainingdocumentdata(this.trainingid).subscribe(result => {
+          this.resulttraining = result;
+          this.loading = true;
+          this.spinner.hide();
+          this._NotofyService.onSuccess("เพิ่มข้อมูลและทำการส่ง Email ผู้มีสิทธิ์เข้าอบรม");
+          //console.log(this.resulttraining);
+        });
+      });
+      
     })
   }
 

@@ -427,11 +427,17 @@ namespace InspecWeb.Controllers {
                 .Where (m => m.TrainingProgram.TrainingPhase.TrainingId == trainingid)
                 .ToList ();
 
+            var datadoc = _context.TrainingDocuments
+                .Where(m => m.TrainingId == trainingid)
+                .ToList();
+
             System.Console.WriteLine (datatraining[0].Name);
 
             List<string> termsList = new List<string> ();
             string textbodyHead = "<h1>" + datatraining[0].Name + "</h1>";
             string textbody = "";
+            string textdoc = "";
+            string textdocHead = "เอกสารเพิ่มเติม <br />";
             string Host = $"<a href='{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}/uploads/";
             string textFoot = "<br /><br /> ระบบตรวจราชการอิเล็กทรอนิกส์ <br /> สำนักงานปลัดสำนักนายกรัฐมนตรี";
             //string EndHost = "></a>";
@@ -447,13 +453,24 @@ namespace InspecWeb.Controllers {
                 }
             }
 
+            if (datadoc.Count > 0)
+            {
+                foreach (var item in datadoc)
+                {
+
+                    textdoc = "เอกสารเพิ่มเติม <br />" + textdoc + Host + item.Name + "' > " + item.Detail + "</a><br />";
+                    //termsList.Add(data.Name);
+
+                }
+            }
+
             //string xxx = termsList.ToString().Replace(",", " <br>");
 
             //return Ok(textbody);
 
             string mailbody = "";
             if (status == 1) {
-                mailbody = textbodyHead + "<br /> ท่านได้รับอนุมัติสิทธิ์ในการเข้าร่วมอบรมหลักสูตร ท่านสามารถดาวน์โหลดไฟล์เพื่อประกอบการฝึกอบรมตาม วัน/เวลา การอบรม <br />" + textbody + textFoot;
+                mailbody = textbodyHead + "<br /> ท่านได้รับอนุมัติสิทธิ์ในการเข้าร่วมอบรมหลักสูตร ท่านสามารถดาวน์โหลดไฟล์เพื่อประกอบการฝึกอบรมตาม วัน/เวลา การอบรม <br />" + textbody + "<br />" + textdocHead + textdoc + textFoot;
             } else if (status == 2) {
                 mailbody = textbodyHead + "<br /> ท่านไม่ผ่านสมัครเข้าร่วมอบรมหลักสูตร เนื่องจากท่านไม่ตรงตามเงื่อนไขคุณสมบัติของหลักสูตรอบรม <br />" + textFoot;
                 System.Console.WriteLine (mailbody);
@@ -573,6 +590,10 @@ namespace InspecWeb.Controllers {
                     .Where (m => m.TrainingProgram.TrainingPhase.TrainingId == trainingId)
                     .ToList ();
 
+                var datadoc = _context.TrainingDocuments
+                    .Where(m => m.TrainingId == trainingId)
+                    .ToList();
+
                 System.Console.WriteLine ("Count" + databody.Count().ToString ());
                 List<string> termsList = new List<string> ();
                 string textbodyHead = "<h1>" + databody[0].TrainingProgram.TrainingPhase.Training.Name + "</h1>";
@@ -581,19 +602,44 @@ namespace InspecWeb.Controllers {
                 string textFoot = "<br /><br /> ระบบตรวจราชการอิเล็กทรอนิกส์ <br /> สำนักงานปลัดสำนักนายกรัฐมนตรี";
                 //string EndHost = "></a>";
                 string textbody = "";
-                foreach (var data in databody) {
-                    
-                    textbody = textbody + Host + data.Name + "' > " + data.TrainingProgram.ProgramTopic + " วันที่ " + data.TrainingProgram.ProgramDate + " (" + data.TrainingProgram.MinuteStartDate + "-" + data.TrainingProgram.MinuteEndDate + ")" + "</a><br />";
-                    //termsList.Add(data.Name);
+                string textdoc = "";
+                string textdocHead = "เอกสารเพิ่มเติม <br />";
 
+                if (databody.Count > 0)
+                {
+                    foreach (var data in databody)
+                    {
+
+                        textbody = textbody + Host + data.Name + "' > " + data.TrainingProgram.ProgramTopic + " วันที่ " + data.TrainingProgram.ProgramDate + " (" + data.TrainingProgram.MinuteStartDate + "-" + data.TrainingProgram.MinuteEndDate + ")" + "</a><br />";
+                        //termsList.Add(data.Name);
+
+                    }
                 }
-                
+
+                //foreach (var data in databody) {
+                    
+                //    textbody = textbody + Host + data.Name + "' > " + data.TrainingProgram.ProgramTopic + " วันที่ " + data.TrainingProgram.ProgramDate + " (" + data.TrainingProgram.MinuteStartDate + "-" + data.TrainingProgram.MinuteEndDate + ")" + "</a><br />";
+                //    //termsList.Add(data.Name);
+
+                //}
+
+                if (datadoc.Count > 0)
+                {
+                    foreach (var item in datadoc)
+                    {
+
+                        textdoc = textdoc + Host + item.Name + "' > " + item.Detail + "</a><br />";
+                        //termsList.Add(data.Name);
+
+                    }
+                }
+
                 //string xxx = termsList.ToString().Replace(",", " <br>");
 
                 //return Ok(textbody);
                 string mailbody = "";
                 if (traningregisterid.status == 1) {
-                    mailbody = textbodyHead + "<br /> ท่านได้รับอนุมัติสิทธิ์ในการเข้าร่วมอบรมหลักสูตร ท่านสามารถดาวน์โหลดไฟล์เพื่อประกอบการฝึกอบรมตาม วัน/เวลา การอบรม <br />" + textbody + textFoot;
+                    mailbody = textbodyHead + "<br /> ท่านได้รับอนุมัติสิทธิ์ในการเข้าร่วมอบรมหลักสูตร ท่านสามารถดาวน์โหลดไฟล์เพื่อประกอบการฝึกอบรมตาม วัน/เวลา การอบรม <br />" + textbody + "<br />"+ textdocHead + textdoc + textFoot;
                 } else if (traningregisterid.status == 2) {
                     mailbody = textbodyHead + "<br /> ท่านไม่ผ่านสมัครเข้าร่วมอบรมหลักสูตร เนื่องจากท่านไม่ตรงตามเงื่อนไขคุณสมบัติของหลักสูตรอบรม <br />" + textFoot;
                 }
@@ -622,6 +668,115 @@ namespace InspecWeb.Controllers {
 
             _context.SaveChanges ();
             return Ok (true);
+
+        }
+
+        //------zone training register-------
+        // PUT api/values/5
+        [HttpGet("maildocument/{trainingid}")]
+        public async Task<IActionResult> MailDocument(long trainingid)
+        {
+            System.Console.WriteLine(trainingid);
+
+            var listregisterapprove = _context.TrainingRegisters
+                .Where(m => m.Status == 1 && m.TrainingId == trainingid)
+                .Select(m => m.Id)
+                .ToList();
+
+            foreach (var item in listregisterapprove)
+            {
+
+                string Emailregis = _context.TrainingRegisters
+                .Where(m => m.Id == item)
+                .Select(m => m.Email)
+                .FirstOrDefault();
+
+                System.Console.WriteLine(Emailregis);
+
+                var datatraining = _context.Trainings
+                    .Where(m => m.Id == trainingid)
+                    .ToList();
+
+                var databody = _context.TrainingProgramFiles
+                    .Include(m => m.TrainingProgram)
+                    .ThenInclude(m => m.TrainingPhase)
+                    .ThenInclude(m => m.Training)
+                    .Where(m => m.TrainingProgram.TrainingPhase.TrainingId == trainingid)
+                    .ToList();
+
+                var datadoc = _context.TrainingDocuments
+                    .Where(m => m.TrainingId == trainingid)
+                    .ToList();
+
+                System.Console.WriteLine(datatraining[0].Name);
+
+                List<string> termsList = new List<string>();
+                string textbodyHead = "<h1>" + datatraining[0].Name + "</h1>";
+                string textbody = "";
+                string textdocHead = "เอกสารเพิ่มเติม <br />";
+                string textdoc = "";
+                string Host = $"<a href='{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}/uploads/";
+                string textFoot = "<br /><br /> ระบบตรวจราชการอิเล็กทรอนิกส์ <br /> สำนักงานปลัดสำนักนายกรัฐมนตรี";
+                //string EndHost = "></a>";
+
+                if (databody.Count > 0)
+                {
+                    foreach (var data in databody)
+                    {
+
+                        textbody = textbody + Host + data.Name + "' > " + data.TrainingProgram.ProgramTopic + " วันที่ " + data.TrainingProgram.ProgramDate + " (" + data.TrainingProgram.MinuteStartDate + "-" + data.TrainingProgram.MinuteEndDate + ")" + "</a><br />";
+                        //termsList.Add(data.Name);
+
+                    }
+                }
+
+                if (datadoc.Count > 0)
+                {
+                    foreach (var c in datadoc)
+                    {
+
+                        textdoc = textdoc + Host + c.Name + "' > " + c.Detail + "</a><br />";
+                        //termsList.Add(data.Name);
+
+                    }
+                }
+
+                //string xxx = termsList.ToString().Replace(",", " <br>");
+
+                //return Ok(textbody);
+
+                string mailbody = "";
+                mailbody = textbodyHead + "<br /> ท่านได้รับอนุมัติสิทธิ์ในการเข้าร่วมอบรมหลักสูตร ท่านสามารถดาวน์โหลดไฟล์เพื่อประกอบการฝึกอบรมตาม วัน/เวลา การอบรม <br />" + textbody + "<br />" + textdocHead + textdoc + textFoot;
+
+
+                ///----------------email
+                try
+                {
+                    var send = new MailRequest
+                    {
+                        //ToEmail = "toey.aphisit@outlook.com",
+                        ToEmail = Emailregis,
+                        Body = mailbody,
+                        Subject = "ระบบตรวจราชการอิเล็กทรอนิกส์"
+                        //Host = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}",
+                    };
+                    await mailService.SendEmailAsync(send);
+
+
+                    // return Ok (send);
+
+                }
+                catch (Exception ex)
+                {
+                    System.Console.WriteLine(ex);
+                    // throw ex;
+                }
+
+
+            }
+
+            return Ok(true);
+
 
         }
 

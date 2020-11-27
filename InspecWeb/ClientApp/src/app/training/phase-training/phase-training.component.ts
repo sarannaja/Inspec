@@ -94,6 +94,21 @@ export class PhaseTrainingComponent implements OnInit {
       }
 
     };
+
+    this.trainingservice.getTrainingPhase(this.trainingid)
+      .subscribe(result => {
+        this.resulttraining = result;
+        this.loading = true;
+        this.spinner.hide();
+        console.log(this.resulttraining);
+
+        this.ddlphase = this.ddlphase.filter(x => result.every(y => y.phaseNo != x))
+        // ddlphase.push();
+        // this.ddlphase =  this.ddlphase.filter(x => result.every(y => y.phaseNo != x))
+        console.log("ddlphase =>", this.ddlphase);
+
+      })
+
     this.EditForm = this.fb.group({
       "phaseno": new FormControl(null, [Validators.required]),
       "startdate": new FormControl(null, [Validators.required]),
@@ -118,7 +133,7 @@ export class PhaseTrainingComponent implements OnInit {
 
     //[1, 2, 3, 4, 5];
 
-    this.getTrainingPhase()
+    
 
 
     this.trainingservice.getdetailtraining(this.trainingid)

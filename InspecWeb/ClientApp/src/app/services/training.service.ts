@@ -352,6 +352,10 @@ export class TrainingService {
     return this.http.get<any[]>(this.url + 'listdocument/' + trainingid)
   }
 
+  sendmaildocument(trainingid): Observable<any[]> {
+    return this.http.get<any[]>(this.url + 'maildocument/' + trainingid)
+  }
+
   deleteTrainingDocument(trainingid) {
     return this.http.delete(this.url + 'deletedocument/' + trainingid);
   }
