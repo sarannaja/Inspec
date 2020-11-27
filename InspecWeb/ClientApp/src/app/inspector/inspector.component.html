@@ -14,12 +14,29 @@
       <div class="card card-eiei">
         <div class="card-header" style="margin-bottom: -30px;">
           <h5 class="card-title">ผู้ตรวจราชการ</h5>
-          <div style="margin-bottom: 20px;width: 30%;">
-            <select (change)="Change($event)" [(ngModel)]="region" name="region" class="form-control select2" data-toggle="select2"> 
-                <option  [value]="0">เขตตรวจราชการทั้งหมด</option>
-                <option *ngFor="let item of selectdataregion" [value]="item.value">{{item.label}}</option>
-            </select>
-          </div> 
+          <div class="row">
+            <div class="col-4">
+              <div style="margin-bottom: 20px;">
+                <div class="form-group">
+                  <select (change)="Changeregion($event)" [(ngModel)]="region" name="region" class="form-control select2" data-toggle="select2"> 
+                      <option  [value]="0">เขตตรวจราชการทั้งหมด</option>
+                      <option *ngFor="let item of selectdataregion" [value]="item.value">{{item.label}}</option>
+                  </select>
+                </div>
+              </div> 
+            </div>
+            <div class="col-4">
+              <div style="margin-bottom: 20px;">
+                <div class="form-group">
+                  <select (change)="Changeprovince($event)" [(ngModel)]="province" name="province" class="form-control select2" data-toggle="select2"> 
+                      <option  [value]="0">จังหวัดทั้งหมด</option>
+                      <option *ngFor="let item of selectdataprovince" [value]="item.id">{{item.name}}</option>
+                  </select>
+                </div>
+              </div> 
+            </div>
+          </div>
+          
           <div class="float-right"> 
             <!-- <button class="btn btn-success" (click)="excel()"
                 style="margin-top: -60px;">Excel
@@ -34,11 +51,11 @@
                 <th>#</th>
                 <th>รูป</th>
                 <th>ชื่อ-นามสกุล</th>
-                <th>กระทรวง</th>
-                <th>เขต</th>             
+                <th>กระทรวง-กรม</th>
+                <th>เขต</th>
+                <th>จังหวัด</th>             
                 <th>ตำแหน่ง</th>
                 <th>เบอร์โทร</th>
-               
               </tr>
             </thead>
             <tbody>
@@ -53,7 +70,14 @@
                       width="90px" alt="รูป">
               </td>
               <td>{{item.prefix}}{{ item.name }}</td>
-              <td><label class="badge badge-secondary mr-1">{{ item.ministries.name}}</label></td>
+              <td>
+                <div>
+                  <label class="badge badge-secondary mr-1">{{item.ministries.name}}</label>
+                </div>
+                <div *ngIf="item.role_id == 10">
+                    <label class="badge badge-secondary mr-1">{{item.departments.name}}</label>
+                </div>
+              </td>
               <td>
                 <div *ngFor="let item2 of item.userRegion">
                   <label  class="badge badge-warning mr-1">
@@ -61,9 +85,15 @@
                   </label>  <br>
                 </div>        
               </td>
+              <td>
+                <div *ngFor="let item3 of item.userProvince">
+                  <label  class="badge badge-warning mr-1">
+                      {{item3.province.name}}
+                  </label>  <br>
+                </div>    
+              </td>
               <td>{{item.position}}</td>
-              <td>{{item.phoneNumber}}</td>
-              
+              <td>{{item.phoneNumber}}</td>   
               </tr>
             </tbody>
           </table>

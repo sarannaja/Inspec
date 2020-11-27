@@ -309,6 +309,17 @@
                     </div>
                 </div>
 
+                <div class="form-group" *ngIf="roleId == 3 || roleId == 6 || roleId == 10;">
+                    <label>ผู้ตรวจราชการหรือผู้ช่วยผู้ตรวจราชการ*</label>
+                    <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกเป็นผู้ตรวจราชการหรือผู้ช่วยผู้ตรวจราชการ" 
+                        formControlName="Position2" [items]="selectposition2"
+                        [ngClass]="{ 'is-invalid': submitted && k.Position2.errors }">
+                    </ng-select>
+                    <div *ngIf="submitted && k.Position2.errors" class="invalid-feedback">
+                        <div *ngIf="k.Position2.errors.required">กรุณาเลือกเป็นผู้ตรวจราชการหรือผู้ช่วยผู้ตรวจราชการ</div>
+                    </div>
+                </div>
+
                 <div>
                     <div class="row">
                         <label class="form-label col-6">อีเมล*</label>
@@ -342,7 +353,7 @@
                         </div>
                     </div>
                 </div>
-
+                           
                 <div class="form-group" *ngIf="othertext == true">
                     <input type="text" formControlName="Othertext" class="form-control" required
                         placeholder="กรุณาเลือกคำนำหน้า"
@@ -727,6 +738,17 @@
                                 placeholder="กรุณาเลือกวันที่ของคำสั่งมอบหมายเขตตรวจ">
                             </my-date-picker-th>
                         </div>
+                    </div>
+                </div>
+
+                <div class="form-group" *ngIf="roleId == 3 || roleId == 6 || roleId == 10;">
+                    <label>ผู้ตรวจราชการหรือผู้ช่วยผู้ตรวจราชการ*</label>
+                    <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกเป็นผู้ตรวจราชการหรือผู้ช่วยผู้ตรวจราชการ" 
+                        formControlName="Position2" [items]="selectposition2"
+                        [ngClass]="{ 'is-invalid': submitted && k.Position2.errors }">
+                    </ng-select>
+                    <div *ngIf="submitted && k.Position2.errors" class="invalid-feedback">
+                        <div *ngIf="k.Position2.errors.required">กรุณาเลือกเป็นผู้ตรวจราชการหรือผู้ช่วยผู้ตรวจราชการ</div>
                     </div>
                 </div>
 

@@ -143,16 +143,14 @@ export class RequestOrderComponent implements OnInit {
 
             this.role_id = result[0].role_id
 
-            if (this.role_id == 4 || this.role_id == 5 || this.role_id == 6 || this.role_id == 9 || this.role_id == 10 ) { //แจ้งคำร้องขอ
+            if (this.role_id == 4 || this.role_id == 5 || this.role_id == 9 ) { //แจ้งคำร้องขอ
               this.requestOrderService.getrequestordercommandeddata(this.userid)
                 .subscribe(result => {  
                  // console.log('data',result);            
                   this.getDatauser();
-                    this.resultrequestorder = result;
-                    this.loading = true;
-                    this.spinner.hide();       
-
-
+                  this.resultrequestorder = result;
+                  this.loading = true;
+                  this.spinner.hide();       
                 })
             } else if (this.role_id == 1) { //แอดมินใหญ่
               this.requestOrderService.getrequestorderdata()
@@ -165,10 +163,10 @@ export class RequestOrderComponent implements OnInit {
             } else { // คนรับคำร้องขอ
               this.requestOrderService.getrequestorderanswereddata(this.userid)
                 .subscribe(result => {
-                  this.getDatauser();
-                  this.resultrequestorder = result;
-                  this.loading = true;
-                  this.spinner.hide();           
+                    this.getDatauser();
+                    this.resultrequestorder = result;
+                    this.loading = true;
+                    this.spinner.hide();  
                 })
             }
 
@@ -177,10 +175,10 @@ export class RequestOrderComponent implements OnInit {
   }
   // <!-- select ข้อมูลคนรับคำร้องขอ -->
   getDatauser() {
-    this.userService.getuserdata(3)
+    this.userService.getuserselectforrequestorder()
       .subscribe(result => {
         this.selectdatauser = result.map((item, index) => {
-          return { value: item.id, label: item.prefix + ' ' + item.name }
+          return { value: item.id, label: item.prefix + ' ' + item.name + ' : '+ item.ministries.name + ' ('+ item.position +')' }
         })
 
       })

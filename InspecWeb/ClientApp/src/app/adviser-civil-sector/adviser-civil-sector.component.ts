@@ -45,7 +45,7 @@ export class AdviserCivilSectorComponent implements OnInit {
   UserRegion:any;
   files: string[] = [];
   imgprofileUrl: any;
-  selectprovince:any=[];
+  region:any;
   province:any;
   //END name input
   
@@ -87,11 +87,11 @@ export class AdviserCivilSectorComponent implements OnInit {
       ]
 
     };
-    this.getDataprovincefirst()
+    this.getDataRegionsAndProvince()
   }
-  getUser(provinceid) {
+  getdata(regionid,provinceid) {
     this.spinner.show();
-    this.userService.getuserpublicsectoradvisordata(provinceid)
+    this.userService.getuserpublicsectoradvisordata(regionid,provinceid)
       .subscribe(result => {
         this.resultuser = result;
         this.loading = true
@@ -99,23 +99,42 @@ export class AdviserCivilSectorComponent implements OnInit {
       })
   }
 
-  getDataprovincefirst() {
-    
+  getDataRegionsAndProvince() {
+    this.regionService.getregiondataforuser().subscribe(res => {
+
+      this.selectdataregion = res.importFiscalYearRelations.filter(
+        (thing, i, arr) => arr.findIndex(t => t.regionId === thing.regionId) === i
+      ).map((item, index) => {
+        return {
+          value: item.region.id,
+          label: item.region.name
+        }
+      });
+       this.region = 0;
+    })
+
+
     this.provinceService.getprovincedata2()
      .subscribe(result => {
-       this.selectprovince = result;
+       this.selectdataprovince = result;
        this.province = 0;
-       //console.log("momox",result[0].id)
-       this.getUser(this.province);
-       //alert(this.province)
+      
      });
- }
+     this.getdata(this.region,this.province);
+  }
 
- Changeprovince(event){
-   this.province = event.target.value;
-   this.loading = false;
-   this.getUser(event.target.value);
- }
+  Changeregion(event){
+    this.region = event.target.value;
+    this.loading = false;
+    this.getdata(event.target.value,this.province);
+  }
+
+  Changeprovince(event){
+    this.province = event.target.value;
+    this.loading = false;
+    this.getdata( this.region,event.target.value);
+  }
+
 
   excel(){
     window.location.href = '/api/user/exceladvisercivilsector';

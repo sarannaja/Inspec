@@ -12,7 +12,7 @@
     <div class="card card-eiei">
       <div class="card-header" style="margin-bottom: -20px;">
         <h5 class="card-title">แจ้งข้อมูลถึงผู้ตรวจราชการ</h5>
-        <div class="float-right" *ngIf="role_id == 4 || role_id == 5 || role_id == 6 || role_id == 9 || role_id == 10">
+        <div class="float-right" *ngIf="role_id == 4 || role_id == 5 || role_id == 9">
           <button class="btn btn-pill btn-warning btn-lg" title="เพิ่มข้อมูล" (click)="openModal(CreateRequestOrder)"
               style="margin-top: -60px;"><i class="align-middle fas fa-fw fa-plus"></i>
           </button>
@@ -47,7 +47,7 @@
                     {{item2.user.prefix}} {{item2.user.name}}                   
                   </div>
 
-                  <div *ngIf="role_id == 1 || role_id == 4 || role_id == 5 || role_id == 6 || role_id == 9 || role_id == 10">
+                  <div *ngIf="role_id == 1 || role_id == 4 || role_id == 5 || role_id == 9">
                     {{item2.user.prefix}} {{item2.user.name}}                  
                   </div>
 
@@ -80,7 +80,7 @@
                     <hr *ngIf="item.requestOrderAnswers.length != (m+1) && role_id !=3"> <!-- เส้นขั้น -->
                   </div>
 
-                  <div *ngIf="role_id == 1 || role_id == 4 || role_id == 5 || role_id == 6 || role_id == 9 || role_id == 10">
+                  <div *ngIf="role_id == 1 || role_id == 4 || role_id == 5 || role_id == 9">
                     <div *ngIf="item.cancel == 1 ; else notcancel">
                       <label class="badge badge-danger mr-1">ยกเลิก</label>
                     </div>
@@ -104,7 +104,7 @@
               <td *ngIf="role_id != 1"> 
                    
                 <!-- สำหรับผู้สร้างคำร้องขอ -->
-                <div *ngIf="(role_id == 4 || role_id == 5 || role_id == 6 || role_id == 9 || role_id == 10) && item.cancel == 0 && item.accept == 0">
+                <div *ngIf="(role_id == 4 || role_id == 5 || role_id == 9) && item.cancel == 0 && item.accept == 0">
                   <button type="button" class="btn btn-warning btn-pill btn-sm" 
                     (click)="editmodalRequestOrder(editRequestOrder, item.id,item.commanded_date,item.subject,item.subjectdetail
                     ,item.draft,item.requestOrderAnswers,item.requestOrderFiles)" title="แก้ไขคำร้องขอ">
