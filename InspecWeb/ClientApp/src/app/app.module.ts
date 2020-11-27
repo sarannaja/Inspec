@@ -239,6 +239,8 @@ import { TrainingSummaryReportProjectComponent } from './training-summary-report
 import { TypeexamibationplanComponent } from './typeexamibationplan/typeexamibationplan.component';
 import { UserComponent } from './user/user.component';
 import { HttpRequestInterceptor } from 'src/api-authorization/HttpRequestInterceptor';
+import { UserManager } from 'oidc-client';
+import { NewLoginComponent } from 'src/api-authorization/new-login/new-login.component';
 
 
 
@@ -450,6 +452,7 @@ import { HttpRequestInterceptor } from 'src/api-authorization/HttpRequestInterce
     AllReportIframeComponent,
     AllReportIframeDetailComponent,
     VilageComponent,
+    NewLoginComponent
   ],
 
   imports: [
@@ -501,7 +504,7 @@ import { HttpRequestInterceptor } from 'src/api-authorization/HttpRequestInterce
     ProvinceService,
     NotofyService,
     ConfirmationDialogService,
-    // UserManager,
+    UserManager,
     SortPipe,
     // ConfirmationDialogService
   ],

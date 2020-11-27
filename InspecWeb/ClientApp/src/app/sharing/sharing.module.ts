@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ThaiDatePipe2 } from '../services/Pipe/thaidate2.service';
 import { DataTablesModule } from 'angular-datatables';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { VideoService } from '../services/video.service';
@@ -28,6 +28,7 @@ const config = {
     CommonModule,
     DataTablesModule,
     FormsModule,
+    ReactiveFormsModule,
     AngularFireModule.initializeApp(config),
     AngularFireDatabaseModule,
     ModalModule.forRoot(),
@@ -47,6 +48,7 @@ const config = {
     TitleModalComponent,
     MyDatePickerTHModule,
     ModalModule,
+    ReactiveFormsModule,
     DateLengthComponent,
     MatVideoModule
   ],

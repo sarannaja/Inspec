@@ -23,7 +23,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
       [
         { path: ApplicationPaths.Register, component: NewLoginComponent },
         { path: ApplicationPaths.Profile, component: NewLoginComponent },
-        { path: ApplicationPaths.Login, component: NewLoginComponent },
+        // { path: ApplicationPaths.Login, loadChildren: () => import('./new-login/new-login.module').then(m => m.NewLoginModule) },
+        // { path: ApplicationPaths.Login, component: NewLoginComponent },
         { path: 'xlogin', component: LoginComponent },
         { path: ApplicationPaths.LoginFailed, component: NewLoginComponent },
         { path: ApplicationPaths.LoginCallback, component: NewLoginComponent },
@@ -33,9 +34,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
       ]
     )
   ],
-  declarations: [LoginMenuComponent,NewLoginComponent, LoginComponent, LogoutComponent],
-  exports: [LoginMenuComponent,NewLoginComponent, LoginComponent, LogoutComponent],
-  providers:[
+  declarations: [LoginMenuComponent, LoginComponent, LogoutComponent],
+  // exports: [LoginMenuComponent, NewLoginComponent, LoginComponent, LogoutComponent],
+  providers: [
     AuthorizeService,
   ]
 })
