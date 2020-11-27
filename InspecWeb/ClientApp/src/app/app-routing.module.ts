@@ -221,7 +221,9 @@ const routes: Routes = [
   { path: 'centralpolicy/detailcentralpolicyprovince/noauth/:result', component: DetailCentralPolicyProvinceComponent },
   { path: 'centralpolicy/detailcentralpolicyprovince/ministry/noauth/:result', component: DetailCentralPolicyProvinceMinistryComponent },
   { path: 'centralpolicy/detailcentralpolicyprovince/department/noauth/:result', component: DetailCentralPolicyProvinceDepartmentComponent },
-
+  {
+    path: 'video_example', loadChildren: () => import('./video/video.module').then(m => m.VideoModule)
+  },
   {
     path: 'vector', loadChildren: () => import('./external-organization/external-organization.module')
       .then(m => m.ExternalOrganizationModule)
