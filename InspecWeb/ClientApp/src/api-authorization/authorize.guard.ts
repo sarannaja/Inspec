@@ -4,13 +4,12 @@ import { Observable } from 'rxjs';
 import { AuthorizeService } from './authorize.service';
 import { tap } from 'rxjs/operators';
 import { ApplicationPaths, QueryParameterNames } from './api-authorization.constants';
-import { UserManager } from 'oidc-client';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthorizeGuard implements CanActivate {
-  constructor(private authorize: AuthorizeService, private router: Router, private userManager: UserManager
+  constructor(private authorize: AuthorizeService, private router: Router
   ) {
   }
   canActivate(

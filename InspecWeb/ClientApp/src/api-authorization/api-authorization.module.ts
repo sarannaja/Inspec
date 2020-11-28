@@ -7,7 +7,6 @@ import { RouterModule } from '@angular/router';
 import { ApplicationPaths } from './api-authorization.constants';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthorizeService } from './authorize.service';
-import { UserManager } from 'oidc-client';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { NewLoginComponent } from './new-login/new-login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
