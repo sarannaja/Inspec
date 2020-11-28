@@ -105,7 +105,7 @@ export class ListTrainingSurveyComponent implements OnInit {
       })
   }
 
-  openModal(template: TemplateRef<any>, id) {
+  openModal(template: TemplateRef<any>, id: any = null) {
      this.openid = id;
      this.submitted = false;
     // console.log(this.delid);
