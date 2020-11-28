@@ -351,7 +351,7 @@ export class ProgramTrainingComponent implements OnInit {
 
 
 
-  openModal(template: TemplateRef<any>, id, programTopic) {
+  openModal(template: TemplateRef<any>, id: any = null, programTopic: any = null) {
     this.submitted = false;
     this.delid = id;
     this.programtopic = programTopic;
