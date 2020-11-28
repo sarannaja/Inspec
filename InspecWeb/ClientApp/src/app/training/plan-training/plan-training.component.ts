@@ -36,24 +36,23 @@ export class PlanTrainingComponent implements OnInit {
     this.getTrainingplan()
   }
   getTrainingplan() {
-    this.trainingservice.getTrainingPlan(this.trainingphaseid).subscribe(result => {
+    this.trainingservice.getTrainingPlantable(this.trainingphaseid).subscribe(result => {
       this.resulttrainingplan = result
 
       console.log('this.resulttrainingplan =>', this.resulttrainingplan);
 
-      
 
-      this.chars = result.map(result2 => { return { ...result2, programDate: result2.trainingProgram.programDate } })
+
+      this.chars = result.map(result2 => { return { ...result2, programDate: result2.programDate } })
       this.chars = _.chain(this.chars)
         .groupBy("programDate")
         // `key` is group's name (color), `value` is the array of objects
-        .map((value, key) => ({ programDate: key, value: value  }))
+        .map((value, key) => ({ programDate: key, value: value }))
         .value()
       // chars = _.orderBy(chars, ['programDate'], ['asc']); // Use Lodash to sort array by 'name'
 
       // this.setState({ characters: chars })
-      console.log('chars', this.chars);
-
+      console.log('char', this.chars);
 
       this.loading = true
       // this.dtOptions = {
@@ -75,15 +74,76 @@ export class PlanTrainingComponent implements OnInit {
     })
   }
 
-  gotoMain(){
+  gotoMain() {
     this.router.navigate(['/main'])
   }
 
-  gotoMainTraining(){
+  gotoMainTraining() {
     this.router.navigate(['/training'])
   }
 
   gotoBack() {
     window.history.back();
   }
+}
+export interface Ngong {
+  id: number;
+  trainingProgramId: number;
+  trainingProgram: TrainingProgram;
+  trainingLecturerId: number;
+  trainingLecturer: TrainingLecturer;
+}
+
+export interface TrainingLecturer {
+  id: number;
+  lecturerType: number;
+  trainingLecturerTypes: null;
+  lecturerName: string;
+  phone: string;
+  imageProfile: string;
+  email: string;
+  education: string;
+  workHistory: string;
+  experience: string;
+  detailPlus: string;
+  createdAt: string;
+}
+
+export interface TrainingProgram {
+  id: number;
+  trainingPhaseId: number;
+  trainingPhase: TrainingPhase;
+  trainingProgramLoginQRCodes: null;
+  programDate: string;
+  minuteStartDate: string;
+  minuteEndDate: string;
+  programType: number;
+  trainingProgramTypes: null;
+  programTopic: string;
+  programDetail: string;
+  programLocation: string;
+  programToDress: string;
+  createdAt: string;
+  trainingProgramLecturers: any[];
+  trainingProgramFiles: TrainingProgramFile[];
+}
+
+export interface TrainingPhase {
+  id: number;
+  trainingId: number;
+  training: null;
+  phaseNo: number;
+  title: string;
+  detail: string;
+  startDate: string;
+  endDate: string;
+  location: string;
+  group: number;
+  createdAt: string;
+}
+
+export interface TrainingProgramFile {
+  id: number;
+  trainingProgramId: number;
+  name: string;
 }

@@ -45,6 +45,7 @@ export class ReportImportComponent implements OnInit {
   departmentId: any;
   submitted: any;
   resulttypeexamibationplan: any[] = [];
+  checkSort = 0;
 
   constructor(
     private router: Router,
@@ -329,6 +330,24 @@ export class ReportImportComponent implements OnInit {
     this.typeexamibationplanservice.getdata().subscribe(result => {
       this.resulttypeexamibationplan = result
     })
+  }
+
+  sortDate() {
+    this.loading = false;
+    if (this.checkSort == 0) {
+      this.exportReportService.sortDate(this.userid).subscribe(res => {
+        console.log("importReport: ", res);
+        this.importedReport = res;
+        this.loading = true;
+        this.checkSort = 1;
+      })
+    } else {
+      this.exportReportService.sortDateDESC(this.userid).subscribe(res => {
+        this.importedReport = res;
+        this.loading = true;
+        this.checkSort = 0;
+      })
+    }
   }
 
 }

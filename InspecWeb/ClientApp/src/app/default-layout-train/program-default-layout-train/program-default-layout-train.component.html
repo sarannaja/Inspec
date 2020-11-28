@@ -126,7 +126,7 @@
 
               <tbody>
                   <!-- <caption>Delivery slots:</caption> -->
-                  <ng-container *ngFor="let item1 of chars|sort:'asc':'programDate';">
+                  <!-- <ng-container *ngFor="let item1 of chars|sort:'asc':'programDate';">
                       <tr>
                           <th id="{{item1.programDate}}" class="span" colspan="5" scope="colgroup">
                               {{item1.programDate|thaidate}}
@@ -142,13 +142,42 @@
                               {{item.trainingProgram.programLocation}}/{{item.trainingProgram.programToDress}}
                           </td>
                           <td class="text-center">
-                              <!-- <label>{{ item.trainingProgram.trainingProgramFiles[0].name }}</label> -->
                             <a href="{{downloadUrl}}/{{item.trainingProgram.trainingProgramFiles[0].name}}" *ngIf="item.trainingProgram.trainingProgramFiles[0].name != ''" target="_blank">
                                 <i class="align-middle mr-2 fas fa-fw fa-file pointer"></i>ดาวน์โหลด
                             </a>
                           </td>
                       </tr>
-                  </ng-container>
+                  </ng-container> -->
+                  <ng-container *ngFor="let item1 of chars|sort:'asc':'programDate';">
+                    <tr>
+                        <th id="{{item1.programDate}}" class="span" colspan="5" scope="colgroup">
+                            {{item1.programDate|thaidate}}
+                        </th>
+                    </tr>
+                    <tr *ngFor="let item of item1.value |sort:'asc':'minuteStartDate'; let i = index">
+                        <td class="text-center" headers="{{item1.programDate}}">
+                            {{item.minuteStartDate}}-{{item.minuteEndDate}}
+                        </td>
+                        <td class="">{{item.programTopic}}</td>
+                        <td class="text-center">
+                            <div *ngFor="let item2 of item.trainingProgramLecturers; let ii = index">
+                                <div>
+                                    {{item2.trainingLecturer.lecturerName}}
+                                </div>
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            {{item.programLocation}}/{{item.programToDress}}
+                        </td>
+                        <td class="text-center">
+                            <div *ngFor="let item3 of item.trainingProgramFiles; let iii = index">
+                                <a href="{{downloadUrl}}/{{item3.name}}" *ngIf="item.trainingProgramFiles[0].name != ''" target="_blank">
+                                    <i class="align-middle mr-2 fas fa-fw fa-file pointer"></i>ดาวน์โหลด
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-container>
 
                   <ng-template>
 

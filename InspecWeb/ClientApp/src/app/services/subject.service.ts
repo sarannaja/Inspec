@@ -484,5 +484,12 @@ export class SubjectService {
     return this.http.delete(this.url + "delsubjecteventnoland/" + id + '/' + userid);
   }
 
+  sortDate(id) {
+    return this.http.get<any[]>(this.url + "sortDate/" + id)
+  }
+  sortDateDESC(id) {
+    return this.http.get<any[]>(this.url + "sortDateDESC/" + id)
+  }
+
 }
 

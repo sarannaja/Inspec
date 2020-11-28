@@ -5,6 +5,9 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { NgxSpinnerService } from "ngx-spinner";
+import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { NotofyService } from '../services/notofy.service';
+import { LogService } from '../services/log.service';
 
 @Component({
   selector: 'app-training-condition',
@@ -27,13 +30,18 @@ export class TrainingConditionComponent implements OnInit {
   startyear: any;
   endyear: any;
   conditiontype: any;
+  userid: string;
+  delname: any;
 
   constructor(private modalService: BsModalService,
+    private authorize: AuthorizeService,
+    private _NotofyService: NotofyService,
+    private spinner: NgxSpinnerService,
+    private logService: LogService,
     private fb: FormBuilder,
     private trainingservice: TrainingService,
     public share: TrainingService,
     private router: Router,
-    private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
     @Inject('BASE_URL') baseUrl: string) {
       this.trainingid = activatedRoute.snapshot.paramMap.get('id')
@@ -43,6 +51,7 @@ export class TrainingConditionComponent implements OnInit {
 
   ngOnInit() {
     this.spinner.show();
+    this.getuserinfo();
     this.dtOptions = {
       //pagingType: 'full_numbers',
       columnDefs: [
@@ -69,9 +78,18 @@ export class TrainingConditionComponent implements OnInit {
     .subscribe(result => {
       this.resulttraining = result
       this.loading = true
+      this.spinner.hide();
       //console.log(this.resulttraining);
     })
 
+  }
+
+  //start getuser
+  getuserinfo() {
+    this.authorize.getUser()
+      .subscribe(result => {
+        this.userid = result.sub
+      })
   }
 
 
@@ -97,19 +115,29 @@ export class TrainingConditionComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
 
+  opendeleteModal(template: TemplateRef<any>, id: any = null, name) {
+    this.delid = id;
+    this.delname = name;
+   // console.log(this.delid);
+
+   this.modalRef = this.modalService.show(template);
+ }
+
   storeTraining(value) {
     //alert(JSON.stringify(value))
     this.trainingservice.addTrainingCondition(value, this.trainingid).subscribe(response => {
-      console.log(value);
+      console.log("addTrainingCondition =>", response);
       this.Form.reset()
       this.modalRef.hide()
       this.loading = false;
+      this.logService.addLog(this.userid,'TrainingCondition','เพิ่ม',response.name,response.id).subscribe();
       //this.router.navigate(['/training/surveylist/',trainingid])
       //this.router.navigate(['training'])
       this.trainingservice.getTrainingCondition(this.trainingid)
       .subscribe(result => {
         this.resulttraining = result
         this.loading = true
+        this._NotofyService.onSuccess("เพิ่มข้อมูล");
         //console.log(this.resulttraining);
       })
 
@@ -121,9 +149,11 @@ export class TrainingConditionComponent implements OnInit {
       console.log(value);
       this.modalRef.hide()
       this.loading = false;
+      this.logService.addLog(this.userid,'TrainingCondition','ลบ', this.delname, this.delid).subscribe();
       this.trainingservice.getTrainingCondition(this.trainingid).subscribe(result => {
         this.resulttraining = result
         this.loading = true;
+        this._NotofyService.onSuccess("ลบข้อมูล");
         console.log(this.resulttraining);
       })
     })
@@ -161,11 +191,13 @@ export class TrainingConditionComponent implements OnInit {
     this.trainingservice.editTrainingCondition(value, delid).subscribe(response => {
       this.Form.reset()
       this.modalRef.hide()
-      this.loading = false
+      this.loading = false;
+      this.logService.addLog(this.userid,'TrainingCondition','แก้ไข',response.name,response.id).subscribe();
       this.trainingservice.getTrainingCondition(this.trainingid)
       .subscribe(result => {
-        this.resulttraining = result
-        this.loading = true
+        this.resulttraining = result;
+        this.loading = true;
+        this._NotofyService.onSuccess("แก้ไขข้อมูล");
         //console.log(this.resulttraining);
       })
     })

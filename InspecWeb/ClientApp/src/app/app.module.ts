@@ -19,7 +19,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { OtpsComponent } from './external-organization/otps/otps.component';
 import { Opm1111Component } from './external-organization/opm1111/opm1111.component';
 import { GgcOpmComponent } from './external-organization/ggc-opm/ggc-opm.component';
-import { ChartsModule } from 'ng2-charts';
+// import { ChartsModule } from 'ng2-charts';
 import { ExcelGeneraterService } from './services/excel-generater.service';
 import { DatePipe } from '@angular/common';
 import { CookieService } from 'ngx-cookie-service'
@@ -44,7 +44,7 @@ import * as FusionTheme from "fusioncharts/themes/fusioncharts.theme.fusion";
 
 // Pass the fusioncharts library and chart modules
 FusionChartsModule.fcRoot(FusionCharts, charts, FusionTheme);
-import { QRCodeModule } from 'angularx-qrcode';
+import { QRCodeComponent, QRCodeModule } from 'angularx-qrcode';
 import { ConfirmationDialogComponent } from './services/confirmation-dialog/confirmation-dialog.component';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -238,6 +238,9 @@ import { TrainingSummaryReportProjectComponent } from './training-summary-report
 
 import { TypeexamibationplanComponent } from './typeexamibationplan/typeexamibationplan.component';
 import { UserComponent } from './user/user.component';
+import { HttpRequestInterceptor } from 'src/api-authorization/HttpRequestInterceptor';
+import { UserManager } from 'oidc-client';
+import { NewLoginComponent } from 'src/api-authorization/new-login/new-login.component';
 
 
 
@@ -299,7 +302,6 @@ import { UserComponent } from './user/user.component';
     PhaseTrainingComponent,
     TrainingConditionComponent,
     TrainingManageComponent,
-    TrainingProgramLoginComponent,
 
     TrainingLecturerListComponent,
     RateloginTrainingReportComponent,
@@ -429,7 +431,7 @@ import { UserComponent } from './user/user.component';
     AnswerRecommendationinSpectorDetailComponent,
     AnswerRecommendationinSpectorEditComponent,
     ConfirmationDialogComponent,
-    // DateLengthComponent,
+    DateLengthComponent,
     NamePlateComponent,
     NamePlatePreviewComponent,
     NameLabelPreviewComponent,
@@ -449,8 +451,10 @@ import { UserComponent } from './user/user.component';
     AllReportIframeComponent,
     AllReportIframeDetailComponent,
     VilageComponent,
+    NewLoginComponent,
+    DateLengthComponent ,
   ],
-
+  
   imports: [
     // BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     BrowserModule,
@@ -459,7 +463,7 @@ import { UserComponent } from './user/user.component';
     ApiAuthorizationModule,
     // SelectModule,
     ReactiveFormsModule,
-    ChartsModule,
+    // ChartsModule,
     NgxPrintModule,
     MyDatePickerTHModule,
     // BrowserModule,
@@ -486,17 +490,21 @@ import { UserComponent } from './user/user.component';
     // SelectSSSModule
     // DatePipe
   ],
-  entryComponents: [ConfirmationDialogComponent],
+  entryComponents: [
+    ConfirmationDialogComponent, QRCodeComponent,
+  ],
   providers: [
+    // { provide: HTTP_INTERCEPTORS, useClass: HttpRequestInterceptor, multi: true },
     { provide: 'SnotifyToastConfig', useValue: ToastDefaults },
     SnotifyService, NotificationService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: HttpRequestInterceptor, multi: true },
     ExcelGeneraterService,
     DatePipe, CookieService,
     ProvinceService,
     NotofyService,
     ConfirmationDialogService,
-    // UserManager,
+    UserManager,
     SortPipe,
     // ConfirmationDialogService
   ],

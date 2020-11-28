@@ -94,6 +94,21 @@ export class PhaseTrainingComponent implements OnInit {
       }
 
     };
+
+    this.trainingservice.getTrainingPhase(this.trainingid)
+      .subscribe(result => {
+        this.resulttraining = result;
+        this.loading = true;
+        this.spinner.hide();
+        console.log(this.resulttraining);
+
+        this.ddlphase = this.ddlphase.filter(x => result.every(y => y.phaseNo != x))
+        // ddlphase.push();
+        // this.ddlphase =  this.ddlphase.filter(x => result.every(y => y.phaseNo != x))
+        console.log("ddlphase =>", this.ddlphase);
+
+      })
+
     this.EditForm = this.fb.group({
       "phaseno": new FormControl(null, [Validators.required]),
       "startdate": new FormControl(null, [Validators.required]),
@@ -118,7 +133,7 @@ export class PhaseTrainingComponent implements OnInit {
 
     //[1, 2, 3, 4, 5];
 
-    this.getTrainingPhase()
+    
 
 
     this.trainingservice.getdetailtraining(this.trainingid)
@@ -321,8 +336,9 @@ export class PhaseTrainingComponent implements OnInit {
 
   storeTraining(value) {
     console.log("storeTraining => ", value);
-    this.submitted = true;
+    
     if (this.Form.invalid) {
+      this.submitted = true;
       console.log("in1");
       return;
     } else {
@@ -352,8 +368,9 @@ export class PhaseTrainingComponent implements OnInit {
 
   editTraining(value, id) {
     console.log("editTraining => ", value);
-    this.submitted = true;
+    
     if (this.EditForm.invalid) {
+      this.submitted = true;
       console.log("in1");
       return;
     } else {
@@ -362,7 +379,7 @@ export class PhaseTrainingComponent implements OnInit {
         this.modalRef.hide();
         //this.EditForm.reset();
         this.loading = false;
-        this.logService.addLog(this.userid, 'TrainingPhases', 'แก้ไข', value.name, "").subscribe();
+        this.logService.addLog(this.userid, 'TrainingPhases', 'แก้ไข', response.title, response.id).subscribe();
         this.getTrainingPhase();
         this._NotofyService.onSuccess("แก้ไขข้อมูล");
 

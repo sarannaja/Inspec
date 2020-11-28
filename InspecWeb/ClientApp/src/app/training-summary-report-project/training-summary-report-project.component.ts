@@ -5,6 +5,9 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { NgxSpinnerService } from "ngx-spinner";
+import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { NotofyService } from '../services/notofy.service';
+import { LogService } from '../services/log.service';
 
 @Component({
   selector: 'app-training-summary-report-project',
@@ -28,13 +31,18 @@ export class TrainingSummaryReportProjectComponent implements OnInit {
   downloadUrl: string;
   phaseid: string;
   group: string;
+  userid: any;
+  delname: any;
 
   constructor(private modalService: BsModalService,
+    private authorize: AuthorizeService,
+    private _NotofyService: NotofyService,
+    private spinner: NgxSpinnerService,
+    private logService: LogService,
     private fb: FormBuilder,
     private trainingservice: TrainingService,
     public share: TrainingService,
     private router: Router,
-    private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
     @Inject('BASE_URL') baseUrl: string) {
     this.trainingid = activatedRoute.snapshot.paramMap.get('trainingid')
@@ -89,6 +97,13 @@ export class TrainingSummaryReportProjectComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
 
+  opendeleteModal(template: TemplateRef<any>, id: any = null, name) {
+    this.delid = id;
+    this.delname = name;
+    //console.log(this.delid);
+    this.modalRef = this.modalService.show(template);
+  }
+
 
   storeTraining(value) {
     console.log("storeTraining =>", value);
@@ -102,10 +117,11 @@ export class TrainingSummaryReportProjectComponent implements OnInit {
       this.Form.reset()
       this.modalRef.hide()
       this.loading = false;
-
+      this.logService.addLog(this.userid,'TrainingSummaryReports','เพิ่ม', response.detail, response.id).subscribe();
       this.trainingservice.getTrainingSummaryReportProject(this.trainingid).subscribe(result => {
         this.resulttraining = result
         this.loading = true
+        this._NotofyService.onSuccess("เพิ่มข้อมูล");
         //console.log(this.resulttraining);
       })
     })
@@ -130,9 +146,11 @@ export class TrainingSummaryReportProjectComponent implements OnInit {
       //console.log(value);
       this.modalRef.hide()
       this.loading = false;
+      this.logService.addLog(this.userid,'TrainingSummaryReports','ลบ', this.delname, this.delid).subscribe();
       this.trainingservice.getTrainingSummaryReportProject(this.trainingid).subscribe(result => {
         this.resulttraining = result
         this.loading = true;
+        this._NotofyService.onSuccess("ลบข้อมูล");
         //console.log(this.resulttraining);
       })
     })

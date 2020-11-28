@@ -37,6 +37,11 @@
 
           &nbsp;&nbsp;
 
+          <!-- <button class="btn btn-primary mr-2" title="เรียงข้อมูลตามวัน" style="margin-top: -60px;"
+            (click)="sortDate()">
+            <i class="fas fa-calendar-week"></i>
+          </button> -->
+
           <button class="btn btn-primary" title="เพิ่มเรื่องที่ตรวจติดตาม" style="margin-top: -60px;"
             *ngIf="role_id == 3 && timelineData.status == 'ร่างกำหนดการ' && watch == 0"
             (click)="openModal(modalCentralPolicyEventRelation)">

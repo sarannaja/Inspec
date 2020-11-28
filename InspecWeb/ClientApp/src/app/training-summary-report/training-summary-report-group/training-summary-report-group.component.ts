@@ -5,6 +5,9 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { NgxSpinnerService } from "ngx-spinner";
+import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { NotofyService } from 'src/app/services/notofy.service';
+import { LogService } from 'src/app/services/log.service';
 
 @Component({
   selector: 'app-training-summary-report-group',
@@ -28,13 +31,18 @@ export class TrainingSummaryReportGroupComponent implements OnInit {
   downloadUrl: string;
   phaseid: string;
   group: string;
+  userid: string;
+  delname: any;
 
   constructor(private modalService: BsModalService,
+    private authorize: AuthorizeService,
+    private _NotofyService: NotofyService,
+    private spinner: NgxSpinnerService,
+    private logService: LogService,
     private fb: FormBuilder,
     private trainingservice: TrainingService,
     public share: TrainingService,
     private router: Router,
-    private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
     @Inject('BASE_URL') baseUrl: string) {
     this.trainingid = activatedRoute.snapshot.paramMap.get('trainingid')
@@ -45,6 +53,7 @@ export class TrainingSummaryReportGroupComponent implements OnInit {
 
   ngOnInit() {
     this.spinner.show();
+    this.getuserinfo();
     this.dtOptions = {
       pagingType: 'full_numbers',
       columnDefs: [
@@ -79,14 +88,30 @@ export class TrainingSummaryReportGroupComponent implements OnInit {
 
     this.trainingservice.getTrainingSummaryReportGroup(this.phaseid, this.group)
       .subscribe(result => {
-        this.resulttraining = result
-        this.loading = true
+        this.resulttraining = result;
+        this.loading = true;
+        this.spinner.hide();
         //console.log(this.resulttraining);
+      })
+  }
+
+  //start getuser
+  getuserinfo() {
+    this.authorize.getUser()
+      .subscribe(result => {
+        this.userid = result.sub
       })
   }
 
   openModal(template: TemplateRef<any>, id: any = null) {
     this.delid = id;
+    //console.log(this.delid);
+    this.modalRef = this.modalService.show(template);
+  }
+
+  opendeleteModal(template: TemplateRef<any>, id: any = null, name) {
+    this.delid = id;
+    this.delname = name;
     //console.log(this.delid);
     this.modalRef = this.modalService.show(template);
   }
@@ -99,15 +124,17 @@ export class TrainingSummaryReportGroupComponent implements OnInit {
     
     //alert(JSON.stringify(value))
     //alert(this.form.value.files)
+    
     this.trainingservice.addTrainingSummaryReportGroup(value, this.form.value.files, this.phaseid, this.group).subscribe(response => {
-      console.log(value);
+      console.log("addTrainingSummaryReportGroup =>", response);
       this.Form.reset()
       this.modalRef.hide()
       this.loading = false;
-
+      this.logService.addLog(this.userid,'TrainingSummaryReportPhases','เพิ่ม', response.detail, response.id).subscribe();
       this.trainingservice.getTrainingSummaryReportGroup(this.phaseid, this.group).subscribe(result => {
         this.resulttraining = result
         this.loading = true
+        this._NotofyService.onSuccess("เพิ่มข้อมูล");
         //console.log(this.resulttraining);
       })
     })
@@ -132,9 +159,11 @@ export class TrainingSummaryReportGroupComponent implements OnInit {
       //console.log(value);
       this.modalRef.hide()
       this.loading = false;
+      this.logService.addLog(this.userid,'TrainingSummaryReportPhases','ลบ', this.delname, this.delid).subscribe();
       this.trainingservice.getTrainingSummaryReportGroup(this.phaseid, this.group).subscribe(result => {
         this.resulttraining = result
         this.loading = true;
+        this._NotofyService.onSuccess("ลบข้อมูล");
         //console.log(this.resulttraining);
       })
     })

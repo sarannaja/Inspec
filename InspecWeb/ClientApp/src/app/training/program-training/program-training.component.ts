@@ -62,6 +62,7 @@ export class ProgramTrainingComponent implements OnInit {
   selectdataprogramtype: { value: any; label: any; }[];
   userid: any;
   programtopic: any;
+  trainingidtrue: string;
   constructor(private modalService: BsModalService,
     private authorize: AuthorizeService,
     private _NotofyService: NotofyService,
@@ -74,6 +75,7 @@ export class ProgramTrainingComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     @Inject('BASE_URL') baseUrl: string) {
     this.trainingid = activatedRoute.snapshot.paramMap.get('id')
+    this.trainingidtrue = activatedRoute.snapshot.paramMap.get('phaseid')
     this.downloadUrl = baseUrl + '/Uploads'
   }
 
@@ -350,13 +352,14 @@ export class ProgramTrainingComponent implements OnInit {
 
 
   openModal(template: TemplateRef<any>, id, programTopic) {
+    this.submitted = false;
     this.delid = id;
     this.programtopic = programTopic;
     console.log("programtopic =>", this.programtopic);
     this.Form.patchValue({
       TrainingPhaseId: this.trainingid,
     })
-    this.submitted = false;
+    
     this.modalRef = this.modalService.show(template);
   }
   editModal(template: TemplateRef<any>, id, programtype, programdate, mStart, mEnd, programtopic, programdetail, programlocation, programtodress, lecturername: any[] = [], files) {
@@ -429,18 +432,20 @@ export class ProgramTrainingComponent implements OnInit {
     //alert(this.form.value.files)
     console.log("viewdata:", value);
     console.log(this.Formfile.value.files);
-    this.submitted = true;
-    if (this.Form.invalid) {
-      console.log("in1");
-      return;
-    } else {
+    
+    // if (this.Form.invalid) {
+    //   this.submitted = true;
+    //   console.log("in1");
+    //   return;
+    // } else {
+      console.log("viewadddata:", value);
       this.trainingservice.addTrainingProgram(value, this.Formfile.value.files).subscribe(response => {
-        console.log("viewadddata:", value);
+        console.log("addTrainingProgram =>:", response);
         this.Form.reset()
         this.submitted = false;
         this.modalRef.hide();
         this.loading = false;
-        this.logService.addLog(this.userid,'TrainingPrograms','เพิ่ม', response.programtopic,response.id).subscribe();
+        this.logService.addLog(this.userid,'TrainingPrograms','เพิ่ม', response.programTopic,response.id).subscribe();
         this.getprogramtraining();
         this._NotofyService.onSuccess("เพิ่มข้อมูล")
         // this.trainingservice.getprogramtraining(this.trainingid)
@@ -450,7 +455,7 @@ export class ProgramTrainingComponent implements OnInit {
         //     //console.log(this.resulttraining);
         //   })
       })
-    }
+    // }
   }
 
   editTraining(value) {
@@ -469,7 +474,7 @@ export class ProgramTrainingComponent implements OnInit {
       this.EditForm.reset()
       this.modalRef.hide()
       this.loading = false;
-      this.logService.addLog(this.userid,'TrainingPrograms','แก้ไข', result.programtopic, result.id).subscribe();
+      this.logService.addLog(this.userid,'TrainingPrograms','แก้ไข', result.programTopic, result.id).subscribe();
       this.getprogramtraining();
       this._NotofyService.onSuccess("แก้ไขข้อมูล")
     })
@@ -520,7 +525,7 @@ export class ProgramTrainingComponent implements OnInit {
   }
 
   gotoMainTrainingPhase(){
-    this.router.navigate(['/training/phase/', this.trainingid])
+    this.router.navigate(['/training/phase/', this.trainingidtrue])
   }
 
   gotoBack() {

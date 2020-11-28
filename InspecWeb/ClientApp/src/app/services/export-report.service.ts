@@ -911,4 +911,12 @@ export class ExportReportService {
     console.log("formRelate: ", formData);
     return this.http.post<any>(this.url + "/reportTrainingRegister", formData);
   }
+
+  sortDate(userId) {
+    return this.http.get(this.url + "/sortDate/" + userId)
+  }
+
+  sortDateDESC(userId) {
+    return this.http.get(this.url + "/sortDateDESC/" + userId)
+  }
 }

@@ -55,12 +55,12 @@ export class AuthorizeService {
 
 
   public isAuthenticated(): Observable<boolean> {
-    console.log('isAuthenticated', this.getUser());
+    // console.log('isAuthenticated', this.getUser());
 
     return this.getUser().pipe(map(u => !!u));
   }
 
-  public getUser(): Observable<IUser | null> {
+  public getUser(): Observable<any | null> {
     return concat(
       this.userSubject.pipe(take(1), filter(u => !!u)),
       this.getUserFromStorage().pipe(filter(u => !!u),
@@ -95,8 +95,8 @@ export class AuthorizeService {
 
       user = await this.userManager.signinSilent(this.createArguments());
       console.log('user callback', user);
-
-      this.role(user.profile)
+      if (user && user.profile)
+        this.role(user.profile)
       this._CookieService.set('UserIdMobile', user.profile.sub)
       this.userSubject.next(Object.assign(user.profile, JSON.parse(localStorage.getItem('data'))));
       return this.success(state);
@@ -109,7 +109,8 @@ export class AuthorizeService {
           throw new Error('Popup disabled. Change \'authorize.service.ts:AuthorizeService.popupDisabled\' to false to enable it.');
         }
         user = await this.userManager.signinPopup(this.createArguments());
-        await this.role(user.profile)
+        if (user && user.profile)
+          await this.role(user.profile)
         this.userSubject.next(Object.assign(user.profile, JSON.parse(localStorage.getItem('data'))));
         return this.success(state);
       } catch (popupError) {
@@ -136,11 +137,11 @@ export class AuthorizeService {
     try {
       await this.ensureUserManagerInitialized();
       const user = await this.userManager.signinCallback(url);
-      console.log('user.profile', user.profile);
-      this._CookieService.set('UserIdMobile', user.profile.sub)
-      await this.role(user.profile)
+      // console.log('user.profile', user.profile);
+      this._CookieService.set('UserIdMobile', user && user.profile ? user.profile.sub : null)
+      user && user.profile ? await this.role(user.profile) : null
 
-      this.userSubject.next(user && Object.assign(user.profile, JSON.parse(localStorage.getItem('data'))));
+      this.userSubject.next(user && Object.assign(user && user.profile ? user.profile : null, JSON.parse(localStorage.getItem('data'))));
       // console.log('test', user);
       return this.success(user && user.state);
     } catch (error) {

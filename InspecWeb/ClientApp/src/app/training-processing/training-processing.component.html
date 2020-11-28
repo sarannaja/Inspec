@@ -55,13 +55,13 @@
                     <div class="card-body mt-3">
 
 
-                        <div style="page-break-after: always;">
+                        <div style="page-break-after: always; max-width: 800px;">
                             รายการประมวลผลสถิติ (คำถามความพอใจ)
-                            <canvas id="lineChart2"></canvas>
+                            <canvas id="lineChart"></canvas>
                         </div>
 
                         <br><br><br><br><br><br><br><br>
-                        <div style="page-break-after: always;">
+                        <div style="page-break-after: always; max-width: 800px;">
                             รายการประมวลผลสถิติ (คำถามใช่ หรือ ไม่)
                             <canvas id="lineChart" ></canvas>
                         </div>
@@ -72,7 +72,7 @@
 
                         <div style="height: 2000px;">
                             รายการประมวลผลสถิติ (คำถามปลายเปิด)
-                            <table *ngIf="loading" class="table table-bordered table-responsive-lg">
+                            <table *ngIf="loading" class="table table-bordered table-responsive-lg" style="max-width: 800px;">
                                 <thead>
                                     <tr>
                                         <th class="text-center">หัวข้อคำถามแบบประเมิน</th>

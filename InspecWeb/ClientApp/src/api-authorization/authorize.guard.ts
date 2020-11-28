@@ -4,12 +4,14 @@ import { Observable } from 'rxjs';
 import { AuthorizeService } from './authorize.service';
 import { tap } from 'rxjs/operators';
 import { ApplicationPaths, QueryParameterNames } from './api-authorization.constants';
+import { UserManager } from 'oidc-client';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthorizeGuard implements CanActivate {
-  constructor(private authorize: AuthorizeService, private router: Router) {
+  constructor(private authorize: AuthorizeService, private router: Router, private userManager: UserManager
+  ) {
   }
   canActivate(
     _next: ActivatedRouteSnapshot,
@@ -20,6 +22,7 @@ export class AuthorizeGuard implements CanActivate {
 
   private handleAuthorization(isAuthenticated: boolean, state: RouterStateSnapshot) {
     if (!isAuthenticated) {
+      // this.userManager.signinRedirect()
       this.router.navigate([ApplicationPaths.Login], {
         queryParams: {
           [QueryParameterNames.ReturnUrl]: state.url

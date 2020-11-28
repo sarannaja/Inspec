@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ThaiDatePipe2 } from '../services/Pipe/thaidate2.service';
 import { DataTablesModule } from 'angular-datatables';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { VideoService } from '../services/video.service';
@@ -23,11 +23,12 @@ const config = {
   appId: "1:336991440347:web:61f568bcdb790b92046bfe"
 };
 @NgModule({
-  declarations: [ThaiDatePipe2,DateLengthComponent,TitleModalComponent],
+  declarations: [ThaiDatePipe2, TitleModalComponent],
   imports: [
     CommonModule,
     DataTablesModule,
     FormsModule,
+    ReactiveFormsModule,
     AngularFireModule.initializeApp(config),
     AngularFireDatabaseModule,
     ModalModule.forRoot(),
@@ -36,6 +37,7 @@ const config = {
 
     MyDatePickerTHModule
   ],
+  entryComponents: [],
   exports: [
     CommonModule,
     ThaiDatePipe2,
@@ -47,7 +49,8 @@ const config = {
     TitleModalComponent,
     MyDatePickerTHModule,
     ModalModule,
-    DateLengthComponent,
+    ReactiveFormsModule,
+    
     MatVideoModule
   ],
   providers: [VideoService]
