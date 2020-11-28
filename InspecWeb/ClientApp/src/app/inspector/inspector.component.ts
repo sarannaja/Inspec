@@ -5,6 +5,7 @@ import { InspectorService } from '../services/inspector.service';
 import { UserService } from '../services/user.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { RegionService } from '../services/region.service';
+import { ProvinceService } from '../services/province.service';
 
 @Component({
   selector: 'app-inspector',
@@ -15,7 +16,9 @@ export class InspectorComponent implements OnInit {
 
   resultInspector: any = [];
   selectdataregion:any=[];
+  selectdataprovince:any=[];
   region:any;
+  province:any;
   delid: any;
   name: any;
   loading = false;
@@ -34,6 +37,7 @@ export class InspectorComponent implements OnInit {
     private userService: UserService,
     private spinner: NgxSpinnerService,
     private regionService: RegionService,
+    private provinceService: ProvinceService,
     @Inject('BASE_URL') baseUrl: string
     ) 
     { 
@@ -64,7 +68,7 @@ export class InspectorComponent implements OnInit {
         ]
   
       };
-    this.getDataRegions()
+    this.getDataRegionsAndProvince()
     
     this.Form = this.fb.group({
       "name": new FormControl(null, [Validators.required]),
@@ -74,17 +78,18 @@ export class InspectorComponent implements OnInit {
     })
   }
 
-  getdata(regionid){
+  getdata(regionid,provinceid){
     this.spinner.show();
-    this.userService.getuserinspectordata(regionid).subscribe(result=>{
+    this.userService.getuserinspectordata(regionid,provinceid).subscribe(result=>{
       this.resultInspector = result
       this.loading = true;
       this.spinner.hide();
     })
   }
 
-  getDataRegions() {
+  getDataRegionsAndProvince() {
     this.regionService.getregiondataforuser().subscribe(res => {
+
       this.selectdataregion = res.importFiscalYearRelations.filter(
         (thing, i, arr) => arr.findIndex(t => t.regionId === thing.regionId) === i
       ).map((item, index) => {
@@ -94,14 +99,28 @@ export class InspectorComponent implements OnInit {
         }
       });
        this.region = 0;
-       this.getdata(this.region);
     })
+
+
+    this.provinceService.getprovincedata2()
+     .subscribe(result => {
+       this.selectdataprovince = result;
+       this.province = 0;
+      
+     });
+     this.getdata(this.region,this.province);
   }
 
-  Change(event){
+  Changeregion(event){
     this.region = event.target.value;
     this.loading = false;
-    this.getdata(event.target.value);
+    this.getdata(event.target.value,this.province);
+  }
+
+  Changeprovince(event){
+    this.province = event.target.value;
+    this.loading = false;
+    this.getdata( this.region,event.target.value);
   }
 
 
