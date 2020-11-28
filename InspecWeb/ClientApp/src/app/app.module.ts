@@ -504,7 +504,7 @@ import { NewLoginComponent } from 'src/api-authorization/new-login/new-login.com
     ProvinceService,
     NotofyService,
     ConfirmationDialogService,
-    UserManager,
+    // UserManager,
     SortPipe,
     // ConfirmationDialogService
   ],

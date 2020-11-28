@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { TrainingProgramLoginComponent } from './training-programlogin.component';
 import { RouterModule, Routes } from '@angular/router';
 import { QRCodeModule } from 'angularx-qrcode';
+import { SharingModule } from '../sharing/sharing.module';
 
 const routes: Routes = [
   {
@@ -18,10 +19,11 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [TrainingProgramLoginComponent],
-  imports: [,
+  imports: [
     RouterModule.forChild(routes),
     CommonModule,
-    QRCodeModule
+    QRCodeModule,
+    SharingModule
   ],
   exports: [
     RouterModule

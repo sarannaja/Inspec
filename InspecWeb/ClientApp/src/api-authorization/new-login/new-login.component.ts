@@ -8,7 +8,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { PasswordStrengthValidator } from './password-strength.validators';
 import { UserService } from 'src/app/services/user.service';
-import { UserManager } from 'oidc-client';
 
 // The main responsibility of this component is to handle the user's login process.
 // This is the starting point for the login process. Any component that needs to authenticate
@@ -37,7 +36,6 @@ export class NewLoginComponent implements OnInit {
 
     private authorize: AuthorizeService,
     private spinner: NgxSpinnerService,
-    private userManager: UserManager
 
   ) {
     // redirect to home if already logged in
