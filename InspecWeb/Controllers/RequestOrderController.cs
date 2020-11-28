@@ -80,16 +80,46 @@ namespace InspecWeb.Controllers
         [HttpGet("answered/{id}")]
         public IActionResult answered(string id)
         {
-            var excutiveorderdata = _context.RequestOrders
-                .Include(m => m.User)
-                .Include(m => m.RequestOrderFiles)
-                .Include(m => m.RequestOrderAnswers)
-                .ThenInclude(m => m.User)
-               .Where(x => x.RequestOrderAnswers.Any(x => x.UserID == id) && x.publics == 1 && x.Draft != 1)
-               .OrderByDescending(m => m.Id)
-               .ToList();
+            //var excutiveorderdata = _context.RequestOrders
+            //    .Include(m => m.User)
+            //    .Include(m => m.RequestOrderFiles)
+            //    .Include(m => m.RequestOrderAnswers)
+            //    .ThenInclude(m => m.User)
+            //   .Where(x => x.RequestOrderAnswers.Any(x => x.UserID == id) && x.publics == 1 && x.Draft != 1)
+            //   .OrderByDescending(m => m.Id)
+            //   .First();
 
-            return Ok(excutiveorderdata);
+            var excutiveorderdata2 = _context.RequestOrders
+                 .Include(m => m.User)
+                 .Include(m => m.RequestOrderFiles)
+                 .Include(m => m.RequestOrderAnswers)
+                 .ThenInclude(m => m.User)
+                .Where(x => x.RequestOrderAnswers.Any(x => x.UserID == id) && x.publics == 1 && x.Draft != 1)
+                .OrderByDescending(m => m.Id)
+                .ToList();
+
+
+            //if (excutiveorderdata2.Count() == 0)
+            //{
+            //    var excutiveorderdata3 = _context.Users
+            //            .Include(m => m.UserProvince)
+            //            .Where(m => m.Id == excutiveorderdata.UserID)
+            //           .ToList();
+
+            //    foreach(xx in excutiveorderdata3.UserProvince)
+            //    var excutiveorderdata4 = _context.FiscalYearRelations
+            //            .Include(m => m.FiscalYear)
+            //            .Where(m => m.ProvinceId == excutiveorderdata3.UserProvince.)
+            //           .First();
+            //}
+            //else
+            //{
+               
+
+            //    return Ok(excutiveorderdata2);
+            //}
+
+            return Ok(excutiveorderdata2);
         }
         //<!-- END Get ข้อสั่งการของผู้รับ-->
 

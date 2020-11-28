@@ -6,6 +6,8 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { NgxSpinnerService } from "ngx-spinner";
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { MinistryService } from '../services/ministry.service';
+import { RegionService } from '../services/region.service';
+import { ProvinceService } from '../services/province.service';
 
 
 @Component({
@@ -41,6 +43,10 @@ export class RegionalagencyComponent implements OnInit {
   imgprofileUrl: any;
   selectministry:any=[];
   ministry :any;
+  selectdataregion:any=[];
+  selectdataprovince:any=[];
+  region:any;
+  province:any;
   //END name input
   
 
@@ -51,6 +57,8 @@ export class RegionalagencyComponent implements OnInit {
     private userService: UserService,
     private spinner: NgxSpinnerService,
     private ministryService: MinistryService,
+    private regionService: RegionService,
+    private provinceService: ProvinceService,
     @Inject('BASE_URL') baseUrl: string
   ) {
     this.imgprofileUrl = baseUrl + '/imgprofile';
@@ -80,12 +88,12 @@ export class RegionalagencyComponent implements OnInit {
       ]
 
     };
-    this.getDataMinistriesfirst()
+    this.getDataRegionsAndProvince()
   }
 
-  getdata(id) {
+  getdata(id,provinceid) {
     this.spinner.show();
-    this.userService.getuserregionalagencydata(id)
+    this.userService.getuserregionalagencydata(id,provinceid)
       .subscribe(result => {
         //alert(this.roleId);
         this.resultuser = result;
@@ -94,26 +102,41 @@ export class RegionalagencyComponent implements OnInit {
         // console.log(this.resultuser);
       })
   }
-  getDataMinistriesfirst() {
-    
-    this.ministryService.getministry()
-     .subscribe(result => {
-       this.selectministry = result;
-       this.ministry = 0;
-       //console.log("momox",result[0].id)
-       this.getdata(this.ministry);
-       //alert(this.ministry)
-     });
- }
+  getDataRegionsAndProvince() {
+    this.regionService.getregiondataforuser().subscribe(res => {
 
- Changeministry(event){
-   // alert(JSON.stringify(event.target));
-   // console.log("momox",event.target)
-   // alert(event.target.value);
-   this.ministry = event.target.value;
-   this.loading = false;
-   this.getdata(event.target.value);
- }
+      this.selectdataregion = res.importFiscalYearRelations.filter(
+        (thing, i, arr) => arr.findIndex(t => t.regionId === thing.regionId) === i
+      ).map((item, index) => {
+        return {
+          value: item.region.id,
+          label: item.region.name
+        }
+      });
+       this.region = 0;
+    })
+
+
+    this.provinceService.getprovincedata2()
+     .subscribe(result => {
+       this.selectdataprovince = result;
+       this.province = 0;
+      
+     });
+     this.getdata(this.region,this.province);
+  }
+
+  Changeregion(event){
+    this.region = event.target.value;
+    this.loading = false;
+    this.getdata(event.target.value,this.province);
+  }
+
+  Changeprovince(event){
+    this.province = event.target.value;
+    this.loading = false;
+    this.getdata( this.region,event.target.value);
+  }
   excel(){
     window.location.href = '/api/user/excelregionalagency';
   }

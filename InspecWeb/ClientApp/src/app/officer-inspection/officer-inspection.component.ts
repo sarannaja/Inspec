@@ -6,6 +6,7 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { NgxSpinnerService } from "ngx-spinner";
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { RegionService } from '../services/region.service';
+import { ProvinceService } from '../services/province.service';
 
 
 @Component({
@@ -41,6 +42,8 @@ export class OfficerInspectionComponent implements OnInit {
   imgprofileUrl: any;
   selectdataregion:any=[];
   region:any;
+  selectdataprovince:any=[];
+  province:any;
   //END name input
   
 
@@ -51,6 +54,7 @@ export class OfficerInspectionComponent implements OnInit {
     private userService: UserService,
     private spinner: NgxSpinnerService,
     private regionService: RegionService,
+    private provinceService: ProvinceService,
     @Inject('BASE_URL') baseUrl: string
   ) {
   
@@ -80,12 +84,12 @@ export class OfficerInspectionComponent implements OnInit {
       ]
 
     };
-    this.getDataRegions()
+    this.getDataRegionsAndProvince()
   }
 
-  getdata(regionid) {
+  getdata(regionid,provinceid) {
     this.spinner.show();
-    this.userService.getuserdistrictofficerdata(regionid)
+    this.userService.getuserdistrictofficerdata(regionid,provinceid)
       .subscribe(result => {
         //alert(this.roleId);
         this.resultuser = result;
@@ -95,7 +99,7 @@ export class OfficerInspectionComponent implements OnInit {
       })
   }
 
-  getDataRegions() {
+  getDataRegionsAndProvince() {
     this.regionService.getregiondataforuser().subscribe(res => {
       this.selectdataregion = res.importFiscalYearRelations.filter(
         (thing, i, arr) => arr.findIndex(t => t.regionId === thing.regionId) === i
@@ -106,14 +110,27 @@ export class OfficerInspectionComponent implements OnInit {
         }
       });
        this.region = 0;
-       this.getdata(this.region);
     })
+
+    this.provinceService.getprovincedata2()
+     .subscribe(result => {
+       this.selectdataprovince = result;
+       this.province = 0;
+      
+     });
+     this.getdata(this.region,this.province);
   }
 
-  Change(event){
+  Changeregion(event){
     this.region = event.target.value;
     this.loading = false;
-    this.getdata(event.target.value);
+    this.getdata(event.target.value,this.province);
+  }
+
+  Changeprovince(event){
+    this.province = event.target.value;
+    this.loading = false;
+    this.getdata( this.region,event.target.value);
   }
 
   excel(){

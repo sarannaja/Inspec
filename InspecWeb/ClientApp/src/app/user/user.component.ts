@@ -140,6 +140,16 @@ export class UserComponent implements OnInit {
       name: "อื่นๆ"
     },
   ]
+  position2 :any =[
+    {
+      id: "ผู้ตรวจราชการ",
+      name : "ผู้ตรวจราชการ"
+    },
+    {
+      id: "ผู้ช่วยผู้ตรวจราชการ",
+      name:"ผู้ช่วยผู้ตรวจราชการ"
+    }
+  ]
   isMobile: boolean = false;
   width: number = window.innerWidth;
   height: number = window.innerHeight;
@@ -148,6 +158,7 @@ export class UserComponent implements OnInit {
   username:any;
   userid:any;
   selectprefix:any;
+  selectposition2:any;
   fiscalYearId: any;
   date: any = { date: { year: (new Date()).getFullYear(), month: (new Date()).getMonth() + 1, day: (new Date()).getDate() } };
   title: string = 'รายชิ่อจังหวัด';
@@ -243,6 +254,12 @@ export class UserComponent implements OnInit {
 
     //<!-- คำนำหน้า -->
     this.selectprefix = this.prefix.map((item, index) => {
+      return { value: item.id, label: item.name }
+    })
+    //<!-- END คำนำหน้า -->
+
+    //<!-- คำนำหน้า -->
+    this.selectposition2 = this.position2.map((item, index) => {
       return { value: item.id, label: item.name }
     })
     //<!-- END คำนำหน้า -->
@@ -588,6 +605,13 @@ export class UserComponent implements OnInit {
     //alert(this.Autocreateuser)
     this.addForm = this.fb.group({
       Prefix: new FormControl(null, [Validators.required]),
+      Position2: [
+        null,
+        conditionalValidator(
+          (() => (this.roleId == 3 || this.roleId == 6 || this.roleId == 10) === true),
+          Validators.required
+        )
+      ],
       FName: new FormControl(null, [Validators.required]),
       LName: new FormControl(null, [Validators.required]),
       Position: new FormControl(null, [Validators.required]),

@@ -71,13 +71,22 @@
 
             <div class="col-5">
               <label class="form-check form-check-inline" *ngFor="let state of status">
+                
                 <input class="form-check-input" type="radio" [ngModelOptions]="{standalone: true}"
                   [(ngModel)]="check_value[i].status" id="{{item.menuname+state.value}}"
-                  name="{{item.menuname+state.value}}" [value]="state.value">
+                  name="{{item.menuname+state.value}}" [value]="state.value" 
+                  [disabled]="item.menu_map.name == 'ปฏิทินการตรวจราชการภาพรวม' || item.menu_map.name == 'ทะเบียนรายงานผลการตรวจราชการ' 
+                  || item.menu_map.name == 'ข้อสั่งการถึงผู้ตรวจราชการ'|| item.menu_map.name == 'แจ้งข้อมูลถึงผู้ตรวจราชการ'
+                  || item.menu_map.name == 'กำหนดสิทธิ์การใช้งาน' || item.menu_map.name == 'จัดการผู้ใช้'
+                  || item.menu_map.name == 'กำหนดการตรวจราชการ' || item.menu_map.name == 'ประเด็นการตรวจติดตาม'
+                  || item.menu_map.name == 'สมุดตรวจอิเล็กทรอนิกส์(ผู้ตรวจราชการ)' || item.menu_map.name == 'สมุดตรวจอิเล็กทรอนิกส์(จังหวัด)'"
+                  >
+
                 <span class="form-check-label">
                   <label *ngIf="state.value == 1" class="badge badge-success mr-1">{{state.name}}</label>
                   <label *ngIf="state.value == 0" class="badge badge-danger mr-1">{{state.name}}</label>
                 </span>
+
               </label>
  
             </div>

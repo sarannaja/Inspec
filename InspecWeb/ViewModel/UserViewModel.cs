@@ -62,6 +62,7 @@ namespace InspecWeb.ViewModel
         public string Pw { get; set; } // 20200830
 
         public string Password { get; set; }
+        public string Position2 { get; set; }
     }
 
     public class UserArray
