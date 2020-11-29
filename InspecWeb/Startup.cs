@@ -60,17 +60,7 @@ namespace InspecWeb
 
             //<!-- เช็ทพาสเวิร์ด
             services.AddIdentityServer()
-                .AddApiAuthorization<ApplicationUser, ApplicationDbContext>(options =>
-                {
-                    options.Clients.AddSPA(
-                        "My SPA", spa =>
-                        spa.WithRedirectUri("http://inspection.opm.go.th/authentication/login-callback")
-                        .WithLogoutRedirectUri(
-                            "http://inspection.opm.go.th/authentication/logout-callback"));
-
-                    options.ApiResources.AddApiResource("MyExternalApi", resource =>
-                        resource.WithScopes("a", "b", "c"));
-                });
+                .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
 
             // services.AddIdentity<ApplicationUser, IdentityRole>()
             //.AddEntityFrameworkStores<ApplicationDbContext>()
@@ -126,10 +116,10 @@ namespace InspecWeb
             //         ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
             // });
 
-            services.Configure<ForwardedHeadersOptions> (options => {
-                options.ForwardedHeaders =
-                    ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
-            });
+            // services.Configure<ForwardedHeadersOptions> (options => {
+            //     options.ForwardedHeaders =
+            //         ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+            // });
             services.Configure<ForwardedHeadersOptions>(options =>
             {
                 options.ForwardLimit = 2;
@@ -169,11 +159,7 @@ namespace InspecWeb
                .AllowAnyMethod()
                .AllowAnyHeader()
             );
-            app.Use((context, next) =>
-            {
-                context.Request.Scheme = "https";
-                return next();
-            });
+           
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -221,8 +207,8 @@ namespace InspecWeb
                 spa.Options.SourcePath = "ClientApp";
                 if (env.IsDevelopment())
                 {
-                    spa.UseAngularCliServer(npmScript: "start");
-                    // spa.UseProxyToSpaDevelopmentServer("http://127.0.0.1:4200");
+                    // spa.UseAngularCliServer(npmScript: "start");
+                    spa.UseProxyToSpaDevelopmentServer("http://127.0.0.1:5002");
                 }
             });
         }
