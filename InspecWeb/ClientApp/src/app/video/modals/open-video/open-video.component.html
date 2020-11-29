@@ -5,7 +5,7 @@
         <!-- <div plyr style="width:100%;" plyrTitle="Video 1" [plyrPlaysInline]="true" [plyrSources]="videoSources"
             (plyrInit)="player = $event"></div> -->
         <div class="video" style="width: 100%;">
-            <video autoplay style="width: 100%;" controls (click)="toggleVideo()" #videoPlayer>
+            <video autoplay style="width: 100%;" controls  #videoPlayer>
                 <source [src]="video.url" type="video/mp4" />
                 Browser not supported
             </video>

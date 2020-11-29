@@ -7,6 +7,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { PasswordStrengthValidator } from './password-strength.validators';
+import { UserService } from 'src/app/services/user.service';
 
 // The main responsibility of this component is to handle the user's login process.
 // This is the starting point for the login process. Any component that needs to authenticate
@@ -26,11 +27,13 @@ export class NewLoginComponent implements OnInit {
   submitted = false;
   returnUrl: string;
   loginfail: any
-  remeberMe: boolean = true
+  remeberMe: boolean = false
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
+    private userService: UserService,
+
     private authorize: AuthorizeService,
     private spinner: NgxSpinnerService,
 
@@ -42,52 +45,45 @@ export class NewLoginComponent implements OnInit {
     //   // this.router.navigate(['/']);
     // }
   }
+  userid
+  role_id
 
-  ngOnInit() {
+  async test() {
 
-    this.authorize.isAuthenticated().subscribe(async result => {
-      this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
 
-      console.log('isAuthenticated', result);
-      if (result) {
-        return;
-        // this.router.navigate([this.returnUrl])
-        // await this.login(this.getReturnUrl());
-        // this.spinner.hide()
-      } else {
-        const action = this.route.snapshot.url[1];
-        switch (action.path) {
-          case LoginActions.Login:
-            console.log(' LoginActions.Login:');
-            await this.login(this.getReturnUrl());
-            break;
-          case LoginActions.LoginCallback:
-            console.log(' LoginActions.LoginCallback:');
+  }
+  async ngOnInit() {
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
 
-            await this.processLoginCallback();
-            break;
-          case LoginActions.LoginFailed:
-            console.log('LoginActions.LoginFailed:');
-            const message = this.route.snapshot.queryParamMap.get(QueryParameterNames.Message);
-            this.message.next(message);
-            break;
-          case LoginActions.Profile:
-            console.log('LoginActions.Profile:');
+    const action = this.route.snapshot.url[1];
+    switch (action.path) {
+      case LoginActions.Login:
+        console.log(' LoginActions.Login:');
+        await this.login(this.getReturnUrl());
+        break;
+      case LoginActions.LoginCallback:
+        console.log(' LoginActions.LoginCallback:');
 
-            this.redirectToProfile();
-            break;
-          case LoginActions.Register:
-            console.log('LoginActions.Register:');
-            this.redirectToRegister();
-            break;
-          default:
-            throw new Error(`Invalid action '${action}'`);
-        }
-        this.spinner.hide()
-      }
+        await this.processLoginCallback();
+        break;
+      case LoginActions.LoginFailed:
+        console.log('LoginActions.LoginFailed:');
+        const message = this.route.snapshot.queryParamMap.get(QueryParameterNames.Message);
+        this.message.next(message);
+        break;
+      case LoginActions.Profile:
+        console.log('LoginActions.Profile:');
 
-    });
-
+        this.redirectToProfile();
+        break;
+      case LoginActions.Register:
+        console.log('LoginActions.Register:');
+        this.redirectToRegister();
+        break;
+      default:
+        throw new Error(`Invalid action '${action}'`);
+    }
+    this.spinner.hide()
 
     this.loginForm = this.formBuilder.group({
       username: ['', Validators.required],
@@ -98,6 +94,7 @@ export class NewLoginComponent implements OnInit {
 
 
   }
+
 
   // convenience getter for easy access to form fields
   get f() { return this.loginForm.controls; }
@@ -117,6 +114,7 @@ export class NewLoginComponent implements OnInit {
       .subscribe(async result => {
         console.log(result.status);
         if (result.status) {
+
 
           // console.log(' this.remeberMe', this.remeberMe);
           // await this.login(this.getReturnUrl());
@@ -148,11 +146,12 @@ export class NewLoginComponent implements OnInit {
             default:
               throw new Error(`Invalid action '${action}'`);
           }
-          window.location.reload()
+          // this.userManager.signinRedirect()
+          // window.location.reload()
 
           // const state: INavigationState = { returnUrl: this.returnUrl };
           // const result = await this.authorize.signIn(state);
-          // this.navigateToReturnUrl( this.returnUrl);
+          // this.navigateToReturnUrl(this.returnUrl);
 
           // console.log(this.returnUrl, 'this.returnUrl');
 

@@ -24,6 +24,9 @@ export class UserService {
   getuserdata(id: any): Observable<any[]> { //role
     return this.http.get<any[]>(this.url + id)
   }
+  getuserselectforexecutiveorderandrequestorder(): Observable<any[]> { //role
+    return this.http.get<any[]>(this.base +'getuserselectforexecutiveorderandrequestorder')
+  }
   getuserdataforrequestorder(): Observable<any[]> { //role
     return this.http.get<any[]>(this.base +'getuserforrequestorder')
   }
@@ -73,6 +76,11 @@ export class UserService {
     formData.append('Firstnameth', userData.FName); //ชื่อ
     formData.append('Lastnameth', userData.LName); //ชื่อ
     formData.append('Position', userData.Position);//ตำแหน่ง
+    if(userData.Position2 != null){
+    formData.append('Position2', userData.Position2);//ผู้ตรวจหรือผู้ช่วยผู้ตรวจ
+    }else{
+      formData.append('Position2', "ผู้ตรวจราชการ");
+    }
     formData.append('Educational', '');
     formData.append('Officephonenumber', '');
     formData.append('PhoneNumber', userData.PhoneNumber);
@@ -212,6 +220,11 @@ export class UserService {
     formData.append('Firstnameth', userData.FName); //ชื่อ
     formData.append('Lastnameth', userData.LName); //นามสกุล
     formData.append('Position', userData.Position);
+    if(userData.Position2 != null){
+      formData.append('Position2', userData.Position2);//ผู้ตรวจหรือผู้ช่วยผู้ตรวจ
+      }else{
+        formData.append('Position2', "ผู้ตรวจราชการ");
+      }
     formData.append('PhoneNumber', userData.PhoneNumber);
     formData.append('Formprofile', userData.Formprofile);// สำหรับเช็ค user หรือแอดมิน เป็นคนเพิ่ม
     formData.append('Email', userData.Email); //email  
@@ -357,26 +370,26 @@ export class UserService {
   }
 
   //<!-- ข้อมูลผู้ติดต้อ ผู้ตรวจราชการ -->
-  getuserinspectordata(regionid): Observable<any[]> {
-    return this.http.get<any[]>(this.base + 'inspector/' + regionid)
+  getuserinspectordata(regionid,provinceid): Observable<any[]> {
+    return this.http.get<any[]>(this.base + 'inspector/' + regionid+ '/' + provinceid)
   }
   //<!-- END ข้อมูลผู้ติดต้อ ผู้ตรวจราชการ -->
 
   //<!-- ข้อมูลผู้ติดต้อ เจ้าหน้าที่ประจำเขตตรวจราชการ -->
-  getuserdistrictofficerdata(regionid): Observable<any[]> {
-    return this.http.get<any[]>(this.base + 'districtofficer/'+ regionid)
+  getuserdistrictofficerdata(regionid,provinceid): Observable<any[]> {
+    return this.http.get<any[]>(this.base + 'districtofficer/'+ regionid + '/' + provinceid)
   }
   //<!-- END ข้อมูลผู้ติดต้อ เจ้าหน้าที่ประจำเขตตรวจราชการ -->
 
   //<!-- ข้อมูลผู้ติดต้อ ที่ปรึกษาผู้ตรวจราชการภาคประชาชน -->
-  getuserpublicsectoradvisordata(provinceid): Observable<any[]> {
-    return this.http.get<any[]>(this.base + 'publicsectoradvisor/' + provinceid)
+  getuserpublicsectoradvisordata(regionid,provinceid): Observable<any[]> {
+    return this.http.get<any[]>(this.base + 'publicsectoradvisor/'+regionid +'/'+ provinceid)
   }
   //<!-- END ข้อมูลผู้ติดต้อ ที่ปรึกษาผู้ตรวจราชการภาคประชาชน -->
 
     //<!-- ข้อมูลผู้ติดต่อ หน่วยงานภูมิภาค หรือ หน่วยรับตรวจ -->
-    getuserregionalagencydata(ministryid): Observable<any[]> {
-      return this.http.get<any[]>(this.base + 'regionalagency/' + ministryid)
+    getuserregionalagencydata(regionid,provinceid): Observable<any[]> {
+      return this.http.get<any[]>(this.base + 'regionalagency/' + regionid + '/' + provinceid)
     }
     //<!-- END ข้อมูลผู้ติดต่อ หน่วยงานภูมิภาค หรือ หน่วยรับตรวจ -->
 

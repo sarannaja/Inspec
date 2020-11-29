@@ -40,8 +40,8 @@
                     <tbody>
                         <tr *ngFor="let item of resulttraining; let i = index">
                             <td>{{ item.phaseNo }}</td>
-                            <td class="text-center">{{ item.startDate | thaidate:'year'}} -
-                                {{ item.endDate | thaidate:'year'}}</td>
+                            <td class="text-center">{{ item.startDate | thaidate:'short'}} -
+                                {{ item.endDate | thaidate:'short'}}</td>
                             <td class="">{{ item.detail }}</td>
                             <td class="" title="{{item.location}}">{{ item.location }}</td>
                             <td class="text-center">{{ item.group }}</td>

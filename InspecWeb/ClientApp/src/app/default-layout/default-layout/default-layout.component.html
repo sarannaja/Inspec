@@ -7,7 +7,7 @@
             &nbsp;
             สตร.
         </a> -->
-        <div class="sidebar-content">
+        <div class="sidebar-content" style="width: 100%;">
             <div class="sidebar-user">
 
                 <!-- กรณณีมีรูป-->
@@ -29,7 +29,7 @@
                     <ng-template #childrenNull>
                         <a (click)="checkactive(item.url)" class="sidebar-link">
                             <i [ngClass]="classIcon+item.icon"></i>
-                            <span class="align-middle">{{item.name}} {{item.bridge != null?item.bridge:null}} </span>
+                            <span class="align-left">{{item.name}} {{item.bridge != null?item.bridge:null}} </span>
                         </a>
                     </ng-template>
 
@@ -37,7 +37,7 @@
                     <div *ngIf="item.children else childrenNull">
                         <a href="#{{item.IDchildren}}" data-toggle="collapse" class="sidebar-link collapsed">
                             <i [ngClass]="classIcon+item.icon"></i>
-                            <span class="align-middle">{{item.name}} {{item.bridge ? bridge(item.name).test:null}}
+                            <span class="align-left">{{item.name}} {{item.bridge ? bridge(item.name).test:null}}
                             </span>
                         </a>
                         <ul *ngFor="let childItem of item.children;" id="{{item.IDchildren}}"
@@ -70,8 +70,8 @@
             </ul>
         </div>
     </nav>
-    <div class="main">
-        <nav class="navbar navbar-expand navbar-theme">
+    <div class="main" >
+        <nav class="navbar navbar-expand navbar-theme ml-0">
             <ng-container *ngIf="isMobile else NavLock">
                 <a title="ย่อ/ขยาย" (click)="onToggle()" class="sidebar-toggle d-flex mr-2">
                     <i class="hamburger align-self-center"></i>
@@ -276,7 +276,10 @@
                                                     <span *ngIf="item.status == 25">{{item.centralPolicy.title}}</span>
                                                 </div>
                                                 <div class="text-muted small mt-1">
-                                                   จาก {{item.notificationcreateby[0].userCreate.prefix}} {{item.notificationcreateby[0].userCreate.name}} 
+                                                     จาก {{item.notificationcreateby[0].userCreate.prefix}} 
+                                                      {{item.notificationcreateby[0].userCreate.name}}                                                    
+                                                </div>
+                                                <div class="text-muted small mt-1">
                                                     ({{item.notificationcreateby[0].userCreate.position}})
                                                 </div>
                                                 <div class="text-muted small mt-1">

@@ -103,7 +103,28 @@ namespace InspecWeb.Controllers
                 .Include(x => x.ProvincialDepartments)
                 .Include(p => p.Sides)
                 .Where(m => m.Role_id == id)
-                //.Where(m => m.Active == 1)
+                .Where(m => m.Active == 1)
+                .Where(m => m.Email != "admin@inspec.go.th")
+                .OrderByDescending(m => m.CreatedAt);
+
+            return users;
+        }
+
+        [HttpGet("api/[controller]/[action]")]
+        public IEnumerable<ApplicationUser> getuserselectforexecutiveorderandrequestorder()
+        {
+            var users = _context.Users
+                .Include(s => s.UserRegion)
+                .ThenInclude(r => r.Region)
+                .Include(s => s.UserProvince)
+                .ThenInclude(r => r.Province)
+                .Include(s => s.Province)
+                .Include(s => s.Ministries)
+                .Include(x => x.Departments)
+                .Include(x => x.ProvincialDepartments)
+                .Include(p => p.Sides)
+                .Where(m => m.Role_id == 3 || m.Role_id == 6 || m.Role_id == 10)
+                .Where(m => m.Active == 1)
                 .Where(m => m.Email != "admin@inspec.go.th")
                 .OrderByDescending(m => m.CreatedAt);
 
@@ -178,10 +199,10 @@ namespace InspecWeb.Controllers
         }
 
         //<!-- ข้อมูลผู้ติดต้อ ผู้ตรวจราชการ -->
-        [HttpGet("api/[controller]/[action]/{id}")]
-        public IEnumerable<ApplicationUser> inspector(long id)
+        [HttpGet("api/[controller]/[action]/{id}/{provinceid}")]
+        public IEnumerable<ApplicationUser> inspector(long id,long provinceid)
         {
-            if (id == 0)
+            if (id == 0 && provinceid == 0)
             {
                 var users = _context.Users
                     .Include(s => s.UserRegion)
@@ -190,9 +211,41 @@ namespace InspecWeb.Controllers
                     .ThenInclude(r => r.Province)
                     .Include(s => s.Province)
                     .Include(s => s.Ministries)
-                    .Where(m => m.Role_id == 3)
-                    .Where(m => m.Position == "ผต.นร." || m.Position == "ผต.นร. ")
+                    .Where(m => m.Role_id == 3 || m.Role_id == 6 || m.Role_id == 10)
+                    .Where(m => m.Position2 == "ผู้ตรวจราชการ")
                     .Where(m => m.Active == 1);
+
+                return users;
+            }
+             else if(id != 0 && provinceid == 0)
+            {
+                var users = _context.Users
+                  .Include(s => s.UserRegion)
+                  .ThenInclude(r => r.Region)
+                  .Include(s => s.UserProvince)
+                  .ThenInclude(r => r.Province)
+                  .Include(s => s.Province)
+                  .Include(s => s.Ministries)
+                   .Where(m => m.Role_id == 3 || m.Role_id == 6 || m.Role_id == 10)
+                  .Where(m => m.Position2 == "ผู้ตรวจราชการ")
+                  .Where(x => x.UserRegion.Any(x => x.RegionId == id))
+                  .Where(m => m.Active == 1);
+
+                   return users;
+            }
+            else if (id == 0 && provinceid != 0)
+            {
+                var users = _context.Users
+                  .Include(s => s.UserRegion)
+                  .ThenInclude(r => r.Region)
+                  .Include(s => s.UserProvince)
+                  .ThenInclude(r => r.Province)
+                  .Include(s => s.Province)
+                  .Include(s => s.Ministries)
+                   .Where(m => m.Role_id == 3 || m.Role_id == 6 || m.Role_id == 10)
+                  .Where(m => m.Position2 == "ผู้ตรวจราชการ")
+                  .Where(x => x.UserProvince.Any(x => x.ProvinceId == provinceid))
+                  .Where(m => m.Active == 1);
 
                 return users;
             }
@@ -206,9 +259,10 @@ namespace InspecWeb.Controllers
                     .ThenInclude(r => r.Province)
                     .Include(s => s.Province)
                     .Include(s => s.Ministries)
-                    .Where(m => m.Role_id == 3)
-                    .Where(m => m.Position == "ผต.นร." || m.Position == "ผต.นร. ")
+                     .Where(m => m.Role_id == 3 || m.Role_id == 6 || m.Role_id == 10)
+                    .Where(m => m.Position2 == "ผู้ตรวจราชการ")
                     .Where(x => x.UserRegion.Any(x => x.RegionId == id))
+                    .Where(x => x.UserProvince.Any(x => x.ProvinceId == provinceid))
                     .Where(m => m.Active == 1);
 
                 return users;
@@ -272,25 +326,10 @@ namespace InspecWeb.Controllers
 
 
         //<!-- ข้อมูลผู้ติดต้อ เจ้าหน้าที่ประจำเขตตรวจราชการ -->
-        [HttpGet("api/[controller]/[action]/{id}")]
-        public IEnumerable<ApplicationUser> districtofficer(long id)
+        [HttpGet("api/[controller]/[action]/{id}/{provinceid}")]
+        public IEnumerable<ApplicationUser> districtofficer(long id,long provinceid)
         {
-            if (id == 0)
-            {
-                var users = _context.Users
-                   .Include(s => s.UserRegion)
-                   .ThenInclude(r => r.Region)
-                   .Include(s => s.UserProvince)
-                   .ThenInclude(r => r.Province)
-                   .Include(s => s.Province)
-                   .Include(s => s.Ministries)
-                   .Where(m => m.Role_id == 3)
-                   .Where(m => m.Position != "ผต.นร." || m.Position != "ผต.นร. ")
-                   .Where(m => m.Active == 1);
-
-                return users;
-            }
-            else
+            if (id == 0 && provinceid == 0)
             {
                 var users = _context.Users
                     .Include(s => s.UserRegion)
@@ -299,9 +338,58 @@ namespace InspecWeb.Controllers
                     .ThenInclude(r => r.Province)
                     .Include(s => s.Province)
                     .Include(s => s.Ministries)
-                    .Where(m => m.Role_id == 3)
-                    .Where(m => m.Position != "ผต.นร." || m.Position != "ผต.นร. ")
+                    .Where(m => m.Role_id == 3 || m.Role_id == 6 || m.Role_id == 10)
+                    .Where(m => m.Position2 != "ผู้ตรวจราชการ")
+                    .Where(m => m.Active == 1);
+
+                return users;
+            }
+            else if (id != 0 && provinceid == 0)
+            {
+                var users = _context.Users
+                  .Include(s => s.UserRegion)
+                  .ThenInclude(r => r.Region)
+                  .Include(s => s.UserProvince)
+                  .ThenInclude(r => r.Province)
+                  .Include(s => s.Province)
+                  .Include(s => s.Ministries)
+                   .Where(m => m.Role_id == 3 || m.Role_id == 6 || m.Role_id == 10)
+                  .Where(m => m.Position2 != "ผู้ตรวจราชการ")
+                  .Where(x => x.UserRegion.Any(x => x.RegionId == id))
+                  .Where(m => m.Active == 1);
+
+                return users;
+            }
+            else if (id == 0 && provinceid != 0)
+            {
+                var users = _context.Users
+                  .Include(s => s.UserRegion)
+                  .ThenInclude(r => r.Region)
+                  .Include(s => s.UserProvince)
+                  .ThenInclude(r => r.Province)
+                  .Include(s => s.Province)
+                  .Include(s => s.Ministries)
+                   .Where(m => m.Role_id == 3 || m.Role_id == 6 || m.Role_id == 10)
+                  .Where(m => m.Position2 != "ผู้ตรวจราชการ")
+                  .Where(x => x.UserProvince.Any(x => x.ProvinceId == provinceid))
+                  .Where(m => m.Active == 1);
+
+                return users;
+            }
+            else
+            {
+
+                var users = _context.Users
+                    .Include(s => s.UserRegion)
+                    .ThenInclude(r => r.Region)
+                    .Include(s => s.UserProvince)
+                    .ThenInclude(r => r.Province)
+                    .Include(s => s.Province)
+                    .Include(s => s.Ministries)
+                     .Where(m => m.Role_id == 3 || m.Role_id == 6 || m.Role_id == 10)
+                    .Where(m => m.Position2 != "ผู้ตรวจราชการ")
                     .Where(x => x.UserRegion.Any(x => x.RegionId == id))
+                    .Where(x => x.UserProvince.Any(x => x.ProvinceId == provinceid))
                     .Where(m => m.Active == 1);
 
                 return users;
@@ -364,10 +452,10 @@ namespace InspecWeb.Controllers
         // <!-- END excelข้อมูลผู้ติดต้อ เจ้าหน้าที่ประจำเขตตรวจราชการ excel -->
 
         //<!-- ข้อมูลผู้ติดต้อ หน่วยงานภูมิภาค หรือ หน่วยรับตรวจ -->
-        [HttpGet("api/[controller]/[action]/{id}")]
-        public IEnumerable<ApplicationUser> regionalagency(long id)
+        [HttpGet("api/[controller]/[action]/{id}/{provinceid}")]
+        public IEnumerable<ApplicationUser> regionalagency(long id ,long provinceid)
         {
-            if (id == 0)
+            if (id == 0 && provinceid == 0)
             {
                 var users = _context.Users
                     .Include(s => s.UserRegion)
@@ -376,27 +464,63 @@ namespace InspecWeb.Controllers
                     .ThenInclude(r => r.Province)
                     .Include(s => s.Province)
                     .Include(s => s.Ministries)
-                    .Include(x => x.Departments)
-                    .Include(x => x.ProvincialDepartments)
+                    .Include(s =>s.Departments)
+                    .Include(s => s.ProvincialDepartments)
                     .Where(m => m.Role_id == 9)
                     .Where(m => m.Active == 1);
 
                 return users;
             }
-            else
+            else if (id != 0 && provinceid == 0)
             {
                 var users = _context.Users
-                   .Include(s => s.UserRegion)
-                   .ThenInclude(r => r.Region)
-                   .Include(s => s.UserProvince)
-                   .ThenInclude(r => r.Province)
-                   .Include(s => s.Province)
-                   .Include(s => s.Ministries)
-                   .Include(x => x.Departments)
-                   .Include(x => x.ProvincialDepartments)
-                   .Where(m => m.Role_id == 9)
-                   .Where(m => m.MinistryId == id)
-                   .Where(m => m.Active == 1);
+                  .Include(s => s.UserRegion)
+                  .ThenInclude(r => r.Region)
+                  .Include(s => s.UserProvince)
+                  .ThenInclude(r => r.Province)
+                  .Include(s => s.Province)
+                  .Include(s => s.Ministries)
+                  .Include(s => s.Departments)
+                  .Include(s => s.ProvincialDepartments)
+                  .Where(m => m.Role_id == 9)
+                  .Where(x => x.UserRegion.Any(x => x.RegionId == id))
+                  .Where(m => m.Active == 1);
+
+                return users;
+            }
+            else if (id == 0 && provinceid != 0)
+            {
+                var users = _context.Users
+                  .Include(s => s.UserRegion)
+                  .ThenInclude(r => r.Region)
+                  .Include(s => s.UserProvince)
+                  .ThenInclude(r => r.Province)
+                  .Include(s => s.Province)
+                  .Include(s => s.Ministries)
+                  .Include(s => s.Departments)
+                  .Include(s => s.ProvincialDepartments)
+                  .Where(m => m.Role_id == 9)
+                  .Where(x => x.UserProvince.Any(x => x.ProvinceId == provinceid))
+                  .Where(m => m.Active == 1);
+
+                return users;
+            }
+            else
+            {
+
+                var users = _context.Users
+                    .Include(s => s.UserRegion)
+                    .ThenInclude(r => r.Region)
+                    .Include(s => s.UserProvince)
+                    .ThenInclude(r => r.Province)
+                    .Include(s => s.Province)
+                    .Include(s => s.Ministries)
+                    .Include(s => s.Departments)
+                    .Include(s => s.ProvincialDepartments)
+                    .Where(m => m.Role_id == 9)
+                    .Where(x => x.UserRegion.Any(x => x.RegionId == id))
+                    .Where(x => x.UserProvince.Any(x => x.ProvinceId == provinceid))
+                    .Where(m => m.Active == 1);
 
                 return users;
             }
@@ -461,41 +585,75 @@ namespace InspecWeb.Controllers
         // <!-- END excelข้อมูลผู้ติดต้อ เจ้าหน้าที่ประจำเขตตรวจราชการ excel -->
 
         //<!-- ข้อมูลผู้ติดต้อ ภาคประชาชน -->
-        [HttpGet("api/[controller]/[action]/{id}")]
-        public IEnumerable<ApplicationUser> publicsectoradvisor(long id)
+        [HttpGet("api/[controller]/[action]/{id}/{provinceid}")]
+        public IEnumerable<ApplicationUser> publicsectoradvisor(long id,long provinceid)
         {
-            if(id == 0)
+            if (id == 0 && provinceid == 0)
             {
                 var users = _context.Users
-               .Include(s => s.UserRegion)
-               .ThenInclude(r => r.Region)
-               .Include(s => s.UserProvince)
-               .ThenInclude(r => r.Province)
-               .Include(s => s.Province)
-               .Include(s => s.Ministries)
-               .Include(s => s.Sides)
-               .Where(m => m.Role_id == 7)
-               .Where(m => m.Active == 1);
+                    .Include(s => s.UserRegion)
+                    .ThenInclude(r => r.Region)
+                    .Include(s => s.UserProvince)
+                    .ThenInclude(r => r.Province)
+                    .Include(s => s.Province)
+                    .Include(s => s.Ministries)
+                    .Include(s => s.Sides)
+                    .Where(m => m.Role_id == 7)
+                    .Where(m => m.Active == 1);
+
+                return users;
+            }
+            else if (id != 0 && provinceid == 0)
+            {
+                var users = _context.Users
+                  .Include(s => s.UserRegion)
+                  .ThenInclude(r => r.Region)
+                  .Include(s => s.UserProvince)
+                  .ThenInclude(r => r.Province)
+                  .Include(s => s.Province)
+                  .Include(s => s.Ministries)
+                  .Include(s => s.Sides)
+                  .Where(m => m.Role_id == 7)
+                  .Where(x => x.UserRegion.Any(x => x.RegionId == id))
+                  .Where(m => m.Active == 1);
+
+                return users;
+            }
+            else if (id == 0 && provinceid != 0)
+            {
+                var users = _context.Users
+                  .Include(s => s.UserRegion)
+                  .ThenInclude(r => r.Region)
+                  .Include(s => s.UserProvince)
+                  .ThenInclude(r => r.Province)
+                  .Include(s => s.Province)
+                  .Include(s => s.Ministries)
+                  .Include(s => s.Sides)
+                  .Where(m => m.Role_id == 7)
+                  .Where(x => x.UserProvince.Any(x => x.ProvinceId == provinceid))
+                  .Where(m => m.Active == 1);
 
                 return users;
             }
             else
             {
+
                 var users = _context.Users
-               .Include(s => s.UserRegion)
-               .ThenInclude(r => r.Region)
-               .Include(s => s.UserProvince)
-               .ThenInclude(r => r.Province)
-               .Include(s => s.Province)
-               .Include(s => s.Ministries)
-               .Include(s => s.Sides)
-               .Where(m => m.Role_id == 7)
-               .Where(x => x.UserProvince.Any(x => x.ProvinceId == id))
-               .Where(m => m.Active == 1);
+                    .Include(s => s.UserRegion)
+                    .ThenInclude(r => r.Region)
+                    .Include(s => s.UserProvince)
+                    .ThenInclude(r => r.Province)
+                    .Include(s => s.Province)
+                    .Include(s => s.Ministries)
+                    .Include(s => s.Sides)
+                    .Where(m => m.Role_id == 7)
+                    .Where(x => x.UserRegion.Any(x => x.RegionId == id))
+                    .Where(x => x.UserProvince.Any(x => x.ProvinceId == provinceid))
+                    .Where(m => m.Active == 1);
 
                 return users;
             }
-           
+
         }
         //<!-- END ข้อมูลผู้ติดต้อ ภาคประชาชน -->
         // <!-- exceข้อมูลผู้ติดต้อ ภาคประชาชน excel -->
@@ -1011,6 +1169,7 @@ namespace InspecWeb.Controllers
             user.DepartmentId = model.DepartmentId;
             user.ProvincialDepartmentId = model.ProvincialDepartmentId;
             user.Position = model.Position;
+            user.Position2 = model.Position2;
             user.Prefix = model.Prefix;
             user.Name = model.Firstnameth + ' ' + model.Lastnameth;
             user.Firstnameth = model.Firstnameth;
@@ -1099,10 +1258,13 @@ namespace InspecWeb.Controllers
 
                     System.Console.WriteLine("testuser : 3.3");
 
-
+                    //yochigang แก้ไข 20201127
+                    var forfiscalyear = _context.FiscalYears
+                        .Where(m => m.Active == 1)
+                        .First();
                     //yochigang แก้ไข 20200915
                     var userprovince = _context.FiscalYearRelations
-                                .Where(m => m.RegionId == item && m.FiscalYearId == model.FiscalYearId)
+                                .Where(m => m.RegionId == item && m.FiscalYearId == forfiscalyear.Id)
                                 .ToList();
 
                     // System.Console.WriteLine("UserRegion :" + item);
@@ -1136,22 +1298,47 @@ namespace InspecWeb.Controllers
                  || model.Role_id == 7 || model.Role_id == 9 || model.Role_id == 11)
             {
 
-                //  foreach (var item3 in model.UserProvince)
-                //   {
-                var userregiondata = new UserRegion
-                {
-                    UserID = user.Id,
-                    RegionId = model.UserRegionId
-                };
-                System.Console.WriteLine("testuser : 4.2");
-                _context.UserRegions.Add(userregiondata);
-                _context.SaveChanges();
+         
+                //var userregiondata = new UserRegion
+                //{
+                //    UserID = user.Id,
+                //    RegionId = model.UserRegionId
+                //};
+                //System.Console.WriteLine("testuser : 4.2");
+                //_context.UserRegions.Add(userregiondata);
+                //_context.SaveChanges();
 
 
                 if (model.Role_id == 9)
                 {
                     foreach (var item in model.UserProvince)
                     {
+                        //<!-- เก็บค่าเขต  --> //yochigang 20201127
+                        var findregion = _context.FiscalYearRelations
+                         .Include(m => m.FiscalYear)
+                         .Where(m => m.FiscalYear.Active == 1 && m.ProvinceId == item)
+                         .First();
+
+                        //เช็คไม่ไห้เขตซ้ำ
+                        var checkuserregiondata = _context.UserRegions
+                                .Where(m => m.RegionId == findregion.RegionId && m.UserID == user.Id).Count();
+                        System.Console.WriteLine("testuser : 999" + item);
+                        System.Console.WriteLine("testuser : 888" + checkuserregiondata);
+
+                        if (checkuserregiondata == 0)
+                        {
+                            var userregiondata = new UserRegion
+                            {
+                                UserID = user.Id,
+                                RegionId = findregion.RegionId
+                            };
+                            System.Console.WriteLine("testuser : 4.2");
+                            _context.UserRegions.Add(userregiondata);
+                            _context.SaveChanges();
+                        }
+
+                        //<!-- END เก็บค่าเขต  --> //yochigang 20201127
+
                         var userprovincedata = new UserProvince
                         {
                             UserID = user.Id,
@@ -1160,10 +1347,28 @@ namespace InspecWeb.Controllers
                         System.Console.WriteLine("testuser : 111.2");
                         _context.UserProvinces.Add(userprovincedata);
                         _context.SaveChanges();
+
                     }
                 }
                 else
                 {
+                   //<!-- เก็บค่าเขต  --> //yochigang 20201127
+                    var findregion = _context.FiscalYearRelations
+                                   .Include(m => m.FiscalYear)
+                                   .Where(m => m.FiscalYear.Active == 1 && m.ProvinceId == model.UserProvinceId)
+                                   .First();
+
+                    var userregiondata = new UserRegion
+                    {
+                        UserID = user.Id,
+                        RegionId = findregion.RegionId
+                    };
+                    System.Console.WriteLine("testuser : 4.2");
+                    _context.UserRegions.Add(userregiondata);
+                    _context.SaveChanges();
+
+                    //<!-- END เก็บค่าเขต  --> //yochigang 20201127
+
                     var userprovincedata = new UserProvince
                     {
                         UserID = user.Id,
@@ -1171,8 +1376,9 @@ namespace InspecWeb.Controllers
                     };
                     _context.UserProvinces.Add(userprovincedata);
                     _context.SaveChanges();
+                
                 }
-                // }
+
                 System.Console.WriteLine("testuser : 5");
             }
 
@@ -1853,6 +2059,7 @@ namespace InspecWeb.Controllers
                 userdata.SideId = model.SideId;
                 userdata.FiscalYearId = model.FiscalYearId;
                 userdata.Position = model.Position;
+                userdata.Position2 = model.Position2;
                 userdata.Prefix = model.Prefix;
                 userdata.Name = model.Firstnameth + ' ' + model.Lastnameth;
                 userdata.Firstnameth = model.Firstnameth;
@@ -1913,10 +2120,13 @@ namespace InspecWeb.Controllers
 
 
                         var FiscalYearF = _context.FiscalYears.First();
-
+                        //yochigang แก้ไข 20201127
+                        var forfiscalyear = _context.FiscalYears
+                            .Where(m => m.Active == 1)
+                            .First();
                         //yochigang แก้ไข 20200915
                         var userprovince = _context.FiscalYearRelations
-                                    .Where(m => m.RegionId == item && m.FiscalYearId == model.FiscalYearId)
+                                    .Where(m => m.RegionId == item && m.FiscalYearId == forfiscalyear.Id)
                                     .ToList();
 
 
@@ -1953,20 +2163,46 @@ namespace InspecWeb.Controllers
                 {
 
 
-                    var userregiondata = new UserRegion
-                    {
-                        UserID = editId,
-                        RegionId = 1
-                    };
-                    System.Console.WriteLine("testuser11 :");
-                    _context.UserRegions.Add(userregiondata);
-                    _context.SaveChanges();
+                    //var userregiondata = new UserRegion
+                    //{
+                    //    UserID = editId,
+                    //    RegionId = 1
+                    //};
+                    //System.Console.WriteLine("testuser11 :");
+                    //_context.UserRegions.Add(userregiondata);
+                    //_context.SaveChanges();
 
 
                     if (model.Role_id == 9)
                     {
                         foreach (var item in model.UserProvince)
                         {
+                            //<!-- เก็บค่าเขต  --> //yochigang 20201127
+                            var findregion = _context.FiscalYearRelations
+                             .Include(m => m.FiscalYear)
+                             .Where(m => m.FiscalYear.Active == 1 && m.ProvinceId == item)
+                             .First();
+
+                            //เช็คไม่ไห้เขตซ้ำ
+                            var checkuserregiondata = _context.UserRegions
+                                    .Where(m => m.RegionId == findregion.RegionId && m.UserID == editId).Count();
+                            System.Console.WriteLine("testuser : 999" + item);
+                            System.Console.WriteLine("testuser : 888" + checkuserregiondata);
+
+                            if (checkuserregiondata == 0)
+                            {
+                                var userregiondata = new UserRegion
+                                {
+                                    UserID = editId,
+                                    RegionId = findregion.RegionId
+                                };
+                                System.Console.WriteLine("testuser : 4.2");
+                                _context.UserRegions.Add(userregiondata);
+                                _context.SaveChanges();
+                            }
+
+                            //<!-- END เก็บค่าเขต  --> //yochigang 20201127
+
                             var userprovincedata = new UserProvince
                             {
                                 UserID = editId,
@@ -1979,6 +2215,22 @@ namespace InspecWeb.Controllers
                     }
                     else
                     {
+                        //<!-- เก็บค่าเขต  --> //yochigang 20201127
+                        var findregion = _context.FiscalYearRelations
+                                       .Include(m => m.FiscalYear)
+                                       .Where(m => m.FiscalYear.Active == 1 && m.ProvinceId == model.UserProvinceId)
+                                       .First();
+
+                        var userregiondata = new UserRegion
+                        {
+                            UserID = editId,
+                            RegionId = findregion.RegionId
+                        };
+                        System.Console.WriteLine("testuser : 4.2");
+                        _context.UserRegions.Add(userregiondata);
+                        _context.SaveChanges();
+
+                        //<!-- END เก็บค่าเขต  --> //yochigang 20201127
                         var userprovincedata = new UserProvince
                         {
                             UserID = editId,

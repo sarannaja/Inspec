@@ -2,6 +2,7 @@ import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { TrainingRegisterlist } from './toeymodel/trainingregisterlist';
+import { Ngong } from '../training/plan-training/plan-training.component';
 
 @Injectable({
   providedIn: 'root'
@@ -351,6 +352,10 @@ export class TrainingService {
     return this.http.get<any[]>(this.url + 'listdocument/' + trainingid)
   }
 
+  sendmaildocument(trainingid): Observable<any[]> {
+    return this.http.get<any[]>(this.url + 'maildocument/' + trainingid)
+  }
+
   deleteTrainingDocument(trainingid) {
     return this.http.delete(this.url + 'deletedocument/' + trainingid);
   }
@@ -368,7 +373,7 @@ export class TrainingService {
     console.log('FORMDATA: ' + formData);
     console.log("test", formData.getAll('detail'));
     console.log("yyy", formData.getAll('files'));
-    return this.http.post(this.url + 'insertdocument/' + trainingId, formData);
+    return this.http.post<any>(this.url + 'insertdocument/' + trainingId, formData);
   }
 
   addTrainingsurveyanswer(body) {
@@ -406,9 +411,12 @@ export class TrainingService {
     formData.append('ProgramDetail', trainingData.programdetail);
     formData.append('ProgramLocation', trainingData.programlocation);
     formData.append('ProgramToDress', trainingData.programtodress);
-    for (var i = 0; i < trainingData.lecturername.length; i++) {
-      formData.append('TrainingLecturerId', trainingData.lecturername[i]);
+    if(trainingData.lecturername != null){
+      for (var i = 0; i < trainingData.lecturername.length; i++) {
+        formData.append('TrainingLecturerId', trainingData.lecturername[i]);
+      }
     }
+
     if (file != null) {
       for (var ii = 0; ii < file.length; ii++) {
         formData.append("files", file[ii]);
@@ -460,6 +468,10 @@ export class TrainingService {
     return this.http.get<any[]>(this.url + 'lecturer')
   }
 
+  getUsetraininglecturer(lecturerid): Observable<any[]> {
+    return this.http.get<any[]>(this.url + 'lecturer/use/get/' + lecturerid)
+  }
+
   gettraininglecturerById(id): Observable<any[]> {
     return this.http.get<any[]>(this.url + 'lecturer/' + id)
   }
@@ -506,7 +518,7 @@ export class TrainingService {
     }
 
     console.log('FORMDATA: ' + formData);
-    return this.http.post(this.url + 'lecturer/save', formData);
+    return this.http.post<any>(this.url + 'lecturer/save', formData);
   }
 
 
@@ -529,7 +541,7 @@ export class TrainingService {
     }
 
     console.log('FORMDATA: ' + JSON.stringify(formData));
-    return this.http.put(this.url + 'lecturer/edit/' + id, formData);
+    return this.http.put<any>(this.url + 'lecturer/edit/' + id, formData);
   }
 
   deleteTrainingLecturer(id) {
@@ -579,7 +591,7 @@ export class TrainingService {
     formData.append('Location', trainingData.location);
     formData.append('Group', group);
     console.log('FORMDATA: ' + JSON.stringify(formData));
-    return this.http.put(this.url + 'phase/edit/' + id, formData);
+    return this.http.put<any>(this.url + 'phase/edit/' + id, formData);
   }
 
   deleteTrainingPhase(trainingid) {
@@ -600,7 +612,7 @@ export class TrainingService {
     formData.append('conditiontype', trainingData.conditiontype);
 
     console.log('FORMDATA: ' + formData);
-    return this.http.post(this.url + 'condition/add/' + trainingid, formData);
+    return this.http.post<any>(this.url + 'condition/add/' + trainingid, formData);
   }
 
   editTrainingCondition(trainingData, id) {
@@ -613,7 +625,7 @@ export class TrainingService {
     formData.append('conditiontype', trainingData.conditiontype);
 
     console.log('FORMDATA: ' + JSON.stringify(formData));
-    return this.http.put(this.url + 'condition/edit/' + id, formData);
+    return this.http.put<any>(this.url + 'condition/edit/' + id, formData);
   }
 
   getTrainingCondition(trainingid): Observable<any[]> {
@@ -636,10 +648,12 @@ export class TrainingService {
     console.log('FORMDATA: ' + formData);
     return this.http.post<any[]>(this.url + "printNamePlate", formData);
   }
-  getTrainingPlan(trainingphaseid): Observable<any[]> {
-    return this.http.get<any[]>(this.url + 'plan/' + trainingphaseid)
+  getTrainingPlan(trainingphaseid): Observable<Ngong[]> {
+    return this.http.get<Ngong[]>(this.url + 'plan/' + trainingphaseid)
   }
-
+  getTrainingPlantable(trainingphaseid): Observable<any[]> {
+    return this.http.get<any[]>(this.url + 'plantable/' + trainingphaseid)
+  }
   getchecktrainingregister(trainingid, userid): Observable<any[]> {
     return this.http.get<any[]>(this.url + 'checktrainingregister/' + trainingid + '/' + userid)
   }
@@ -896,7 +910,7 @@ export class TrainingService {
     console.log('FORMDATA: ' + formData);
     //console.log("test", formData.getAll('detail'));
     //console.log("yyy", formData.getAll('files'));
-    return this.http.post(this.url + 'summaryreport/group/add/' + phaseId + '/' + group, formData);
+    return this.http.post<any>(this.url + 'summaryreport/group/add/' + phaseId + '/' + group, formData);
   }
 
   //ดึงข้อมูลรายงานสรุปผลการฝึกอบรมช่วงเป็นกลุ่ม
@@ -923,7 +937,7 @@ export class TrainingService {
     console.log('FORMDATA: ' + formData);
     //console.log("test", formData.getAll('detail'));
     //console.log("yyy", formData.getAll('files'));
-    return this.http.post(this.url + 'summaryreport/project/add/' + trainingid, formData);
+    return this.http.post<any>(this.url + 'summaryreport/project/add/' + trainingid , formData);
   }
 
   //ดึงข้อมูลรายงานสรุปผลการฝึกอบรม(ทั้งหลักสูตร)

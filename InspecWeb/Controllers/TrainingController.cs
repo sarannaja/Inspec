@@ -241,10 +241,11 @@ namespace InspecWeb.Controllers {
         public async Task<IActionResult> Post ([FromForm] TrainingViewModel model) {
             var date = DateTime.Now;
 
-            System.Console.WriteLine ("Start Uplond");
-            if (!Directory.Exists (_environment.WebRootPath + "//Uploads//")) {
-                System.Console.WriteLine ("Start Uplond2");
-                Directory.CreateDirectory (_environment.WebRootPath + "//Uploads//"); //สร้าง Folder Upload ใน wwwroot
+            System.Console.WriteLine("Start Uplond");
+            if (!Directory.Exists(_environment.WebRootPath + "//Uploads//"))
+            {
+                System.Console.WriteLine("Start Uplond2");
+                Directory.CreateDirectory(_environment.WebRootPath + "//Uploads//"); //สร้าง Folder Upload ใน wwwroot
             }
 
             //var BaseUrl = url.ActionContext.HttpContext.Request.Scheme;
@@ -290,7 +291,9 @@ namespace InspecWeb.Controllers {
                 }
 
             }
-            return Ok (new { status = true });
+            return Ok(new { status = true });
+
+
 
         }
 
@@ -424,19 +427,38 @@ namespace InspecWeb.Controllers {
                 .Where (m => m.TrainingProgram.TrainingPhase.TrainingId == trainingid)
                 .ToList ();
 
+            var datadoc = _context.TrainingDocuments
+                .Where(m => m.TrainingId == trainingid)
+                .ToList();
+
             System.Console.WriteLine (datatraining[0].Name);
 
             List<string> termsList = new List<string> ();
             string textbodyHead = "<h1>" + datatraining[0].Name + "</h1>";
             string textbody = "";
-            string Host = $"<a href='{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}/upload/";
+            string textdoc = "";
+            string textdocHead = "เอกสารเพิ่มเติม <br />";
+            string Host = $"<a href='{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}/uploads/";
             string textFoot = "<br /><br /> ระบบตรวจราชการอิเล็กทรอนิกส์ <br /> สำนักงานปลัดสำนักนายกรัฐมนตรี";
             //string EndHost = "></a>";
 
-            if (databody.Count > 0) {
-                foreach (var data in databody) {
+            if (databody.Count > 0)
+            {
+                foreach (var data in databody)
+                {
 
                     textbody = textbody + Host + data.Name + "' > " + data.TrainingProgram.ProgramTopic + " วันที่ " + data.TrainingProgram.ProgramDate + " (" + data.TrainingProgram.MinuteStartDate + "-" + data.TrainingProgram.MinuteEndDate + ")" + "</a><br />";
+                    //termsList.Add(data.Name);
+
+                }
+            }
+
+            if (datadoc.Count > 0)
+            {
+                foreach (var item in datadoc)
+                {
+
+                    textdoc = "เอกสารเพิ่มเติม <br />" + textdoc + Host + item.Name + "' > " + item.Detail + "</a><br />";
                     //termsList.Add(data.Name);
 
                 }
@@ -448,7 +470,7 @@ namespace InspecWeb.Controllers {
 
             string mailbody = "";
             if (status == 1) {
-                mailbody = textbodyHead + "<br /> ท่านได้รับอนุมัติสิทธิ์ในการเข้าร่วมอบรมหลักสูตร ท่านสามารถดาวน์โหลดไฟล์เพื่อประกอบการฝึกอบรมตาม วัน/เวลา การอบรม <br />" + textbody + textFoot;
+                mailbody = textbodyHead + "<br /> ท่านได้รับอนุมัติสิทธิ์ในการเข้าร่วมอบรมหลักสูตร ท่านสามารถดาวน์โหลดไฟล์เพื่อประกอบการฝึกอบรมตาม วัน/เวลา การอบรม <br />" + textbody + "<br />" + textdocHead + textdoc + textFoot;
             } else if (status == 2) {
                 mailbody = textbodyHead + "<br /> ท่านไม่ผ่านสมัครเข้าร่วมอบรมหลักสูตร เนื่องจากท่านไม่ตรงตามเงื่อนไขคุณสมบัติของหลักสูตรอบรม <br />" + textFoot;
                 System.Console.WriteLine (mailbody);
@@ -568,27 +590,56 @@ namespace InspecWeb.Controllers {
                     .Where (m => m.TrainingProgram.TrainingPhase.TrainingId == trainingId)
                     .ToList ();
 
+                var datadoc = _context.TrainingDocuments
+                    .Where(m => m.TrainingId == trainingId)
+                    .ToList();
+
                 System.Console.WriteLine ("Count" + databody.Count().ToString ());
                 List<string> termsList = new List<string> ();
                 string textbodyHead = "<h1>" + databody[0].TrainingProgram.TrainingPhase.Training.Name + "</h1>";
 
-                string Host = $"<a href='{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}/upload/";
+                string Host = $"<a href='{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}/uploads/";
                 string textFoot = "<br /><br /> ระบบตรวจราชการอิเล็กทรอนิกส์ <br /> สำนักงานปลัดสำนักนายกรัฐมนตรี";
                 //string EndHost = "></a>";
                 string textbody = "";
-                foreach (var data in databody) {
-                    
-                    textbody = textbody + Host + data.Name + "' > " + data.TrainingProgram.ProgramTopic + " วันที่ " + data.TrainingProgram.ProgramDate + " (" + data.TrainingProgram.MinuteStartDate + "-" + data.TrainingProgram.MinuteEndDate + ")" + "</a><br />";
-                    //termsList.Add(data.Name);
+                string textdoc = "";
+                string textdocHead = "เอกสารเพิ่มเติม <br />";
 
+                if (databody.Count > 0)
+                {
+                    foreach (var data in databody)
+                    {
+
+                        textbody = textbody + Host + data.Name + "' > " + data.TrainingProgram.ProgramTopic + " วันที่ " + data.TrainingProgram.ProgramDate + " (" + data.TrainingProgram.MinuteStartDate + "-" + data.TrainingProgram.MinuteEndDate + ")" + "</a><br />";
+                        //termsList.Add(data.Name);
+
+                    }
                 }
-                
+
+                //foreach (var data in databody) {
+                    
+                //    textbody = textbody + Host + data.Name + "' > " + data.TrainingProgram.ProgramTopic + " วันที่ " + data.TrainingProgram.ProgramDate + " (" + data.TrainingProgram.MinuteStartDate + "-" + data.TrainingProgram.MinuteEndDate + ")" + "</a><br />";
+                //    //termsList.Add(data.Name);
+
+                //}
+
+                if (datadoc.Count > 0)
+                {
+                    foreach (var item in datadoc)
+                    {
+
+                        textdoc = textdoc + Host + item.Name + "' > " + item.Detail + "</a><br />";
+                        //termsList.Add(data.Name);
+
+                    }
+                }
+
                 //string xxx = termsList.ToString().Replace(",", " <br>");
 
                 //return Ok(textbody);
                 string mailbody = "";
                 if (traningregisterid.status == 1) {
-                    mailbody = textbodyHead + "<br /> ท่านได้รับอนุมัติสิทธิ์ในการเข้าร่วมอบรมหลักสูตร ท่านสามารถดาวน์โหลดไฟล์เพื่อประกอบการฝึกอบรมตาม วัน/เวลา การอบรม <br />" + textbody + textFoot;
+                    mailbody = textbodyHead + "<br /> ท่านได้รับอนุมัติสิทธิ์ในการเข้าร่วมอบรมหลักสูตร ท่านสามารถดาวน์โหลดไฟล์เพื่อประกอบการฝึกอบรมตาม วัน/เวลา การอบรม <br />" + textbody + "<br />"+ textdocHead + textdoc + textFoot;
                 } else if (traningregisterid.status == 2) {
                     mailbody = textbodyHead + "<br /> ท่านไม่ผ่านสมัครเข้าร่วมอบรมหลักสูตร เนื่องจากท่านไม่ตรงตามเงื่อนไขคุณสมบัติของหลักสูตรอบรม <br />" + textFoot;
                 }
@@ -617,6 +668,115 @@ namespace InspecWeb.Controllers {
 
             _context.SaveChanges ();
             return Ok (true);
+
+        }
+
+        //------zone training register-------
+        // PUT api/values/5
+        [HttpGet("maildocument/{trainingid}")]
+        public async Task<IActionResult> MailDocument(long trainingid)
+        {
+            System.Console.WriteLine(trainingid);
+
+            var listregisterapprove = _context.TrainingRegisters
+                .Where(m => m.Status == 1 && m.TrainingId == trainingid)
+                .Select(m => m.Id)
+                .ToList();
+
+            foreach (var item in listregisterapprove)
+            {
+
+                string Emailregis = _context.TrainingRegisters
+                .Where(m => m.Id == item)
+                .Select(m => m.Email)
+                .FirstOrDefault();
+
+                System.Console.WriteLine(Emailregis);
+
+                var datatraining = _context.Trainings
+                    .Where(m => m.Id == trainingid)
+                    .ToList();
+
+                var databody = _context.TrainingProgramFiles
+                    .Include(m => m.TrainingProgram)
+                    .ThenInclude(m => m.TrainingPhase)
+                    .ThenInclude(m => m.Training)
+                    .Where(m => m.TrainingProgram.TrainingPhase.TrainingId == trainingid)
+                    .ToList();
+
+                var datadoc = _context.TrainingDocuments
+                    .Where(m => m.TrainingId == trainingid)
+                    .ToList();
+
+                System.Console.WriteLine(datatraining[0].Name);
+
+                List<string> termsList = new List<string>();
+                string textbodyHead = "<h1>" + datatraining[0].Name + "</h1>";
+                string textbody = "";
+                string textdocHead = "เอกสารเพิ่มเติม <br />";
+                string textdoc = "";
+                string Host = $"<a href='{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}/uploads/";
+                string textFoot = "<br /><br /> ระบบตรวจราชการอิเล็กทรอนิกส์ <br /> สำนักงานปลัดสำนักนายกรัฐมนตรี";
+                //string EndHost = "></a>";
+
+                if (databody.Count > 0)
+                {
+                    foreach (var data in databody)
+                    {
+
+                        textbody = textbody + Host + data.Name + "' > " + data.TrainingProgram.ProgramTopic + " วันที่ " + data.TrainingProgram.ProgramDate + " (" + data.TrainingProgram.MinuteStartDate + "-" + data.TrainingProgram.MinuteEndDate + ")" + "</a><br />";
+                        //termsList.Add(data.Name);
+
+                    }
+                }
+
+                if (datadoc.Count > 0)
+                {
+                    foreach (var c in datadoc)
+                    {
+
+                        textdoc = textdoc + Host + c.Name + "' > " + c.Detail + "</a><br />";
+                        //termsList.Add(data.Name);
+
+                    }
+                }
+
+                //string xxx = termsList.ToString().Replace(",", " <br>");
+
+                //return Ok(textbody);
+
+                string mailbody = "";
+                mailbody = textbodyHead + "<br /> ท่านได้รับอนุมัติสิทธิ์ในการเข้าร่วมอบรมหลักสูตร ท่านสามารถดาวน์โหลดไฟล์เพื่อประกอบการฝึกอบรมตาม วัน/เวลา การอบรม <br />" + textbody + "<br />" + textdocHead + textdoc + textFoot;
+
+
+                ///----------------email
+                try
+                {
+                    var send = new MailRequest
+                    {
+                        //ToEmail = "toey.aphisit@outlook.com",
+                        ToEmail = Emailregis,
+                        Body = mailbody,
+                        Subject = "ระบบตรวจราชการอิเล็กทรอนิกส์"
+                        //Host = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}",
+                    };
+                    await mailService.SendEmailAsync(send);
+
+
+                    // return Ok (send);
+
+                }
+                catch (Exception ex)
+                {
+                    System.Console.WriteLine(ex);
+                    // throw ex;
+                }
+
+
+            }
+
+            return Ok(true);
+
 
         }
 
@@ -1133,10 +1293,12 @@ namespace InspecWeb.Controllers {
 
                         CreatedAt = date
                     };
-                    System.Console.WriteLine ("Start Uplond4.2");
-                    _context.TrainingDocuments.Add (Trainingdata);
-                    _context.SaveChanges ();
-                    System.Console.WriteLine ("Start Uplond4.2");
+                    System.Console.WriteLine("Start Uplond4.2");
+                    _context.TrainingDocuments.Add(Trainingdata);
+                    _context.SaveChanges();
+                    System.Console.WriteLine("Start Uplond4.2");
+
+                    return Ok(Trainingdata);
                 }
             }
             return Ok (new { status = true });
@@ -1312,15 +1474,26 @@ namespace InspecWeb.Controllers {
             _context.TrainingPrograms.Add (trainingprogramdata);
             _context.SaveChanges ();
 
-            foreach (var id in model.TrainingLecturerId) {
-                var trainingprogramlecturerdata = new TrainingProgramLecturer {
-                    TrainingProgramId = trainingprogramdata.Id,
-                    TrainingLecturerId = id
-                };
-                _context.TrainingProgramLecturers.Add (trainingprogramlecturerdata);
-                _context.SaveChanges ();
+            if (model.TrainingLecturerId != null)
+            {
+                foreach (var id in model.TrainingLecturerId)
+                {
+                    var trainingprogramlecturerdata = new TrainingProgramLecturer
+                    {
+                        TrainingProgramId = trainingprogramdata.Id,
+                        TrainingLecturerId = id
+                    };
+                    _context.TrainingProgramLecturers.Add(trainingprogramlecturerdata);
+                    _context.SaveChanges();
+
+                }
 
             }
+
+                
+                
+
+
 
             //int maxSize = Int32.Parse(ConfigurationManager.AppSettings["MaxFileSize"]);
             //var size = data.files.Sum(f => f.Length);
@@ -1484,6 +1657,19 @@ namespace InspecWeb.Controllers {
 
             return data;
         }
+
+        //GET api/training/lecturer/{id}
+        [HttpGet("lecturer/use/get/{id}")]
+        public IEnumerable<TrainingProgramLecturer> GetUseTrainingLecturersByid(long id)
+        {
+            var data = _context.TrainingProgramLecturers
+                .Where(m => m.TrainingLecturerId == id)
+                .ToList();
+
+            return data;
+        }
+
+
 
         //GET api/training/lecturerlist
         [HttpGet ("lecturerlist/{trainingid}")]
@@ -1659,10 +1845,13 @@ namespace InspecWeb.Controllers {
                         CreatedAt = date,
                         ImageProfile = random + filename
                     };
-                    System.Console.WriteLine ("Start Uplond4.2");
-                    _context.TrainingLecturers.Add (Trainingdata);
-                    _context.SaveChanges ();
-                    System.Console.WriteLine ("Start Uplond4.2");
+                    System.Console.WriteLine("Start Uplond4.2");
+                    _context.TrainingLecturers.Add(Trainingdata);
+                    _context.SaveChanges();
+                    System.Console.WriteLine("Start Uplond4.2");
+
+                    //return Ok(new { status = true });
+                    return Ok(Trainingdata);
                 }
             }
             return Ok (new { status = true });
@@ -1699,55 +1888,89 @@ namespace InspecWeb.Controllers {
             // path ที่เก็บไฟล์
             var filePath = _environment.WebRootPath + "//Uploads//";
 
-            foreach (var formFile in model.ImageProfile.Select ((value, index) => new { Value = value, Index = index }))
-            //foreach (var formFile in data.files)
+            var training = _context.TrainingLecturers.Find(id);
+
+            if (model.ImageProfile != null)
             {
-                System.Console.WriteLine ("Start Uplond3");
-                var random = RandomString (10);
-                string filePath2 = formFile.Value.FileName;
-                string filename = Path.GetFileName (filePath2);
-                string ext = Path.GetExtension (filename);
+                foreach (var formFile in model.ImageProfile.Select((value, index) => new { Value = value, Index = index }))
+                //foreach (var formFile in data.files)
+                {
+                    System.Console.WriteLine("Start Uplond3");
+                    var random = RandomString(10);
+                    string filePath2 = formFile.Value.FileName;
+                    string filename = Path.GetFileName(filePath2);
+                    string ext = Path.GetExtension(filename);
 
-                if (formFile.Value.Length > 0) {
-                    System.Console.WriteLine ("Start Uplond4");
-                    // using (var stream = System.IO.File.Create(filePath + formFile.Value.FileName))
-                    using (var stream = System.IO.File.Create (filePath + random + filename)) {
-                        await formFile.Value.CopyToAsync (stream);
+                    if (formFile.Value.Length > 0)
+                    {
+                        System.Console.WriteLine("Start Uplond4");
+                        // using (var stream = System.IO.File.Create(filePath + formFile.Value.FileName))
+                        using (var stream = System.IO.File.Create(filePath + random + filename))
+                        {
+                            await formFile.Value.CopyToAsync(stream);
+                        }
+                        System.Console.WriteLine("Start Uplond4.1");
+                        //var Trainingdata = new TrainingLecturer
+                        //{
+                        //    LecturerType = model.LecturerType,
+                        //    LecturerName = model.LecturerName,
+                        //    Phone = model.Phone,
+                        //    Email = model.Email,
+                        //    Education = model.Education,
+                        //    WorkHistory = model.WorkHistory,
+                        //    Experience = model.Experience,
+                        //    DetailPlus = model.DetailPlus,
+                        //    CreatedAt = date,
+                        //    ImageProfile = random + filename
+                        //};
+                        System.Console.WriteLine("Start Uplond4.2");
+                        //_context.TrainingLecturers.Add(Trainingdata);
+                        
+                        //training.LecturerType = model.LecturerType;
+                        //training.LecturerName = model.LecturerName;
+                        //training.Phone = model.Phone;
+                        //training.Email = model.Email;
+                        //training.Education = model.Education;
+                        //training.WorkHistory = model.WorkHistory;
+                        //training.Experience = model.Experience;
+                        //training.DetailPlus = model.DetailPlus;
+                        //training.CreatedAt = date;
+                        training.ImageProfile = random + filename;
+
+                        _context.Entry(training).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                        _context.SaveChanges();
+                        System.Console.WriteLine("Start Uplond4.3");
+
+                        return Ok(training);
                     }
-                    System.Console.WriteLine ("Start Uplond4.1");
-                    //var Trainingdata = new TrainingLecturer
-                    //{
-                    //    LecturerType = model.LecturerType,
-                    //    LecturerName = model.LecturerName,
-                    //    Phone = model.Phone,
-                    //    Email = model.Email,
-                    //    Education = model.Education,
-                    //    WorkHistory = model.WorkHistory,
-                    //    Experience = model.Experience,
-                    //    DetailPlus = model.DetailPlus,
-                    //    CreatedAt = date,
-                    //    ImageProfile = random + filename
-                    //};
-                    System.Console.WriteLine ("Start Uplond4.2");
-                    //_context.TrainingLecturers.Add(Trainingdata);
-                    var training = _context.TrainingLecturers.Find (id);
-                    training.LecturerType = model.LecturerType;
-                    training.LecturerName = model.LecturerName;
-                    training.Phone = model.Phone;
-                    training.Email = model.Email;
-                    training.Education = model.Education;
-                    training.WorkHistory = model.WorkHistory;
-                    training.Experience = model.Experience;
-                    training.DetailPlus = model.DetailPlus;
-                    training.CreatedAt = date;
-                    training.ImageProfile = random + filename;
 
-                    _context.Entry (training).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-                    _context.SaveChanges ();
-                    System.Console.WriteLine ("Start Uplond4.3");
                 }
+
+                
+
+
             }
-            return Ok (new { status = true });
+
+            System.Console.WriteLine("Start Uplond5.0");
+            //_context.TrainingLecturers.Add(Trainingdata);
+
+            training.LecturerType = model.LecturerType;
+            training.LecturerName = model.LecturerName;
+            training.Phone = model.Phone;
+            training.Email = model.Email;
+            training.Education = model.Education;
+            training.WorkHistory = model.WorkHistory;
+            training.Experience = model.Experience;
+            training.DetailPlus = model.DetailPlus;
+            training.CreatedAt = date;
+
+            _context.Entry(training).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+            System.Console.WriteLine("Edit Success");
+
+            return Ok(training);
+
+            //return Ok(new { status = true });
 
         }
 
@@ -1906,9 +2129,11 @@ namespace InspecWeb.Controllers {
         }
 
         // PUT : api/training/phase/edit/:id
-        [HttpPut ("phase/edit/{id}")]
-        public void EditTrainingPhase (long id, long PhaseNo, DateTime StartDate, DateTime EndDate, string Title, string Detail, string Location, long Group) {
-            var training = _context.TrainingPhases.Find (id);
+        [HttpPut("phase/edit/{id}")]
+        public TrainingPhase EditTrainingPhase(long id, long PhaseNo, DateTime StartDate, DateTime EndDate, string Title, string Detail, string Location, long Group)
+        //public void EditTrainingPhase(long id, long PhaseNo, DateTime StartDate, DateTime EndDate, string Title, string Detail, string Location, long Group)
+        {
+            var training = _context.TrainingPhases.Find(id);
             training.PhaseNo = PhaseNo;
             training.StartDate = StartDate;
             training.EndDate = EndDate;
@@ -1919,6 +2144,8 @@ namespace InspecWeb.Controllers {
 
             _context.Entry (training).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges ();
+
+            return training;
 
         }
 
@@ -1957,9 +2184,11 @@ namespace InspecWeb.Controllers {
         }
 
         // PUT : api/training/edit/:id
-        [HttpPut ("condition/edit/{id}")]
-        public void EditTrainingCondtion (string name, long id, int startyear, int endyear, int conditiontype) {
-            var training = _context.TrainingConditions.Find (id);
+        [HttpPut("condition/edit/{id}")]
+        public TrainingCondition EditTrainingCondtion(string name, long id, int startyear, int endyear, int conditiontype)
+        //public void EditTrainingCondtion(string name, long id, int startyear, int endyear, int conditiontype)
+        {
+            var training = _context.TrainingConditions.Find(id);
             training.Name = name;
             training.StartYear = startyear;
             training.EndYear = endyear;
@@ -1967,6 +2196,8 @@ namespace InspecWeb.Controllers {
 
             _context.Entry (training).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges ();
+
+            return training;
 
         }
 
@@ -2019,8 +2250,10 @@ namespace InspecWeb.Controllers {
         }
 
         //GET api/Training/plan
-        [HttpGet ("plan/{id}")]
-        public IActionResult Plan (long id) {
+        [HttpGet("plan/{id}")]
+        public IActionResult Plan(long id)
+        {
+
             var districtdata = _context.TrainingProgramLecturers
                 .Include (m => m.TrainingProgram)
                 .ThenInclude (m => m.TrainingPhase)
@@ -2029,6 +2262,22 @@ namespace InspecWeb.Controllers {
                 .Where (m => m.TrainingProgram.TrainingPhaseId == id);
 
             return Ok (districtdata);
+
+        }
+
+        //GET api/Training/plan
+        [HttpGet("plantable/{id}")]
+        public IActionResult Plantable(long id)
+        {
+
+            var plandata = _context.TrainingPrograms
+                .Include(m => m.TrainingPhase)
+                .Include(m => m.TrainingProgramFiles)
+                .Include(m => m.TrainingProgramLecturers)
+                .ThenInclude(m => m.TrainingLecturer)
+                .Where(m => m.TrainingPhaseId == id);
+
+            return Ok(plandata);
 
         }
 
@@ -2743,10 +2992,12 @@ namespace InspecWeb.Controllers {
 
                         CreatedAt = date
                     };
-                    System.Console.WriteLine ("Start Uplond4.2");
-                    _context.TrainingSummaryReportPhases.Add (Trainingdata);
-                    _context.SaveChanges ();
-                    System.Console.WriteLine ("Start Uplond4.2");
+                    System.Console.WriteLine("Start Uplond4.2");
+                    _context.TrainingSummaryReportPhases.Add(Trainingdata);
+                    _context.SaveChanges();
+                    System.Console.WriteLine("Start Uplond4.2");
+
+                    return Ok(Trainingdata);
                 }
             }
             return Ok (new { status = true });

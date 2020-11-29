@@ -41,8 +41,10 @@
           </div>
           <div class="col-12 col-xl-12">
             <div class="form-group">
-              <label *ngIf="resultdetailcentralpolicy.status == 'ใช้งานจริง'">สถานะ : ใช้งานแผนการตรวจราชการ</label>
-              <label *ngIf="resultdetailcentralpolicy.status == 'ร่างกำหนดการ'">สถานะ : ร่างแผนการตรวจราชการ</label>
+              <label *ngIf="resultdetailcentralpolicy && resultdetailcentralpolicy.status == 'ใช้งานจริง'">สถานะ :
+                ใช้งานแผนการตรวจราชการ</label>
+              <label *ngIf="resultdetailcentralpolicy && resultdetailcentralpolicy.status == 'ร่างกำหนดการ'">สถานะ :
+                ร่างแผนการตรวจราชการ</label>
             </div>
           </div>
           <div class="col-12 col-xl-12">
@@ -51,7 +53,7 @@
               <br>
               <span
                 *ngFor="let item of resultdetailcentralpolicy && resultdetailcentralpolicy.centralPolicyDates; let i = index">ช่วงที่
-                {{i+1}} : 
+                {{i+1}} :
                 {{ item.startDate | thaidate: 'short' }} -
                 {{ item.endDate | thaidate: 'short' }}<br></span>
             </div>

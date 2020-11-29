@@ -42,12 +42,12 @@
                             <!-- <td>{{ item.education }}</td> -->
                             <td>
                                 <i class="align-middle mr-2 fas fa-fw fa-search pointer" data-toggle="tooltip" title="ดูประวัติวิทยการ"
-                                    (click)="ViewModal(modalTrainingView, item.id, item.lecturerType, item.lecturerName, item.phone, item.email, item.education, item.workHistory, item.experience, item.detailplus, item.imageProfile)"></i>
+                                    (click)="ViewModal(modalTrainingView, item.id, item.lecturerType, item.lecturerName, item.phone, item.email, item.education, item.workHistory, item.experience, item.detailPlus, item.imageProfile)"></i>
                                 <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
-                                    (click)="editModal(modaleditTraining, item.id, item.lecturerType, item.lecturerName, item.phone, item.email, item.education, item.workHistory, item.experience, item.detailplus, item.imageProfile)"></i>
+                                    (click)="editModal(modaleditTraining, item.id, item.lecturerType, item.lecturerName, item.phone, item.email, item.education, item.workHistory, item.experience, item.detailPlus, item.imageProfile)"></i>
                                 {{ item.LecturerType }}
                                 <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
-                                    (click)="openModal(modaldeleteTraining, item.id)"></i> 
+                                    (click)="deleteModal(modaldeleteTraining, item.id, item.lecturerName, modalNodeleteTraining)"></i> 
                             </td>
                         </tr>
                     </tbody>
@@ -222,6 +222,30 @@
     <!-- END primary modal -->
 
     <!-- BEGIN primary modal -->
+    <ng-template #modalNodeleteTraining class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">แจ้งเตือน</h5>
+                <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()"
+                    aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body m-3">
+                <div class="form-group">
+                    <label for="test" class="form-label">ไม่สามารถทำรายการลบนี้ได้เนื่องจากมีข้อมูลที่ใช้งานอยู่</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" (click)="modalRef.hide()"
+                    data-dismiss="modal">ปิด</button>
+            </div>
+        </div>
+    </ng-template>
+    <!-- END primary modal -->
+
+
+    <!-- BEGIN primary modal -->
     <ng-template #modaleditTraining class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
         <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
         <form [formGroup]="EditForm" (ngSubmit)="editTraining(EditForm.value)">
@@ -288,3 +312,7 @@
         <!-- </div> -->
     </ng-template>
     <!-- END primary modal -->
+
+    <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">
+        <p style="font-size: 20px; color: white">Loading...</p>
+    </ngx-spinner>

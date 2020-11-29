@@ -9,7 +9,8 @@ import { ApplicationPaths, QueryParameterNames } from './api-authorization.const
   providedIn: 'root'
 })
 export class AuthorizeGuard implements CanActivate {
-  constructor(private authorize: AuthorizeService, private router: Router) {
+  constructor(private authorize: AuthorizeService, private router: Router
+  ) {
   }
   canActivate(
     _next: ActivatedRouteSnapshot,
@@ -20,6 +21,7 @@ export class AuthorizeGuard implements CanActivate {
 
   private handleAuthorization(isAuthenticated: boolean, state: RouterStateSnapshot) {
     if (!isAuthenticated) {
+      // this.userManager.signinRedirect()
       this.router.navigate([ApplicationPaths.Login], {
         queryParams: {
           [QueryParameterNames.ReturnUrl]: state.url

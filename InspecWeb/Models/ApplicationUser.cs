@@ -153,6 +153,10 @@ namespace InspecWeb.Models
         [Description("pw")]
         public string Pw { get; set; }
 
+        //20201127
+        [Description("ผู้ตรวจหรือผู้ช่วย")]
+        public string Position2 { get; set; }
+
     }
 
     public class UserArray

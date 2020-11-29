@@ -39,7 +39,7 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let item of resulttraining; let i = index">
-                            <td class="">{{ item.programDate | thaidate:'year'}}</td>
+                            <td class="">{{ item.programDate | thaidate:'short'}}</td>
                             <td class="">{{ item.minuteStartDate }} - {{ item.minuteEndDate }}</td>
                             <td class="">
                                 {{ item.programDetail }}
@@ -95,9 +95,9 @@
                         <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกประเภทกิจกรรม" [items]="selectdataprogramtype"
                             name="name" formControlName="programtype"  >
                         </ng-select>
-                        <div *ngIf="submitted && f.programtype.errors" class="invalid-feedback">
+                        <!-- <div *ngIf="submitted && f.programtype.errors" class="invalid-feedback">
                             <div *ngIf="f.programtype.errors.required">กรุณาเวลาเริ่ม</div>
-                        </div>
+                        </div> -->
                         <br>
 
                         <label for="test" class="form-label">วันที่</label>

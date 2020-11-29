@@ -24,7 +24,7 @@ export class DetailrowCentralPolicyComponent implements OnInit {
   id: any;
   fiscalYearId: any;
   year: any;
-  resultdetailcentralpolicy: Detailrow
+  resultdetailcentralpolicy: any = {}
   resultfiscalyear: any[] = []
   resultfiscalyearId: any[] = []
   fiscalYearIdString: any[] = [];

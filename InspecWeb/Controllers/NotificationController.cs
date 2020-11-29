@@ -376,6 +376,16 @@ namespace InspecWeb.Controllers
                 {
                     System.Console.WriteLine("st10 USERID : " + item.UserID);
 
+                   // var userregions = _context.UserRegions
+                   //.Include(m => m.User)
+                   //.Where(m => m.UserID == item.UserID)
+                   //.First();
+
+                   // var userother = _context.Users
+                   //   .Include(m => m.UserRegion)
+                   //   .Where(m => m.Role_id == userregions.User.Role_id)
+                   //   .First();
+
                     var data = new Notification
                     {
                         UserID = item.UserID,

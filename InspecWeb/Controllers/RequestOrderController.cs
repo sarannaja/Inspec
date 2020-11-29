@@ -80,16 +80,74 @@ namespace InspecWeb.Controllers
         [HttpGet("answered/{id}")]
         public IActionResult answered(string id)
         {
-            var excutiveorderdata = _context.RequestOrders
+   
+            var userregions = _context.UserRegions
                 .Include(m => m.User)
-                .Include(m => m.RequestOrderFiles)
-                .Include(m => m.RequestOrderAnswers)
-                .ThenInclude(m => m.User)
-               .Where(x => x.RequestOrderAnswers.Any(x => x.UserID == id) && x.publics == 1 && x.Draft != 1)
-               .OrderByDescending(m => m.Id)
-               .ToList();
+                .Where(m => m.UserID == id)
+                .ToList();
+ 
+            var excutiveorderdata = _context.RequestOrders
+               .Include(m => m.User)
+               .Include(m => m.RequestOrderFiles)
+               .Include(m => m.RequestOrderAnswers)
+               .ThenInclude(m => m.User)
+              .Where(x => x.RequestOrderAnswers.Any(x => x.UserID == id) && x.publics == 1 && x.Draft != 1)
+              .OrderByDescending(m => m.Id)
+              .ToList();
 
-            return Ok(excutiveorderdata);
+            if (excutiveorderdata.Count() > 0)
+            {
+                return Ok(excutiveorderdata);
+            }
+            else {
+                List<RequestOrder> termsList = new List<RequestOrder>();
+                foreach (var item in userregions)
+                {
+                   
+                    var excutiveorderdata2 = _context.RequestOrders
+                    .Include(m => m.User)
+                    .Include(m => m.RequestOrderFiles)
+                    .Include(m => m.RequestOrderAnswers)
+                    .ThenInclude(m => m.User)
+                    .Where(m => m.User.UserRegion.Any(x => x.RegionId == item.RegionId))
+                    .Where(x => x.publics == 1 && x.Draft != 1)
+                    .OrderByDescending(m => m.Id)
+                    .ToList();
+
+                    foreach(var item2 in excutiveorderdata2)
+                    {
+                        //check role ว่าตรงกับคนที่ได้รับมอบหรือไม่
+                        foreach (var item3 in item2.RequestOrderAnswers)
+                        {
+                            if (item.User.Role_id == item3.User.Role_id)
+                            {
+                                if(termsList.Count() > 0)
+                                {
+                                    foreach(var item4 in termsList)
+                                    {
+                                        if (item4.Id != item2.Id)
+                                        {
+                                            termsList.Add(item2);
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    termsList.Add(item2);
+                                }
+                               
+                            }
+                        }
+                        
+                       
+                    }
+
+               
+                }
+
+                return Ok(termsList);
+            }
+
         }
         //<!-- END Get ข้อสั่งการของผู้รับ-->
 

@@ -7,7 +7,6 @@ import { RouterModule } from '@angular/router';
 import { ApplicationPaths } from './api-authorization.constants';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthorizeService } from './authorize.service';
-import { UserManager } from 'oidc-client';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { NewLoginComponent } from './new-login/new-login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -23,7 +22,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
       [
         { path: ApplicationPaths.Register, component: NewLoginComponent },
         { path: ApplicationPaths.Profile, component: NewLoginComponent },
-        { path: ApplicationPaths.Login, component: NewLoginComponent },
+        // { path: ApplicationPaths.Login, loadChildren: () => import('./new-login/new-login.module').then(m => m.NewLoginModule) },
+        // { path: ApplicationPaths.Login, component: NewLoginComponent },
         { path: 'xlogin', component: LoginComponent },
         { path: ApplicationPaths.LoginFailed, component: NewLoginComponent },
         { path: ApplicationPaths.LoginCallback, component: NewLoginComponent },
@@ -33,9 +33,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
       ]
     )
   ],
-  declarations: [LoginMenuComponent,NewLoginComponent, LoginComponent, LogoutComponent],
-  exports: [LoginMenuComponent,NewLoginComponent, LoginComponent, LogoutComponent],
-  providers:[
+  declarations: [LoginMenuComponent, LoginComponent, LogoutComponent],
+  // exports: [LoginMenuComponent, NewLoginComponent, LoginComponent, LogoutComponent],
+  providers: [
     AuthorizeService,
   ]
 })
