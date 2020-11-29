@@ -287,10 +287,10 @@ export class UserComponent implements OnInit {
   }
 
   openeditModal(template: TemplateRef<any>, id, fiscalYearId, userRegion, UserProvince, ministryId: number, departmentId: number, provincialDepartmentId, SideId,
-    commandnumber, commandnumberdate, email, prefix, fname, lname, position, phoneNumber, startdate, enddate, img, Autocreateuser, signature, userName) {
+    commandnumber, commandnumberdate, email, prefix, fname, lname, position, phoneNumber, startdate, enddate, img, Autocreateuser, signature, userName,position2) {
     // alert(commandnumber +"///"+commandnumberdate);
     // console.log("gg",item.userProvince,'userprovince',UserProvince);
-    // alert(Autocreateuser);
+    //alert(position2);
     this.addForm.reset()
     this.submitted = false;
    
@@ -340,6 +340,7 @@ export class UserComponent implements OnInit {
       FName: fname,
       LName: lname,
       Position: position,
+      Position2: position2,
       PhoneNumber: phoneNumber,
       Email: email,
       MinistryId: ministryId,
