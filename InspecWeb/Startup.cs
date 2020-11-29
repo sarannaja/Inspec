@@ -207,8 +207,8 @@ namespace InspecWeb
                 spa.Options.SourcePath = "ClientApp";
                 if (env.IsDevelopment())
                 {
-                    // spa.UseAngularCliServer(npmScript: "start");
-                    spa.UseProxyToSpaDevelopmentServer("http://127.0.0.1:5002");
+                    spa.UseAngularCliServer(npmScript: "start");
+                    // spa.UseProxyToSpaDevelopmentServer("http://127.0.0.1:5002");
                 }
             });
         }
