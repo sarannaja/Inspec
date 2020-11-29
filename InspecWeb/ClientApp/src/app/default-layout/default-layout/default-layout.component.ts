@@ -129,7 +129,7 @@ export class DefaultLayoutComponent implements OnInit {
     this.width = event.target.innerWidth;
     this.height = event.target.innerHeight;
     this.isMobile = this.width < this.mobileWidth;
-    console.log(this.width);
+    //console.log(this.width);
 
   }
   checkactive(url) {
@@ -226,7 +226,7 @@ export class DefaultLayoutComponent implements OnInit {
     this.notificationService.getnotificationsdata(this.userid)
       .subscribe(result => {
         this.resultnotifications = result
-        console.log('noti',result);
+       // console.log('noti',result);
         //     .map(resultxe => {
         //       //console.log('this.getTest(result.xe)', resultsub.find(res => resultxe.xe == res.executiveOrder.id).executiveOrder.subject);
 
@@ -298,7 +298,7 @@ export class DefaultLayoutComponent implements OnInit {
         }
         else if (statusid == 7) { //song
           this.notificationService.getElectronicBookUserInvite(userId, xe).subscribe(res => {
-            console.log("inviteId: ", res);
+            //console.log("inviteId: ", res);
             //  location.href = 'electronicbook/invitedetail/' + xe, { ebookInviteId: res };
             location.href = 'electronicbook/invitedetail/' + xe + ';ebookInviteId=' + res;
 
@@ -314,7 +314,7 @@ export class DefaultLayoutComponent implements OnInit {
         }
         else if (statusid == 18) { //song
           this.notificationService.getElectronicBookProvincialDepartment(provinceId, xe).subscribe(res => {
-            console.log("inviteId: ", res);
+            //console.log("inviteId: ", res);
             //  location.href = '/electronicbook/departmentdetail/' + xe, { electronicBookProvincialDepartmentId: res };
             location.href = '/electronicbook/departmentdetail/' + xe + ';electronicBookProvincialDepartmentId=' + res;
           })
@@ -409,7 +409,7 @@ export class DefaultLayoutComponent implements OnInit {
 
                     }
                   }
-                  console.log(mock_menu_disable);
+                 // console.log(mock_menu_disable);
 
                   //สำหรับฟิลเตอร์ nav
                   this.nav = this.arraynav.filter(function (item) {
@@ -516,9 +516,9 @@ export class DefaultLayoutComponent implements OnInit {
     // this.bridge2.filter(result => {
     //   return result.name == name
     // })[0]
-    console.log(this.bridge2.filter(result => {
-      return result.name == name
-    })[0]);
+    // console.log(this.bridge2.filter(result => {
+    //   return result.name == name
+    // })[0]);
 
     return this.bridge2.filter(result => {
       return result.name == name

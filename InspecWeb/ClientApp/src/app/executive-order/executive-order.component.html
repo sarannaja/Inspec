@@ -43,21 +43,21 @@
               <td>
                 <div *ngFor="let item2 of item.executiveOrderAnswers;let m = index;">
 
-                  <div *ngIf="item2.userID == userid && role_id == 3">
+                  <div *ngIf="(role_id ==3 || role_id == 6 || role_id ==10)">
                     {{item2.user.prefix}} {{item2.user.name}}
                   </div>
  
                   <div *ngIf="role_id == 8 || role_id == 1">
                     {{item2.user.prefix}} {{item2.user.name}}    
-                    <hr *ngIf="item.executiveOrderAnswers.length != (m+1) && role_id !=3"> <!-- เส้นขั้น -->              
+                             
                   </div>
-
+                  <hr *ngIf="item.executiveOrderAnswers.length != (m+1) && (role_id !=3 || role_id != 6 || role_id !=10)"> <!-- เส้นขั้น -->    
                 </div>
               </td> 
               <td>
 
                 <div *ngFor="let item2 of item.executiveOrderAnswers;let m = index;">
-                  <div *ngIf="item2.userID == userid && role_id == 3">
+                  <div *ngIf="(role_id == 3 || role_id == 6 || role_id == 10)">
                     <div *ngIf="item.cancel == 1 ; else notcancel">
                       <label class="badge badge-danger mr-1">ยกเลิก</label>
                     </div>
@@ -72,7 +72,7 @@
                         <!-- {{item.draft === 1 ? "ฉบับร่าง": item2.status === 'xxx' ? item2.status : item2.status}} -->                    
                     </ng-template>
 
-                    <hr *ngIf="item.executiveOrderAnswers.length != (m+1) && role_id !=3"> <!-- เส้นขั้น -->
+                    <hr *ngIf="item.executiveOrderAnswers.length != (m+1) && (role_id !=3 || role_id != 6 || role_id !=10)"> <!-- เส้นขั้น -->
                   </div>
 
                   <div *ngIf="role_id == 8 || role_id == 1">
@@ -89,7 +89,7 @@
                         </ng-template>                   
                     </ng-template>
 
-                    <hr *ngIf="item.executiveOrderAnswers.length != (m+1) && role_id !=3"> <!-- เส้นขั้น --> 
+                    <hr *ngIf="item.executiveOrderAnswers.length != (m+1) && (role_id !=3 || role_id != 6 || role_id !=10)"> <!-- เส้นขั้น --> 
                   </div>
 
                 </div>
@@ -119,9 +119,9 @@
                 <!-- END สำหรับผู้สร้างข้อสั่งการ -->
 
                 <!-- สำหรับผู้รับข้อสั่งการ -->
-                <span *ngIf="role_id == 3 && item.cancel == 0 ">
+                <span *ngIf="(role_id == 3 || role_id == 6 || role_id == 10) && item.cancel == 0 ">
                   <span *ngFor="let item2 of item.executiveOrderAnswers;let m = index;">
-                    <span *ngIf="item2.userID == userid">
+                    <span >
 
                       <button *ngIf="item2.beaware_date == null" type="button" class="btn btn-info btn-sm" 
                         (click)="gotitmodal(gotit,item.id,item2.id,item.subject,item.subjectdetail)" title="รับทราบข้อสั่งการ">
@@ -150,7 +150,7 @@
                     title="รายงานการดำเนินการตามข้อสั่งการผู้บริหาร" class="btn btn-bitbucket btn-pill btn-sm" >
                     <i class="align-middle fas fa-fw fa-download"></i> 
                   </button>
-                  <hr *ngIf="item.executiveOrderAnswers.length != (m+1) && role_id !=3"> <!-- เส้นขั้น --> 
+                  <hr *ngIf="item.executiveOrderAnswers.length != (m+1) && (role_id !=3 || role_id != 6 || role_id !=10)"> <!-- เส้นขั้น --> 
                 </span>   
               </td>
 

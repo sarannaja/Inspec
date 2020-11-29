@@ -24,8 +24,8 @@ export class UserService {
   getuserdata(id: any): Observable<any[]> { //role
     return this.http.get<any[]>(this.url + id)
   }
-  getuserselectforrequestorder(): Observable<any[]> { //role
-    return this.http.get<any[]>(this.base +'getuserselectforrequestorder')
+  getuserselectforexecutiveorderandrequestorder(): Observable<any[]> { //role
+    return this.http.get<any[]>(this.base +'getuserselectforexecutiveorderandrequestorder')
   }
   getuserdataforrequestorder(): Observable<any[]> { //role
     return this.http.get<any[]>(this.base +'getuserforrequestorder')

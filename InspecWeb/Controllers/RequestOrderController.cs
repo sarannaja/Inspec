@@ -80,46 +80,74 @@ namespace InspecWeb.Controllers
         [HttpGet("answered/{id}")]
         public IActionResult answered(string id)
         {
-            //var excutiveorderdata = _context.RequestOrders
-            //    .Include(m => m.User)
-            //    .Include(m => m.RequestOrderFiles)
-            //    .Include(m => m.RequestOrderAnswers)
-            //    .ThenInclude(m => m.User)
-            //   .Where(x => x.RequestOrderAnswers.Any(x => x.UserID == id) && x.publics == 1 && x.Draft != 1)
-            //   .OrderByDescending(m => m.Id)
-            //   .First();
-
-            var excutiveorderdata2 = _context.RequestOrders
-                 .Include(m => m.User)
-                 .Include(m => m.RequestOrderFiles)
-                 .Include(m => m.RequestOrderAnswers)
-                 .ThenInclude(m => m.User)
-                .Where(x => x.RequestOrderAnswers.Any(x => x.UserID == id) && x.publics == 1 && x.Draft != 1)
-                .OrderByDescending(m => m.Id)
+   
+            var userregions = _context.UserRegions
+                .Include(m => m.User)
+                .Where(m => m.UserID == id)
                 .ToList();
+ 
+            var excutiveorderdata = _context.RequestOrders
+               .Include(m => m.User)
+               .Include(m => m.RequestOrderFiles)
+               .Include(m => m.RequestOrderAnswers)
+               .ThenInclude(m => m.User)
+              .Where(x => x.RequestOrderAnswers.Any(x => x.UserID == id) && x.publics == 1 && x.Draft != 1)
+              .OrderByDescending(m => m.Id)
+              .ToList();
 
+            if (excutiveorderdata.Count() > 0)
+            {
+                return Ok(excutiveorderdata);
+            }
+            else {
+                List<RequestOrder> termsList = new List<RequestOrder>();
+                foreach (var item in userregions)
+                {
+                   
+                    var excutiveorderdata2 = _context.RequestOrders
+                    .Include(m => m.User)
+                    .Include(m => m.RequestOrderFiles)
+                    .Include(m => m.RequestOrderAnswers)
+                    .ThenInclude(m => m.User)
+                    .Where(m => m.User.UserRegion.Any(x => x.RegionId == item.RegionId))
+                    .Where(x => x.publics == 1 && x.Draft != 1)
+                    .OrderByDescending(m => m.Id)
+                    .ToList();
 
-            //if (excutiveorderdata2.Count() == 0)
-            //{
-            //    var excutiveorderdata3 = _context.Users
-            //            .Include(m => m.UserProvince)
-            //            .Where(m => m.Id == excutiveorderdata.UserID)
-            //           .ToList();
+                    foreach(var item2 in excutiveorderdata2)
+                    {
+                        //check role ว่าตรงกับคนที่ได้รับมอบหรือไม่
+                        foreach (var item3 in item2.RequestOrderAnswers)
+                        {
+                            if (item.User.Role_id == item3.User.Role_id)
+                            {
+                                if(termsList.Count() > 0)
+                                {
+                                    foreach(var item4 in termsList)
+                                    {
+                                        if (item4.Id != item2.Id)
+                                        {
+                                            termsList.Add(item2);
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    termsList.Add(item2);
+                                }
+                               
+                            }
+                        }
+                        
+                       
+                    }
 
-            //    foreach(xx in excutiveorderdata3.UserProvince)
-            //    var excutiveorderdata4 = _context.FiscalYearRelations
-            //            .Include(m => m.FiscalYear)
-            //            .Where(m => m.ProvinceId == excutiveorderdata3.UserProvince.)
-            //           .First();
-            //}
-            //else
-            //{
                
+                }
 
-            //    return Ok(excutiveorderdata2);
-            //}
+                return Ok(termsList);
+            }
 
-            return Ok(excutiveorderdata2);
         }
         //<!-- END Get ข้อสั่งการของผู้รับ-->
 

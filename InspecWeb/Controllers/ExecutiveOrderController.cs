@@ -72,6 +72,12 @@ namespace InspecWeb.Controllers {
         //<!-- Get ข้อสั่งการของผู้รับ-->
         [HttpGet ("answered/{id}")]
         public IActionResult answered (string id) {
+
+            var userregions = _context.UserRegions
+               .Include(m => m.User)
+               .Where(m => m.UserID == id)
+               .ToList();
+
             var excutiveorderdata = _context.ExecutiveOrders  
                 .Include(m => m.User)
                 .Include (m => m.ExecutiveOrderFiles)
@@ -81,7 +87,59 @@ namespace InspecWeb.Controllers {
                .OrderByDescending(m => m.Id)
                .ToList ();
 
-            return Ok (excutiveorderdata);
+            if (excutiveorderdata.Count() > 0)
+            {
+                return Ok(excutiveorderdata);
+            }
+            else
+            {
+                List<ExecutiveOrder> termsList = new List<ExecutiveOrder>();
+                foreach (var item in userregions)
+                {
+
+                    var excutiveorderdata2 = _context.ExecutiveOrders
+                    .Include(m => m.User)
+                    .Include(m => m.ExecutiveOrderFiles)
+                    .Include(m => m.ExecutiveOrderAnswers)
+                    .ThenInclude(m => m.User)
+                    .Where(m => m.User.UserRegion.Any(x => x.RegionId == item.RegionId))
+                    .Where(x => x.publics == 1 && x.Draft != 1)
+                    .OrderByDescending(m => m.Id)
+                    .ToList();
+
+                    foreach (var item2 in excutiveorderdata2)
+                    {
+                        //check role ว่าตรงกับคนที่ได้รับมอบหรือไม่
+                        foreach (var item3 in item2.ExecutiveOrderAnswers)
+                        {
+                            if (item.User.Role_id == item3.User.Role_id)
+                            {
+                                if (termsList.Count() > 0)
+                                {
+                                    foreach (var item4 in termsList)
+                                    {
+                                        if (item4.Id != item2.Id)
+                                        {
+                                            termsList.Add(item2);
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    termsList.Add(item2);
+                                }
+
+                            }
+                        }
+
+
+                    }
+
+
+                }
+
+                return Ok(termsList);
+            }
         }
         //<!-- END Get ข้อสั่งการของผู้รับ-->
 

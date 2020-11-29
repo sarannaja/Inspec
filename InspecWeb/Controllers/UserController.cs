@@ -111,7 +111,7 @@ namespace InspecWeb.Controllers
         }
 
         [HttpGet("api/[controller]/[action]")]
-        public IEnumerable<ApplicationUser> getuserselectforrequestorder()
+        public IEnumerable<ApplicationUser> getuserselectforexecutiveorderandrequestorder()
         {
             var users = _context.Users
                 .Include(s => s.UserRegion)
@@ -2059,6 +2059,7 @@ namespace InspecWeb.Controllers
                 userdata.SideId = model.SideId;
                 userdata.FiscalYearId = model.FiscalYearId;
                 userdata.Position = model.Position;
+                userdata.Position2 = model.Position2;
                 userdata.Prefix = model.Prefix;
                 userdata.Name = model.Firstnameth + ' ' + model.Lastnameth;
                 userdata.Firstnameth = model.Firstnameth;

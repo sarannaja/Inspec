@@ -28,6 +28,7 @@ export class ExecutiveOrderComponent implements OnInit {
   resultexecutiveorder: Executiveordercommanded[] = []
   executiveOrderAnswers:ExecutiveOrderAnswer[] = []
   resultexecutiveorderdetail:any=[];
+  userRegion: any[] = []
   modalRef: BsModalRef;
   dtOptions: any = {};
   loading = false;
@@ -144,6 +145,7 @@ export class ExecutiveOrderComponent implements OnInit {
         this.userService.getuserfirstdata(this.userid)
           .subscribe(result => {
             this.role_id = result[0].role_id
+            this.userRegion = result[0].userRegion
             if (this.role_id == 8) {
               this.executiveorderService.getexecutiveordercommandeddata(this.userid)
                 .subscribe(result => {
@@ -179,16 +181,29 @@ export class ExecutiveOrderComponent implements OnInit {
   }
   //End getuser
 
+  // <!-- select ข้อมูลคนรับคำร้องขอ -->
   getDatauser() {
-    this.userService.getuserdata(3)
+    this.userService.getuserselectforexecutiveorderandrequestorder()
       .subscribe(result => {
-        console.log('data', result);
-        this.selectdatauser = result.map((item, index) => {
-          return { value: item.id, label: item.prefix+item.name + ' : '+ item.ministries.name }
-        })
+
+        this.selectdatauser = result
+          .filter((item, index) => {
+            let data: any[] = []
+            item.userRegion.map(res => data.push(res))
+            //  console.log( )
+
+            return data.filter(x => this.userRegion.every(y => x.regionId != y.regionId)).length == 0
+
+          }).map(item => {
+            return {
+              value: item.id,
+              label: item.prefix + ' ' + item.name + ' : ' + item.ministries.name + ' (' + item.position2 + ')'
+            }
+          })
 
       })
   }
+  // <!-- END select ข้อมูลคนรับคำร้องขอ -->
 
   // <!-- เปิดโมดอลยกเลิก -->
   cancelmodal(template: TemplateRef<any>, id){

@@ -276,7 +276,10 @@
                                                     <span *ngIf="item.status == 25">{{item.centralPolicy.title}}</span>
                                                 </div>
                                                 <div class="text-muted small mt-1">
-                                                   จาก {{item.notificationcreateby[0].userCreate.prefix}} {{item.notificationcreateby[0].userCreate.name}} 
+                                                     จาก {{item.notificationcreateby[0].userCreate.prefix}} 
+                                                      {{item.notificationcreateby[0].userCreate.name}}                                                    
+                                                </div>
+                                                <div class="text-muted small mt-1">
                                                     ({{item.notificationcreateby[0].userCreate.position}})
                                                 </div>
                                                 <div class="text-muted small mt-1">
