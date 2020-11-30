@@ -81,9 +81,9 @@ namespace InspecWeb.Controllers {
                     var user = _context.Users.Where (us => us.UserName == credentials.Username).First ();
 
                     // userManager.get (claimsIdentity)
-                    // await HttpContext.SignInAsync (
-                    //     CookieAuthenticationDefaults.AuthenticationScheme,
-                    //     new ClaimsPrincipal (claimsIdentity));
+                    await HttpContext.SignInAsync (
+                        CookieAuthenticationDefaults.AuthenticationScheme,
+                        new ClaimsPrincipal (claimsIdentity));
 
                     if (user.Active == 1) {
                         return Ok (new { Message = "You are logged in", status = true });
