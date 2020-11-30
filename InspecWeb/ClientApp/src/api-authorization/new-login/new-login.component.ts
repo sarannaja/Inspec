@@ -56,37 +56,42 @@ export class NewLoginComponent implements OnInit {
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
     this.authorize.isAuthenticated()
       .pipe(tap(isAuthenticated => {
-        console.log('ssss',isAuthenticated);
-        
+        console.log('ssss', isAuthenticated);
+
       }));
-    // const action = this.route.snapshot.url[1];
-    // switch (action.path) {
-    //   case LoginActions.Login:
-    //     console.log(' LoginActions.Login:');
-    //     await this.login(this.getReturnUrl());
-    //     break;
-    //   case LoginActions.LoginCallback:
-    //     console.log(' LoginActions.LoginCallback:');
+    const isIEOrEdge = /msie\s|trident\/|edge\//i.test(window.navigator.userAgent)
 
-    //     await this.processLoginCallback();
-    //     break;
-    //   case LoginActions.LoginFailed:
-    //     console.log('LoginActions.LoginFailed:');
-    //     const message = this.route.snapshot.queryParamMap.get(QueryParameterNames.Message);
-    //     this.message.next(message);
-    //     break;
-    //   case LoginActions.Profile:
-    //     console.log('LoginActions.Profile:');
+    isIEOrEdge ? location.href = '/Identity/Account/Login' : null
+    console.log('isIEOrEdge', isIEOrEdge);
 
-    //     this.redirectToProfile();
-    //     break;
-    //   case LoginActions.Register:
-    //     console.log('LoginActions.Register:');
-    //     this.redirectToRegister();
-    //     break;
-    //   default:
-    //     throw new Error(`Invalid action '${action}'`);
-    // }
+    const action = this.route.snapshot.url[1];
+    switch (action.path) {
+      case LoginActions.Login:
+        console.log(' LoginActions.Login:');
+        await this.login(this.getReturnUrl());
+        break;
+      case LoginActions.LoginCallback:
+        console.log(' LoginActions.LoginCallback:');
+
+        await this.processLoginCallback();
+        break;
+      case LoginActions.LoginFailed:
+        console.log('LoginActions.LoginFailed:');
+        const message = this.route.snapshot.queryParamMap.get(QueryParameterNames.Message);
+        this.message.next(message);
+        break;
+      case LoginActions.Profile:
+        console.log('LoginActions.Profile:');
+
+        this.redirectToProfile();
+        break;
+      case LoginActions.Register:
+        console.log('LoginActions.Register:');
+        this.redirectToRegister();
+        break;
+      default:
+        throw new Error(`Invalid action '${action}'`);
+    }
     this.spinner.hide()
 
     this.loginForm = this.formBuilder.group({

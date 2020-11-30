@@ -2,59 +2,98 @@
 @model LoginModel
 
 @{
-    ViewData["Title"] = "Log in";
+    ViewData["Title"] = "เข้าสู่ระบบ";
 }
 
+<h1>@ViewData["Title"]</h1>
 <div class="container h-100">
     <div class="row h-100">
         <div class="col-sm-10 col-md-8 col-lg-6 mx-auto d-table h-100">
             <div class="d-table-cell align-middle">
+                <div class="text-center">
+                    <h3 class="prompt">
+                        สำนักงานปลัดสำนักนายกรัฐมนตรี
+                    </h3>
+                    <h4 class="prompt">
+                        Office of the Permanent Secretary, Prime Minister Office
+                    </h4>
+                    <img src="../../assets/fontend/images/logo.png" class="img-fluid rounded-circle mb-3" width="132"
+                        height="132" />
 
-                <div class="text-center mt-4">          
-                    <p style="font-size:16px;">ระบบตรวจราชการอิเล็กทรอนิกส์</p>            
                 </div>
 
-                <div class="card card-eiei">
+                <div class="card">
                     <div class="card-body">
                         <div class="m-sm-4">
                             <div class="text-center">
-                                <img src="~/img/logo.png"
-                                     class="img-fluid rounded-circle" width="132" height="132" />
+                                <h1 class="prompt">ระบบตรวจราชการอิเล็กทรอนิกส์
+                                    <!-- <br>เพื่อสนับสนุนการกำกับและติดตามการปฏิบัติราชการในภูมิภาค -->
+                                </h1>
                             </div>
-                            <form method="post">
+                            <form *ngIf="loginForm" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
                                 <div class="form-group">
-                                    <label></label>
-                                    <input asp-for="Input.Username" class="form-control form-control-lg" placeholder="กรอกชื่อผู้ใช้" />
-                                    <span asp-validation-for="Input.Username" class="text-danger"></span>
+                                    <label for="username">ชื่อผู้ใช้</label>
+                                    <input type="email" formControlName="username" class="form-control"
+                                        [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
+                                    <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                                        <div *ngIf="f.username.errors.required">กรุณากรอกชื่อผู้ใช้</div>
+                                    </div>
+
                                 </div>
                                 <div class="form-group">
-                                    <label></label>
-                                    <input asp-for="Input.Password" class="form-control form-control-lg" placeholder="กรอกรหัสผ่าน" />
-                                    <span asp-validation-for="Input.Password" class="text-danger"></span>
-                                    <small>
-                                        @*<a href="javascript:void(0)">Forgot password?</a>*@
-                                    </small>
-                                </div>
-                                <div>
-                                    <div class="form-group">
-                                        <div class="checkbox">
-                                            <label asp-for="Input.RememberMe">
-                                                <input asp-for="Input.RememberMe" />
-                                                @Html.DisplayNameFor(m => m.Input.RememberMe)
-                                            </label>
+                                    <label>รหัสผ่าน</label>
+                                    <input type="password" formControlName="password" class="form-control"
+                                        [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+                                    <div class="errors" style="color: red;"
+                                        *ngIf="loginForm.get('password').invalid && (loginForm.get('password').touched || loginForm.get('password').dirty) &&submitted ">
+                                        <div *ngIf="loginForm.get('password').hasError('required')">
+                                            กรุณากรอกรหัสผ่าน
                                         </div>
+                                        <div class="error-text" style="color: red;"
+                                            *ngIf="loginForm.get('password').hasError('passwordStrength')">
+                                            {{loginForm.get('password').errors['passwordStrength']}}
+                                        </div>
+                                    </div>
+                                    <!-- <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                                        <div *ngIf="f.password.errors.required">กรุณากรอกรหัสผ่าน</div>
+                                    </div> -->
+                                    <!-- <small>
+                                        <a href="javascript:void(0)">Forgot password?</a>
+                                    </small> -->
+                                </div>
+                                <div *ngIf="loginfail" class="mb-3">
+                                    <input hidden type="text" class="is-invalid">
+                                    <div class="invalid-feedback" style="font-size: 16px;">
+                                        <div>{{loginfail}}</div>
                                     </div>
                                 </div>
 
-                                <div class="text-center mt-3">
+
+                                <div>
+                                    <div class="custom-control custom-checkbox align-items-center">
+                                        <input [ngModelOptions]="{standalone: true}" id="customControlInline"
+                                            type="checkbox" [(ngModel)]="remeberMe" class="custom-control-input"
+                                            value="true" name="remember-me" [checked]="remeberMe">
+                                        <label class="custom-control-label text-small"
+                                            for="customControlInline">จดจำฉัน</label>
+                                    </div>
+                                </div>
+                                <div class="form-group text-center mt-3">
+
+                                    <!-- <div class="text-center mt-3">
                                     <button type="submit" class="btn btn-lg btn-primary" style="color: white;">เข้าสู่ระบบ</button>
                                     @*<button type="submit" class="btn btn-lg btn-primary">Sign in</button>*@
 
-                                </div>
-                                @Html.ValidationSummary(false, string.Empty, new { @class = "text-danger" })
-
-                                <div class="text-center mt-1">
-                                    <a href="/training/external/register">สมัครผู้ร่วมอบรม(สำหรับบุคคลภายนอก)</a>
+                                </div> -->
+                                    <button [disabled]="loading" class="btn btn-lg btn-primary">
+                                        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                                        เข้าสู่ระบบ
+                                    </button>
+                                    <div class="text-center mt-1">
+                                        <a href="javascript:void(0)"
+                                            (click)="externalRegister()">สมัครผู้ร่วมอบรม(สำหรับบุคคลภายนอก)</a>
+                                    </div>
+                                    <!-- <a routerLink="/register" class="btn btn-link">Register</a> -->
                                 </div>
                             </form>
                         </div>
@@ -66,6 +105,79 @@
     </div>
 </div>
 
+<div class="row">
+    <div class="col-md-4">
+        <section>
+            <form id="account" method="post">
+                <h4>สำนักงานปลัดสำนักนายกรัฐมนตรี</h4>
+                <h4>Office of the Permanent Secretary, Prime Minister Office</h4>
+                <hr />
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Input.Email"></label>
+                    <input asp-for="Input.Email" class="form-control" />
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.Password"></label>
+                    <input asp-for="Input.Password" class="form-control" />
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label asp-for="Input.RememberMe">
+                            <input asp-for="Input.RememberMe" />
+                            จดจำฉัน
+                            @* @Html.DisplayNameFor(m => m.Input.RememberMe) *@
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">เข้าสู่ระบบ</button>
+                </div>
+                <div class="form-group">
+                    @* <p>
+                        <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
+                    </p>
+                    <p>
+                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
+                    </p> *@
+                </div>
+            </form>
+        </section>
+    </div>
+    @* <div class="col-md-6 col-md-offset-2">
+        <section>
+            <h4>Use another service to log in.</h4>
+            <hr />
+            @{
+                if ((Model.ExternalLogins?.Count ?? 0) == 0)
+                {
+                    <div>
+                        <p>
+                            There are no external authentication services configured. See <a href="https://go.microsoft.com/fwlink/?LinkID=532715">this article</a>
+                            for details on setting up this ASP.NET application to support logging in via external services.
+                        </p>
+                    </div>
+                }
+                else
+                {
+                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                        <div>
+                            <p>
+                                @foreach (var provider in Model.ExternalLogins)
+                                {
+                                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
+                                }
+                            </p>
+                        </div>
+                    </form>
+                }
+            }
+        </section>
+    </div> *@
+</div>
+
 @section Scripts {
-    @* <partial name="_ValidationScriptsPartial" /> *@
+    <partial name="_ValidationScriptsPartial" />
 }

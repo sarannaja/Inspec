@@ -43,18 +43,15 @@ namespace InspecWeb.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            //[Required]
-            //[EmailAddress]
-            //public string Email { get; set; }
-
             [Required]
-            public string Username { get; set; }
+            [EmailAddress]
+            public string Email { get; set; }
 
             [Required]
             [DataType(DataType.Password)]
             public string Password { get; set; }
 
-            [Display(Name = "จดจำฉัน?")]
+            [Display(Name = "Remember me?")]
             public bool RememberMe { get; set; }
         }
 
@@ -77,14 +74,13 @@ namespace InspecWeb.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            returnUrl = returnUrl ?? Url.Content("~/");
+            returnUrl = returnUrl ?? Url.Content("~/main");
 
             if (ModelState.IsValid)
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(Input.Username, Input.Password, true, lockoutOnFailure: true);
-               // var result = await _signInManager.PasswordSignInAsync(userModel.Email, userModel.Password, userModel.RememberMe, lockoutOnFailure: true);
+                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
@@ -92,21 +88,12 @@ namespace InspecWeb.Areas.Identity.Pages.Account
                 }
                 if (result.RequiresTwoFactor)
                 {
-                    return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = true });
+                    return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
                 }
                 if (result.IsLockedOut)
                 {
-                    //var forgotPassLink = Url.Action(nameof(ForgotPassword), "Account", new { }, Request.Scheme);
-                    //var content = string.Format("Your account is locked out, to reset your password, please click this link: {0}", forgotPassLink);
-
-                    //var message = new Message(new string[] { userModel.Email }, „Locked out account information“, content, null);
-                    //await _emailSender.SendEmailAsync(message);
-
-                    ModelState.AddModelError("", "คุณทำการเข้าระบบผิดพลาดเกิน 5 ครั้ง กรุณาล็อคอินใหม่ในอีก 2 นาที");
-                    return Page();
-
-                    //_logger.LogWarning("User account locked out.");
-                    //return RedirectToPage("./Lockout");
+                    _logger.LogWarning("User account locked out.");
+                    return RedirectToPage("./Lockout");
                 }
                 else
                 {
