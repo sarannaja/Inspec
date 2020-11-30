@@ -1,9 +1,9 @@
 <div class="header">
-    
+
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="dashboard-default.html">หน้าหลัก</a></li>
-            <li class="breadcrumb-item"><a href="javascript:void(0)">แผนที่ประเทศไทย</a></li>
+            <li class="breadcrumb-item"><a [routerLink]="['/main']">หน้าหลัก</a></li>
+            <li class="breadcrumb-item active">แผนที่ประเทศไทย</li>
         </ol>
     </nav>
 </div>
@@ -12,87 +12,283 @@
     <div class="col-12">
         <div class="card card-eiei">
             <div class="card-header" style="margin-bottom: -20px;">
-                <h5 class="card-title">แผนที่ประเทศไทย</h5>
-                <!-- <div class="float-right">
-              <button class="btn btn-primary" (click)="CreateCentralPolicy()"
-              style="margin-top: -60px;">เพิ่มแผนตรวจราชการประจำปี</button>
-            </div> -->
+                <h5 class="card-title">แผนที่ประเทศไทย</h5>         
             </div>
             <div class="card-body">
-                <!-- <app-cabinet-table></app-cabinet-table> -->
                 <div id="thai-map" class="block" style="height:800px;"></div>
-
             </div>
             <div *ngIf="provincesData.length != 0">
-
-                <div *ngFor="let item of provincesData; let i =index" class="card-body">
+                <div class="card-body">
                     <div class="modal-header">
-                        <h4 class="modal-title pull-left"> {{ item.name  }} - {{item.region.name}} </h4>
-
+                        <h4 class="modal-title pull-left">จังหวัด : </h4>
                     </div>
-                    <div class="col-md-12">
-                        <div class="table-responsive" id="summaryTable">
-                            <table class="table table-borderless">
-                                <tbody>
-
-                                    <tr>
-                                        <td>โครงการทั้งหมด:</td>
-                                        <td class="text-right">{{item.projects.count}} โครงการ</td>
-                                    </tr>
-                                    <!-- <hr> -->
-                                    <tr>
-                                        <td>โครงการที่เบิกจ่ายแล้วเสร็จ:</td>
-                                        <td id="complete-count" class="text-right">
-                                            {{item.projects.completed|CustomeCurrency}} โครงการ</td>
-                                    </tr>
-                                    <tr>
-                                        <td>โครงการกำลังดำเนินงาน:</td>
-                                        <td class="text-right">
-                                            {{item.projects.count - item.projects.completed }}
-                                            โครงการ</td>
-                                    </tr>
-                                    <tr>
-                                        <td>งบประมาณ:</td>
-                                        <td class="text-right">
-                                            {{(item.projects.totalBudget)| CustomeCurrency}} บาท
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>งบประมาณที่ใช้จริง:</td>
-                                        <td class="text-right">
-                                            {{(item.projects.totalAmount)| CustomeCurrency}} บาท
-                                        </td>
-                                        <!-- <td  class="text-right">197,202,372.00 บาท</td> -->
-                                    </tr>
-                                    <tr>
-                                        <td>งบประมาณที่เบิกจ่ายไปแล้ว:</td>
-                                        <td class="text-right">
-                                            {{(item.projects.totalBudget - item.projects.totalAmount)| CustomeCurrency}}
-                                            บาท</td>
-                                    </tr>
-                                    <tr>
-                                        <td>งบประมาณที่ยังไม่ได้เบิกจ่าย:</td>
-                                        <td class="text-right">
-                                            {{(item.projects.totalBudget-(item.projects.totalBudget - item.projects.totalAmount)) | CustomeCurrency}}
-                                            บาท</td>
-                                    </tr>
-                                    <tr>
-                                        <td>ร้อยละความสำเร็จ:</td>
-                                        <td class="text-right">{{item.projects.totalPercent}}%</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-
-                    </div>
-
                 </div>
             </div>
-
-
         </div>
     </div>
 </div>
+
+<div *ngIf="provincesData.length != 0">
+<div class="row">
+    <div class="col-12">
+      <div class="card card-eiei">
+        <div class="card-header" style="margin-bottom: -30px;">
+          <h5 class="card-title">ผู้ตรวจราชการ</h5>
+          <div class="float-right">        
+          </div>        
+        </div>
+        <div class="card-body">
+          <table id="datatables-basic" class="table table-striped" style="width:100%" datatable
+          [dtOptions]="dtOptions">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>รูป</th>
+                <th>ชื่อ-นามสกุล</th>
+                <th>กระทรวง-กรม</th>
+                <th>เขต</th>
+                <th>จังหวัด</th>             
+                <th>ตำแหน่ง</th>
+                <th>เบอร์โทร</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of resultInspector; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>
+                  <div *ngIf="item.img != null">
+                      <img *ngIf="item.img != 'null'" src="{{imgprofileUrl}}/{{item.img}}"
+                          class="img-fluid  mb-2" width="90px" alt="รูป">
+                  </div>
+                  <img *ngIf="item.img == null || item.img == 'null'" src="{{imgprofileUrl}}/user.png" class="img-fluid  mb-2"
+                      width="90px" alt="รูป">
+              </td>
+              <td>{{item.prefix}}{{ item.name }}</td>
+              <td>
+                <div>
+                  <label class="badge badge-secondary mr-1">{{item.ministries.name}}</label>
+                </div>
+                <div *ngIf="item.role_id == 10">
+                    <label class="badge badge-secondary mr-1">{{item.departments.name}}</label>
+                </div>
+              </td>
+              <td>
+                <div *ngFor="let item2 of item.userRegion">
+                  <label  class="badge badge-warning mr-1">
+                      {{item2.region.name}}
+                  </label>  <br>
+                </div>        
+              </td>
+              <td>
+                <div *ngFor="let item3 of item.userProvince">
+                  <label  class="badge badge-warning mr-1">
+                      {{item3.province.name}}
+                  </label>  <br>
+                </div>    
+              </td>
+              <td>{{item.position}}</td>
+              <td>{{item.phoneNumber}}</td>   
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr>
+    <div class="row">
+        <div class="col-12">
+            <div class="card card-eiei">
+            <div class="card-header" style="margin-bottom: -40px;">
+                <h5 class="card-title">เจ้าหน้าที่ประจำเขตตรวจราชการ </h5>
+                <div class="float-right"> 
+                </div>   
+            </div><br>
+            <!-- ผู้ตรวจราชการ -->
+                <div class="card-body">
+                    <table class="table table-striped table-hover table-responsive-lg" datatable
+                    [dtOptions]="dtOptions">
+                        <thead>
+                            <tr>
+                                <th>No.</th> 
+                                <th>รูป</th>                          
+                                <th>ชื่อ-นามสกุล</th>
+                                <th>กระทรวง-กรม</th>
+                                <th>เขตตรวจ</th>
+                                <th>จังหวัด</th>
+                                <th>ตำแหน่ง</th>                        
+                                <th>เบอร์โทร</th>                   
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of resultdistrictofficer; let i = index">
+                                <td>{{i + 1}}</td>
+                                <td>
+                                    <div *ngIf="item.img != null">
+                                        <img *ngIf="item.img != 'null'" src="{{imgprofileUrl}}/{{item.img}}"
+                                            class="img-fluid  mb-2" width="90px" alt="รูป">
+                                    </div>
+                                    <img *ngIf="item.img == null || item.img == 'null'" src="{{imgprofileUrl}}/user.png" class="img-fluid  mb-2"
+                                        width="90px" alt="รูป">
+                                </td>
+                                <td>{{item.prefix+item.name}}</td>
+                                <td>
+                                    {{item.ministries.name}}
+                                </td>
+                                <td>
+                                    <div *ngFor="let item2 of item.userRegion">
+                                        <label  class="badge badge-warning mr-1">
+                                            {{item2.region.name}}
+                                        </label>  <br>
+                                    </div>                                                                                     
+                                </td>
+                                <td>
+                                    <div *ngFor="let item3 of item.userProvince">
+                                        <label  class="badge badge-warning mr-1">
+                                            {{item3.province.name}}
+                                        </label>  <br>
+                                    </div>    
+                                    </td>
+                                <td>{{item.position}}</td>
+                                <td>{{item.phoneNumber}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div> 
+                <!--END ผู้ตรวจราชการ -->
+            </div> 
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-12">
+            <div class="card card-eiei">
+              <div class="card-header" style="margin-bottom: -40px;">
+                  <h5 class="card-title">หน่วยงานในส่วนภูมิภาค </h5>
+                  <div class="float-right"> 
+                    </div>   
+              </div><br>
+               <!-- หน่วยงานในส่วนภูมิภาค -->
+                  <div class="card-body">
+                      <table class="table table-striped table-hover table-responsive-lg" datatable
+                      [dtOptions]="dtOptions">
+                          <thead>
+                              <tr>
+                                  <th>No.</th>
+                                  <th>รูป</th>                           
+                                  <th>ชื่อ-นามสกุล</th>
+                                  <th>กระทรวง-กรม</th>
+                                  <th>เขต</th>
+                                  <th>จังหวัด</th>
+                                  <th>ตำแหน่ง</th>                        
+                                  <th>เบอร์โทร</th>                   
+                              </tr>
+                          </thead>
+                          <tbody>
+                              <tr *ngFor="let item of resultregionalagency; let i = index">
+                                  <td>{{i + 1}}</td>
+                                  <td>
+                                      <div *ngIf="item.img != null">
+                                          <img *ngIf="item.img != 'null'" src="{{imgprofileUrl}}/{{item.img}}"
+                                              class="img-fluid  mb-2" width="90px" alt="รูป">
+                                      </div>
+                                      <img *ngIf="item.img == null || item.img == 'null'" src="{{imgprofileUrl}}/user.png" class="img-fluid  mb-2"
+                                          width="90px" alt="รูป">
+                                  </td>
+                                  <td>{{item.prefix+item.name}}</td>  
+                                  <td>
+                                      <div>
+                                        <label class="badge badge-secondary mr-1">{{item.ministries.name}}</label>
+                                      </div>
+                                      <div>
+                                          <label class="badge badge-secondary mr-1">{{item.departments.name}}</label>
+                                      </div>
+                                      <div>
+                                          <label class="badge badge-secondary mr-1">{{item.provincialDepartments.name}}</label>
+                                      </div>
+                                    </td>                      
+                                  <td>
+                                      <div *ngFor="let item2 of item.userRegion">
+                                          <label  class="badge badge-warning mr-1">
+                                              {{item2.region.name}}
+                                          </label>  <br>
+                                      </div>   
+                                  </td>
+                                  <td>
+                                      <div *ngFor="let item2 of item.userProvince">
+                                          <label  class="badge badge-warning mr-1">
+                                              {{item2.province.name}}
+                                          </label>  <br>
+                                      </div>   
+                                  </td>
+                                  <td>{{item.position}}</td>
+                                  <td>{{item.phoneNumber}}</td>
+                              </tr>
+                          </tbody>
+                      </table>
+                  </div> 
+                  <!--END หน่วยงานในส่วนภูมิภาค -->
+            </div> 
+        </div>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-12">
+            <div class="card card-eiei">
+                <div class="card-header" style="margin-bottom: -40px;">
+                    <h5 class="card-title">ที่ปรึกษาผู้ตรวจราชการภาคประชาชน </h5>
+                    <div class="float-right">
+    
+                    </div>
+                </div><br>
+    
+                <!-- ผู้ตรวจภาคประชาชน -->
+                <div class="card-body">
+                    <table class="table table-striped table-hover table-responsive-lg" datatable
+                    [dtOptions]="dtOptions">
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>รูป</th>
+                                <th>ชื่อ-นามสกุล</th>                           
+                                <th>ด้าน</th>
+                                <th>เขต</th>
+                                <th>จังหวัด</th> 
+                                <th>ตำแหน่ง</th>                       
+                                <th>เบอร์โทร</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of resultpublicsectoradvisor; let i = index">
+                                <td>{{i + 1}}</td>
+                                <td>
+                                    <div *ngIf="item.img != null">
+                                        <img *ngIf="item.img != 'null'" src="{{imgprofileUrl}}/{{item.img}}"
+                                            class="img-fluid  mb-2" width="90px" alt="รูป">
+                                    </div>
+                                    <img *ngIf="item.img == null || item.img == 'null'" src="{{imgprofileUrl}}/user.png" class="img-fluid  mb-2"
+                                        width="90px" alt="รูป">
+                                </td>
+                                <td>{{item.prefix +item.name}}</td>                           
+                                <td>{{item.sides.name}}</td>
+                                <td>
+                                    <div *ngFor="let item2 of item.userRegion">
+                                      <label  class="badge badge-warning mr-1">
+                                          {{item2.region.name}}
+                                      </label>  <br>
+                                    </div>        
+                                </td>
+                                <td>{{item.userProvince[0].province.name}}</td>
+                                <td>{{item.position}}</td>
+                                <td>{{item.phoneNumber}}</td>
+                                
+                            </tr>
+                        </tbody>
+                    </table>
+                </div> 
+                 <!--END ผู้ตรวจภาคประชาชน -->
+</div>
+  
 
 <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">
     <p style="font-size: 20px; color: white">Loading...</p>

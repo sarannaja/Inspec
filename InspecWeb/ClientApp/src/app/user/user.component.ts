@@ -415,6 +415,9 @@ export class UserComponent implements OnInit {
     } else if (this.roleId == 10) {
       this.rolename = 'ผู้ตรวจราชการกรม'
     }
+    else if (this.roleId == 11) {
+    this.rolename = 'ผู้ใช้ภายนอก'
+  }
   }
 
   getDatafiscalyear() {

@@ -56,9 +56,10 @@ export class OfficerInspectionComponent implements OnInit {
     private regionService: RegionService,
     private provinceService: ProvinceService,
     @Inject('BASE_URL') baseUrl: string
-  ) {
-  
-  }
+    ) 
+    {
+      this.imgprofileUrl = baseUrl + '/imgprofile';
+    }
  
   ngOnInit() {
     this.dtOptions = {
