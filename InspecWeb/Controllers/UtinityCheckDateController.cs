@@ -83,7 +83,19 @@ namespace InspecWeb.Controllers
 
                             System.Console.WriteLine("UserId : " + item.UserId);
 
-                            dbContext.Notifications.Add(new Notification
+                            // var data3 = dbContext.Notifications.Add(new Notification
+                            // {
+                            //     UserID = item.UserId,
+                            //     CentralPolicyId = subjectgroup.CentralPolicyId,
+                            //     ProvinceId = subjectgroup.ProvinceId,
+                            //     status = 21,
+                            //     noti = 1,
+                            //     CreatedAt = date,
+                            //     xe = subjectgroup.Id,
+                            // });
+                            // dbContext.SaveChanges();
+
+                            var data5 = new Notification
                             {
                                 UserID = item.UserId,
                                 CentralPolicyId = subjectgroup.CentralPolicyId,
@@ -92,8 +104,20 @@ namespace InspecWeb.Controllers
                                 noti = 1,
                                 CreatedAt = date,
                                 xe = subjectgroup.Id,
-                            });
+                            };
+
+                            dbContext.Notifications.Add(data5);
                             dbContext.SaveChanges();
+
+
+                            var data6 = new Notificationcreateby
+                            {
+                                NotificationId = data5.Id,
+                                CreateBy = subjectgroup.CreatedBy
+                            };
+                            dbContext.Notificationcreateby.Add(data6);
+                            dbContext.SaveChanges();
+
                             SendNotification(item.UserId, "มีคำเชิญ" + CentralPolicyData.Title);
                         }
 
@@ -143,7 +167,18 @@ namespace InspecWeb.Controllers
 
                             System.Console.WriteLine("UserId : " + item.UserId);
 
-                            dbContext.Notifications.Add(new Notification
+                            // dbContext.Notifications.Add(new Notification
+                            // {
+                            //     UserID = item.UserId,
+                            //     CentralPolicyId = subjectgroup.CentralPolicyId,
+                            //     ProvinceId = subjectgroup.ProvinceId,
+                            //     status = 22,
+                            //     noti = 1,
+                            //     CreatedAt = date,
+                            //     xe = subjectgroup.Id,
+                            // });
+                            // dbContext.SaveChanges();
+                            var data5 = new Notification
                             {
                                 UserID = item.UserId,
                                 CentralPolicyId = subjectgroup.CentralPolicyId,
@@ -152,8 +187,20 @@ namespace InspecWeb.Controllers
                                 noti = 1,
                                 CreatedAt = date,
                                 xe = subjectgroup.Id,
-                            });
+                            };
+
+                            dbContext.Notifications.Add(data5);
                             dbContext.SaveChanges();
+
+
+                            var data6 = new Notificationcreateby
+                            {
+                                NotificationId = data5.Id,
+                                CreateBy = subjectgroup.CreatedBy
+                            };
+                            dbContext.Notificationcreateby.Add(data6);
+                            dbContext.SaveChanges();
+
                             SendNotification(item.UserId, "กำหนดส่งคำถามภาคประชาชน" + CentralPolicyData.Title);
                         }
 
@@ -201,7 +248,19 @@ namespace InspecWeb.Controllers
                                 var CentralPolicyData = dbContext.CentralPolicies.Where(m => m.Id == subjectgroup.CentralPolicyId).FirstOrDefault();
                                 foreach (var item in users)
                                 {
-                                    dbContext.Notifications.Add(new Notification
+                                    // dbContext.Notifications.Add(new Notification
+                                    // {
+                                    //     UserID = item.Id,
+                                    //     CentralPolicyId = subjectgroup.CentralPolicyId,
+                                    //     ProvinceId = subjectgroup.ProvinceId,
+                                    //     status = 23,
+                                    //     noti = 1,
+                                    //     CreatedAt = date,
+                                    //     xe = subjectgroup.Id
+                                    // });
+                                    // dbContext.SaveChanges();
+
+                                    var data5 = new Notification
                                     {
                                         UserID = item.Id,
                                         CentralPolicyId = subjectgroup.CentralPolicyId,
@@ -209,9 +268,21 @@ namespace InspecWeb.Controllers
                                         status = 23,
                                         noti = 1,
                                         CreatedAt = date,
-                                        xe = subjectgroup.Id
-                                    });
+                                        xe = subjectgroup.Id,
+                                    };
+
+                                    dbContext.Notifications.Add(data5);
                                     dbContext.SaveChanges();
+
+
+                                    var data6 = new Notificationcreateby
+                                    {
+                                        NotificationId = data5.Id,
+                                        CreateBy = subjectgroup.CreatedBy
+                                    };
+                                    dbContext.Notificationcreateby.Add(data6);
+                                    dbContext.SaveChanges();
+
                                     SendNotification(item.Id, "แจ้งเตือนประเด็นตรวจติดตาม" + CentralPolicyData.Title);
                                 }
                             }
@@ -258,7 +329,19 @@ namespace InspecWeb.Controllers
                                 var CentralPolicyData = dbContext.CentralPolicies.Where(m => m.Id == subjectgroup.CentralPolicyId).FirstOrDefault();
                                 foreach (var item in users)
                                 {
-                                    dbContext.Notifications.Add(new Notification
+                                    // dbContext.Notifications.Add(new Notification
+                                    // {
+                                    //     UserID = item.Id,
+                                    //     CentralPolicyId = subjectgroup.CentralPolicyId,
+                                    //     ProvinceId = subjectgroup.ProvinceId,
+                                    //     status = 24,
+                                    //     noti = 1,
+                                    //     CreatedAt = date,
+                                    //     xe = subjectgroup.Id
+                                    // });
+                                    // dbContext.SaveChanges();
+
+                                    var data5 = new Notification
                                     {
                                         UserID = item.Id,
                                         CentralPolicyId = subjectgroup.CentralPolicyId,
@@ -266,9 +349,21 @@ namespace InspecWeb.Controllers
                                         status = 24,
                                         noti = 1,
                                         CreatedAt = date,
-                                        xe = subjectgroup.Id
-                                    });
+                                        xe = subjectgroup.Id,
+                                    };
+
+                                    dbContext.Notifications.Add(data5);
                                     dbContext.SaveChanges();
+
+
+                                    var data6 = new Notificationcreateby
+                                    {
+                                        NotificationId = data5.Id,
+                                        CreateBy = subjectgroup.CreatedBy
+                                    };
+                                    dbContext.Notificationcreateby.Add(data6);
+                                    dbContext.SaveChanges();
+
                                     SendNotification(item.Id, "กำหนดส่งประเด็นตรวจติดตาม" + CentralPolicyData.Title);
                                 }
                             }
@@ -300,8 +395,8 @@ namespace InspecWeb.Controllers
 
                                 var jsonString = response.Content.ReadAsStringAsync();
                                 jsonString.Wait();
-                            // OpmUserProvince = JsonConvert.DeserializeObject<OpmCase>(jsonString.Result);
-                        });
+                                // OpmUserProvince = JsonConvert.DeserializeObject<OpmCase>(jsonString.Result);
+                            });
                         task.Wait();
                     }
                 }
