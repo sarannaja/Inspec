@@ -5,7 +5,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { LoginActions, QueryParameterNames, ApplicationPaths, ReturnUrlType } from '../api-authorization.constants';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { first } from 'rxjs/operators';
+import { first, tap } from 'rxjs/operators';
 import { PasswordStrengthValidator } from './password-strength.validators';
 import { UserService } from 'src/app/services/user.service';
 
@@ -54,35 +54,39 @@ export class NewLoginComponent implements OnInit {
   }
   async ngOnInit() {
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+    this.authorize.isAuthenticated()
+      .pipe(tap(isAuthenticated => {
+        console.log('ssss',isAuthenticated);
+        
+      }));
+    // const action = this.route.snapshot.url[1];
+    // switch (action.path) {
+    //   case LoginActions.Login:
+    //     console.log(' LoginActions.Login:');
+    //     await this.login(this.getReturnUrl());
+    //     break;
+    //   case LoginActions.LoginCallback:
+    //     console.log(' LoginActions.LoginCallback:');
 
-    const action = this.route.snapshot.url[1];
-    switch (action.path) {
-      case LoginActions.Login:
-        console.log(' LoginActions.Login:');
-        await this.login(this.getReturnUrl());
-        break;
-      case LoginActions.LoginCallback:
-        console.log(' LoginActions.LoginCallback:');
+    //     await this.processLoginCallback();
+    //     break;
+    //   case LoginActions.LoginFailed:
+    //     console.log('LoginActions.LoginFailed:');
+    //     const message = this.route.snapshot.queryParamMap.get(QueryParameterNames.Message);
+    //     this.message.next(message);
+    //     break;
+    //   case LoginActions.Profile:
+    //     console.log('LoginActions.Profile:');
 
-        await this.processLoginCallback();
-        break;
-      case LoginActions.LoginFailed:
-        console.log('LoginActions.LoginFailed:');
-        const message = this.route.snapshot.queryParamMap.get(QueryParameterNames.Message);
-        this.message.next(message);
-        break;
-      case LoginActions.Profile:
-        console.log('LoginActions.Profile:');
-
-        this.redirectToProfile();
-        break;
-      case LoginActions.Register:
-        console.log('LoginActions.Register:');
-        this.redirectToRegister();
-        break;
-      default:
-        throw new Error(`Invalid action '${action}'`);
-    }
+    //     this.redirectToProfile();
+    //     break;
+    //   case LoginActions.Register:
+    //     console.log('LoginActions.Register:');
+    //     this.redirectToRegister();
+    //     break;
+    //   default:
+    //     throw new Error(`Invalid action '${action}'`);
+    // }
     this.spinner.hide()
 
     this.loginForm = this.formBuilder.group({
@@ -118,7 +122,9 @@ export class NewLoginComponent implements OnInit {
 
           // console.log(' this.remeberMe', this.remeberMe);
           // await this.login(this.getReturnUrl());
+
           const action = this.route.snapshot.url[1];
+          this.processLoginCallback();
           switch (action.path) {
             case LoginActions.Login:
               console.log(' LoginActions.Login:');
@@ -126,7 +132,7 @@ export class NewLoginComponent implements OnInit {
               break;
             case LoginActions.LoginCallback:
               console.log(' LoginActions.LoginCallback:');
-              // this.router.navigate([this.returnUrl])
+              this.router.navigate([this.returnUrl])
               await this.processLoginCallback();
               break;
             case LoginActions.LoginFailed:

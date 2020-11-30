@@ -172,6 +172,9 @@ export class AuthorizeService {
       await this.ensureUserManagerInitialized();
       await this.userManager.signoutPopup(this.createArguments());
       this.userSubject.next(null);
+      this.http.post('/api/auth/login', {}).subscribe(res => {
+        
+      })
       return this.success(state);
     } catch (popupSignOutError) {
       console.log('Popup signout error: ', popupSignOutError);
