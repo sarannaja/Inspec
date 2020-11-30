@@ -47,7 +47,8 @@
                 [dtOptions]="dtOptions">
                     <thead>
                         <tr>
-                            <th>No.</th>                           
+                            <th>No.</th> 
+                            <th>รูป</th>                          
                             <th>ชื่อ-นามสกุล</th>
                             <th>กระทรวง-กรม</th>
                             <th>เขตตรวจ</th>
@@ -59,6 +60,14 @@
                     <tbody>
                         <tr *ngFor="let item of resultuser; let i = index">
                             <td>{{i + 1}}</td>
+                            <td>
+                              <div *ngIf="item.img != null">
+                                  <img *ngIf="item.img != 'null'" src="{{imgprofileUrl}}/{{item.img}}"
+                                      class="img-fluid  mb-2" width="90px" alt="รูป">
+                              </div>
+                              <img *ngIf="item.img == null || item.img == 'null'" src="{{imgprofileUrl}}/user.png" class="img-fluid  mb-2"
+                                  width="90px" alt="รูป">
+                          </td>
                             <td>{{item.prefix+item.name}}</td>
                             <td>
                                 {{item.ministries.name}}
