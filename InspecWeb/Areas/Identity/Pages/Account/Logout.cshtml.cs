@@ -37,7 +37,7 @@ namespace InspecWeb.Areas.Identity.Pages.Account
             }
             else
             {
-                return LocalRedirect("/");
+                return RedirectToPage();
             }
         }
     }

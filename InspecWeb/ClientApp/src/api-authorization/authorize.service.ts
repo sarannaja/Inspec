@@ -1,10 +1,11 @@
-import { Injectable, Inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 import { User, UserManager, WebStorageStateStore } from 'oidc-client';
 import { BehaviorSubject, concat, from, Observable } from 'rxjs';
 import { filter, map, mergeMap, take, tap } from 'rxjs/operators';
 import { ApplicationPaths, ApplicationName } from './api-authorization.constants';
-import { HttpClient } from '@angular/common/http';
-import { CookieService } from 'ngx-cookie-service';
 
 export type IAuthenticationResult =
   SuccessAuthenticationResult |
@@ -33,8 +34,7 @@ export enum AuthenticationResultStatus {
 export enum Role {
   Test1 = 'Test1',
   Test2 = 'Test2'
-}
-export interface IUser {
+} export interface IUser {
   name: string;
   role_id: Role;
   sub: string;
@@ -46,17 +46,13 @@ export interface IUser {
 export class AuthorizeService {
   // By default pop ups are disabled because they don't work properly on Edge.
   // If you want to enable pop up authentication simply set this flag to false.
-  constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string, private _CookieService: CookieService,) {
-
-  }
+  constructor(private router: Router, private http: HttpClient, private _CookieService: CookieService
+  ) { }
   private popUpDisabled = true;
   private userManager: UserManager;
   private userSubject: BehaviorSubject<IUser | null> = new BehaviorSubject(null);
 
-
   public isAuthenticated(): Observable<boolean> {
-    // console.log('isAuthenticated', this.getUser());
-
     return this.getUser().pipe(map(u => !!u));
   }
 
@@ -70,8 +66,6 @@ export class AuthorizeService {
 
     //  user;
   }
-
-
 
   public getAccessToken(): Observable<string> {
     return from(this.ensureUserManagerInitialized())
@@ -151,7 +145,7 @@ export class AuthorizeService {
   }
   role(profile: any) {
     try {
-      this.http.get<any>(this.baseUrl + 'api/get_role/' + profile.sub)
+      this.http.get<any>('/api/get_role/' + profile.sub)
         .subscribe(result => {
           // console.log("result",result);
 
@@ -172,6 +166,9 @@ export class AuthorizeService {
       await this.ensureUserManagerInitialized();
       await this.userManager.signoutPopup(this.createArguments());
       this.userSubject.next(null);
+      this.http.post('/api/auth/login', {}).subscribe(res => {
+
+      })
       return this.success(state);
     } catch (popupSignOutError) {
       console.log('Popup signout error: ', popupSignOutError);
@@ -197,6 +194,7 @@ export class AuthorizeService {
     }
   }
 
+
   private createArguments(state?: any): any {
     return { useReplaceToNavigate: true, data: state };
   }
@@ -205,9 +203,7 @@ export class AuthorizeService {
     return { status: AuthenticationResultStatus.Fail, message };
   }
 
-  private success(state: any, data: any = null): IAuthenticationResult {
-    console.log(JSON.stringify(state));
-
+  private success(state: any): IAuthenticationResult {
     return { status: AuthenticationResultStatus.Success, state };
   }
 
@@ -231,23 +227,19 @@ export class AuthorizeService {
     this.userManager = new UserManager(settings);
 
     this.userManager.events.addUserSignedOut(async () => {
-      console.log('in removeUser');
-
       await this.userManager.removeUser();
       this.userSubject.next(null);
     });
   }
 
   private getUserFromStorage(): Observable<IUser> {
-    //  let data =  JSON.parse(localStorage.getItem('data'))
-    //   console.log(data);
-
     return from(this.ensureUserManagerInitialized())
       .pipe(
         mergeMap(() => this.userManager.getUser()),
         map(u => u && Object.assign(u.profile, JSON.parse(localStorage.getItem('data'))))
       );
   }
+
 
   newLogin(username, password, jodjumchan, returnUrl) {
     return this.http.post<any>('/api/auth/login', {

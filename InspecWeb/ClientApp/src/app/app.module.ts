@@ -451,7 +451,7 @@ import { NewLoginComponent } from 'src/api-authorization/new-login/new-login.com
     AllReportIframeComponent,
     AllReportIframeDetailComponent,
     VilageComponent,
-    NewLoginComponent,
+    // NewLoginComponent,
     DateLengthComponent ,
   ],
   
