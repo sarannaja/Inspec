@@ -456,8 +456,8 @@ import { NewLoginComponent } from 'src/api-authorization/new-login/new-login.com
   ],
   
   imports: [
-    // BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
+    // BrowserModule,
     HttpClientModule,
     FormsModule,
     ApiAuthorizationModule,
