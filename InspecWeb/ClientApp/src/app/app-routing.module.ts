@@ -199,11 +199,14 @@ import { RegisterTrainingComponent } from './training/register-training/register
 import { VilageComponent } from './vilage/vilage.component';
 import { ApplicationPaths } from 'src/api-authorization/api-authorization.constants';
 import { NewLoginComponent } from 'src/api-authorization/new-login/new-login.component';
+import { LoginComponent } from 'src/api-authorization/login/login.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'vector/map', pathMatch: 'full' },
   // { path: '', redirectTo: 'video', pathMatch: 'full' },
-  { path: ApplicationPaths.Login, component: NewLoginComponent },
+  // { path: ApplicationPaths.Login, component: NewLoginComponent },
+  // { path: ApplicationPaths.Login, component: NewLoginComponent },
+  // { path: 'xlogin', component: LoginComponent },
   // { path: ApplicationPaths.Login, loadChildren: () => import('../api-authorization/new-login/new-login.module').then(m => m.NewLoginModule) },
 
   { path: 'counter', component: CounterComponent },

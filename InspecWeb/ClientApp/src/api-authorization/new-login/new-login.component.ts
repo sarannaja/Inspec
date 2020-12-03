@@ -5,7 +5,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { LoginActions, QueryParameterNames, ApplicationPaths, ReturnUrlType } from '../api-authorization.constants';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { first } from 'rxjs/operators';
+import { first, tap } from 'rxjs/operators';
 import { PasswordStrengthValidator } from './password-strength.validators';
 import { UserService } from 'src/app/services/user.service';
 
@@ -54,6 +54,15 @@ export class NewLoginComponent implements OnInit {
   }
   async ngOnInit() {
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+    this.authorize.isAuthenticated()
+      .pipe(tap(isAuthenticated => {
+        console.log('ssss', isAuthenticated);
+
+      }));
+    const isIEOrEdge = /msie\s|trident\/|edge\//i.test(window.navigator.userAgent)
+
+    isIEOrEdge ? location.href = '/Identity/Account/Login' : null
+    console.log('isIEOrEdge', isIEOrEdge);
 
     const action = this.route.snapshot.url[1];
     switch (action.path) {
@@ -118,7 +127,9 @@ export class NewLoginComponent implements OnInit {
 
           // console.log(' this.remeberMe', this.remeberMe);
           // await this.login(this.getReturnUrl());
+
           const action = this.route.snapshot.url[1];
+          this.processLoginCallback();
           switch (action.path) {
             case LoginActions.Login:
               console.log(' LoginActions.Login:');
@@ -126,7 +137,7 @@ export class NewLoginComponent implements OnInit {
               break;
             case LoginActions.LoginCallback:
               console.log(' LoginActions.LoginCallback:');
-              // this.router.navigate([this.returnUrl])
+              this.router.navigate([this.returnUrl])
               await this.processLoginCallback();
               break;
             case LoginActions.LoginFailed:

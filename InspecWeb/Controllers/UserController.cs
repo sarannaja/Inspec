@@ -1384,24 +1384,24 @@ namespace InspecWeb.Controllers
 
             if (model.Role_id == 11)
             {
-                try
-                {
-                    var send = new WelcomeRequest
-                    {
-                        ToEmail = model.Email,
-                        UserName = model.Email,
-                        Password = passwordrandom,
-                        Host = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}",
-                    };
-                    System.Console.WriteLine("testuser : mail");
-                    await mailService.SendWelcomeEmailAsync(send);
+                //try
+                //{
+                //    var send = new WelcomeRequest
+                //    {
+                //        ToEmail = model.Email,
+                //        UserName = model.Email,
+                //        Password = passwordrandom,
+                //        Host = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}",
+                //    };
+                //    System.Console.WriteLine("testuser : mail");
+                //    await mailService.SendWelcomeEmailAsync(send);
 
-                }
-                catch (Exception ex)
-                {
+                //}
+                //catch (Exception ex)
+                //{
 
-                    throw ex;
-                }
+                //    throw ex;
+                //}
                 // var send = new MailRequest
                 // {
                 //     ToEmail = model.Email,

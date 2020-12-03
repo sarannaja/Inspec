@@ -3,7 +3,6 @@ import { AuthorizeService, AuthenticationResultStatus } from '../authorize.servi
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { LoginActions, QueryParameterNames, ApplicationPaths, ReturnUrlType } from '../api-authorization.constants';
-import { NgxSpinnerService } from 'ngx-spinner';
 
 // The main responsibility of this component is to handle the user's login process.
 // This is the starting point for the login process. Any component that needs to authenticate
@@ -20,14 +19,9 @@ export class LoginComponent implements OnInit {
   constructor(
     private authorizeService: AuthorizeService,
     private activatedRoute: ActivatedRoute,
-    private router: Router,
-    private spinner: NgxSpinnerService,
-    ) { }
+    private router: Router) { }
 
   async ngOnInit() {
-    this.spinner.show();
-    console.log("in login");
-    
     const action = this.activatedRoute.snapshot.url[1];
     switch (action.path) {
       case LoginActions.Login:

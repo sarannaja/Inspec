@@ -146,6 +146,7 @@ export class DefaultLayoutComponent implements OnInit {
   }
 
   Logout() {
+    
     this.authorize.signOut({ local: true })
   }
 

@@ -260,6 +260,13 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
         ex_link: 'user',
         id: '8'
       },
+      {
+        icon: 'fa-file',
+        url: '/user/11',
+        name: 'ผู้ใช้ภายนอก',
+        ex_link: 'user',
+        id: '11'
+      },
     ]
   },
   {
