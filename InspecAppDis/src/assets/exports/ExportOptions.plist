@@ -9,20 +9,20 @@
 	<key>manifest</key>
 	<dict>
 		<key>appURL</key>
-		<string>https://test.com</string>
+		<string>https://inspection.opm.go.th</string>
 		<key>displayImageURL</key>
-		<string>https://test.com</string>
+		<string>https://inspection.opm.go.th</string>
 		<key>fullSizeImageURL</key>
-		<string>https://test.com</string>
+		<string>https://inspection.opm.go.th</string>
 	</dict>
 	<key>method</key>
-	<string>ad-hoc</string>
+	<string>enterprise</string>
 	<key>signingStyle</key>
 	<string>automatic</string>
 	<key>stripSwiftSymbols</key>
 	<true/>
 	<key>teamID</key>
-	<string>RVLQ6T4Y33</string>
+	<string>AJQMGL4SFE</string>
 	<key>thinning</key>
 	<string>&lt;none&gt;</string>
 </dict>

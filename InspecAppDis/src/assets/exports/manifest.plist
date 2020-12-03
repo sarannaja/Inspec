@@ -29,15 +29,15 @@
 			<key>metadata</key>
 			<dict>
 				<key>bundle-identifier</key>
-				<string>com.tot.inspec</string>
+				<string>com.teamtoh.asd</string>
 				<key>bundle-version</key>
-				<string>1.0</string>
+				<string>1.0.3</string>
 				<key>kind</key>
 				<string>software</string>
 				<key>platform-identifier</key>
 				<string>com.apple.platform.iphoneos</string>
 				<key>title</key>
-				<string>สตร.</string>
+				<string>ระบบตรวจราชการอิเล็กทรอนิกส์</string>
 			</dict>
 		</dict>
 	</array>
