@@ -202,7 +202,7 @@ import { NewLoginComponent } from 'src/api-authorization/new-login/new-login.com
 import { LoginComponent } from 'src/api-authorization/login/login.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'vector/map', pathMatch: 'full' },
+  { path: '', redirectTo: 'external/thaimap', pathMatch: 'full' },
   // { path: '', redirectTo: 'video', pathMatch: 'full' },
   // { path: ApplicationPaths.Login, component: NewLoginComponent },
   // { path: ApplicationPaths.Login, component: NewLoginComponent },
