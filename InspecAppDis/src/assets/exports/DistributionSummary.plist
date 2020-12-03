@@ -2,7 +2,7 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>inspecApp.ipa</key>
+	<key>สตร..ipa</key>
 	<array>
 		<dict>
 			<key>architectures</key>
@@ -13,20 +13,20 @@
 			<key>certificate</key>
 			<dict>
 				<key>SHA1</key>
-				<string>1B6B18E105B864214E3AC87B9A4448D8C434F150</string>
+				<string>CFE2D83E41F2003773CCAB8DDB2335781B5D193F</string>
 				<key>dateExpires</key>
-				<string>29/3/2564 BE</string>
+				<string>7/9/2566 BE</string>
 				<key>type</key>
-				<string>Apple Distribution</string>
+				<string>iOS Distribution</string>
 			</dict>
 			<key>entitlements</key>
 			<dict>
 				<key>application-identifier</key>
-				<string>RVLQ6T4Y33.com.tot.inspec</string>
+				<string>AJQMGL4SFE.com.teamtoh.asd</string>
 				<key>aps-environment</key>
 				<string>production</string>
 				<key>com.apple.developer.team-identifier</key>
-				<string>RVLQ6T4Y33</string>
+				<string>AJQMGL4SFE</string>
 				<key>get-task-allow</key>
 				<false/>
 			</dict>
@@ -35,16 +35,16 @@
 			<key>profile</key>
 			<dict>
 				<key>UUID</key>
-				<string>32ada0f1-2f93-4d5d-bb4e-455fff2d80a0</string>
+				<string>7268661d-c623-464f-b529-11876354ce5c</string>
 				<key>name</key>
-				<string>iOS Team Ad Hoc Provisioning Profile: com.tot.inspec</string>
+				<string>iOS Team Inhouse Provisioning Profile: com.teamtoh.asd</string>
 			</dict>
 			<key>team</key>
 			<dict>
 				<key>id</key>
-				<string>RVLQ6T4Y33</string>
+				<string>AJQMGL4SFE</string>
 				<key>name</key>
-				<string>Tot Public Company Limited</string>
+				<string>TOT PUBLIC COMPANY  LIMITED</string>
 			</dict>
 		</dict>
 	</array>
