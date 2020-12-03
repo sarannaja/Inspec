@@ -201,7 +201,7 @@ import { ApplicationPaths } from 'src/api-authorization/api-authorization.consta
 import { NewLoginComponent } from 'src/api-authorization/new-login/new-login.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'main', pathMatch: 'full' },
+  { path: '', redirectTo: 'vector/map', pathMatch: 'full' },
   // { path: '', redirectTo: 'video', pathMatch: 'full' },
   { path: ApplicationPaths.Login, component: NewLoginComponent },
   // { path: ApplicationPaths.Login, loadChildren: () => import('../api-authorization/new-login/new-login.module').then(m => m.NewLoginModule) },
