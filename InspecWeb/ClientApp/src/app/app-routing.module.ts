@@ -202,7 +202,9 @@ import { NewLoginComponent } from 'src/api-authorization/new-login/new-login.com
 import { LoginComponent } from 'src/api-authorization/login/login.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'external/thaimap', pathMatch: 'full' },
+  { path: '', redirectTo: 'main/thaimap', pathMatch: 'full' },
+  { path: 'main', redirectTo: 'main/thaimap', pathMatch: 'full' },
+  
   // { path: '', redirectTo: 'video', pathMatch: 'full' },
   // { path: ApplicationPaths.Login, component: NewLoginComponent },
   // { path: ApplicationPaths.Login, component: NewLoginComponent },
@@ -240,7 +242,7 @@ const routes: Routes = [
     children: [
 
 
-      { path: 'main', component: MainComponent, canActivate: [AuthorizeGuard] }, //ออเทน
+      // { path: 'main', component: MainComponent, canActivate: [AuthorizeGuard] }, //ออเทน
       // { path: '', loadChildren: () => import('../api-authorization/api-authorization.module') },
       { path: 'centralpolicy/createcentralpolicy', component: CreateCentralPolicyComponent, canActivate: [AuthorizeGuard] },
       { path: 'inspectionplan/createinspectionplan/:id', component: CreateInspectionPlanComponent, canActivate: [AuthorizeGuard] },
@@ -326,6 +328,7 @@ const routes: Routes = [
         path: 'video', loadChildren: () => import('./video/video.module').then(m => m.VideoModule)
       },
       { path: 'inspector', component: InspectorComponent, canActivate: [AuthorizeGuard] },
+      { path: 'inspector', component: InspectorComponent, canActivate: [AuthorizeGuard] },
       { path: 'executiveorder', component: ExecutiveOrderComponent, canActivate: [AuthorizeGuard] },
       { path: 'executiveorder/detailexecutiveorder/:id', component: DetailExecutiveOrderComponent, canActivate: [AuthorizeGuard] },
       { path: 'ministermonitoring', component: MinistermonitoringComponent, canActivate: [AuthorizeGuard] },
@@ -345,6 +348,10 @@ const routes: Routes = [
       { path: 'electronicbook/theme/:id', component: TemplateElectronicComponent, canActivate: [AuthorizeGuard] },
       {
         path: 'external', loadChildren: () => import('./external-organization/external-organization.module')
+          .then(m => m.ExternalOrganizationModule), canActivate: [AuthorizeGuard]
+      },
+      {
+        path: 'main', loadChildren: () => import('./external-organization/external-organization.module')
           .then(m => m.ExternalOrganizationModule), canActivate: [AuthorizeGuard]
       },
       { path: 'answersubject', component: AnswerSubjectComponent, canActivate: [AuthorizeGuard] },
@@ -461,6 +468,7 @@ const routes: Routes = [
   { path: 'training/login-success', component: TrainingLoginSuccessComponent },
   { path: 'allreportiframe', component: AllReportIframeComponent },
   { path: 'allreportiframe/detail/:id', component: AllReportIframeDetailComponent },
+  { path: '**', redirectTo: 'main/thaimap', pathMatch: 'full' },
 ]
 
 @NgModule({
