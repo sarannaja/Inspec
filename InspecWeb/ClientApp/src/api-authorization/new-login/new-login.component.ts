@@ -129,7 +129,7 @@ export class NewLoginComponent implements OnInit {
           // await this.login(this.getReturnUrl());
 
           const action = this.route.snapshot.url[1];
-          this.processLoginCallback();
+          // this.processLoginCallback();
           switch (action.path) {
             case LoginActions.Login:
               console.log(' LoginActions.Login:');
