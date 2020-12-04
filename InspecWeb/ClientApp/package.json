@@ -6,7 +6,7 @@
     "start": "ng serve",
     "build": "node --max_old_space_size=5048 node_modules/@angular/cli/bin/ng build",
     "build:prod": "node --max_old_space_size=5048 node_modules/@angular/cli/bin/ng build",
-    "build-prod": "node --max_old_space_size=5048 ./node_modules/@angular/cli/bin/ng build --prod",
+    "build-prod": "node --max_old_space_size=5048 ./node_modules/@angular/cli/bin/ng build",
     "build:ssr": "ng run InspecWeb:server:dev",
     "test": "ng test",
     "lint": "ng lint",
