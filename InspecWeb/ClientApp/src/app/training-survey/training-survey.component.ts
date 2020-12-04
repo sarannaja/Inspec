@@ -3,7 +3,7 @@ import { TrainingService } from '../services/training.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormControl, Validators, FormGroup } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { AuthorizeService } from 'src/api-authorization-new/authorize.service';
 import { NotofyService } from '../services/notofy.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { LogService } from '../services/log.service';

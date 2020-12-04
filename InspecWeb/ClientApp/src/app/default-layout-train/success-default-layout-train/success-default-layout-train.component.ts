@@ -3,7 +3,7 @@ import { Component, OnInit, TemplateRef, Inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TrainingService } from '../../services/training.service';
 import { UserService } from 'src/app/services/user.service';
-import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { AuthorizeService } from 'src/api-authorization-new/authorize.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 

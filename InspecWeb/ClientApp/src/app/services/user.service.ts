@@ -373,7 +373,24 @@ export class UserService {
   getuserinspectordata(regionid,provinceid): Observable<any[]> {
     return this.http.get<any[]>(this.base + 'inspector/' + regionid+ '/' + provinceid)
   }
-  //<!-- END ข้อมูลผู้ติดต้อ ผู้ตรวจราชการ -->
+
+   //<!-- map -->
+  getuserinspectorformapdata(provincename): Observable<any[]> {
+    return this.http.get<any[]>(this.base + 'inspectorformap/' + provincename)
+  }
+
+  getuserdistrictofficerformapdata(provincename): Observable<any[]> {
+    return this.http.get<any[]>(this.base + 'districtofficerformap/' + provincename)
+  }
+
+  getuserregionalagencyformapdata(provincename): Observable<any[]> {
+    return this.http.get<any[]>(this.base + 'regionalagencyformap/' + provincename)
+  }
+
+  getuserpublicsectoradvisorformapdata(provincename): Observable<any[]> {
+    return this.http.get<any[]>(this.base + 'publicsectoradvisorformap/' + provincename)
+  }
+  //<!-- END map -->
 
   //<!-- ข้อมูลผู้ติดต้อ เจ้าหน้าที่ประจำเขตตรวจราชการ -->
   getuserdistrictofficerdata(regionid,provinceid): Observable<any[]> {

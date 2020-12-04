@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MinistryService } from '../services/ministry.service';
 import { DepartmentService } from '../services/department.service';
 import { NotofyService } from '../services/notofy.service';
-import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { AuthorizeService } from 'src/api-authorization-new/authorize.service';
 import { UserService } from '../services/user.service';
 import { LogService } from '../services/log.service';
 

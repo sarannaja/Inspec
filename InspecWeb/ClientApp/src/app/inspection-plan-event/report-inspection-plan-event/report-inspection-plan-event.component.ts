@@ -2,7 +2,7 @@ import { Component, OnInit, TemplateRef, Inject } from '@angular/core';
 import { NgxSpinnerService } from "ngx-spinner";
 import { InspectionplaneventService } from 'src/app/services/inspectionplanevent.service';
 import { UserService } from 'src/app/services/user.service';
-import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { AuthorizeService } from 'src/api-authorization-new/authorize.service';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { FormControl, FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 

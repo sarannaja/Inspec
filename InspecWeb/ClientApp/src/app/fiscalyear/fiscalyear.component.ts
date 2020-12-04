@@ -7,7 +7,7 @@ import { IMyOptions } from 'mydatepicker-th';
 import { NgxSpinnerService } from "ngx-spinner";
 import { NotofyService } from '../services/notofy.service';
 import { LogService } from '../services/log.service';
-import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { AuthorizeService } from 'src/api-authorization-new/authorize.service';
 import { UserService } from '../services/user.service';
 
 @Component({

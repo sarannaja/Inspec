@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ExternalOrganizationService } from 'src/app/services/external-organization.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { UserService } from 'src/app/services/user.service';
-import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { AuthorizeService } from 'src/api-authorization-new/authorize.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { OpmCaseDetailComponent } from '../modals/detail-modal/detail-modal.component';
 import { IMyOptions } from 'mydatepicker-th';

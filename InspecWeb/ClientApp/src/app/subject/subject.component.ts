@@ -8,7 +8,7 @@ import { IMyOptions, IMyDate } from 'mydatepicker-th';
 import * as moment from 'moment';
 import { CentralpolicyService } from '../services/centralpolicy.service';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { AuthorizeService } from 'src/api-authorization-new/authorize.service';
 import { UserService } from '../services/user.service';
 import { NotofyService } from '../services/notofy.service';
 

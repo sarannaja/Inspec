@@ -6,7 +6,7 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 import { DetailexecutiveorderService } from 'src/app/services/detailexecutiveorder.service';
 import { ProvinceService } from 'src/app/services/province.service';
 
-import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { AuthorizeService } from 'src/api-authorization-new/authorize.service';
 import { UserService } from 'src/app/services/user.service';
 import { InspectionplanService } from 'src/app/services/inspectionplan.service';
 import { NotificationService } from 'src/app/services/notification.service';

@@ -4,7 +4,7 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router';
 import { SubdistrictService } from '../services/subdistrict.service';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { AuthorizeService } from 'src/api-authorization-new/authorize.service';
 import { UserService } from '../services/user.service';
 import { LogService } from '../services/log.service';
 import { NotofyService } from '../services/notofy.service';

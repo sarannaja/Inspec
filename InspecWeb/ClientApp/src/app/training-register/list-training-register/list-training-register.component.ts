@@ -12,7 +12,7 @@ import { ExportReportService } from 'src/app/services/export-report.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { LogService } from 'src/app/services/log.service';
 import { NotofyService } from 'src/app/services/notofy.service';
-import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { AuthorizeService } from 'src/api-authorization-new/authorize.service';
 
 @Component({
   selector: 'app-list-training-register',

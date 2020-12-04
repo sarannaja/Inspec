@@ -3,7 +3,7 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a [routerLink]="['/main']">หน้าหลัก</a></li>
-            <li class="breadcrumb-item active">แผนที่ประเทศไทย</li>
+            <li class="breadcrumb-item active">การแบ่งเขตจตรวขราชการ</li>
         </ol>
     </nav>
 </div>
@@ -12,7 +12,7 @@
     <div class="col-12">
         <div class="card card-eiei">
             <div class="card-header" style="margin-bottom: -20px;">
-                <h5 class="card-title">แผนที่ประเทศไทย</h5>         
+                <h5 class="card-title">การแบ่งเขตจตรวขราชการ</h5>         
             </div>
             <div class="card-body">
                 <div id="thai-map" class="block" style="height:800px;"></div>
@@ -20,7 +20,7 @@
             <div *ngIf="provincesData.length != 0">
                 <div class="card-body">
                     <div class="modal-header">
-                        <h4 class="modal-title pull-left">จังหวัด : </h4>
+                        <h4 class="modal-title pull-left">จังหวัด : {{provinceName}}</h4>
                     </div>
                 </div>
             </div>
@@ -28,7 +28,7 @@
     </div>
 </div>
 
-<div *ngIf="provincesData.length != 0">
+<div *ngIf="show != 0">
 <div class="row">
     <div class="col-12">
       <div class="card card-eiei">

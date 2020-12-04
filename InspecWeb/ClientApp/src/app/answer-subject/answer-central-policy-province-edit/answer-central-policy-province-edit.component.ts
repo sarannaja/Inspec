@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
 import { AnswersubjectService } from 'src/app/services/answersubject.service';
-import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { AuthorizeService } from 'src/api-authorization-new/authorize.service';
 import { Answerrole7List } from 'src/app/services/nikmodel/answerrole7list';
 import { GetQuestionPeople } from 'src/app/services/nikmodel/answarrole7';
 import { NotofyService } from 'src/app/services/notofy.service';

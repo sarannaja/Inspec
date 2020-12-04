@@ -3,8 +3,7 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppComponent } from './app.component';
-import { ApiAuthorizationModule } from 'src/api-authorization/api-authorization.module';
-import { AuthorizeInterceptor } from 'src/api-authorization/authorize.interceptor';
+import { ApiAuthorizationModule } from 'src/api-authorization-new/api-authorization.module';
 import { ModalModule } from 'ngx-bootstrap/modal';
 // import { SelectModule } from 'ng-select'
 import { MyDatePickerTHModule } from 'mydatepicker-th';
@@ -238,9 +237,9 @@ import { TrainingSummaryReportProjectComponent } from './training-summary-report
 
 import { TypeexamibationplanComponent } from './typeexamibationplan/typeexamibationplan.component';
 import { UserComponent } from './user/user.component';
-import { HttpRequestInterceptor } from 'src/api-authorization/HttpRequestInterceptor';
 import { UserManager } from 'oidc-client';
-import { NewLoginComponent } from 'src/api-authorization/new-login/new-login.component';
+import { HttpRequestInterceptor } from 'src/api-authorization-sss/HttpRequestInterceptor';
+import { AuthorizeInterceptor } from 'src/api-authorization-new/authorize.interceptor';
 
 
 
@@ -456,8 +455,8 @@ import { NewLoginComponent } from 'src/api-authorization/new-login/new-login.com
   ],
   
   imports: [
-    // BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
+    // BrowserModule,
     HttpClientModule,
     FormsModule,
     ApiAuthorizationModule,

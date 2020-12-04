@@ -5,7 +5,7 @@ import { FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms'
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { CentralpolicyService } from 'src/app/services/centralpolicy.service';
 import { UserService } from 'src/app/services/user.service';
-import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { AuthorizeService } from 'src/api-authorization-new/authorize.service';
 import { ElectronicbookService } from 'src/app/services/electronicbook.service';
 import { NotificationService } from 'src/app/services/notification.service';
 

@@ -11,7 +11,7 @@ import { DepartmentService } from 'src/app/services/department.service';
 import { SubquestionService } from 'src/app/services/subquestion.service';
 import * as _ from 'lodash';
 import { NotofyService } from 'src/app/services/notofy.service';
-import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { AuthorizeService } from 'src/api-authorization-new/authorize.service';
 
 @Component({
   selector: 'app-edit-subject',

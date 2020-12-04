@@ -18,6 +18,8 @@ export class VectorMapComponent implements OnInit {
   resultregionalagency:any = [];
   resultpublicsectoradvisor:any = [];
   imgprofileUrl:any;
+  provinceName:any;
+  show = 0 ;
   code_color = code_color;
   mapdata: Array<Province>
   dtOptions: any = {};
@@ -62,33 +64,34 @@ export class VectorMapComponent implements OnInit {
       })
 
   }
-  clickProvince(province: Province) {
-    //console.log('click regoin', province);
-    this.extranal.getProvince(province.id)
-      .subscribe(result => {
+  clickProvince(province: Province = { id : 1,name:"กรุงเทพมหานคร",iso:"TH-01"}) {
+  
+    ////<!-- ของบักปามทำไว้ -->
+    // this.extranal.getProvince(province.id)
+    //   .subscribe(result => {
        
-        this.provincesData = result.fiscalYears
-       // console.log(this.provincesData,result.fiscalYears);
-
-      })
+    //     this.provincesData = result.fiscalYears
+    //   })
+    ////<!-- END ของบักปามทำไว้ -->
+    
+      this.show = 1;
+      this.provinceName = province.name;
      
-      this.userService.getuserinspectordata(0,province.id).subscribe(result=>{
+      this.userService.getuserinspectorformapdata(province.name).subscribe(result=>{
         this.resultInspector = result
       })
-      this.userService.getuserdistrictofficerdata(0,province.id)
-      .subscribe(result => {
-        //alert(this.roleId);
-        this.resultdistrictofficer = result;
 
-        //console.log(this.resultuser);
+      this.userService.getuserdistrictofficerformapdata(province.name)
+      .subscribe(result => {
+        this.resultdistrictofficer = result;
       })
 
-      this.userService.getuserregionalagencydata(0,province.id)
+      this.userService.getuserregionalagencyformapdata(province.name)
       .subscribe(result => {
         this.resultregionalagency = result;
       })
 
-      this.userService.getuserpublicsectoradvisordata(0,province.id)
+      this.userService.getuserpublicsectoradvisorformapdata(province.name)
       .subscribe(result => {
         this.resultpublicsectoradvisor = result;
       })

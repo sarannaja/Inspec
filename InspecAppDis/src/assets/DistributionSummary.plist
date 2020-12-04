@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>inspecApp.ipa</key>
+	<array>
+		<dict>
+			<key>architectures</key>
+			<array>
+				<string>armv7</string>
+				<string>arm64</string>
+			</array>
+			<key>certificate</key>
+			<dict>
+				<key>SHA1</key>
+				<string>1B6B18E105B864214E3AC87B9A4448D8C434F150</string>
+				<key>dateExpires</key>
+				<string>29/3/2564 BE</string>
+				<key>type</key>
+				<string>Apple Distribution</string>
+			</dict>
+			<key>entitlements</key>
+			<dict>
+				<key>application-identifier</key>
+				<string>RVLQ6T4Y33.com.tot.inspec</string>
+				<key>aps-environment</key>
+				<string>production</string>
+				<key>com.apple.developer.team-identifier</key>
+				<string>RVLQ6T4Y33</string>
+				<key>get-task-allow</key>
+				<false/>
+			</dict>
+			<key>name</key>
+			<string>สตร..app</string>
+			<key>profile</key>
+			<dict>
+				<key>UUID</key>
+				<string>32ada0f1-2f93-4d5d-bb4e-455fff2d80a0</string>
+				<key>name</key>
+				<string>iOS Team Ad Hoc Provisioning Profile: com.tot.inspec</string>
+			</dict>
+			<key>team</key>
+			<dict>
+				<key>id</key>
+				<string>RVLQ6T4Y33</string>
+				<key>name</key>
+				<string>Tot Public Company Limited</string>
+			</dict>
+		</dict>
+	</array>
+</dict>
+</plist>

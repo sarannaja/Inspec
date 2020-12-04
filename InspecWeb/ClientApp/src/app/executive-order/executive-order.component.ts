@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { CentralpolicyService } from '../services/centralpolicy.service';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
-import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { AuthorizeService } from 'src/api-authorization-new/authorize.service';
 import { UserService } from 'src/app/services/user.service';
 import { ExecutiveorderService } from '../services/executiveorder.service';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
