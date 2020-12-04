@@ -269,6 +269,29 @@ namespace InspecWeb.Controllers
             }
         }
         //<!-- END ข้อมูลผู้ติดต้อ ผู้ตรวจราชการ -->
+
+        //<!-- ข้อมูลผู้ติดต้อ ผู้ตรวจราชการ แผนที่ -->
+        [HttpGet("api/[controller]/[action]/{provincename}")]
+        public IEnumerable<ApplicationUser> inspectorformap(string provincename)
+        {
+
+                var users = _context.Users
+                  .Include(s => s.UserRegion)
+                  .ThenInclude(r => r.Region)
+                  .Include(s => s.UserProvince)
+                  .ThenInclude(r => r.Province)
+                  .Include(s => s.Province)
+                  .Include(s => s.Ministries)
+                   .Where(m => m.Role_id == 3 || m.Role_id == 6 || m.Role_id == 10)
+                  .Where(m => m.Position2 == "ผู้ตรวจราชการ")
+                  .Where(x => x.UserProvince.Any(x => x.Province.Name == provincename))
+                  .Where(m => m.Active == 1);
+
+                return users;
+          
+        }
+        //<!-- END ข้อมูลผู้ติดต้อ ผู้ตรวจราชการแผนที่ -->
+
         // <!-- exceข้อมูลผู้ติดต้อ ผู้ตรวจราชการ excel -->
         [HttpGet("api/[controller]/excelinspector")]
         public IActionResult excelinspector()
@@ -396,6 +419,31 @@ namespace InspecWeb.Controllers
             }
         }
         //<!-- END ข้อมูลผู้ติดต้อ เจ้าหน้าที่ประจำเขตตรวจราชการ 
+
+
+        //<!-- ข้อมูลผู้ติดต้อ เจ้าหน้าที่ประจำเขตตรวจราชการ -->
+        [HttpGet("api/[controller]/[action]/{provincename}")]
+        public IEnumerable<ApplicationUser> districtofficerformap( string provincename)
+        {
+ 
+            
+                var users = _context.Users
+                  .Include(s => s.UserRegion)
+                  .ThenInclude(r => r.Region)
+                  .Include(s => s.UserProvince)
+                  .ThenInclude(r => r.Province)
+                  .Include(s => s.Province)
+                  .Include(s => s.Ministries)
+                   .Where(m => m.Role_id == 3 || m.Role_id == 6 || m.Role_id == 10)
+                  .Where(m => m.Position2 != "ผู้ตรวจราชการ")
+                  .Where(x => x.UserProvince.Any(x => x.Province.Name == provincename))
+                  .Where(m => m.Active == 1);
+
+                return users;
+                
+        }
+        //<!-- END ข้อมูลผู้ติดต้อ เจ้าหน้าที่ประจำเขตตรวจราชการ 
+
         // <!-- exceข้อมูลผู้ติดต้อ เจ้าหน้าที่ประจำเขตตรวจราชการ excel -->
         [HttpGet("api/[controller]/excelofficerinspection")]
         public IActionResult excelexcelofficerinspection()
@@ -526,6 +574,31 @@ namespace InspecWeb.Controllers
             }
         }
         //<!-- END ข้อมูลผู้ติดต้อ หน่วยงานภูมิภาค หรือ หน่วยรับตรวจ -->
+
+        //<!-- ข้อมูลผู้ติดต้อ หน่วยงานภูมิภาค หรือ หน่วยรับตรวจ -->
+        [HttpGet("api/[controller]/[action]/{provincename}")]
+        public IEnumerable<ApplicationUser> regionalagencyformap(string provincename)
+        {
+
+                var users = _context.Users
+                  .Include(s => s.UserRegion)
+                  .ThenInclude(r => r.Region)
+                  .Include(s => s.UserProvince)
+                  .ThenInclude(r => r.Province)
+                  .Include(s => s.Province)
+                  .Include(s => s.Ministries)
+                  .Include(s => s.Departments)
+                  .Include(s => s.ProvincialDepartments)
+                  .Where(m => m.Role_id == 9)
+                  .Where(x => x.UserProvince.Any(x => x.Province.Name == provincename))
+                  .Where(m => m.Active == 1);
+
+                return users;
+            
+
+        }
+        //<!-- END ข้อมูลผู้ติดต้อ หน่วยงานภูมิภาค หรือ หน่วยรับตรวจ -->
+
         // <!-- exceข้อมูลผู้ติดต้อ เจ้าหน้าที่ประจำเขตตรวจราชการ excel -->
         [HttpGet("api/[controller]/excelregionalagency")]
         public IActionResult excelexcelregionalagency()
@@ -656,6 +729,31 @@ namespace InspecWeb.Controllers
 
         }
         //<!-- END ข้อมูลผู้ติดต้อ ภาคประชาชน -->
+
+
+        [HttpGet("api/[controller]/[action]/{provincename}")]
+        public IEnumerable<ApplicationUser> publicsectoradvisorformap(string provincename)
+        {
+
+            var users = _context.Users
+              .Include(s => s.UserRegion)
+              .ThenInclude(r => r.Region)
+              .Include(s => s.UserProvince)
+              .ThenInclude(r => r.Province)
+              .Include(s => s.Province)
+              .Include(s => s.Ministries)
+              .Include(s => s.Sides)
+              .Where(m => m.Role_id == 7)
+              .Where(x => x.UserProvince.Any(x => x.Province.Name == provincename))
+              .Where(m => m.Active == 1);
+
+            return users;
+
+
+
+        }
+
+
         // <!-- exceข้อมูลผู้ติดต้อ ภาคประชาชน excel -->
         [HttpGet("api/[controller]/exceladvisercivilsector")]
         public IActionResult exceladvisercivilsector()
