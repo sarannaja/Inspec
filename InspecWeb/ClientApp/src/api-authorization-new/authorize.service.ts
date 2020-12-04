@@ -135,7 +135,7 @@ export class AuthorizeService {
       return this.success(user && user.state);
     } catch (error) {
       console.log('There was an error signing in: ', error);
-      alert('มีบางอย่างผิดพลาดอย่างไม่น่าเชื่อเกิดขึ้น')
+      // alert('มีบางอย่างผิดพลาดอย่างไม่น่าเชื่อเกิดขึ้น')
       location.href = `${window.origin}/identity/account/login`
       return this.error('There was an error signing in.');
     }
