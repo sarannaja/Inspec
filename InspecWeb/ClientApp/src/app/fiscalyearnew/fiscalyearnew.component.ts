@@ -6,7 +6,7 @@ import { NotofyService } from '../services/notofy.service';
 import { FiscalyearnewService } from '../services/fiscalyearnew.service';
 import { IMyOptions } from 'mydatepicker-th';
 import { LogService } from '../services/log.service';
-import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { AuthorizeService } from 'src/api-authorization-new/authorize.service';
 import { UserService } from '../services/user.service';
 
 @Component({

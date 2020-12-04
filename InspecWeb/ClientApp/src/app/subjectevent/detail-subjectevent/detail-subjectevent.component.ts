@@ -11,7 +11,7 @@ import { SubjectService } from 'src/app/services/subject.service';
 import { ElectronicbookService } from 'src/app/services/electronicbook.service';
 import { DepartmentService } from 'src/app/services/department.service';
 import { NotificationService } from 'src/app/services/notification.service';
-import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { AuthorizeService } from 'src/api-authorization-new/authorize.service';
 import * as Chart from 'chart.js';
 import { SubquestionService } from 'src/app/services/subquestion.service';
 import { IMyOptions, IMyDateModel } from 'mydatepicker-th';

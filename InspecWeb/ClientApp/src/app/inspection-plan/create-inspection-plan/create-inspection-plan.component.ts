@@ -7,7 +7,7 @@ import { FiscalyearService } from 'src/app/services/fiscalyear.service';
 import { ProvinceService } from 'src/app/services/province.service';
 
 import { InspectionplanService } from '../../services/inspectionplan.service';
-import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { AuthorizeService } from 'src/api-authorization-new/authorize.service';
 import { UserService } from 'src/app/services/user.service';
 
 interface addInput {

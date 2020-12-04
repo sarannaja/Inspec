@@ -6,6 +6,7 @@ import { LogoutComponent } from './logout/logout.component';
 import { RouterModule } from '@angular/router';
 import { ApplicationPaths } from './api-authorization.constants';
 import { HttpClientModule } from '@angular/common/http';
+import { AuthorizeService } from 'src/api-authorization-new/authorize.service';
 
 @NgModule({
   imports: [
@@ -25,6 +26,7 @@ import { HttpClientModule } from '@angular/common/http';
     )
   ],
   declarations: [LoginMenuComponent, LoginComponent, LogoutComponent],
-  exports: [LoginMenuComponent, LoginComponent, LogoutComponent]
+  exports: [LoginMenuComponent, LoginComponent, LogoutComponent],
+  // providers:[AuthorizeService]
 })
 export class ApiAuthorizationModule { }

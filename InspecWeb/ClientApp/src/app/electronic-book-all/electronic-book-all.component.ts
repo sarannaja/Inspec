@@ -2,7 +2,7 @@ import { Component, Inject, OnInit, TemplateRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { AuthorizeService } from 'src/api-authorization-new/authorize.service';
 import { ElectronicbookService } from '../services/electronicbook.service';
 import { InspectionplanService } from '../services/inspectionplan.service';
 import { NotofyService } from '../services/notofy.service';

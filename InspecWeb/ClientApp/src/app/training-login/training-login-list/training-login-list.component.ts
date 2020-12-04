@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { AuthorizeService } from 'src/api-authorization-new/authorize.service';
 import { InspectionplanService } from 'src/app/services/inspectionplan.service';
 import { NotofyService } from 'src/app/services/notofy.service';
 import { TrainingLoginService } from 'src/app/services/training-login.service';

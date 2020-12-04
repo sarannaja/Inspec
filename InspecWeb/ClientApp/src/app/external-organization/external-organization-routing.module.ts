@@ -8,7 +8,7 @@ import { JoaComponent } from './joa/joa.component';
 import { VectorMapComponent } from './vector-map/vector-map.component';
 import { ProvinceOtpsComponent } from './otps/province-otps/province-otps.component';
 import { VectorMapComponent2 } from './vector-map2/vector-map.component';
-import { AuthorizeGuard } from 'src/api-authorization/authorize.guard';
+import { AuthorizeGuard } from 'src/api-authorization-new/authorize.guard';
 
 const routes: Routes = [
   {

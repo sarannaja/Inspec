@@ -2,7 +2,7 @@ import { Component, OnInit, TemplateRef, Inject } from '@angular/core';
 import { AnswersubjectService } from 'src/app/services/answersubject.service';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
-import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { AuthorizeService } from 'src/api-authorization-new/authorize.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { SuggestionsubjectService } from 'src/app/services/suggestionsubject.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';

@@ -5,7 +5,7 @@ import { InspectionplanService } from '../services/inspectionplan.service';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 import { FormGroup, FormBuilder, FormControl, Validators, FormArray } from '@angular/forms';
-import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { AuthorizeService } from 'src/api-authorization-new/authorize.service';
 import { UserService } from '../services/user.service';
 import { NotificationService } from '../services/notification.service';
 import { IMyOptions, IMyDateModel } from 'mydatepicker-th';

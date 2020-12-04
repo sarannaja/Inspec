@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { IMyOptions } from 'mydatepicker-th';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { AuthorizeService } from 'src/api-authorization-new/authorize.service';
 import { ElectronicbookService } from '../services/electronicbook.service';
 import { ExportReportService } from '../services/export-report.service';
 import { InspectionplanService } from '../services/inspectionplan.service';

@@ -3,7 +3,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { FormGroup, FormBuilder, FormControl, Validators, FormArray } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ElectronicbookService } from '../services/electronicbook.service';
-import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { AuthorizeService } from 'src/api-authorization-new/authorize.service';
 import { InspectionplanService } from '../services/inspectionplan.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { UserService } from '../services/user.service';

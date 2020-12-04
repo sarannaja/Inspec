@@ -6,7 +6,7 @@ import { NotofyService } from '../services/notofy.service';
 import { SectorService } from '../services/sector.service';
 import { LogService } from '../services/log.service';
 import { UserService } from '../services/user.service';
-import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { AuthorizeService } from 'src/api-authorization-new/authorize.service';
 
 
 @Component({

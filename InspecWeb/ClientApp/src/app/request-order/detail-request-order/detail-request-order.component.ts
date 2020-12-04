@@ -6,7 +6,7 @@
 // import { ProvinceService } from 'src/app/services/province.service';
 // 
 // import { RequestorderService } from 'src/app/services/requestorder.service';
-// import { AuthorizeService } from 'src/api-authorization/authorize.service';
+// import { AuthorizeService } from 'src/api-authorization-new/authorize.service';
 // import { UserService } from 'src/app/services/user.service';
 // import { InspectionplanService } from 'src/app/services/inspectionplan.service';
 // import { NotificationService } from 'src/app/services/notification.service';

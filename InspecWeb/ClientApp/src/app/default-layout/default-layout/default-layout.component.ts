@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Component, OnInit, Inject, TemplateRef, HostListener } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { superAdmin, Centraladmin, Inspector, Provincialgovernor, Adminprovince, InspectorMinistry, publicsector, president, InspectorDepartment, InspectorExamination, External, allNav, NavBar } from './_nav';
-import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { AuthorizeService } from 'src/api-authorization-new/authorize.service';
 import { UserService } from 'src/app/services/user.service';
 import { FormGroup, FormBuilder, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { NotificationService } from 'src/app/services/notification.service';
@@ -13,7 +13,7 @@ import { ExecutiveorderService } from 'src/app/services/executiveorder.service';
 import * as _ from 'lodash';
 import { MenuService } from 'src/app/services/menu.service';
 import { User } from 'oidc-client';
-import { PasswordStrengthValidator } from 'src/api-authorization/new-login/password-strength.validators';
+import { PasswordStrengthValidator } from 'src/api-authorization-sss/new-login/password-strength.validators';
 @Component({
   selector: 'app-default-layout',
   templateUrl: './default-layout.component.html',

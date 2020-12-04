@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { AuthorizeService } from 'src/api-authorization-new/authorize.service';
 import { AnswersubjectService } from 'src/app/services/answersubject.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Router } from '@angular/router';

@@ -4,7 +4,7 @@ import { TrainingService } from '../services/training.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { TrainingRegisterlist } from '../services/toeymodel/trainingregisterlist';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { AuthorizeService } from 'src/api-authorization-new/authorize.service';
 import { NotofyService } from '../services/notofy.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { LogService } from '../services/log.service';

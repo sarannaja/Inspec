@@ -8,7 +8,7 @@ import { ProvincialDepartmentService } from '../services/provincialdepartment.se
 import { ProvinceService } from '../services/province.service';
 import { NotofyService } from '../services/notofy.service';
 import { ExternalOrganizationService } from '../services/external-organization.service';
-import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { AuthorizeService } from 'src/api-authorization-new/authorize.service';
 import { UserService } from '../services/user.service';
 import { LogService } from '../services/log.service';
 

@@ -1,4 +1,4 @@
-export const ApplicationName = 'inspecLoginFix';
+export const ApplicationName = 'InspecWeb';
 
 export const ReturnUrlType = 'returnUrl';
 

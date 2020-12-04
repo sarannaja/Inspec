@@ -6,7 +6,7 @@ import { CentralpolicyService } from '../services/centralpolicy.service';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 
 import { UserService } from '../services/user.service';
-import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { AuthorizeService } from 'src/api-authorization-new/authorize.service';
 import { InspectionplanService } from '../services/inspectionplan.service';
 import { Router } from '@angular/router';
 import { NotofyService } from '../services/notofy.service';
