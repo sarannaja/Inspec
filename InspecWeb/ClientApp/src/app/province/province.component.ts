@@ -9,7 +9,7 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { NotofyService } from '../services/notofy.service';
 import { LogService } from '../services/log.service';
 import { UserService } from '../services/user.service';
-import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { AuthorizeService } from 'src/api-authorization-new/authorize.service';
 
 
 @Component({

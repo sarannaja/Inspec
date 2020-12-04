@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import * as _ from 'lodash';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { AuthorizeService } from 'src/api-authorization-new/authorize.service';
 import { CentralpolicyService } from 'src/app/services/centralpolicy.service';
 import { DepartmentService } from 'src/app/services/department.service';
 import { ElectronicbookService } from 'src/app/services/electronicbook.service';

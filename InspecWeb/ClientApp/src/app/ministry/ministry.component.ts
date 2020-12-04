@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 import { MinistryService } from '../services/ministry.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NotofyService } from '../services/notofy.service';
-import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { AuthorizeService } from 'src/api-authorization-new/authorize.service';
 import { UserService } from '../services/user.service';
 import { LogService } from '../services/log.service';
 

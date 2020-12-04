@@ -4,7 +4,7 @@ import { TrainingIDCodeComponent } from './training-idcode.component';
 import { Routes, RouterModule } from '@angular/router';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { AuthorizeInterceptor } from 'src/api-authorization/authorize.interceptor';
+import { AuthorizeInterceptor } from 'src/api-authorization-new/authorize.interceptor';
 
 const routes: Routes = [
   {

@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { CentralpolicyService } from '../../services/centralpolicy.service';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { NgxSpinnerService } from "ngx-spinner";
-import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { AuthorizeService } from 'src/api-authorization-new/authorize.service';
 import { InspectionplanService } from 'src/app/services/inspectionplan.service';
 import { NotificationService } from 'src/app/services/notification.service';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';

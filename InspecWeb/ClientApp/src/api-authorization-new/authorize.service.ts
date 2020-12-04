@@ -1,4 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 import { User, UserManager, WebStorageStateStore } from 'oidc-client';
 import { BehaviorSubject, concat, from, Observable } from 'rxjs';
 import { filter, map, mergeMap, take, tap } from 'rxjs/operators';
@@ -29,17 +32,22 @@ export enum AuthenticationResultStatus {
   Fail
 }
 
-export interface IUser {
+export enum Role {
+  Test1 = 'Test1',
+  Test2 = 'Test2'
+} export interface IUser {
   name: string;
+  role_id: Role;
+  sub: string;
 }
-
 @Injectable({
   providedIn: 'root'
 })
 export class AuthorizeService {
   // By default pop ups are disabled because they don't work properly on Edge.
   // If you want to enable pop up authentication simply set this flag to false.
-
+  constructor(private router: Router, private http: HttpClient, private _CookieService: CookieService
+  ) { }
   private popUpDisabled = true;
   private userManager: UserManager;
   private userSubject: BehaviorSubject<IUser | null> = new BehaviorSubject(null);
@@ -74,6 +82,10 @@ export class AuthorizeService {
     let user: User = null;
     try {
       user = await this.userManager.signinSilent(this.createArguments());
+
+      this.role(user.profile)
+      this._CookieService.set('UserIdMobile', user.profile.sub)
+      this.userSubject.next(Object.assign(user.profile, JSON.parse(localStorage.getItem('data'))));
       this.userSubject.next(user.profile);
       return this.success(state);
     } catch (silentError) {
@@ -85,7 +97,10 @@ export class AuthorizeService {
           throw new Error('Popup disabled. Change \'authorize.service.ts:AuthorizeService.popupDisabled\' to false to enable it.');
         }
         user = await this.userManager.signinPopup(this.createArguments());
-        this.userSubject.next(user.profile);
+        await this.role(user.profile)
+        this.userSubject.next(Object.assign(user.profile, JSON.parse(localStorage.getItem('data'))));
+
+        // this.userSubject.next(user.profile);
         return this.success(state);
       } catch (popupError) {
         if (popupError.message === 'Popup window closed') {
@@ -111,10 +126,17 @@ export class AuthorizeService {
     try {
       await this.ensureUserManagerInitialized();
       const user = await this.userManager.signinCallback(url);
-      this.userSubject.next(user && user.profile);
+      this.role(user.profile)
+      this._CookieService.set('UserIdMobile', user && user.profile)
+
+      // this.userSubject.next(user && user.profile);
+      this.userSubject.next(user && Object.assign(user && user.profile ? user.profile : null, JSON.parse(localStorage.getItem('data'))));
+
       return this.success(user && user.state);
     } catch (error) {
       console.log('There was an error signing in: ', error);
+      alert('มีบางอย่างผิดพลาดอย่างไม่น่าเชื่อเกิดขึ้น')
+      location.href = `${window.origin}/identity/account/login`
       return this.error('There was an error signing in.');
     }
   }
@@ -175,7 +197,7 @@ export class AuthorizeService {
     }
 
     const response = await fetch(ApplicationPaths.ApiAuthorizationClientConfigurationUrl);
-    if (!response.ok) {
+    if (!response.ok) { 
       throw new Error(`Could not load settings for '${ApplicationName}'`);
     }
 
@@ -195,5 +217,20 @@ export class AuthorizeService {
       .pipe(
         mergeMap(() => this.userManager.getUser()),
         map(u => u && u.profile));
+  }
+
+  role(profile: any) {
+    try {
+      this.http.get<any>('/api/get_role/' + profile.sub)
+        .subscribe(result => {
+          // console.log("result",result);
+
+          localStorage.setItem('data', JSON.stringify(result));
+        })
+    } catch {
+      console.error('api/get_role ' + ':bug');
+
+    }
+
   }
 }

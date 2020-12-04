@@ -8,7 +8,7 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 import * as _ from 'lodash';
 import * as moment from 'moment';
-import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { AuthorizeService } from 'src/api-authorization-new/authorize.service';
 declare var $: any;
 @Injectable({
   providedIn: 'root'

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { AuthorizeGuard } from 'src/api-authorization/authorize.guard';
+import { AuthorizeGuard } from 'src/api-authorization-new/authorize.guard';
 // import { LogoutComponent } from 'src/api-authorization/logout/logout.component';
 import { AdviserCivilSectorComponent } from './adviser-civil-sector/adviser-civil-sector.component';
 import { AllReportIframeDetailComponent } from './all-report-iframe/all-report-iframe-detail/all-report-iframe-detail.component';
@@ -197,9 +197,7 @@ import { ThaiDatePipe } from './services/Pipe/thaidate.service';
 import { ChartComponent } from './subjectevent/detail-subjectevent/chart/chart.component';
 import { RegisterTrainingComponent } from './training/register-training/register-training.component';
 import { VilageComponent } from './vilage/vilage.component';
-import { ApplicationPaths } from 'src/api-authorization/api-authorization.constants';
-import { NewLoginComponent } from 'src/api-authorization/new-login/new-login.component';
-import { LoginComponent } from 'src/api-authorization/login/login.component';
+
 
 const routes: Routes = [
   { path: '', redirectTo: 'main/thaimap', pathMatch: 'full' },

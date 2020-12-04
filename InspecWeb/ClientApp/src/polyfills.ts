@@ -55,10 +55,10 @@ import 'web-animations-js';  // Run `npm install --save web-animations-js`.
 /***************************************************************************************************
  * Zone JS is required by default for Angular itself.
  */
-(window as any).__Zone_enable_cross_context_check = true;
+// (window as any).__Zone_enable_cross_context_check = true;
 import 'zone.js/dist/zone';  // Included with Angular CLI.
 
-import "isomorphic-fetch"
+// import "isomorphic-fetch"
 // import 'core-js/es7/reflect';
 /***************************************************************************************************
  * APPLICATION IMPORTS

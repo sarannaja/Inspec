@@ -6,7 +6,7 @@ import { Location } from '@angular/common';
 import { InspectionplaneventService } from 'src/app/services/inspectionplanevent.service';
 import { ProvinceService } from 'src/app/services/province.service';
 
-import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { AuthorizeService } from 'src/api-authorization-new/authorize.service';
 import { UserService } from 'src/app/services/user.service';
 import { CentralpolicyService } from 'src/app/services/centralpolicy.service';
 import { SubjectService } from 'src/app/services/subject.service';

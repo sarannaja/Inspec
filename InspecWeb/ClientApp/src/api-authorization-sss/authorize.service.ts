@@ -6,7 +6,7 @@ import { User, UserManager, WebStorageStateStore } from 'oidc-client';
 import { BehaviorSubject, concat, from, Observable } from 'rxjs';
 import { filter, map, mergeMap, take, tap } from 'rxjs/operators';
 import { ApplicationPaths, ApplicationName } from './api-authorization.constants';
-
+import axios from 'axios';
 export type IAuthenticationResult =
   SuccessAuthenticationResult |
   FailureAuthenticationResult |
@@ -117,7 +117,7 @@ export class AuthorizeService {
 
         // PopUps might be blocked by the user, fallback to redirect
         try {
-          // await this.userManager.signinRedirect(this.createArguments(state));
+          await this.userManager.signinRedirect(this.createArguments(state));
           return this.redirect();
         } catch (redirectError) {
           console.log('Redirect authentication error: ', redirectError);
@@ -166,9 +166,9 @@ export class AuthorizeService {
       await this.ensureUserManagerInitialized();
       await this.userManager.signoutPopup(this.createArguments());
       this.userSubject.next(null);
-      this.http.post('/api/auth/login', {}).subscribe(res => {
+      // this.http.post('/api/auth/logout', {}).subscribe(res => {
 
-      })
+      // })
       return this.success(state);
     } catch (popupSignOutError) {
       console.log('Popup signout error: ', popupSignOutError);
@@ -216,6 +216,8 @@ export class AuthorizeService {
       return;
     }
 
+
+    // const response = await fetch(ApplicationPaths.ApiAuthorizationClientConfigurationUrl);
     const response = await fetch(ApplicationPaths.ApiAuthorizationClientConfigurationUrl);
     if (!response.ok) {
       throw new Error(`Could not load settings for '${ApplicationName}'`);

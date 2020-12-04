@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { AuthorizeService } from 'src/api-authorization-new/authorize.service';
 import { ExcelService } from '../services/excel.service';
 import { WordService } from '../services/word.service';
 import { CookieService } from 'ngx-cookie-service';
@@ -56,13 +56,13 @@ export class MainComponent implements OnInit {
         moment.fn.toISOString = function () {
           return '/Date(' + (+this) + this.format('ZZ') + ')';
         }
-        result ? console.log(
-          new Date(Date.now()),
-          moment("/Date(" + moment(new Date(result.auth_time).toUTCString()).valueOf() + moment(new Date(result.auth_time).toUTCString()).format("ZZ") + ")/").format("YYYY-MM-DD hh:mmA")
+        // result ? console.log(
+        //   new Date(Date.now()),
+        //   moment("/Date(" + moment(new Date(result.auth_time).toUTCString()).valueOf() + moment(new Date(result.auth_time).toUTCString()).format("ZZ") + ")/").format("YYYY-MM-DD hh:mmA")
 
-          ,
-          'result.auth_time')
-          : ''
+        //   ,
+        //   'result.auth_time')
+        //   : ''
         this._CookieService.set('UserIdMobile', result.sub)
         // console.log('UserMMo', result);
 

@@ -9,7 +9,7 @@ import { FiscalyearService } from 'src/app/services/fiscalyear.service';
 import { ProvinceService } from 'src/app/services/province.service';
 import { IMyOptions, IMyDateModel } from 'mydatepicker-th';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { AuthorizeService } from 'src/api-authorization-new/authorize.service';
 import * as _ from 'lodash';
 import { ExternalOrganizationService } from 'src/app/services/external-organization.service';
 import { Detailrow } from './detailrow-central';

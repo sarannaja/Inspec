@@ -9,7 +9,7 @@ import { IMyDate } from 'mydatepicker-th';
 import { SubjectService } from '../services/subject.service';
 import { DepartmentService } from '../services/department.service';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { AuthorizeService } from 'src/api-authorization-new/authorize.service';
 import { NotofyService } from '../services/notofy.service';
 
 @Component({

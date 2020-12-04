@@ -17,7 +17,7 @@ import { NotofyService } from '../services/notofy.service';
 import { SideService } from '../services/side.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { LogService } from '../services/log.service';
-import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { AuthorizeService } from 'src/api-authorization-new/authorize.service';
 // import { SecurityContext } from '@angular/compiler/src/core';
 
 @Component({

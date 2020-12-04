@@ -2,7 +2,7 @@ import { Component, OnInit, Inject, TemplateRef } from '@angular/core';
 import { IMyOptions } from 'mydatepicker-th';
 import { FormGroup, FormBuilder, FormArray, FormControl, Validators } from '@angular/forms';
 
-import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { AuthorizeService } from 'src/api-authorization-new/authorize.service';
 import { Router } from '@angular/router';
 import { InspectionplaneventService } from 'src/app/services/inspectionplanevent.service';
 import { UserService } from 'src/app/services/user.service';

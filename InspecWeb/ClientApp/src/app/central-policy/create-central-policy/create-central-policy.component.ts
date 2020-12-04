@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { FiscalyearService } from 'src/app/services/fiscalyear.service';
 import { ProvinceService, Province } from 'src/app/services/province.service';
 
-import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { AuthorizeService } from 'src/api-authorization-new/authorize.service';
 import { ExternalOrganizationService } from 'src/app/services/external-organization.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { NotofyService } from 'src/app/services/notofy.service';

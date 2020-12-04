@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AnswersubjectService } from 'src/app/services/answersubject.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { AuthorizeService } from 'src/api-authorization-new/authorize.service';
 
 @Component({
   selector: 'app-answer-people-list',

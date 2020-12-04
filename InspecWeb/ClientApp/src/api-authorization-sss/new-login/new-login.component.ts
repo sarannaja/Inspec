@@ -59,10 +59,10 @@ export class NewLoginComponent implements OnInit {
         console.log('ssss', isAuthenticated);
 
       }));
-    const isIEOrEdge = /msie\s|trident\/|edge\//i.test(window.navigator.userAgent)
+    // const isIEOrEdge = /msie\s|trident\/|edge\//i.test(window.navigator.userAgent)
 
-    isIEOrEdge ? location.href = '/Identity/Account/Login' : null
-    console.log('isIEOrEdge', isIEOrEdge);
+    // isIEOrEdge ? location.href = '/Identity/Account/Login' : null
+    // console.log('isIEOrEdge', isIEOrEdge);
 
     const action = this.route.snapshot.url[1];
     switch (action.path) {

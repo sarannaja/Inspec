@@ -4,7 +4,7 @@ import { TrainingService } from 'src/app/services/training.service';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { IMyOptions } from 'mydatepicker-th';
-import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { AuthorizeService } from 'src/api-authorization-new/authorize.service';
 import { NotofyService } from 'src/app/services/notofy.service';
 import { LogService } from 'src/app/services/log.service';
 

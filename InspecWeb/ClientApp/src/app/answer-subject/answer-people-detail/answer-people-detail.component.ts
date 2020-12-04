@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, FormArray, FormControl, Validators } from '@ang
 import { AnswersubjectService } from 'src/app/services/answersubject.service';
 import { SuggestionsubjectService } from 'src/app/services/suggestionsubject.service';
 import { ActivatedRoute } from '@angular/router';
-import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { AuthorizeService } from 'src/api-authorization-new/authorize.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({

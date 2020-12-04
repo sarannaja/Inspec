@@ -6,7 +6,7 @@ import { MinistryService } from '../services/ministry.service';
 import { NotofyService } from '../services/notofy.service';
 import { LogService } from '../services/log.service';
 import { UserService } from '../services/user.service';
-import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { AuthorizeService } from 'src/api-authorization-new/authorize.service';
 
 @Component({
   selector: 'app-cabinet',

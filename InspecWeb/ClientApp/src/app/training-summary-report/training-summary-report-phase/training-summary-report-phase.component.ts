@@ -12,7 +12,7 @@ import { Chart } from 'chart.js';
 import { NotofyService } from '../../services/notofy.service';
 import { NgxSpinnerService } from "ngx-spinner";
 import { LogService } from '../../services/log.service';
-import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { AuthorizeService } from 'src/api-authorization-new/authorize.service';
 
 @Component({
   selector: 'app-training-summary-report-phase',

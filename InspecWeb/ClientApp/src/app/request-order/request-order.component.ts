@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject, TemplateRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { AuthorizeService } from 'src/api-authorization-new/authorize.service';
 import { UserService } from 'src/app/services/user.service';
 import { RequestorderrService } from '../services/requestorderr.service';
 
