@@ -47,16 +47,20 @@ namespace InspecWeb
                    Configuration.GetConnectionString("DefaultConnection")));
 
             //<!-- เช็ทพาสเวิร์ด -->
-            services.AddDefaultIdentity<ApplicationUser> (options => {
-                    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromHours (3);
-                    options.SignIn.RequireConfirmedAccount = false;
-                    options.Password.RequiredLength = 8;
-                    options.Password.RequireNonAlphanumeric = false;
-                    options.Password.RequireLowercase = false;
-                    options.Password.RequireUppercase = false;
-                    options.Password.RequireDigit = false;
-                })
-                .AddEntityFrameworkStores<ApplicationDbContext> ().AddDefaultTokenProviders ();
+            services.AddDefaultIdentity<ApplicationUser>(options =>
+            {
+                options.Lockout.MaxFailedAccessAttempts = 5;
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                
+                // options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromHours(3);
+                options.SignIn.RequireConfirmedAccount = false;
+                options.Password.RequiredLength = 8;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireDigit = false;
+            })
+                .AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
 
             //<!-- เช็ทพาสเวิร์ด
             services.AddIdentityServer()
@@ -71,10 +75,12 @@ namespace InspecWeb
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
                 {
+                    options.Cookie.Expiration = TimeSpan.FromMinutes(10);
                     options.SlidingExpiration = true;
-                    // options.ExpireTimeSpan = new TimeSpan (0, 0, 10);
+                    options.Cookie.IsEssential = true;
+                    options.ExpireTimeSpan = TimeSpan.FromMinutes(10);
                 })
-                .AddIdentityServerJwt ();
+                .AddIdentityServerJwt();
             // services.AddHttpClient ("testlo", c => {
             //     c.BaseAddress = new Uri ("http://127.0.0.1:3000/");
             //     // Github API versioning
@@ -159,7 +165,7 @@ namespace InspecWeb
                .AllowAnyMethod()
                .AllowAnyHeader()
             );
-           
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -207,8 +213,8 @@ namespace InspecWeb
                 spa.Options.SourcePath = "ClientApp";
                 if (env.IsDevelopment())
                 {
-                    spa.UseAngularCliServer(npmScript: "start");
-                    // spa.UseProxyToSpaDevelopmentServer("http://127.0.0.1:4200");
+                    // spa.UseAngularCliServer(npmScript: "start");
+                    spa.UseProxyToSpaDevelopmentServer("http://127.0.0.1:4200");
                 }
             });
         }
