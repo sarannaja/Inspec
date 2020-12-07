@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using InspecWeb.Data;
 
 namespace InspecWeb.Areas.Identity.Pages.Account
 {
@@ -21,11 +22,15 @@ namespace InspecWeb.Areas.Identity.Pages.Account
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly ApplicationDbContext _context;
 
         public LoginModel(SignInManager<ApplicationUser> signInManager,
             ILogger<LoginModel> logger,
+             ApplicationDbContext context,
             UserManager<ApplicationUser> userManager)
+
         {
+            _context = context;
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
@@ -80,11 +85,24 @@ namespace InspecWeb.Areas.Identity.Pages.Account
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(Input.Username, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+                var result = await _signInManager.PasswordSignInAsync(Input.Username, Input.Password, Input.RememberMe, lockoutOnFailure: true);
+
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User logged in.");
-                    return LocalRedirect(returnUrl);
+                    var user = _context.Users.Where(us => us.UserName == Input.Username).First();
+                    if (user.Active == 1)
+                    {
+                        return LocalRedirect(returnUrl);
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, "คุณไม่มีสิทธิ์เข้าใช้งานระบบ กรุณาติดต่อผู้ดูแลระบบ");
+                        await _signInManager.SignOutAsync();
+                        return Page();
+
+                    }
+
+                    // return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
                 {
@@ -92,13 +110,42 @@ namespace InspecWeb.Areas.Identity.Pages.Account
                 }
                 if (result.IsLockedOut)
                 {
-                    _logger.LogWarning("User account locked out.");
-                    return RedirectToPage("./Lockout");
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, "คุณทำการเข้าระบบผิดพลาดเกิน 5 ครั้ง กรุณาล็อคอินใหม่ในอีก 2 นาที");
+                    await _signInManager.SignOutAsync();
                     return Page();
+                }
+
+                else
+
+                {
+
+                    var identityUser = await _userManager.FindByEmailAsync(Input.Username);
+
+                    // var userr = 
+                    if (identityUser != null)
+                    {
+                        ModelState.AddModelError(string.Empty, $"คุณทำการเข้าสู่ระบบผิดพลาดแล้ว {identityUser.AccessFailedCount.ToString()} ครั้ง ถ้าเข้าสู่ระบบผิดพลาดเกิน 5 ครั้งคุณไม่สามารถเข้าสู่ระบบได้เป็นเวลา 5 นาที");
+                        return Page();
+                    }
+                    else
+                    {
+
+                        ModelState.AddModelError(string.Empty, "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง" + identityUser.AccessFailedCount.ToString());
+                        return Page();
+                    }
+                    // _logger.LogDebug(user.Id);
+                    // if (user != null)
+                    // {
+                    //     ModelState.AddModelError(string.Empty, "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง");
+                    //     return Page();
+                    // }
+                    // else
+                    // {
+                    //     ModelState.AddModelError(string.Empty, $"คุณทำการเข้าสู่ระบบผิดพลาดแล้ว {user.AccessFailedCount} ครั้ง ถ้าเข้าสู่ระบบผิดพลาดเกิน 5 ครั้งคุณไม่สามารถเข้าสู่ระบบได้เป็นเวลา 5 นาที");
+                    //     return Page();
+                    //     // return Ok(new { Message = , status = false, identityUser });
+                    // }
+
                 }
             }
 
