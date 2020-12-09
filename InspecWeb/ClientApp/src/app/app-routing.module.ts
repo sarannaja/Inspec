@@ -197,12 +197,15 @@ import { ThaiDatePipe } from './services/Pipe/thaidate.service';
 import { ChartComponent } from './subjectevent/detail-subjectevent/chart/chart.component';
 import { RegisterTrainingComponent } from './training/register-training/register-training.component';
 import { VilageComponent } from './vilage/vilage.component';
+import { BeforeLoginComponent } from './before-login/before-login.component';
 
 
 const routes: Routes = [
-  { path: '', redirectTo: 'main/thaimap', pathMatch: 'full' },
+  { path: '', redirectTo: '/', pathMatch: 'full' },
+  { path: '', component: BeforeLoginComponent },
+
   { path: 'main', redirectTo: 'main/thaimap', pathMatch: 'full' },
-  
+
   // { path: '', redirectTo: 'video', pathMatch: 'full' },
   // { path: ApplicationPaths.Login, component: NewLoginComponent },
   // { path: ApplicationPaths.Login, component: NewLoginComponent },
@@ -466,6 +469,7 @@ const routes: Routes = [
   { path: 'training/login-success', component: TrainingLoginSuccessComponent },
   { path: 'allreportiframe', component: AllReportIframeComponent },
   { path: 'allreportiframe/detail/:id', component: AllReportIframeDetailComponent },
+  { path: 'homepage', component: BeforeLoginComponent },
   { path: '**', redirectTo: 'main/thaimap', pathMatch: 'full' },
 ]
 

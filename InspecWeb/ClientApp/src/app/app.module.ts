@@ -240,6 +240,7 @@ import { UserComponent } from './user/user.component';
 import { UserManager } from 'oidc-client';
 import { HttpRequestInterceptor } from 'src/api-authorization-sss/HttpRequestInterceptor';
 import { AuthorizeInterceptor } from 'src/api-authorization-new/authorize.interceptor';
+import { BeforeLoginComponent } from './before-login/before-login.component';
 
 
 
@@ -452,8 +453,9 @@ import { AuthorizeInterceptor } from 'src/api-authorization-new/authorize.interc
     VilageComponent,
     // NewLoginComponent,
     DateLengthComponent ,
+    BeforeLoginComponent,
   ],
-  
+
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     // BrowserModule,
