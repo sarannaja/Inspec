@@ -198,6 +198,8 @@ import { ChartComponent } from './subjectevent/detail-subjectevent/chart/chart.c
 import { RegisterTrainingComponent } from './training/register-training/register-training.component';
 import { VilageComponent } from './vilage/vilage.component';
 import { BeforeLoginComponent } from './before-login/before-login.component';
+import { BeforeCentralPolicyComponent } from './central-policy/before-central-policy/before-central-policy.component';
+import { BeforeSubjectComponent } from './subject/before-subject/before-subject.component';
 
 
 const routes: Routes = [
@@ -470,6 +472,10 @@ const routes: Routes = [
   { path: 'allreportiframe', component: AllReportIframeComponent },
   { path: 'allreportiframe/detail/:id', component: AllReportIframeDetailComponent },
   { path: 'homepage', component: BeforeLoginComponent },
+  { path: 'maincentralpolicy', component: BeforeCentralPolicyComponent },
+  { path: 'maincentralpolicy/detailrowcentralpolicy/:id', component: DetailrowCentralPolicyComponent },
+  { path: 'mainsubject/:id', component: BeforeSubjectComponent },
+  { path: 'mainsubject/detailsubject/:id', component: DetailSubjectComponent },
   { path: '**', redirectTo: 'main/thaimap', pathMatch: 'full' },
 ]
 
