@@ -455,7 +455,7 @@ import { BeforeSubjectComponent } from './subject/before-subject/before-subject.
     VilageComponent,
     // NewLoginComponent,
     DateLengthComponent ,
-    BeforeLoginComponent,
+    // BeforeLoginComponent,
     BeforeCentralPolicyComponent,
     BeforeSubjectComponent,
   ],
