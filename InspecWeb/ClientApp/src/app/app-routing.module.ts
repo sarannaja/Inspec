@@ -470,6 +470,9 @@ const routes: Routes = [
   { path: 'allreportiframe', component: AllReportIframeComponent },
   { path: 'allreportiframe/detail/:id', component: AllReportIframeDetailComponent },
   { path: 'homepage', component: BeforeLoginComponent },
+  { path: 'supportgovernment/governmentinspectionareamain', component: GovernmentinspectionareaComponent},
+  { path: 'supportgovernment/governmentinspectionareamain/detail/:id', component: DetailGovernmentinspectionareaComponent},
+  { path: 'supportgovernment/circularlettermain', component: CircularletterComponent},
   { path: '**', redirectTo: 'main/thaimap', pathMatch: 'full' },
 ]
 

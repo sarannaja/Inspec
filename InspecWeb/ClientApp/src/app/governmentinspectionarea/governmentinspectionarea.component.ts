@@ -42,10 +42,10 @@ export class GovernmentinspectionareaComponent implements OnInit {
   };
 
   constructor(
-    private modalService: BsModalService, 
-    private fb: FormBuilder, 
+    private modalService: BsModalService,
+    private fb: FormBuilder,
     private fiscalyearservice: FiscalyearService,
-    public share: FiscalyearService, 
+    public share: FiscalyearService,
     private router: Router,
     private spinner: NgxSpinnerService,
     private logService: LogService,
@@ -53,7 +53,7 @@ export class GovernmentinspectionareaComponent implements OnInit {
     private userService: UserService,
     @Inject('BASE_URL') baseUrl: string,
     private _NotofyService: NotofyService,
-    ) { 
+    ) {
       this.fileUrl = baseUrl + '/Setinspectionareafile';
     }
 
@@ -94,7 +94,12 @@ export class GovernmentinspectionareaComponent implements OnInit {
     })
   }
   Detail(id: any) {
-    this.router.navigate(['/supportgovernment/governmentinspectionarea/detail', id])
+    if (this.userid == null) {
+      this.router.navigate(['/supportgovernment/governmentinspectionareamain/detail', id])
+    } else {
+      this.router.navigate(['/supportgovernment/governmentinspectionarea/detail', id])
+    }
+
   }
   excel(id){
     window.location.href = '/api/fiscalyear/excelfiscalyear/'+ id;
