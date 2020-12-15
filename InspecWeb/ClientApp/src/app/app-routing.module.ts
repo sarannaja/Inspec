@@ -197,12 +197,14 @@ import { ThaiDatePipe } from './services/Pipe/thaidate.service';
 import { ChartComponent } from './subjectevent/detail-subjectevent/chart/chart.component';
 import { RegisterTrainingComponent } from './training/register-training/register-training.component';
 import { VilageComponent } from './vilage/vilage.component';
+import { BeforeCentralPolicyComponent } from './central-policy/before-central-policy/before-central-policy.component';
+import { BeforeSubjectComponent } from './subject/before-subject/before-subject.component';
 
 
 const routes: Routes = [
   { path: '', redirectTo: 'main/thaimap', pathMatch: 'full' },
   { path: 'main', redirectTo: 'main/thaimap', pathMatch: 'full' },
-  
+
   // { path: '', redirectTo: 'video', pathMatch: 'full' },
   // { path: ApplicationPaths.Login, component: NewLoginComponent },
   // { path: ApplicationPaths.Login, component: NewLoginComponent },
@@ -466,6 +468,10 @@ const routes: Routes = [
   { path: 'training/login-success', component: TrainingLoginSuccessComponent },
   { path: 'allreportiframe', component: AllReportIframeComponent },
   { path: 'allreportiframe/detail/:id', component: AllReportIframeDetailComponent },
+  { path: 'maincentralpolicy', component: BeforeCentralPolicyComponent },
+  { path: 'maincentralpolicy/detailrowcentralpolicy/:id', component: DetailrowCentralPolicyComponent },
+  { path: 'mainsubject/:id', component: BeforeSubjectComponent },
+  { path: 'mainsubject/detailsubject/:id', component: DetailSubjectComponent },
   { path: '**', redirectTo: 'main/thaimap', pathMatch: 'full' },
 ]
 

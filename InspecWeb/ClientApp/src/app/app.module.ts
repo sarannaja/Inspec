@@ -240,6 +240,8 @@ import { UserComponent } from './user/user.component';
 import { UserManager } from 'oidc-client';
 import { HttpRequestInterceptor } from 'src/api-authorization-sss/HttpRequestInterceptor';
 import { AuthorizeInterceptor } from 'src/api-authorization-new/authorize.interceptor';
+import { BeforeCentralPolicyComponent } from './central-policy/before-central-policy/before-central-policy.component';
+import { BeforeSubjectComponent } from './subject/before-subject/before-subject.component';
 
 
 
@@ -452,6 +454,8 @@ import { AuthorizeInterceptor } from 'src/api-authorization-new/authorize.interc
     VilageComponent,
     // NewLoginComponent,
     DateLengthComponent ,
+    BeforeCentralPolicyComponent,
+    BeforeSubjectComponent,
   ],
   
   imports: [
