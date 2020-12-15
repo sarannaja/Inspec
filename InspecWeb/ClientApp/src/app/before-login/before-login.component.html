@@ -7,28 +7,126 @@
 
       <div class="card-header" style="background-color: #008491;text-align: center;">
         <img src="assets/img/logo2.png" width="300px" height="auto" />
-        <!-- <label style="font-size: 50px;">ระบบตรวจราชการอิเล็กทรอนิกส์</label> -->
       </div>
 
       <div class="card-body">
         <div class="mt-4" style="align-items: center;text-align: center;">
+          <div class="mb-5">
+            <button class="btn btn-lg" style="background-color: #018491; color: white;" (click)="GotoLogin()"
+              title="เข้าสู่ระบบ">คลิกที่นี่เพื่อเข้าสู่ระบบ e-Inspect</button>
+          </div>
           <div class="row">
-            <div class="col-6">
-              <button class="btn btn-primary" style="width: 80px; height: 80px; border-radius: 15px"
-                title="หน้าเข้าสู่ระบบ" (click)="GotoLogin()">
-                <i class="fa fa-sign-in-alt" style="font-size: 20px;"></i>
-                <br>
-                <label class="prompt">เข้าสู่ระบบ</label>
-              </button>
+
+            <div class="col-3 mb-5">
+              <button class="btn btn-primary" style="width: 90px; height: 90px; border-radius: 15px"
+                title="ปฏิทินการตรวจราชการของผู้ตรวจราชการ" (click)="goToCalendar()">
+                <i class="far fa-calendar-alt" style="font-size: 50px;"></i>
+              </button><br>
+              <label class="prompt mt-2">ปฏิทินการตรวจราชการของผู้ตรวจราชการ</label>
             </div>
 
-            <div class="col-6">
-              <button routerLink="/allreport" class="btn btn-primary"
-                style="width: 80px; height: 80px; border-radius: 15px">
-                <i class="fa fa-sign-in-alt" style="font-size: 20px;"></i>
-                <br>
-                <label class="prompt">ทดสอบ</label>
-              </button>
+            <div class="col-3 mb-5">
+              <button class="btn btn-primary" style="width: 90px; height: 90px; border-radius: 15px"
+                title="เล่มแผนการตรวจราชการ" (click)="goToCentralpolicy()">
+                <i class="fas fa-clipboard-list" style="font-size: 50px;"></i>
+              </button><br>
+              <label class="prompt mt-2">เล่มแผนการตรวจราชการ</label>
+            </div>
+
+            <div class="col-3 mb-5">
+              <button class="btn btn-primary" style="width: 90px; height: 90px; border-radius: 15px"
+                title="คำสั่งการตรวจราชการประจำปี" (click)="goToInspectionOrder()">
+                <i class="fas fa-chart-pie" style="font-size: 50px;"></i>
+              </button><br>
+              <label class="prompt mt-2">คำสั่งการตรวจราชการประจำปี</label>
+            </div>
+
+            <div class="col-3 mb-5">
+              <button class="btn btn-primary" style="width: 90px; height: 90px; border-radius: 15px"
+                title="หลักสูตรการฝึกอบรม" (click)="GotoLogin()">
+                <i class="fas fa-chalkboard-teacher" style="font-size: 50px;"></i>
+              </button><br>
+              <label class="prompt mt-2">หลักสูตรการฝึกอบรม</label>
+            </div>
+
+            <div class="col-3 mb-5">
+              <button class="btn btn-primary" style="width: 90px; height: 90px; border-radius: 15px"
+                title="การแบ่งเขตตรวจราชการ" (click)="goToGovermentInspectionArea()">
+                <i class="fas fa-globe-asia" style="font-size: 50px;"></i>
+              </button><br>
+              <label class="prompt mt-2">การแบ่งเขตตรวจราชการ</label>
+            </div>
+
+            <div class="col-3 mb-5">
+              <button class="btn btn-primary" style="width: 90px; height: 90px; border-radius: 15px"
+                title="กฎหมายที่เกี่ยวข้อง" (click)="goToLaw()">
+                <i class="fas fa-balance-scale-right" style="font-size: 50px;"></i>
+              </button><br>
+              <label class="prompt mt-2">กฎหมายที่เกี่ยวข้อง</label>
+            </div>
+
+            <div class="col-3 mb-5">
+              <button class="btn btn-primary" style="width: 90px; height: 90px; border-radius: 15px"
+                title="ยุทธศาสตร์ชาติ" (click)="goToNationalStrategy()">
+                <i class="fas fa-gavel" style="font-size: 50px;"></i>
+              </button><br>
+              <label class="prompt mt-2">ยุทธศาสตร์ชาติ</label>
+            </div>
+
+            <div class="col-3 mb-5">
+              <button class="btn btn-primary" style="width: 90px; height: 90px; border-radius: 15px"
+                title="แผนการปฏิรูปประเทศ" (click)="goToReformNation()">
+                <i class="fas fa-layer-group" style="font-size: 50px;"></i>
+              </button><br>
+              <label class="prompt mt-2">แผนการปฏิรูปประเทศ</label>
+            </div>
+
+            <div class="col-3 mb-5">
+              <button class="btn btn-primary" style="width: 90px; height: 90px; border-radius: 15px"
+                title="รายนามบุคลากรในระบบตรวจราชการ" (click)="GotoLogin()">
+                <i class="fas fa-users" style="font-size: 50px;"></i>
+              </button><br>
+              <label class="prompt mt-2">รายนามบุคลากรในระบบตรวจราชการ</label>
+            </div>
+
+            <div class="col-3 mb-5">
+              <button class="btn btn-primary" style="width: 90px; height: 90px; border-radius: 15px"
+                title="Link ส่วนราชการ" (click)="GotoLogin()">
+                <i class="fas fa-link" style="font-size: 50px;"></i>
+              </button><br>
+              <label class="prompt mt-2">Link ส่วนราชการ</label>
+            </div>
+
+            <div class="col-3 mb-5">
+              <button class="btn btn-primary" style="width: 90px; height: 90px; border-radius: 15px"
+                title="Link จังหวัด" (click)="GotoLogin()">
+                <i class="fas fa-link" style="font-size: 50px;"></i>
+              </button><br>
+              <label class="prompt mt-2">Link จังหวัด</label>
+            </div>
+
+            <div class="col-3 mb-5">
+              <button class="btn btn-primary" style="width: 90px; height: 90px; border-radius: 15px"
+                title="คู่มือการใช้งานระบบ e-Inspect" (click)="GotoLogin()">
+                <i class="fas fa-book" style="font-size: 50px;"></i>
+              </button><br>
+              <label class="prompt mt-2">คู่มือการใช้งานระบบ e-Inspect</label>
+            </div>
+
+            <div class="col-3 mb-5">
+              <button class="btn btn-primary" style="width: 90px; height: 90px; border-radius: 15px"
+                title="วีดิโอการใช้งานระบบ e-Inspect" (click)="GotoLogin()">
+                <i class="fas fa-video" style="font-size: 50px;"></i>
+              </button><br>
+              <label class="prompt mt-2">วีดิโอการใช้งานระบบ e-Inspect</label>
+            </div>
+
+            <div class="col-3 mb-5">
+              <button class="btn btn-primary" style="width: 90px; height: 90px; border-radius: 15px"
+                title="คำถามที่พบบ่อย" (click)="GotoLogin()">
+                <i class="fas fa-question-circle" style="font-size: 50px;"></i>
+              </button><br>
+              <label class="prompt mt-2">คำถามที่พบบ่อย</label>
             </div>
 
           </div>

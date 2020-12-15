@@ -476,6 +476,9 @@ const routes: Routes = [
   { path: 'maincentralpolicy/detailrowcentralpolicy/:id', component: DetailrowCentralPolicyComponent },
   { path: 'mainsubject/:id', component: BeforeSubjectComponent },
   { path: 'mainsubject/detailsubject/:id', component: DetailSubjectComponent },
+  { path: 'supportgovernment/governmentinspectionareamain', component: GovernmentinspectionareaComponent},
+  { path: 'supportgovernment/governmentinspectionareamain/detail/:id', component: DetailGovernmentinspectionareaComponent},
+  { path: 'supportgovernment/circularlettermain', component: CircularletterComponent},
   { path: '**', redirectTo: 'main/thaimap', pathMatch: 'full' },
 ]
 
