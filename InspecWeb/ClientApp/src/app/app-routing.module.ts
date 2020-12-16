@@ -473,6 +473,14 @@ const routes: Routes = [
   { path: 'supportgovernment/governmentinspectionareamain', component: GovernmentinspectionareaComponent},
   { path: 'supportgovernment/governmentinspectionareamain/detail/:id', component: DetailGovernmentinspectionareaComponent},
   { path: 'supportgovernment/circularlettermain', component: CircularletterComponent},
+  { path: 'infoministrymain', component: InfoMinistryComponent},
+  { path: 'infoministrymain/:id/infodepartment', component: InfoDepartmentComponent },
+  { path: 'informationprovincemain', component: InfomationProvinceComponent},
+  { path: 'infodistrictmain/:id', component: InfoDistrictComponent},
+  { path: 'infosubdistrictmain/:id', component: InfoSubdistrictComponent},
+  { path: 'infovillagemain/:id', component: InfoVillageComponent},
+  { path: 'inspectormain', component: InspectorComponent},
+  { path: 'inspectionordermain', component: InspectionorderComponent},
   { path: '**', redirectTo: 'main/thaimap', pathMatch: 'full' },
 ]
 

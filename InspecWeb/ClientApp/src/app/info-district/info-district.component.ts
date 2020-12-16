@@ -3,6 +3,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { DistrictService } from '../services/district.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AuthorizeService } from 'src/api-authorization-new/authorize.service';
 
 @Component({
   selector: 'app-info-district',
@@ -19,6 +20,7 @@ export class InfoDistrictComponent implements OnInit {
   loading = false;
   dtOptions: any = {};
   // router: any
+  userid: any;
 
   constructor(
     private modalService: BsModalService,
@@ -26,13 +28,19 @@ export class InfoDistrictComponent implements OnInit {
     private districtservice: DistrictService,
     private activatedRoute : ActivatedRoute,
     private router:Router,
-    public share: DistrictService) {
+    public share: DistrictService,
+    private authorize: AuthorizeService,
+    ) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
     this.name = activatedRoute.snapshot.paramMap.get('name')
   }
 
-  ngOnInit() { 
+  ngOnInit() {
     this.getdata();
+    this.authorize.getUser()
+    .subscribe(result => {
+      this.userid = result.sub
+  })
   }
 
   getdata(){
@@ -44,7 +52,12 @@ export class InfoDistrictComponent implements OnInit {
     })
   }
   Subdistrict(id){
-    this.router.navigate(['/infosubdistrict',id])
+    if (this.userid == null) {
+      this.router.navigate(['/infosubdistrictmain',id])
+    } else {
+      this.router.navigate(['/infosubdistrict',id])
+    }
+
   }
    //<!-- excel -->
    excel(){
