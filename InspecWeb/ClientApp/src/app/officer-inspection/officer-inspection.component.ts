@@ -124,6 +124,7 @@ export class OfficerInspectionComponent implements OnInit {
 
   Changeregion(event){
     this.region = event.target.value;
+    this.province = 0;
     this.loading = false;
     this.getdata(event.target.value,this.province);
   }

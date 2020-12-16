@@ -125,6 +125,7 @@ export class AdviserCivilSectorComponent implements OnInit {
 
   Changeregion(event){
     this.region = event.target.value;
+    this.province = 0;
     this.loading = false;
     this.getdata(event.target.value,this.province);
   }
@@ -132,7 +133,7 @@ export class AdviserCivilSectorComponent implements OnInit {
   Changeprovince(event){
     this.province = event.target.value;
     this.loading = false;
-    this.getdata( this.region,event.target.value);
+    this.getdata(this.region,event.target.value);
   }
 
 

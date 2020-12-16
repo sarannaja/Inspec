@@ -72,10 +72,10 @@
               <td>{{item.prefix}}{{ item.name }}</td>
               <td>
                 <div>
-                  <label class="badge badge-secondary mr-1">{{item.ministries.name}}</label>
+                  <label *ngIf="item.ministries != null" class="badge badge-secondary mr-1">{{item.ministries.name}}</label>
                 </div>
                 <div *ngIf="item.role_id == 10">
-                    <label class="badge badge-secondary mr-1">{{item.departments.name}}</label>
+                    <label *ngIf="item.departments != null" class="badge badge-secondary mr-1">{{item.departments.name}}</label>
                 </div>
               </td>
               <td>
