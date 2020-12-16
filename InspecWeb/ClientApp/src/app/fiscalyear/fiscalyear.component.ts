@@ -198,7 +198,7 @@ export class FiscalyearComponent implements OnInit {
     this.Form = this.fb.group({
       year: new FormControl(null, [Validators.required]),
       startdate: new FormControl(null, [Validators.required]),
-      enddate: new FormControl(null, [Validators.required]),
+      enddate: new FormControl(null),
       orderdate: new FormControl(null, [Validators.required]),
       files: new FormControl(null),
     })
