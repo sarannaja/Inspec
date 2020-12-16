@@ -24,6 +24,7 @@ Bin/
 obj/
 Obj/
 node_modules/
+inspec_video/
 
 # Visual Studio 2015 cache/options directory
 .vs/
