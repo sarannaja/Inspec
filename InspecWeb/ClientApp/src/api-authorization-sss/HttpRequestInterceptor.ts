@@ -6,7 +6,9 @@ import {
 import { Observable } from 'rxjs';
 
 /** Inject With Credentials into the request */
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class HttpRequestInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler):

@@ -204,7 +204,7 @@ import { BeforeSubjectComponent } from './subject/before-subject/before-subject.
 
 const routes: Routes = [
   { path: '', redirectTo: '/', pathMatch: 'full' },
-  { path: '', component: BeforeLoginComponent },
+  { path: '', loadChildren: () => import('../app/before-login/before-login.module').then(m => m.BeforeLoginModule) },
 
   { path: 'main', redirectTo: 'main/thaimap', pathMatch: 'full' },
 
@@ -471,7 +471,7 @@ const routes: Routes = [
   { path: 'training/login-success', component: TrainingLoginSuccessComponent },
   { path: 'allreportiframe', component: AllReportIframeComponent },
   { path: 'allreportiframe/detail/:id', component: AllReportIframeDetailComponent },
-  { path: 'homepage', component: BeforeLoginComponent },
+  // { path: 'homepage', component: BeforeLoginComponent },
   { path: 'maincentralpolicy', component: BeforeCentralPolicyComponent },
   { path: 'maincentralpolicy/detailrowcentralpolicy/:id', component: DetailrowCentralPolicyComponent },
   { path: 'mainsubject/:id', component: BeforeSubjectComponent },

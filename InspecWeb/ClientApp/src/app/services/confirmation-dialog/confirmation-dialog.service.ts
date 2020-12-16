@@ -4,7 +4,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationDialogComponent } from './confirmation-dialog.component';
 
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class ConfirmationDialogService {
 
   constructor(private modalService: NgbModal) { }

@@ -90,14 +90,14 @@ namespace InspecWeb.Controllers
 
                     var claimsIdentity = new ClaimsIdentity(
                         claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    await HttpContext.SignInAsync(
+                        CookieAuthenticationDefaults.AuthenticationScheme,
+                        new ClaimsPrincipal(claimsIdentity));
                     await _signInManager.PasswordSignInAsync(credentials.Username, credentials.Password, credentials.Jodjumchan, lockoutOnFailure: true);
                     // var UserId = userManager.GetUserIdAsync (identityUser);
                     var user = _context.Users.Where(us => us.UserName == credentials.Username).First();
 
                     // userManager.get (claimsIdentity)
-                    await HttpContext.SignInAsync(
-                        CookieAuthenticationDefaults.AuthenticationScheme,
-                        new ClaimsPrincipal(claimsIdentity));
 
                     if (user.Active == 1)
                     {
