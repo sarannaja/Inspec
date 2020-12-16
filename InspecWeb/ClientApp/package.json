@@ -10,7 +10,8 @@
     "build:ssr": "ng run InspecWeb:server:dev",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "start:ie": "ng serve --configuration=es5"
   },
   "private": true,
   "dependencies": {
@@ -96,6 +97,7 @@
     "moment": "^2.26.0",
     "mydatepicker-th": "^0.1.1",
     "mydaterangepicker": "^4.2.1",
+    "ng-ie-serve": "^1.0.3",
     "ng-snotify": "^4.3.1",
     "ng2-charts": "^2.3.2",
     "ngx-bootstrap": "^5.6.2",

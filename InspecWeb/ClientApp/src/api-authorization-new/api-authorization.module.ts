@@ -27,6 +27,6 @@ import { AuthorizeService } from 'src/api-authorization-new/authorize.service';
   ],
   declarations: [LoginMenuComponent, LoginComponent, LogoutComponent],
   exports: [LoginMenuComponent, LoginComponent, LogoutComponent],
-  // providers:[AuthorizeService]
+  providers:[AuthorizeService]
 })
 export class ApiAuthorizationModule { }

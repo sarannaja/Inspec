@@ -2,7 +2,9 @@ import { Injectable, Pipe, PipeTransform } from '@angular/core';
 
 export type SortOrder = 'asc' | 'desc';
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 @Pipe({
   name: 'sort',
 })
