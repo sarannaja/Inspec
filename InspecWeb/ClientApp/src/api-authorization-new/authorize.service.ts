@@ -53,13 +53,15 @@ export class AuthorizeService {
   private userSubject: BehaviorSubject<IUser | null> = new BehaviorSubject(null);
 
   public isAuthenticated(): Observable<boolean> {
+    // return this.userManager == undefined ? true : false
     return this.getUser().pipe(map(u => !!u));
   }
 
   public getUser(): Observable<IUser | null> {
     return concat(
       this.userSubject.pipe(take(1), filter(u => !!u)),
-      this.getUserFromStorage().pipe(filter(u => !!u), tap(u => this.userSubject.next(u))),
+      this.getUserFromStorage().pipe(filter(u => !!u),
+        tap(u => this.userSubject.next(u))),
       this.userSubject.asObservable());
   }
 
@@ -197,7 +199,7 @@ export class AuthorizeService {
     }
 
     const response = await fetch(ApplicationPaths.ApiAuthorizationClientConfigurationUrl);
-    if (!response.ok) { 
+    if (!response.ok) {
       throw new Error(`Could not load settings for '${ApplicationName}'`);
     }
 

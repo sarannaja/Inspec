@@ -49,7 +49,7 @@ namespace InspecWeb.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
-            [EmailAddress]
+            //[EmailAddress]
             public string Username { get; set; }
 
             [Required]

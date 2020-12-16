@@ -3,8 +3,8 @@
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a [routerLink]="['/main']">หน้าหลัก</a></li>
-      <li class="breadcrumb-item active" >จัดการฐานข้อมูล</li>
-      <li class="breadcrumb-item active">ประเภทด้านภาคประชาชน</li>
+      <li class="breadcrumb-item active" >ข้อมูลพื้นฐาน</li>
+      <li class="breadcrumb-item active">ด้านของที่ปรึกษาภาคประชาชน</li>
     </ol>
   </nav>
 </div>
@@ -12,7 +12,7 @@
   <div class="col-12">
     <div class="card card-eiei">
       <div class="card-header" style="margin-bottom: -40px;">
-        <h5 class="card-title">ประเภทด้านภาคประชาชน</h5>
+        <h5 class="card-title">ด้านของที่ปรึกษาภาคประชาชน</h5>
         <div class="float-right">
           <button class="btn btn-primary" (click)="openModal(modal)"
             style="margin-top: -60px;">เพิ่มข้อมูล</button>
@@ -64,7 +64,7 @@
   <form [formGroup]="Form" (ngSubmit)="store(Form.value)">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">ประเภทด้านภาคประชาชน</h5>
+        <h5 class="modal-title">ด้านของที่ปรึกษาภาคประชาชน</h5>
         <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -72,38 +72,38 @@
       <div class="modal-body m-3">
        
         <div class="form-group">
-          <label class="form-label">ชื่อด้านภาคประชาชน(TH)</label>
-          <input type="text" formControlName="Name" class="form-control" placeholder="กรุณากรอกชื่อด้านภาคประชาชน(TH)"
+          <label class="form-label">ชื่อด้านของที่ปรึกษาภาคประชาชน(TH)</label>
+          <input type="text" formControlName="Name" class="form-control" placeholder="กรุณากรอกชื่อด้านของที่ปรึกษาภาคประชาชน(TH)"
             [ngClass]="{ 'is-invalid': submitted && f.Name.errors }">
           <div *ngIf="submitted && f.Name.errors" class="invalid-feedback">
-            <div *ngIf="f.Name.errors.required">กรุณากรอกชื่อด้านภาคประชาชน(TH)</div>
+            <div *ngIf="f.Name.errors.required">กรุณากรอกชื่อด้านของที่ปรึกษาภาคประชาชน(TH)</div>
           </div> 
         </div>
 
         <div class="form-group">
-          <label class="form-label">ชื่อย่อด้านภาคประชาชน(TH)</label>
-          <input type="text" formControlName="ShortnameTH" class="form-control" placeholder="กรุณากรอกชื่อย่อด้านภาคประชาชน(TH)"
+          <label class="form-label">ชื่อย่อด้านของที่ปรึกษาภาคประชาชน(TH)</label>
+          <input type="text" formControlName="ShortnameTH" class="form-control" placeholder="กรุณากรอกชื่อย่อด้านของที่ปรึกษาภาคประชาชน(TH)"
           [ngClass]="{ 'is-invalid': submitted && f.ShortnameTH.errors }">
           <div *ngIf="submitted && f.ShortnameTH.errors" class="invalid-feedback">
-            <div *ngIf="f.ShortnameTH.errors.required">ชื่อย่อด้านภาคประชาชน(TH)</div>
+            <div *ngIf="f.ShortnameTH.errors.required">ชื่อย่อด้านของที่ปรึกษาภาคประชาชน(TH)</div>
           </div> 
         </div>
 
         <div class="form-group">
-          <label class="form-label">ชื่อด้านภาคประชาชน(EN)</label>
-          <input type="text" formControlName="NameEN" class="form-control" placeholder="กรุณากรอกชื่อด้านภาคประชาชน(EN)"
+          <label class="form-label">ชื่อด้านของที่ปรึกษาภาคประชาชน(EN)</label>
+          <input type="text" formControlName="NameEN" class="form-control" placeholder="กรุณากรอกชื่อด้านของที่ปรึกษาภาคประชาชน(EN)"
           [ngClass]="{ 'is-invalid': submitted && f.NameEN.errors }">
           <div *ngIf="submitted && f.NameEN.errors" class="invalid-feedback">
-            <div *ngIf="f.NameEN.errors.required">กรุณากรอกชื่อด้านภาคประชาชน(EN)</div>
+            <div *ngIf="f.NameEN.errors.required">กรุณากรอกชื่อด้านของที่ปรึกษาภาคประชาชน(EN)</div>
           </div> 
         </div>
 
         <div class="form-group">
-          <label class="form-label">ชื่อย่อด้านภาคประชาชน(EN)</label>
-          <input type="text" formControlName="ShortnameEN" class="form-control" placeholder="กรุณากรอกชื่อย่อด้านภาคประชาชน(EN)"
+          <label class="form-label">ชื่อย่อด้านของที่ปรึกษาภาคประชาชน(EN)</label>
+          <input type="text" formControlName="ShortnameEN" class="form-control" placeholder="กรุณากรอกชื่อย่อด้านของที่ปรึกษาภาคประชาชน(EN)"
           [ngClass]="{ 'is-invalid': submitted && f.ShortnameEN.errors }">
           <div *ngIf="submitted && f.ShortnameEN.errors" class="invalid-feedback">
-            <div *ngIf="f.ShortnameEN.errors.required">กรุณากรอกชื่อย่อด้านภาคประชาชน(EN)</div>
+            <div *ngIf="f.ShortnameEN.errors.required">กรุณากรอกชื่อย่อด้านของที่ปรึกษาภาคประชาชน(EN)</div>
           </div> 
         </div>
 
@@ -143,7 +143,7 @@
   <form [formGroup]="Form" (ngSubmit)="edit(Form.value,delid)">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">ประเภทด้านภาคประชาชน</h5>
+        <h5 class="modal-title">ด้านของที่ปรึกษาภาคประชาชน</h5>
         <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -159,29 +159,29 @@
         </div>
 
         <div class="form-group">
-          <label class="form-label">ชื่อย่อด้านภาคประชาชน(TH)</label>
-          <input type="text" formControlName="ShortnameTH" class="form-control" placeholder="กรุณากรอกชื่อย่อด้านภาคประชาชน(TH)"
+          <label class="form-label">ชื่อย่อด้านของที่ปรึกษาภาคประชาชน(TH)</label>
+          <input type="text" formControlName="ShortnameTH" class="form-control" placeholder="กรุณากรอกชื่อย่อด้านของที่ปรึกษาภาคประชาชน(TH)"
           [ngClass]="{ 'is-invalid': submitted && f.ShortnameTH.errors }">
           <div *ngIf="submitted && f.ShortnameTH.errors" class="invalid-feedback">
-            <div *ngIf="f.ShortnameTH.errors.required">ชื่อย่อด้านภาคประชาชน(TH)</div>
+            <div *ngIf="f.ShortnameTH.errors.required">ชื่อย่อด้านของที่ปรึกษาภาคประชาชน(TH)</div>
           </div> 
         </div>
 
         <div class="form-group">
-          <label class="form-label">ชื่อด้านภาคประชาชน(EN)</label>
-          <input type="text" formControlName="NameEN" class="form-control" placeholder="กรุณากรอกชื่อด้านภาคประชาชน(EN)"
+          <label class="form-label">ชื่อด้านของที่ปรึกษาภาคประชาชน(EN)</label>
+          <input type="text" formControlName="NameEN" class="form-control" placeholder="กรุณากรอกชื่อด้านของที่ปรึกษาภาคประชาชน(EN)"
           [ngClass]="{ 'is-invalid': submitted && f.NameEN.errors }">
           <div *ngIf="submitted && f.NameEN.errors" class="invalid-feedback">
-            <div *ngIf="f.NameEN.errors.required">กรุณากรอกชื่อด้านภาคประชาชน(EN)</div>
+            <div *ngIf="f.NameEN.errors.required">กรุณากรอกชื่อด้านของที่ปรึกษาภาคประชาชน(EN)</div>
           </div> 
         </div>
 
         <div class="form-group">
-          <label class="form-label">ชื่อย่อด้านภาคประชาชน(EN)</label>
-          <input type="text" formControlName="ShortnameEN" class="form-control" placeholder="กรุณากรอกชื่อย่อด้านภาคประชาชน(EN)"
+          <label class="form-label">ชื่อย่อด้านของที่ปรึกษาภาคประชาชน(EN)</label>
+          <input type="text" formControlName="ShortnameEN" class="form-control" placeholder="กรุณากรอกชื่อย่อด้านของที่ปรึกษาภาคประชาชน(EN)"
           [ngClass]="{ 'is-invalid': submitted && f.ShortnameEN.errors }">
           <div *ngIf="submitted && f.ShortnameEN.errors" class="invalid-feedback">
-            <div *ngIf="f.ShortnameEN.errors.required">กรุณากรอกชื่อย่อด้านภาคประชาชน(EN)</div>
+            <div *ngIf="f.ShortnameEN.errors.required">กรุณากรอกชื่อย่อด้านของที่ปรึกษาภาคประชาชน(EN)</div>
           </div> 
         </div>
       </div>
