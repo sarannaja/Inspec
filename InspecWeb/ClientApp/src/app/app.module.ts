@@ -243,6 +243,7 @@ import { AuthorizeInterceptor } from 'src/api-authorization-new/authorize.interc
 import { BeforeLoginComponent } from './before-login/before-login.component';
 import { BeforeCentralPolicyComponent } from './central-policy/before-central-policy/before-central-policy.component';
 import { BeforeSubjectComponent } from './subject/before-subject/before-subject.component';
+import { AuthorizeService } from 'src/api-authorization-new/authorize.service';
 
 
 
@@ -511,6 +512,7 @@ import { BeforeSubjectComponent } from './subject/before-subject/before-subject.
     ConfirmationDialogService,
     // UserManager,
     SortPipe,
+    AuthorizeService,
     // ConfirmationDialogService
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
