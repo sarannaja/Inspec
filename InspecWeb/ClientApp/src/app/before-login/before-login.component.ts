@@ -25,7 +25,7 @@ export class BeforeLoginComponent implements OnInit {
   }
 
   goToInspectionOrder() {
-    location.href = '/inspectionorder'
+    location.href = '/inspectionordermain'
   }
 
   goToGovermentInspectionArea() {
@@ -47,4 +47,21 @@ export class BeforeLoginComponent implements OnInit {
   goToCentralpolicy() {
     location.href = '/maincentralpolicy'
   }
+
+  goToTrain() {
+    location.href = '/train'
+  }
+
+  goToGoverment() {
+    location.href = '/infoministrymain'
+  }
+
+  goToProvince() {
+    location.href = '/informationprovincemain'
+  }
+
+  goToPeopleContact() {
+    location.href = '/inspectormain'
+  }
+
 }
