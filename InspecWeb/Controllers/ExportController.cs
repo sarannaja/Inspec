@@ -1853,7 +1853,7 @@ namespace InspecWeb.Controllers
                 .Include(x => x.ImportReportGroups)
                 .ThenInclude(x => x.CentralPolicyEvent)
                 .ThenInclude(x => x.CentralPolicy)
-                .Where(x => x.Status == "ส่งแล้ว")
+                //.Where(x => x.Status == "ส่งแล้ว")
                 .ToList();
 
             //var importData = _context.ImportReportGroups
