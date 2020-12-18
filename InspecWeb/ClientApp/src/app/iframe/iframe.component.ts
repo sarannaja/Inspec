@@ -19,6 +19,16 @@ export class IframeComponent implements OnInit {
 
     },
     {
+      url: `${location.origin}/governmentinspectionplaniframe`,
+      name: 'แผนการตรวจราชการประจำปี',
+
+    },
+    {
+      url: `${location.origin}/informationinspectioniframe`,
+      name: 'ข้อมูลประกอบการตรวจราชการ',
+
+    },
+    {
       url: `${location.origin}/allreportiframe`,
       name: 'ทะเบียนรายงานผลการตรวจราชการ',
     },
