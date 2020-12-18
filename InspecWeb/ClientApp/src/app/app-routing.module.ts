@@ -200,7 +200,8 @@ import { VilageComponent } from './vilage/vilage.component';
 import { BeforeLoginComponent } from './before-login/before-login.component';
 import { BeforeCentralPolicyComponent } from './central-policy/before-central-policy/before-central-policy.component';
 import { BeforeSubjectComponent } from './subject/before-subject/before-subject.component';
-
+import { GovernmentinspectionplaniframeComponent } from './governmentinspectionplaniframe/governmentinspectionplaniframe.component'; //แผนการตรวจราชการประจำปี iframe
+import { InformationinspectioniframeComponent } from './informationinspectioniframe/informationinspectioniframe.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/', pathMatch: 'full' },
@@ -487,7 +488,10 @@ const routes: Routes = [
   { path: 'infovillagemain/:id', component: InfoVillageComponent},
   { path: 'inspectormain', component: InspectorComponent},
   { path: 'inspectionordermain', component: InspectionorderComponent},
+  { path: 'governmentinspectionplaniframe', component: GovernmentinspectionplaniframeComponent}, //แผนการตรวจราชการประจำปี iframe
+  { path: 'informationinspectioniframe', component: InformationinspectioniframeComponent}, //ข้อมูลประกอบการตรวจราชการ iframe
   { path: '**', redirectTo: 'main/thaimap', pathMatch: 'full' },
+
 ]
 
 @NgModule({
