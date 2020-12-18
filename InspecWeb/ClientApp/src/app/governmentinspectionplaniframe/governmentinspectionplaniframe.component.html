@@ -29,7 +29,6 @@
               <th>รายละเอียด</th>
               <th>ไฟล์แนบ</th>
               <th>วันที่สร้าง</th>
-              <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
             </tr>
           </thead>
           <tbody>
@@ -42,18 +41,7 @@
               <ng-template #elseBlock>
                 <td></td>
               </ng-template>
-              <td>
-                <button class="btn btn-primary btn-pill btn-sm" title="แก้ไขข้อมูล">
-                  <i class="align-middle  fas fa-fw fa-pen"
-                    (click)="openModal(modaleditGovernmentinspectionplan, item.id, item.year, item.title, item.file)">
-                  </i>
-                </button>
-                <button class="btn btn-danger btn-pill btn-sm" title="ลบข้อมูล">
-                  <i class="align-middle  fas fa-fw fa-trash-alt"
-                    (click)="openModal(modaldeleteGovernmentinspectionplan, item.id)">
-                  </i>
-                </button>
-              </td>
+             
             </tr>
           </tbody>
         </table>

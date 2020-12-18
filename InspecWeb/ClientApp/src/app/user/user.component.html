@@ -291,7 +291,7 @@
                     </div>
                 </div>
 
-                <div>
+                <div *ngIf="roleId != 9 ">
                     <div class="row">
                         <label class="form-label col-6">เลขที่คำสั่งมอบหมายเขตตรวจ</label>
                         <label class="form-label col-6">วันที่ของคำสั่งมอบหมายเขตตรวจ</label>
@@ -711,7 +711,7 @@
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group"  *ngIf="roleId != 9 ">
                     <div class="row">
                         <label class="form-label col-6">เลขที่คำสั่งมอบหมายเขตตรวจ</label>
                         <label class="form-label col-6">วันที่ของคำสั่งมอบหมายเขตตรวจ</label>
@@ -817,7 +817,7 @@
 
                 <div>
                     <div class="row">
-                        <label class="form-label col-6">ตำแหน่ง(ไม่ใช้ตัวย่อ)**</label>
+                        <label class="form-label col-6">ตำแหน่ง(ไม่ใช้ตัวย่อ)*</label>
                         <label class="form-label col-6">โทรศัพท์*</label>
                     </div>
                     <div class="row">
