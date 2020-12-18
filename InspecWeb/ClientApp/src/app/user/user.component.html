@@ -19,7 +19,7 @@
                         </button>
                     </span> -->
                     <span>
-                        <button class="btn btn-pill btn-warning btn-lg" title="เพิ่มข้อมูลแบบทีละคน"
+                        <button class="btn btn-pill btn-warning btn-lg" title="เพิ่มข้อมูล"
                             (click)="openModal(modalUser)" style="margin-top: -60px;"><i
                                 class="align-middle fas fa-fw fa-plus"></i>
                         </button>
@@ -155,9 +155,14 @@
                                     <i class="align-middle fas fa-fw fa-pen"></i>
                                 </button>
 
-                                <button class="btn btn-danger btn-pill btn-sm" title="ลบข้อมูล"
+                                <button *ngIf="item.active == 1" class="btn btn-danger btn-pill btn-sm" title="ปิดการใช้งานผู้ใช้"
                                     (click)="openModal(modaldeleteuser, item.id,item.name)">
-                                    <i class="align-middle fas fa-fw fa-trash-alt"></i>
+                                    <i class="align-middle fas fa-fw fa-lock"></i>
+                                </button>
+
+                                <button *ngIf="item.active == 0;" class="btn btn-warning btn-pill btn-sm" title="เปิดการใช้งานผู้ใช้"
+                                    (click)="openModal(modaldeleteuseropen, item.id,item.name)">
+                                    <i class="align-middle fas fa-fw fa-unlock"></i>
                                 </button>
 
                             </td>
@@ -393,22 +398,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- <div class="form-group">
-                    <div class="row">                   
-                        <label class="form-label col-6">ชื่อ(EN)*</label>
-                        <label class="form-label col-6">นามสกุล(EN)*</label>
-                    </div>
-                    <div class="row">
-                        <div class="col-6">
-                            <input type="text" formControlName="" class="form-control" required placeholder="กรุณากรอกชื่อ(EN)">
-                        </div>
-                        
-                        <div class="col-6">
-                            <input type="text" formControlName="" class="form-control" required placeholder="กรุณากรอกนามสกุล(EN)">
-                        </div> 
-                    </div>
-                </div> -->
 
                 <div>
                     <div class="row">
@@ -826,22 +815,6 @@
                     </div>
                 </div>
 
-                <!-- <div class="form-group">
-                        <div class="row">                   
-                            <label class="form-label col-6">ชื่อ(EN)*</label>
-                            <label class="form-label col-6">นามสกุล(EN)*</label>
-                        </div>
-                        <div class="row">
-                            <div class="col-6">
-                                <input type="text" formControlName="" class="form-control" required placeholder="กรุณากรอกชื่อ(EN)">
-                            </div>
-                            
-                            <div class="col-6">
-                                <input type="text" formControlName="" class="form-control" required placeholder="กรุณากรอกนามสกุล(EN)">
-                            </div> 
-                        </div>
-                    </div> -->
-
                 <div>
                     <div class="row">
                         <label class="form-label col-6">ตำแหน่ง(ไม่ใช้ตัวย่อ)**</label>
@@ -942,15 +915,15 @@
 </ng-template>
 <!-- END edit modal -->
 
-<!-- BEGIN Delete modal -->
+<!-- BEGIN modal -->
 <ng-template #modaldeleteuser class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-body text-center" style="background-color: white; border-radius: 5px;">
         <i class="fa fa-info-circle delete-icon"></i>
         <p style="font-size: xx-large; color: #565656; margin-top: 20px;">
-            ลบข้อมูล
+            ปิดการใช้งานผู้ใช้
         </p>
         <p style="font-size: medium; color: #545454;">
-            คุณต้องการลบข้อมูลนี้ใช่หรือไม่ ?
+            คุณต้องการปิดการใช้งานผู้ใช้นี้ใช่หรือไม่ ?
         </p>
         <button type="button" class="btn btn-primary btnMargin" (click)="deleteuser(id)">
             ใช่
@@ -960,7 +933,27 @@
         </button>
     </div>
 </ng-template>
-<!-- END Delete modal -->
+<!-- END modal -->
+
+<!-- BEGIN modal -->
+<ng-template #modaldeleteuseropen class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-body text-center" style="background-color: white; border-radius: 5px;">
+        <i class="fa fa-info-circle delete-icon"></i>
+        <p style="font-size: xx-large; color: #565656; margin-top: 20px;">
+            เปิดการใช้งานผู้ใช้
+        </p>
+        <p style="font-size: medium; color: #545454;">
+            คุณต้องการเปิดการใช้งานผู้ใช้นี้ใช่หรือไม่ ?
+        </p>
+        <button type="button" class="btn btn-primary btnMargin" (click)="deleteuser(id)">
+            ใช่
+        </button>
+        <button type="button" class="btn btn-danger btnMargin" (click)="modalRef.hide()">
+            ไม่ใช่
+        </button>
+    </div>
+</ng-template>
+<!-- END modal -->
 
 <!-- BEGIN add modal -->
 <ng-template #modalpassword class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
@@ -974,8 +967,6 @@
                 </button>
             </div>
             <div class="modal-body m-3">
-
-
                 <div class="form-group">
                     <label class="form-label">UserName*</label>
                     <input type="text" formControlName="UserName" class="form-control" readonly placeholder="">
@@ -985,7 +976,6 @@
                     <label class="form-label">password*</label>
                     <input type="text" formControlName="Pw" class="form-control" readonly placeholder="">
                 </div>
-
             </div>
             <div class="modal-footer">
                 <button type="submit" class="btn btn-primary">Reset</button>

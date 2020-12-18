@@ -228,7 +228,7 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
       {
         icon: 'fa-file',
         url: '/user/9',
-        name: 'หน่วยงานตรวจ',
+        name: 'หน่วยรับตรวจ',
         ex_link: 'user',
         id: '9'
       },

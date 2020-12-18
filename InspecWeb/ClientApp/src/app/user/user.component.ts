@@ -411,19 +411,17 @@ export class UserComponent implements OnInit {
     } else if (this.roleId == 8) {
       this.rolename = 'นายกรัฐมนตรี,รองนายกรัฐมนตรี'
     } else if (this.roleId == 9) {
-      this.rolename = 'หน่วยงานตรวจราชการ'
+      this.rolename = 'หน่วยรับตรวจราชการ'
     } else if (this.roleId == 10) {
       this.rolename = 'ผู้ตรวจราชการกรม'
+    }else if (this.roleId == 11) {
+      this.rolename = 'ผู้ใช้ภายนอก'
     }
-    else if (this.roleId == 11) {
-    this.rolename = 'ผู้ใช้ภายนอก'
-  }
   }
 
   getDatafiscalyear() {
     this.fiscalyearService.getfiscalyeardata()
       .subscribe(result => {
-        //  console.log('mo', result)
         this.selectdatafiscalyear = result.map((item, index) => {
           return { value: item.id, label: item.year }
         })
@@ -432,7 +430,6 @@ export class UserComponent implements OnInit {
   }
   getDataRegions() {
     this.regionService.getregiondataforuser().subscribe(res => {
-      // let uniqueRegion: any = [];
       this.selectdataregion = res.importFiscalYearRelations.filter(
         (thing, i, arr) => arr.findIndex(t => t.regionId === thing.regionId) === i
       ).map((item, index) => {
@@ -441,8 +438,7 @@ export class UserComponent implements OnInit {
           label: item.region.name
         }
       });
-      // console.log(this.selectdataregion);
-      //  = uniqueRegion
+     
     })
   }
 
@@ -478,28 +474,15 @@ export class UserComponent implements OnInit {
     var test: any = [];
     this.ministryService.getministry()
       .subscribe(result => {
-
-        // if (this.roleId != 1 && this.roleId != 2) {
-        //   this.selectdataministry = result.filter((item, index) => {
-        //     return item.id != 1
-        //   }).map((item, index) => {
-        //     return { value: item.id, label: item.name }
-        //   })
-        // } else {
         this.selectdataministry = result.map((item, index) => {
           return { value: item.id, label: item.name }
         })
-        // }
-
-
       });
   }
 
   getDataDepartments(event) {
     this.departmentService.getdepartmentsforuserdata(event.value)
       .subscribe(result => {
-        //   console.log('result', result);
-
         this.selectdatadeparment = result.map((item, index) => {
           return { value: item.id, label: item.name }
         })
@@ -541,7 +524,6 @@ export class UserComponent implements OnInit {
 
     this.submitted = true;
     if (this.addForm.invalid) {
-      //console.log('mmm', Object.values(this.addForm.controls).map((result, index) => { return result.status == "INVALID" ? Object.keys(this.addForm.controls)[index] : false }), Object.keys(this.addForm.controls)[11])
       return;
     }
 
@@ -559,10 +541,8 @@ export class UserComponent implements OnInit {
   }
 
   updateuser(value) {
-    // alert(1);
     this.submitted = true;
     if (this.addForm.invalid) {
-      // console.log('mmm', Object.values(this.addForm.controls).map((result, index) => { return result.status == "INVALID" ? this.addForm.controls[index] : false }), Object.keys(this.addForm.controls)[25])
       return;
     }
     this.addForm.patchValue({
@@ -570,13 +550,7 @@ export class UserComponent implements OnInit {
     })
     this.userService.editprofile(this.addForm.value, this.addForm.value.files, null, this.id)
       .subscribe(response => {
-        this.logService.addLog(this.userid,'Users','แก้ไข',response.title,response.id).subscribe();
-        // this.userService.changepassword(this.id)
-        // .subscribe(result=>{
-        //   console.log('result changepassword' , result);
-
-        // })
-        // // alert(3);
+        this.logService.addLog(this.userid,'Users','แก้ไข',response.title,response.id).subscribe();    
         this.addForm.reset()
         this.modalRef.hide()
         this.loading = false
@@ -606,7 +580,6 @@ export class UserComponent implements OnInit {
 
   userform() {
     let roleId = this.route.snapshot.paramMap.get('id')
-    //alert(this.Autocreateuser)
     this.addForm = this.fb.group({
       Prefix: new FormControl(null, [Validators.required]),
       Position2: [
@@ -646,11 +619,6 @@ export class UserComponent implements OnInit {
       ], //20201027  yochigang
       FiscalYear: [
         1
-        // ,
-        // conditionalValidator(
-        //   (() => (this.roleId == 3 || this.roleId == 6 || this.roleId == 8) === true),
-        //   Validators.required
-        // )
       ],
 
       ProvincialDepartmentId: [null,
@@ -699,8 +667,6 @@ export class UserComponent implements OnInit {
       ],
       Autocreateuser: new FormControl(null, [Validators.required]),
       Pw: new FormControl(null),
-      // con1: new FormControl(null, [Validators.required]),
-      // con2: new FormControl(null, [Validators.required]),
     })
 
     function conditionalValidator(condition: (() => boolean), validator: ValidatorFn): ValidatorFn {
@@ -718,12 +684,10 @@ export class UserComponent implements OnInit {
     return new_date
   }
   showtext(event){
-   // alert(JSON.stringify(event));
+  
     if(event.value == "อื่นๆ"){
-     // alert("1");
       this.othertext = true;
     }else{
-     // alert("0");
       this.othertext = false;
     }
 
