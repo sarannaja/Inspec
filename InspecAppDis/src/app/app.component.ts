@@ -7,4 +7,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'InspecAppDis';
+
+  constructor(){
+    console.log('v3');
+    
+  }
 }
