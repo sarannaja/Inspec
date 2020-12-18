@@ -79,6 +79,9 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true
+            },
+            "es5": {
+              "tsConfig": "./tsconfig.es5.json"
             }
           }
         },
@@ -90,6 +93,9 @@
           "configurations": {
             "production": {
               "browserTarget": "InspecWeb:build:production"
+            },
+            "es5": {
+              "browserTarget": "InspecWeb:build:es5"
             }
           }
         },

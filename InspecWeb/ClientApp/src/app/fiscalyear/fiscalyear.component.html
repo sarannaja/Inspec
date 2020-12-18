@@ -4,7 +4,7 @@
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a [routerLink]="['/main']">หน้าหลัก</a></li>
       <li class="breadcrumb-item active">ข้อมูลพื้นฐาน</li>
-      <li class="breadcrumb-item active">กำหนดเขตตรวจราชการ</li>
+      <li class="breadcrumb-item active">คำสั่งกำหนดเขตตรวจราชการ</li>
     </ol>
   </nav>
 </div>
@@ -12,7 +12,7 @@
   <div class="col-12">
     <div class="card card-eiei">
       <div class="card-header" style="margin-bottom: -40px;">
-        <h5 class="card-title">กำหนดเขตตรวจราชการ</h5>
+        <h5 class="card-title">คำสั่งกำหนดเขตตรวจราชการ</h5>
         <div class="float-right">
           <button class="btn btn-primary" (click)="openModal(modalFiscalyear)"
             style="margin-top: -60px;">เพิ่มข้อมูล</button>
@@ -153,12 +153,12 @@
               <div class="form-group">
                 <my-date-picker-th formControlName="enddate" [options]="myDatePickerOptions" 
                   required placeholder="กรุณาเลือกวันที่สิ้นสุด" 
-                  [ngClass]="{ 'is-invalid': submitted && f.enddate.errors }">
+                >
                 </my-date-picker-th>
-                <div class="form-group" *ngIf="submitted &&  f.enddate.errors"
+                <!-- <div class="form-group" *ngIf="submitted &&  f.enddate.errors"
                   [ngStyle]="submitted &&  f.enddate.invalid ? {color: '#dc3545'}:{color: ''} ">
                   <div style="font-size: 80%;">กรุณาเลือกวันที่สิ้นสุด</div>
-                </div>
+                </div> -->
               </div>
             </div>
           </div>
@@ -265,12 +265,12 @@
               <div class="form-group">
                 <my-date-picker-th formControlName="enddate" [options]="myDatePickerOptions" 
                   required placeholder="กรุณาเลือกวันที่สิ้นสุด"
-                  [ngClass]="{ 'is-invalid': submitted && f.enddate.errors }">
+                 >
                 </my-date-picker-th>
-                <div class="form-group" *ngIf="submitted &&  f.enddate.errors"
+                <!-- <div class="form-group" *ngIf="submitted &&  f.enddate.errors"
                   [ngStyle]="submitted &&  f.enddate.invalid ? {color: '#dc3545'}:{color: ''} ">
                   <div style="font-size: 80%;">กรุณาเลือกวันที่สิ้นสุด</div>
-                </div>
+                </div> -->
               </div>
             </div>
           </div>
@@ -302,7 +302,7 @@
       คำสั่งกำหนดเขตตรวจราชการ
     </p>
     <p style="font-size: medium; color: #545454;">
-      คุณต้องการลบ Active คำสั่งกำหนดเขตตรวจราชการ ใช่หรือไม่ ?
+      คุณต้องการ Active คำสั่งกำหนดเขตตรวจราชการนี้ ใช่หรือไม่ ?
     </p>
     <button type="button" class="btn btn-primary btnMargin" (click)="activeFiscalyear(delid)">
       ใช่

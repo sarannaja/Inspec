@@ -4,7 +4,7 @@
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a [routerLink]="['/main']">หน้าหลัก</a></li>
         <li class="breadcrumb-item"><a [routerLink]="['/supportgovernment']">ข้อมูลสนับสนุน</a></li>
-        <li class="breadcrumb-item active">ข้อมูลพื้นฐานรายจังหวัด</li>
+        <li class="breadcrumb-item active">รายชื่อสวนราชการส่วนภูมิภาค/จังหวัด/เขตอำเภอ/ตำบล</li>
       </ol>
     </nav>
   </div>
@@ -12,7 +12,7 @@
   <div class="col-12">
     <div class="card card-eiei">
       <div class="card-header" style="margin-bottom: -40px;">
-        <h5 class="card-title">ข้อมูลพื้นฐานรายจังหวัด</h5>
+        <h5 class="card-title">รายชื่อสวนราชการส่วนภูมิภาค/จังหวัด/เขตอำเภอ/ตำบล</h5>
         <div class="float-right"> 
           <button class="btn btn-primary" (click)="word()"
             style="margin-top: -60px;margin-right: 7px;">word
@@ -39,7 +39,7 @@
               <td>{{ i + 1 }}</td>
               <td>{{item.sectors.name}}</td>
               <td>{{item.provincesGroups.name}}</td>
-              <td class="pointer" (click)="District(item.id,item.name)" title="อำเภอภายใต้คลิก">{{ item.name }}</td>
+              <td class="pointer" style="color:#3b7ddd;" (click)="District(item.id,item.name)" title="อำเภอภายใต้คลิก">{{ item.name }}</td>
               <td><a href="{{ item.link }}" target="_blank">{{ item.link }}</a></td>
               <ng-template #elseBlock>
                 <td></td>

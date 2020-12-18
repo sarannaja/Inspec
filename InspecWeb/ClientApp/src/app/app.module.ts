@@ -240,6 +240,10 @@ import { UserComponent } from './user/user.component';
 import { UserManager } from 'oidc-client';
 import { HttpRequestInterceptor } from 'src/api-authorization-sss/HttpRequestInterceptor';
 import { AuthorizeInterceptor } from 'src/api-authorization-new/authorize.interceptor';
+import { BeforeLoginComponent } from './before-login/before-login.component';
+import { BeforeCentralPolicyComponent } from './central-policy/before-central-policy/before-central-policy.component';
+import { BeforeSubjectComponent } from './subject/before-subject/before-subject.component';
+import { AuthorizeService } from 'src/api-authorization-new/authorize.service';
 
 
 
@@ -452,8 +456,11 @@ import { AuthorizeInterceptor } from 'src/api-authorization-new/authorize.interc
     VilageComponent,
     // NewLoginComponent,
     DateLengthComponent ,
+    // BeforeLoginComponent,
+    BeforeCentralPolicyComponent,
+    BeforeSubjectComponent,
   ],
-  
+
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     // BrowserModule,
@@ -505,6 +512,7 @@ import { AuthorizeInterceptor } from 'src/api-authorization-new/authorize.interc
     ConfirmationDialogService,
     // UserManager,
     SortPipe,
+    AuthorizeService,
     // ConfirmationDialogService
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

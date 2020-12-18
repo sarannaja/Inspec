@@ -23,7 +23,7 @@
               <th>คำสั่งกำหนดเขตตรวจราชการ</th>
               <th>ลงวันที่</th>
               <th>ระยะเวลา</th>
-              <th>สถานะ</th>
+              <!-- <th>สถานะ</th> -->
               <th>ไฟล์</th>
               <th></th>
             </tr>
@@ -40,16 +40,16 @@
                   {{ item.startDate | thaidate:'short'}} - {{ item.endDate | thaidate:'short'}}
                 </span>
               </td>
-              <td>
+              <!-- <td>
                 <button *ngIf="item.active == 1" style="cursor: default;" class="btn btn-success btn-pill btn-sm" title="active" >
                   Active
                 </button>
 
                 <button *ngIf="item.active == 0" style="cursor: default;" class="btn btn-danger btn-pill btn-sm" title="inactive">
-                    Inactive
+                  Inactive
                 </button>
 
-              </td>
+              </td> -->
               <td> 
                 <span *ngFor="let item2 of item.setinspectionareaFiles;let n = index" >
                   <a href="{{fileUrl}}/{{item2.name}}" download>{{n +1}}.{{item2.name}}</a><br>
@@ -58,7 +58,6 @@
             <td>
               <button class="btn btn-success btn-pill btn-sm" (click)="excel(item.id)">Excel</button>   
             </td>
-              
             </tr>
           </tbody>
         </table>

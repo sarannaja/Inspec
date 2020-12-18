@@ -2,36 +2,41 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Security.Claims;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+using InspecWeb.Data;
 using InspecWeb.Models;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Server.HttpSys;
 using Microsoft.Extensions.Logging;
-using InspecWeb.Data;
 
 namespace InspecWeb.Areas.Identity.Pages.Account
 {
-    [AllowAnonymous]
+    // [AllowAnonymous]
+
     public class LoginModel : PageModel
     {
         private readonly UserManager<ApplicationUser> _userManager;
+
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
         private readonly ApplicationDbContext _context;
 
         public LoginModel(SignInManager<ApplicationUser> signInManager,
             ILogger<LoginModel> logger,
-             ApplicationDbContext context,
+            ApplicationDbContext context,
             UserManager<ApplicationUser> userManager)
 
         {
             _context = context;
-            _userManager = userManager;
+            this._userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
         }
@@ -49,7 +54,7 @@ namespace InspecWeb.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
-            [EmailAddress]
+            //[EmailAddress]
             public string Username { get; set; }
 
             [Required]
@@ -64,17 +69,25 @@ namespace InspecWeb.Areas.Identity.Pages.Account
         {
             if (!string.IsNullOrEmpty(ErrorMessage))
             {
-                ModelState.AddModelError(string.Empty, ErrorMessage);
+                ModelState.AddModelError("", ErrorMessage);
             }
+            // var claims = ClaimsPrincipal.Current.Identity.IsAuthenticated;
+            // if (claims)
+            // {
 
+            // }
+            // var test = claims.Claims.ToList().FirstOrDefault(x => x.Type.Equals("UserName", StringComparison.OrdinalIgnoreCase));
             returnUrl = returnUrl ?? Url.Content("~/");
+
 
             // Clear the existing external cookie to ensure a clean login process
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
-
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            await _signInManager.SignOutAsync();
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-
             ReturnUrl = returnUrl;
+            _logger.LogWarning(_signInManager.GetExternalLoginInfoAsync().IsCompleted.ToString());
+            LocalRedirect("/");
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
@@ -86,9 +99,20 @@ namespace InspecWeb.Areas.Identity.Pages.Account
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var result = await _signInManager.PasswordSignInAsync(Input.Username, Input.Password, Input.RememberMe, lockoutOnFailure: true);
-
+                var identityUser = await _userManager.FindByNameAsync(Input.Username);
                 if (result.Succeeded)
                 {
+                    var claims = new List<Claim> {
+                        new Claim (Input.Username, identityUser.Email),
+                        new Claim (ClaimTypes.Name, identityUser.UserName)
+                    };
+
+                    var claimsIdentity = new ClaimsIdentity(
+                        claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                    await HttpContext.SignInAsync(
+                        CookieAuthenticationDefaults.AuthenticationScheme,
+                        new ClaimsPrincipal(claimsIdentity));
                     var user = _context.Users.Where(us => us.UserName == Input.Username).First();
                     if (user.Active == 1)
                     {
@@ -96,7 +120,7 @@ namespace InspecWeb.Areas.Identity.Pages.Account
                     }
                     else
                     {
-                        ModelState.AddModelError(string.Empty, "คุณไม่มีสิทธิ์เข้าใช้งานระบบ กรุณาติดต่อผู้ดูแลระบบ");
+                        ModelState.AddModelError("", "คุณไม่มีสิทธิ์เข้าใช้งานระบบ กรุณาติดต่อผู้ดูแลระบบ");
                         await _signInManager.SignOutAsync();
                         return Page();
 
@@ -110,38 +134,37 @@ namespace InspecWeb.Areas.Identity.Pages.Account
                 }
                 if (result.IsLockedOut)
                 {
-                    ModelState.AddModelError(string.Empty, "คุณทำการเข้าระบบผิดพลาดเกิน 5 ครั้ง กรุณาล็อคอินใหม่ในอีก 2 นาที");
+                    ModelState.AddModelError("", "คุณทำการเข้าระบบผิดพลาดเกิน 5 ครั้ง กรุณาล็อคอินใหม่ในอีก 2 นาที");
                     await _signInManager.SignOutAsync();
                     return Page();
                 }
-
                 else
 
                 {
 
-                    var identityUser = await _userManager.FindByEmailAsync(Input.Username);
+                    // var identityUser = await _userManager.FindByEmailAsync (Input.Username);
 
                     // var userr = 
                     if (identityUser != null)
                     {
-                        ModelState.AddModelError(string.Empty, $"คุณทำการเข้าสู่ระบบผิดพลาดแล้ว {identityUser.AccessFailedCount.ToString()} ครั้ง ถ้าเข้าสู่ระบบผิดพลาดเกิน 5 ครั้งคุณไม่สามารถเข้าสู่ระบบได้เป็นเวลา 5 นาที");
+                        ModelState.AddModelError("", $"คุณทำการเข้าสู่ระบบผิดพลาดแล้ว {identityUser.AccessFailedCount.ToString()} ครั้ง ถ้าเข้าสู่ระบบผิดพลาดเกิน 5 ครั้งคุณไม่สามารถเข้าสู่ระบบได้เป็นเวลา 5 นาที");
                         return Page();
                     }
                     else
                     {
 
-                        ModelState.AddModelError(string.Empty, "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง" + identityUser.AccessFailedCount.ToString());
+                        ModelState.AddModelError("", "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง");
                         return Page();
                     }
                     // _logger.LogDebug(user.Id);
                     // if (user != null)
                     // {
-                    //     ModelState.AddModelError(string.Empty, "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง");
+                    //     ModelState.AddModelError("", "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง");
                     //     return Page();
                     // }
                     // else
                     // {
-                    //     ModelState.AddModelError(string.Empty, $"คุณทำการเข้าสู่ระบบผิดพลาดแล้ว {user.AccessFailedCount} ครั้ง ถ้าเข้าสู่ระบบผิดพลาดเกิน 5 ครั้งคุณไม่สามารถเข้าสู่ระบบได้เป็นเวลา 5 นาที");
+                    //     ModelState.AddModelError("", $"คุณทำการเข้าสู่ระบบผิดพลาดแล้ว {user.AccessFailedCount} ครั้ง ถ้าเข้าสู่ระบบผิดพลาดเกิน 5 ครั้งคุณไม่สามารถเข้าสู่ระบบได้เป็นเวลา 5 นาที");
                     //     return Page();
                     //     // return Ok(new { Message = , status = false, identityUser });
                     // }

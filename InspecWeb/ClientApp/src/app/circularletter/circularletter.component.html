@@ -4,7 +4,7 @@
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a [routerLink]="['/main']">หน้าหลัก</a></li>
       <li class="breadcrumb-item"><a [routerLink]="['/supportgovernment']">ข้อมูลสนับสนุน</a></li>
-      <li class="breadcrumb-item active">กฎหมาย ระเบียบ หนังสือเวียน ฯลฯ</li>
+      <li class="breadcrumb-item active">กฎหมาย ระเบียบ</li>
     </ol>
   </nav>
 </div>
@@ -12,7 +12,7 @@
   <div class="col-12">
     <div class="card card-eiei">
       <div class="card-header" style="margin-bottom: -40px;">
-        <h5 class="card-title">กฎหมาย ระเบียบ หนังสือเวียน ฯลฯ</h5>
+        <h5 class="card-title">กฎหมาย ระเบียบ</h5>
         <div class="float-right" *ngIf="role_id == 1">
           <button class="btn btn-pill btn-warning btn-lg" title="เพิ่มข้อมูล" (click)="openModal(modalCreate)"
             style="margin-top: -60px;"><i class="align-middle fas fa-fw fa-plus"></i>
@@ -25,7 +25,7 @@
           <thead>
             <tr>
               <th>#</th>
-              <th>หัวเรื่อง</th>
+              <th>กฎหมาย/ระเบียบ</th>
               <th>ไฟล์</th>
               <th>วันที่สร้าง</th>
               <th *ngIf="role_id == 1"><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
@@ -78,11 +78,11 @@
       <div class="modal-body m-3">
         <div class="form-group">
           <div class="form-group">
-            <label class="form-label">หัวเรื่อง*</label>
-            <input type="text" formControlName="Title" class="form-control" placeholder="กรุณากรอกหัวเรือง"
+            <label class="form-label">กฎหมาย/ระเบียบ*</label>
+            <input type="text" formControlName="Title" class="form-control" placeholder="กรุณากรอกกฎหมาย/ระเบียบ"
             [ngClass]="{ 'is-invalid': submitted && f.Title.errors }">
             <div *ngIf="submitted && f.Title.errors" class="invalid-feedback">
-              <div *ngIf="f.Title.errors.required">กรุณากรอกหัวเรือง</div>
+              <div *ngIf="f.Title.errors.required">กรุณากรอกกฎหมาย/ระเบียบ</div>
             </div>      
           </div>
         </div>
@@ -120,11 +120,11 @@
       <div class="modal-body m-3">
         <div class="form-group">
           <div class="form-group">
-            <label class="form-label">หัวเรื่อง*</label>
-            <input type="text" formControlName="Title" class="form-control" placeholder="กรุณากรอกหัวเรือง"
+            <label class="form-label">กฎหมาย/ระเบียบ*</label>
+            <input type="text" formControlName="Title" class="form-control" placeholder="กรุณากรอกกฎหมาย/ระเบียบ"
               [ngClass]="{ 'is-invalid': submitted && f.Title.errors }">
             <div *ngIf="submitted && f.Title.errors" class="invalid-feedback">
-              <div *ngIf="f.Title.errors.required">กรุณากรอกหัวเรือง</div>
+              <div *ngIf="f.Title.errors.required">กรุณากรอกกฎหมาย/ระเบียบ</div>
             </div>       
           </div>
         </div>

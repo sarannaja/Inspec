@@ -14,12 +14,13 @@ export class AuthorizeGuard implements CanActivate {
   canActivate(
     _next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-      return this.authorize.isAuthenticated()
-        .pipe(tap(isAuthenticated => this.handleAuthorization(isAuthenticated, state)));
+    return this.authorize.isAuthenticated()
+      .pipe(tap(isAuthenticated => this.handleAuthorization(isAuthenticated, state)));
   }
 
   private handleAuthorization(isAuthenticated: boolean, state: RouterStateSnapshot) {
     if (!isAuthenticated) {
+      // this.router.navigate(['/'])
       this.router.navigate(ApplicationPaths.LoginPathComponents, {
         queryParams: {
           [QueryParameterNames.ReturnUrl]: state.url

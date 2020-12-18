@@ -103,7 +103,7 @@ namespace InspecWeb.Controllers
                 .Include(x => x.ProvincialDepartments)
                 .Include(p => p.Sides)
                 .Where(m => m.Role_id == id)
-                .Where(m => m.Active == 1)
+                //.Where(m => m.Active == 1)
                 .Where(m => m.Email != "admin@inspec.go.th")
                 .OrderByDescending(m => m.CreatedAt);
 
@@ -807,6 +807,32 @@ namespace InspecWeb.Controllers
             }
         }
         // <!-- END excelข้อมูลผู้ติดต้อ ภาคประชาชน excel -->
+
+
+        //<!-- ข้อมูลผู้ติดต้อ MAP -->
+        [HttpGet("api/[controller]/[action]/{provincename}")]
+        public IEnumerable<ApplicationUser> map(string provincename)
+        {
+
+
+            var users = _context.Users
+              .Include(s => s.UserRegion)
+              .ThenInclude(r => r.Region)
+              .Include(s => s.UserProvince)
+              .ThenInclude(r => r.Province)
+              .Include(s => s.Province)
+              .Include(s => s.Ministries)
+               .Where(m => m.Role_id == 3 || m.Role_id == 6 || m.Role_id == 7 || m.Role_id == 9 || m.Role_id == 10)
+              .Where(x => x.UserProvince.Any(x => x.Province.Name == provincename))
+              .Where(m => m.Active == 1)
+             // .GroupBy(x => new { x.MinistryId })
+             // .Select( x => x.)
+              ;
+
+            return users;
+
+        }
+        //<!-- END ข้อมูลผู้ติดต้อ MAP -->
 
         // POST api/values
         [Route("api/[controller]/changepassword/{id}")]
@@ -2352,8 +2378,8 @@ namespace InspecWeb.Controllers
 
             if (model.Formprofile != 1) // 1 คือแก้ไขจากตัวuser เอง
             {
-                var tresult = await _userManager.RemovePasswordAsync(userdata);
-                await _userManager.AddPasswordAsync(userdata, passwordrandom);
+                //var tresult = await _userManager.RemovePasswordAsync(userdata);
+                //await _userManager.AddPasswordAsync(userdata, passwordrandom);
             }
 
             //<!-- ปามมาไหม่ -->
@@ -2428,7 +2454,14 @@ namespace InspecWeb.Controllers
             //_context.SaveChanges();
 
             var userdata = _context.ApplicationUsers.Find(id);
-            userdata.Active = 0;
+            if (userdata.Active == 1)
+            {
+                userdata.Active = 0;
+            }
+            else
+            {
+                userdata.Active = 1;
+            }
             _context.Entry(userdata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
         }

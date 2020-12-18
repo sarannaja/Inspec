@@ -3,6 +3,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SubdistrictService } from '../services/subdistrict.service';
+import { AuthorizeService } from 'src/api-authorization-sss/authorize.service';
 
 @Component({
   selector: 'app-info-subdistrict',
@@ -20,15 +21,18 @@ export class InfoSubdistrictComponent implements OnInit {
   loading = false;
   dtOptions: any = {};
   modalRef: BsModalRef;
+  userid: any;
 
   constructor(
     private router:Router,
     private subdistrictservice: SubdistrictService,
     private activatedRoute: ActivatedRoute,
-    public share: SubdistrictService) {
+    public share: SubdistrictService,
+    private authorize: AuthorizeService,
+    ) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
   }
-    
+
   ngOnInit() {
     this.subdistrictservice.getsubdistrictdata(this.id).subscribe(result => {
       this.resultsubdistrict = result
@@ -37,9 +41,18 @@ export class InfoSubdistrictComponent implements OnInit {
       this.loading = true
       console.log(this.resultsubdistrict);
     })
+    this.authorize.getUser()
+    .subscribe(result => {
+      this.userid = result.sub
+  })
   }
   Village(id) {
-    this.router.navigate(['/infovillage',id])
+    if (this.userid == null) {
+      this.router.navigate(['/infovillagemain',id])
+    } else {
+      this.router.navigate(['/infovillage',id])
+    }
+
   }
 
 }

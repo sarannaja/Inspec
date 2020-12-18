@@ -17,6 +17,7 @@ export class VectorMapComponent implements OnInit {
   resultdistrictofficer: any = [];
   resultregionalagency:any = [];
   resultpublicsectoradvisor:any = [];
+  resultall:any=[];
   imgprofileUrl:any;
   provinceName:any;
   show = 0 ;
@@ -51,8 +52,7 @@ export class VectorMapComponent implements OnInit {
         },
       } 
     };
-    //console.log(mapdata, code_color);
-
+   
   }
 
   getData() {
@@ -77,24 +77,30 @@ export class VectorMapComponent implements OnInit {
       this.show = 1;
       this.provinceName = province.name;
      
-      this.userService.getuserinspectorformapdata(province.name).subscribe(result=>{
-        this.resultInspector = result
-      })
+      // this.userService.getuserinspectorformapdata(province.name).subscribe(result=>{
+      //   this.resultInspector = result
+      // })
 
-      this.userService.getuserdistrictofficerformapdata(province.name)
-      .subscribe(result => {
-        this.resultdistrictofficer = result;
-      })
+      // this.userService.getuserdistrictofficerformapdata(province.name)
+      // .subscribe(result => {
+      //   this.resultdistrictofficer = result;
+      // })
 
-      this.userService.getuserregionalagencyformapdata(province.name)
-      .subscribe(result => {
-        this.resultregionalagency = result;
-      })
+      // this.userService.getuserregionalagencyformapdata(province.name)
+      // .subscribe(result => {
+      //   this.resultregionalagency = result;
+      // })
 
-      this.userService.getuserpublicsectoradvisorformapdata(province.name)
+      // this.userService.getuserpublicsectoradvisorformapdata(province.name)
+      // .subscribe(result => {
+      //   this.resultpublicsectoradvisor = result;
+      // })
+
+      this.userService.getusermapdata(province.name)
       .subscribe(result => {
-        this.resultpublicsectoradvisor = result;
+        this.resultall = result;
       })
+      
   }
 
   ngAfterViewInit() {

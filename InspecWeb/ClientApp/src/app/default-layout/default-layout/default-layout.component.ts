@@ -55,6 +55,7 @@ export class DefaultLayoutComponent implements OnInit {
   Img: any;
   Signature: any;
   UserName: any;
+  rolename:any;
   Formprofile: any;
   resultnotifications: any[] = [];
   resultnotificationscount: any[] = [];
@@ -118,7 +119,7 @@ export class DefaultLayoutComponent implements OnInit {
     this.getuserinfo();
     this.getnotifications();
     this.moNav()
-
+ 
     // this.urlActive = this.router.url;
     // this.getplancount();
     // this.checkactive(this.nav[0].url);
@@ -144,7 +145,7 @@ export class DefaultLayoutComponent implements OnInit {
     // send message to subscribers via observable subject
     this.userService.sendNav(id);
   }
-
+  
   Logout() {
     
     this.authorize.signOut({ local: true })
@@ -380,6 +381,30 @@ export class DefaultLayoutComponent implements OnInit {
               this.Img = result[0].img
               this.Signature = result[0].signature
               this.UserName = result[0].userName
+
+              if (this.role_id == 1) {
+                this.rolename = 'ผู้ดูแลระบบ'
+              } else if (this.role_id == 2) {
+                this.rolename = 'ผู้ดูแลแผนการตรวจราชการ'
+              } else if (this.role_id == 3) {
+                this.rolename = 'ผู้ตรวจราชการสำนักนายกรัฐมนตรี'
+              } else if (this.role_id == 4) {
+                this.rolename = 'ผู้ว่าราชการจังหวัด'
+              } else if (this.role_id == 5) {
+                this.rolename = 'หัวหน้าสำนักงานจังหวัด'
+              } else if (this.role_id == 6) {
+                this.rolename = 'ผู้ตรวจราชการกระทรวง'
+              } else if (this.role_id == 7) {
+                this.rolename = 'ที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
+              } else if (this.role_id == 8) {
+                this.rolename = 'นายกรัฐมนตรี,รองนายกรัฐมนตรี'
+              } else if (this.role_id == 9) {
+                this.rolename = 'หน่วยรับตรวจราชการ'
+              } else if (this.role_id == 10) {
+                this.rolename = 'ผู้ตรวจราชการกรม'
+              }else if (this.role_id == 11) {
+                this.rolename = 'ผู้ใช้ภายนอก'
+              }
 
               this.Form.patchValue({
                 Prefix: this.Prefix,
