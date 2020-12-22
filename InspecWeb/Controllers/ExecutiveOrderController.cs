@@ -560,7 +560,7 @@ namespace InspecWeb.Controllers {
                     .Bold () //ตัวหนา
                     .Alignment = Alignment.center;
 
-                var name = document.InsertParagraph (users.Prefix + users.Name);
+                var name = document.InsertParagraph (users.Prefix + users.Name + " ตำแหน่ง" + users.Position);
                 name.Alignment = Alignment.center;
                 name.SpacingAfter (10d);
                 name.FontSize (12d); //ขนาดตัวอักษร      
@@ -578,7 +578,7 @@ namespace InspecWeb.Controllers {
                 dataCount += 1;
                 System.Console.WriteLine ("Data Count: " + dataCount);
                 // Add a table in a document of 1 row and 3 columns.
-                var columnWidths = new float[] { 300f, 300f, 300f, 300f, 300f, 300f, 300f };
+                var columnWidths = new float[] { 250f, 300f, 300f, 300f, 300f, 300f, 300f };
                 var t = document.InsertTable (dataCount, columnWidths.Length);
 
                 System.Console.WriteLine ("8");
@@ -705,7 +705,7 @@ namespace InspecWeb.Controllers {
                     .Bold() //ตัวหนา
                     .Alignment = Alignment.center;
 
-                var name = document.InsertParagraph(users.Prefix + users.Name);
+                var name = document.InsertParagraph(users.Prefix + users.Name + " ตำแหน่ง" + users.Position);
                 name.Alignment = Alignment.center;
                 name.SpacingAfter(10d);
                 name.FontSize(12d); //ขนาดตัวอักษร      
@@ -723,7 +723,7 @@ namespace InspecWeb.Controllers {
                 dataCount += 1;
                 System.Console.WriteLine("Data Count: " + Eexcutive3.Count);
                 // Add a table in a document of 1 row and 3 columns.
-                var columnWidths = new float[] { 300f, 300f, 300f, 300f, 300f, 300f, 300f };
+                var columnWidths = new float[] { 250f, 300f, 300f, 300f, 300f, 300f, 300f };
                 var t = document.InsertTable(dataCount, columnWidths.Length);
 
                 System.Console.WriteLine("8");
@@ -742,7 +742,7 @@ namespace InspecWeb.Controllers {
                 row.Cells[2].Paragraphs.First().Append("ผู้สั่งการ");
                 row.Cells[3].Paragraphs.First().Append("ประเด็น/เรื่อง");
                 row.Cells[4].Paragraphs.First().Append("สถานะเรื่อง");
-                row.Cells[5].Paragraphs.First().Append("วัน/เดือน/ปีที่รับทราบข้อสั่งการ");
+                row.Cells[5].Paragraphs.First().Append("วัน/เดือน/ปีที่รับ ทราบข้อสั่งการ");
                 row.Cells[6].Paragraphs.First().Append("การดำเนินการ");
 
                 // Add rows in the table.
@@ -807,7 +807,7 @@ namespace InspecWeb.Controllers {
             //ผู้รับข้อสั่งการ
             var username = _context.ApplicationUsers
                         .Where(m => m.Id == userId)
-                        .Select(m => m.Name)
+                        //.Select(m => m.Name)
                         .FirstOrDefault();
 
             System.Console.WriteLine("export2 : " + id);
@@ -858,7 +858,7 @@ namespace InspecWeb.Controllers {
                     .Bold() //ตัวหนา
                     .Alignment = Alignment.center;
 
-                var name = document.InsertParagraph(users.Name);
+                var name = document.InsertParagraph(users.Prefix + users.Name + " ตำแหน่ง"+ users.Position);
                 name.Alignment = Alignment.center;
                 name.SpacingAfter(10d);
                 name.FontSize(14d); //ขนาดตัวอักษร
@@ -887,7 +887,7 @@ namespace InspecWeb.Controllers {
                 .Alignment = Alignment.left;
 
                 
-                document.InsertParagraph("ผู้รับเรื่อง :" + username).FontSize(14d)
+                document.InsertParagraph("ผู้รับเรื่อง :" + username.Prefix + username.Name + " ตำแหน่ง" + username.Position).FontSize(14d)
                 .SpacingBefore(15d)
                 .SpacingAfter(15d)
                 //.Bold() //ตัวหน
