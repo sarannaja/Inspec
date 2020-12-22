@@ -40,7 +40,17 @@
           <h5 class="card-title">ข้อมูลติดต่อบุคลากร</h5>
         </div>
         <div class="card-body">
-
+          <div *ngFor="let item of ministryGroup;let m = index;">
+            <h4>{{item.ministrie.name}}</h4>
+            <ul *ngFor="let item2 of item.ministries;let x = index;">
+              <li>
+                {{x+1}}.{{item2.prefix}}{{item2.name}} 
+                ตำแหน่ง{{item2.position}} 
+                <span *ngIf="item2.phoneNumber != null || item2.phoneNumber != 'null' ">เบอร์โทร{{item2.phoneNumber}}</span>
+              </li>
+            </ul>
+            <hr>
+          </div>
         </div>
       </div>
     </div>

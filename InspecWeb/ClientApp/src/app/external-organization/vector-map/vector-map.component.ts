@@ -101,12 +101,12 @@ export class VectorMapComponent implements OnInit {
     this.userService.getusermapdata(province.name)
       .subscribe(result => {
         this.resultall = result;
-        console.log(result, 'result');
+        //console.log(result, 'result');
         this.ministryGroup = _.chain(result)
           .groupBy("ministryId")
           .map((value, key) => ({ ministrie: value[0].ministries, ministries: value }))
           .value()
-        console.log(this.ministryGroup);
+        console.log('ministryGroup',this.ministryGroup);
 
       })
 
