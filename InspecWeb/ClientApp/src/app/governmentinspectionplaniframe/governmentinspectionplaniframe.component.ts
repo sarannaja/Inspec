@@ -67,7 +67,7 @@ export class GovernmentinspectionplaniframeComponent implements OnInit {
     this.Form = this.fb.group({
       year: new FormControl(null, [Validators.required]),
       title: new FormControl(null, [Validators.required]),
-      files : new FormControl(null, [Validators.required])
+      files : new FormControl(null)
     })
   }
 
@@ -77,7 +77,7 @@ export class GovernmentinspectionplaniframeComponent implements OnInit {
       this.loading = true
       })
   }
-  openModal(template: TemplateRef<any>, id, year,title,filesname) {
+  openModal(template: TemplateRef<any>, id=null, year=null,title=null,filesname=null) {
     this.delid = id;
     this.year = year;
     this.title = title;
