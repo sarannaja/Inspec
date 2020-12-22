@@ -15,7 +15,7 @@
         <h5 class="card-title">การแบ่งเขตตรวจราชการ</h5>
       </div>
       <div class="card-body">
-        <div id="thai-map" class="block" style="height:800px;"></div>
+        <div id="thai-map" class="block" style="height:1500px;"></div>
         <div id="comments">
           <p>เลื่อน</p>
           <!-- <textarea cols="20" rows="5"></textarea> -->
@@ -40,7 +40,17 @@
           <h5 class="card-title">ข้อมูลติดต่อบุคลากร</h5>
         </div>
         <div class="card-body">
-
+          <div *ngFor="let item of ministryGroup;let m = index;">
+            <h4>{{item.ministrie.name}}</h4>
+            <ul *ngFor="let item2 of item.ministries;let x = index;">
+              <li>
+                {{x+1}}.{{item2.prefix}}{{item2.name}} 
+                ตำแหน่ง{{item2.position}} 
+                <span *ngIf="item2.phoneNumber != null || item2.phoneNumber != 'null' ">เบอร์โทร{{item2.phoneNumber}}</span>
+              </li>
+            </ul>
+            <hr>
+          </div>
         </div>
       </div>
     </div>

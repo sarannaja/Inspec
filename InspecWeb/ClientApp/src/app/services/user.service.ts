@@ -390,6 +390,11 @@ export class UserService {
   getuserpublicsectoradvisorformapdata(provincename): Observable<any[]> {
     return this.http.get<any[]>(this.base + 'publicsectoradvisorformap/' + provincename)
   }
+   //<!-- -->
+  getusermapdata(provincename): Observable<any[]> {
+    return this.http.get<any[]>(this.base + 'map/' + provincename)
+  }
+
   //<!-- END map -->
 
   //<!-- ข้อมูลผู้ติดต้อ เจ้าหน้าที่ประจำเขตตรวจราชการ -->

@@ -17,7 +17,8 @@ export class BeforeLoginComponent implements OnInit {
 
   GotoLogin() {
     console.log('go login ');
-    window.location.href = '/Identity/Account/Login'
+    // window.location.href = '/Identity/Account/Login'
+    window.location.href = '/main'
   }
   Gotovideo() {
     console.log('go login ');

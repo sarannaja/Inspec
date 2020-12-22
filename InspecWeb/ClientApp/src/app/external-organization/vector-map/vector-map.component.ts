@@ -5,6 +5,8 @@ import code_color from "../../../assets/jvectormap/code_color"
 import { ExternalOrganizationService } from 'src/app/services/external-organization.service';
 import { Province, ProvinceFiscalYears, ProvinceFiscalYear, FiscalYears } from '../models/otps';
 import { UserService } from 'src/app/services/user.service';
+import * as _ from 'lodash'
+
 @Component({
   selector: 'app-vector-map',
   templateUrl: './vector-map.component.html',
@@ -15,21 +17,22 @@ export class VectorMapComponent implements OnInit {
   title = 'jvectormapTest';
   resultInspector: any = [];
   resultdistrictofficer: any = [];
-  resultregionalagency:any = [];
-  resultpublicsectoradvisor:any = [];
-  imgprofileUrl:any;
-  provinceName:any;
-  show = 0 ;
+  resultregionalagency: any = [];
+  resultpublicsectoradvisor: any = [];
+  ministryGroup: any[] = []
+  resultall: any = [];
+  imgprofileUrl: any;
+  provinceName: any;
+  show = 0;
   code_color = code_color;
-  mapdata: Array<Province>
+  mapdata: Array<Province> = []
   dtOptions: any = {};
   provincesData: Array<ProvinceFiscalYears> = []
   constructor(
     private extranal: ExternalOrganizationService,
     private userService: UserService,
     @Inject('BASE_URL') baseUrl: string
-    ) 
-  {
+  ) {
     this.imgprofileUrl = baseUrl + '/imgprofile';
   }
 
@@ -49,9 +52,8 @@ export class VectorMapComponent implements OnInit {
           "next": "ต่อไป",
           "previous": "ย้อนกลับ"
         },
-      } 
+      }
     };
-    //console.log(mapdata, code_color);
 
   }
 
@@ -64,37 +66,50 @@ export class VectorMapComponent implements OnInit {
       })
 
   }
-  clickProvince(province: Province = { id : 1,name:"กรุงเทพมหานคร",iso:"TH-01"}) {
-  
+  clickProvince(province: Province = { id: 1, name: "กรุงเทพมหานคร", iso: "TH-01" }) {
+
     ////<!-- ของบักปามทำไว้ -->
     // this.extranal.getProvince(province.id)
     //   .subscribe(result => {
-       
+
     //     this.provincesData = result.fiscalYears
     //   })
     ////<!-- END ของบักปามทำไว้ -->
-    
-      this.show = 1;
-      this.provinceName = province.name;
-     
-      this.userService.getuserinspectorformapdata(province.name).subscribe(result=>{
-        this.resultInspector = result
+
+    this.show = 1;
+    this.provinceName = province.name;
+
+    // this.userService.getuserinspectorformapdata(province.name).subscribe(result=>{
+    //   this.resultInspector = result
+    // })
+
+    // this.userService.getuserdistrictofficerformapdata(province.name)
+    // .subscribe(result => {
+    //   this.resultdistrictofficer = result;
+    // })
+
+    // this.userService.getuserregionalagencyformapdata(province.name)
+    // .subscribe(result => {
+    //   this.resultregionalagency = result;
+    // })
+
+    // this.userService.getuserpublicsectoradvisorformapdata(province.name)
+    // .subscribe(result => {
+    //   this.resultpublicsectoradvisor = result;
+    // })
+
+    this.userService.getusermapdata(province.name)
+      .subscribe(result => {
+        this.resultall = result;
+        //console.log(result, 'result');
+        this.ministryGroup = _.chain(result)
+          .groupBy("ministryId")
+          .map((value, key) => ({ ministrie: value[0].ministries, ministries: value }))
+          .value()
+        console.log('ministryGroup',this.ministryGroup);
+
       })
 
-      this.userService.getuserdistrictofficerformapdata(province.name)
-      .subscribe(result => {
-        this.resultdistrictofficer = result;
-      })
-
-      this.userService.getuserregionalagencyformapdata(province.name)
-      .subscribe(result => {
-        this.resultregionalagency = result;
-      })
-
-      this.userService.getuserpublicsectoradvisorformapdata(province.name)
-      .subscribe(result => {
-        this.resultpublicsectoradvisor = result;
-      })
   }
 
   ngAfterViewInit() {
@@ -114,6 +129,31 @@ export class VectorMapComponent implements OnInit {
             initial: {
               fill: "#ff0000",
               stroke: "#000000"
+            }
+          },
+          labels: {
+            regions: {
+              render: function (code, region) {
+                var doNotShow = [];
+                // var doNotShow = ['TH-30'];
+
+                if (doNotShow.indexOf(code) === -1) {
+                  // return code.split('-')[1];
+                  return mapdata[code].name
+                  // return region
+                }
+              },
+              offsets: function (code, region) {
+                console.log(code,'code ');
+                
+                // return region
+                return {
+                  'TH-50': [10, -70],
+                  'TH-63': [20, -50],
+                
+                }
+                [code];
+              }
             }
           },
           regionStyle: {
@@ -145,7 +185,7 @@ export class VectorMapComponent implements OnInit {
             )
           },
           // onRegionTipShow: function(e, el, code){
-          //   // el.html(el.html()+' (GDP - '+gdpData[code]+')');
+          //   // el.html(el.html()+' (GDP - '+e[code]+')');
           // }
         }
         $("#thai-map").vectorMap(mapoption2);

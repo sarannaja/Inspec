@@ -244,6 +244,8 @@ import { BeforeLoginComponent } from './before-login/before-login.component';
 import { BeforeCentralPolicyComponent } from './central-policy/before-central-policy/before-central-policy.component';
 import { BeforeSubjectComponent } from './subject/before-subject/before-subject.component';
 import { AuthorizeService } from 'src/api-authorization-new/authorize.service';
+import { GovernmentinspectionplaniframeComponent } from './governmentinspectionplaniframe/governmentinspectionplaniframe.component'; //แผนการตรวจราชการประจำปี iframe
+import { InformationinspectioniframeComponent } from './informationinspectioniframe/informationinspectioniframe.component';
 
 
 
@@ -459,6 +461,8 @@ import { AuthorizeService } from 'src/api-authorization-new/authorize.service';
     // BeforeLoginComponent,
     BeforeCentralPolicyComponent,
     BeforeSubjectComponent,
+    GovernmentinspectionplaniframeComponent, //แผนการตรวจราชการประจำปี 
+    InformationinspectioniframeComponent, //ข้อมูลประกอบการตรวจราชการ
   ],
 
   imports: [

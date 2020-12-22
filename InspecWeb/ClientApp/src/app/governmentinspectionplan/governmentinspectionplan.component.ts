@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 import { GorvermentinspectionplanService } from '../services/governmentinspectionplan.service';
 import { UserService } from '../services/user.service';
 import { AuthorizeService } from 'src/api-authorization-new/authorize.service';
+import { NotofyService } from '../services/notofy.service';
 
 @Component({
   selector: 'app-governmentinspectionplan',
@@ -22,9 +23,13 @@ export class GovernmentinspectionplanComponent implements OnInit {
   role_id:any;
   filesname: any;
   dtOptions: any = {};
+  submitted = false;
 
-  constructor(private modalService: BsModalService, private fb: FormBuilder, private governmentinspectionplanservice: GorvermentinspectionplanService,
+  constructor(private modalService: BsModalService, 
+    private fb: FormBuilder, 
+    private governmentinspectionplanservice: GorvermentinspectionplanService,
     public share: GorvermentinspectionplanService,
+    private _NotofyService: NotofyService,
     private userService: UserService,
     private authorize: AuthorizeService,
     ) { }
@@ -77,11 +82,16 @@ export class GovernmentinspectionplanComponent implements OnInit {
       this.loading = true
       })
   }
-  openModal(template: TemplateRef<any>, id, year,title,filesname) {
+  openModal(template: TemplateRef<any>, id=null, year=null,title=null,filesname=null) {
+    this.Form.reset()
+    this.submitted = false;
     this.delid = id;
-    this.year = year;
-    this.title = title;
     this.filesname = filesname;
+
+    this.Form.patchValue({
+      year: year,
+      title : title,    
+    })
 
     this.modalRef = this.modalService.show(template);
   }
@@ -96,12 +106,18 @@ export class GovernmentinspectionplanComponent implements OnInit {
 
   storeGovernmentinspectionplan(value) {
     // alert(JSON.stringify(value));
+    this.submitted = true;
+    if (this.Form.invalid) {
+        return;
+    }
+
     this.loading = false
     this.governmentinspectionplanservice.addGovernmentinspectionplan(value, this.Form.value.files).subscribe(response => {
      // console.log(value);
       this.Form.reset()
       this.modalRef.hide()
       this.getdata()
+      this._NotofyService.onSuccess("เพื่มข้อมูล")
     })
   }
   deleteGovernmentinspectionplan(value) {
@@ -110,16 +126,22 @@ export class GovernmentinspectionplanComponent implements OnInit {
      // console.log(value);
       this.modalRef.hide()
       this.getdata()
+      this._NotofyService.onSuccess("ลบข้อมูล")
     })
   }
   editGovernmentinspectionplan(value,delid) {
-    // console.clear();
+    this.submitted = true;
+    if (this.Form.invalid) {
+        return;
+    }
+
     this.loading = false
     this.governmentinspectionplanservice.editGovernmentinspectionplan(value, this.Form.value.files,delid,this.filesname).subscribe(response => {
       this.Form.reset()
       this.modalRef.hide()
       this.getdata()
+      this._NotofyService.onSuccess("แก้ไขข้อมูล")
     })
   }
-
+  get f() { return this.Form.controls; }
 }

@@ -56,8 +56,8 @@
               </td> 
               <td>
 
-                <div *ngFor="let item2 of item.executiveOrderAnswers;let m = index;">
-                  <div *ngIf="(role_id == 3 || role_id == 6 || role_id == 10)">
+                <span *ngFor="let item2 of item.executiveOrderAnswers;let m = index;">
+                  <span *ngIf="(role_id == 3 || role_id == 6 || role_id == 10)">
                     <div *ngIf="item.cancel == 1 ; else notcancel">
                       <label class="badge badge-danger mr-1">ยกเลิก</label>
                     </div>
@@ -73,9 +73,9 @@
                     </ng-template>
 
                     <hr *ngIf="item.executiveOrderAnswers.length != (m+1) && (role_id !=3 || role_id != 6 || role_id !=10)"> <!-- เส้นขั้น -->
-                  </div>
+                  </span>
 
-                  <div *ngIf="role_id == 8 || role_id == 1">
+                  <span *ngIf="role_id == 8 || role_id == 1">
                     <div *ngIf="item.cancel == 1 ; else notcancel">
                       <label class="badge badge-danger mr-1">ยกเลิก</label>
                     </div>
@@ -90,9 +90,9 @@
                     </ng-template>
 
                     <hr *ngIf="item.executiveOrderAnswers.length != (m+1) && (role_id !=3 || role_id != 6 || role_id !=10)"> <!-- เส้นขั้น --> 
-                  </div>
+                  </span>
 
-                </div>
+                </span>
               </td>  
 
               <td *ngIf="role_id != 1"> 
@@ -114,14 +114,14 @@
                       (click)="openModal(modaldelete, item.id,item.subject)">
                       <i class="align-middle fas fa-fw fa-trash-alt"></i>
                   </button>
-
+          
                 </div> 
                 <!-- END สำหรับผู้สร้างข้อสั่งการ -->
 
                 <!-- สำหรับผู้รับข้อสั่งการ -->
                 <span *ngIf="(role_id == 3 || role_id == 6 || role_id == 10) && item.cancel == 0 ">
                   <span *ngFor="let item2 of item.executiveOrderAnswers;let m = index;">
-                    <span >
+                    <div >
 
                       <button *ngIf="item2.beaware_date == null" type="button" class="btn btn-info btn-sm" 
                         (click)="gotitmodal(gotit,item.id,item2.id,item.subject,item.subjectdetail)" title="รับทราบข้อสั่งการ">
@@ -132,7 +132,8 @@
                         (click)="answerModal(AnswerExecutiveorder,item2.id)" title="รายงานผลข้อสั่งการ">
                         รายงานผล
                       </button>  
-                    </span>
+                    </div>
+                    <hr *ngIf="item.executiveOrderAnswers.length != (m+1) && (role_id !=3 || role_id != 6 || role_id !=10)"> <!-- เส้นขั้น --> 
                   </span>
                 </span>
                 <!-- END สำหรับผู้รับข้อสั่งการ -->
@@ -180,7 +181,7 @@
               <input type="radio" name="Draft"  [value]="1" formControlName="Draft">
               <label style="margin-left: 10px;">ร่าง</label>
               <input style="margin-left: 10px;" type="radio" name="Draft"   [value]="0" formControlName="Draft">
-              <label style="margin-left: 10px;">ใช้งานจริง</label>
+              <label style="margin-left: 10px;">ใช้งาน</label>
             </div>
           </div>         
      
@@ -267,7 +268,7 @@
             placeholder="กรุณากรอกรายละเอียด" [ngClass]="{ 'is-invalid': submitted && g.Answerdetail.errors }">
           </textarea>
             <div *ngIf="submitted && g.Answerdetail.errors" class="invalid-feedback">
-              <div *ngIf="g.Answerdetail.errors.required">กรุณากรอกลายละเอียด</div>
+              <div *ngIf="g.Answerdetail.errors.required">กรุณากรอกรายละเอียด</div>
             </div>  
         </div>
         <div class="form-group">
@@ -276,7 +277,7 @@
             placeholder="กรุณากรอกปัญหา/อุปสรรค" [ngClass]="{ 'is-invalid': submitted && g.AnswerProblem.errors }">
           </textarea>
             <div *ngIf="submitted && g.AnswerProblem.errors" class="invalid-feedback">
-              <div *ngIf="g.AnswerProblem.errors.required">กรุณากรอกลายละเอียด</div>
+              <div *ngIf="g.AnswerProblem.errors.required">กรุณากรอกปัญหา/อุปสรรค</div>
             </div>  
         </div>
 
@@ -286,7 +287,7 @@
             placeholder="กรุณากรอกข้อเสนอแนะ" [ngClass]="{ 'is-invalid': submitted && g.AnswerCounsel.errors }">
           </textarea>
           <div *ngIf="submitted && g.AnswerCounsel.errors" class="invalid-feedback">
-            <div *ngIf="g.AnswerCounsel.errors.required">กรุณากรอกลายละเอียด</div>
+            <div *ngIf="g.AnswerCounsel.errors.required">กรุณากรอกข้อเสนอแนะ</div>
           </div>  
         </div>
         <div class="col-12 col-xl-12">
@@ -442,7 +443,7 @@
                 <input type="radio" name="Draft" [value]="1" formControlName="Draft">
                 <label style="margin-left: 10px;">ร่าง</label>
                 <input style="margin-left: 10px;" type="radio" name="Draft"  [value]="0" formControlName="Draft">
-                <label style="margin-left: 10px;">ใช้งานจริง</label>
+                <label style="margin-left: 10px;">ใช้งาน</label>
               </div>
             </div>         
      
@@ -473,12 +474,12 @@
             <div class="form-group">
               <label  class="form-label">รายละเอียด</label>
               <textarea input type="text" formControlName="Subjectdetail" class="form-control" 
-                placeholder="กรุณากรอกลายละเอียด" rows="5" 
+                placeholder="กรุณากรอกรายละเอียด" rows="5" 
                 [ngClass]="{ 'is-invalid': submitted && f.Subjectdetail.errors }">
               </textarea>  
-  
+
               <div *ngIf="submitted && f.Subjectdetail.errors" class="invalid-feedback">
-                <div *ngIf="f.Subjectdetail.errors.required">กรุณากรอกลายละเอียด</div>
+                <div *ngIf="f.Subjectdetail.errors.required">กรุณากรอกรายละเอียด</div>
               </div>  
             </div>   
   

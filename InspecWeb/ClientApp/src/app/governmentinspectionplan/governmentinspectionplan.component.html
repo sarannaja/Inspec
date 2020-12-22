@@ -29,7 +29,7 @@
               <th>รายละเอียด</th>
               <th>ไฟล์แนบ</th>
               <th>วันที่สร้าง</th>
-              <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
+              <th *ngIf="role_id == 1"><i class="align-middle mr-2 fas fa-fw fa-cog"></i></th>
             </tr>
           </thead>
           <tbody>
@@ -42,7 +42,7 @@
               <ng-template #elseBlock>
                 <td></td>
               </ng-template>
-              <td>
+              <td *ngIf="role_id == 1">
                 <button class="btn btn-primary btn-pill btn-sm" title="แก้ไขข้อมูล">
                   <i class="align-middle  fas fa-fw fa-pen"
                     (click)="openModal(modaleditGovernmentinspectionplan, item.id, item.year, item.title, item.file)">
@@ -75,12 +75,27 @@
         <div class="modal-body m-3">
           <div class="form-group">
             <label for="test" class="form-label">ปีงบประมาณ </label>
-            <input type="text" formControlName="year" class="form-control" placeholder="กรุณากรอกปีงบประมาณ"><br>
+            <input type="text" formControlName="year" class="form-control" placeholder="กรุณากรอกปีงบประมาณ"
+              [ngClass]="{ 'is-invalid': submitted && f.year.errors }">
+            <div *ngIf="submitted && f.year.errors" class="invalid-feedback">
+              <div *ngIf="f.year.errors.required">กรุณากรอกปีงบประมาณ</div>
+            </div> 
+          </div>
+
+          <div class="form-group">
             <label for="test" class="form-label">รายละเอียด </label>
-            <input type="text" formControlName="title" class="form-control" placeholder="กรุณากรอกรายละเอียด"><br>
+            <input type="text" formControlName="title" class="form-control" placeholder="กรุณากรอกรายละเอียด"
+            [ngClass]="{ 'is-invalid': submitted && f.title.errors }">
+            <div *ngIf="submitted && f.title.errors" class="invalid-feedback">
+              <div *ngIf="f.title.errors.required">กรุณากรอกรายละเอียด</div>
+            </div> 
+          </div>
+
+          <div class="form-group">
             <label for="test" class="form-label">ไฟล์แนบ </label><br>
             <input type="file" (change)="uploadFile($event)">
           </div>
+         
         </div>
         <div class="modal-footer">
           <button type="submit" class="btn btn-primary">บันทึก</button>
@@ -126,13 +141,25 @@
       </div>
       <div class="modal-body m-3">
         <div class="form-group">
-          <label for="test" class="form-label">ปีงบประมาณ</label>
-          <!-- <input type="text" formControlName="test" class="form-control" placeholder="test"> -->
-          <input type="text" value="{{year}}" formControlName="year" class="form-control"
-            placeholder="กรุณากรอกปีงบประมาณ"><br>
-            <label for="test" class="form-label">รายละเอียด </label>
-            <input type="text" value="{{title}}"formControlName="title" class="form-control" placeholder="กรุณากรอกรายละเอียด"><br>
+          <label for="test" class="form-label">ปีงบประมาณ </label>
+          <input type="text" formControlName="year" class="form-control" placeholder="กรุณากรอกปีงบประมาณ"
+            [ngClass]="{ 'is-invalid': submitted && f.year.errors }">
+          <div *ngIf="submitted && f.year.errors" class="invalid-feedback">
+            <div *ngIf="f.year.errors.required">กรุณากรอกปีงบประมาณ</div>
+          </div> 
+        </div>
+
+        <div class="form-group">
+          <label for="test" class="form-label">รายละเอียด </label>
+          <input type="text" formControlName="title" class="form-control" placeholder="กรุณากรอกรายละเอียด"
+          [ngClass]="{ 'is-invalid': submitted && f.title.errors }">
+          <div *ngIf="submitted && f.title.errors" class="invalid-feedback">
+            <div *ngIf="f.title.errors.required">กรุณากรอกรายละเอียด</div>
+          </div> 
+        </div>
+        <div class="form-group">
             <label for="test" class="form-label">ไฟล์แนบ </label><br>
+
             <a *ngIf="filesname != null " href="assets/GovernmentinspectionplanFile/{{filesname}}" download>{{ filesname }}</a>
             <input type="file" (change)="uploadFile($event)">
         </div>
