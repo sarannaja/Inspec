@@ -178,7 +178,7 @@ export class UserService {
     }
 
     if (userData.DepartmentId == null) {
-      formData.append('DepartmentId', '1');
+      formData.append('DepartmentId', '6');
     } else {
       formData.append('DepartmentId', userData.DepartmentId);//กรมมีได้อันเดียว
     }
@@ -330,7 +330,7 @@ export class UserService {
 
 
     if (userData.DepartmentId == null) {
-      formData.append('DepartmentId', '1');
+      formData.append('DepartmentId', '6');
     } else {
       formData.append('DepartmentId', userData.DepartmentId);//กรมมีได้อันเดียว
     }

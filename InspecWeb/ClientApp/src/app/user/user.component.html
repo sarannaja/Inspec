@@ -3,7 +3,7 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a [routerLink]="['/main']">หน้าหลัก</a></li>
-            <li class="breadcrumb-item active">กำหนดสิทธิ์การใช้งาน</li>
+            <li class="breadcrumb-item active">จัดการผู้ใช้</li>
         </ol>
     </nav>
 </div>
@@ -11,7 +11,7 @@
     <div class="col-12">
         <div class="card card-eiei">
             <div class="card-header" style="margin-bottom: -40px;">
-                <h5 class="card-title">กำหนดสิทธิ์การใช้งาน : {{rolename}}</h5>
+                <h5 class="card-title">จัดการผู้ใช้ : {{rolename}}</h5>
                 <div class="float-right">
                     <!-- <span *ngIf="roleId == 6 ||roleId == 8 || roleId == 9 || roleId == 10;">
                         <button class="btn btn-pill btn-success btn-lg" title="เพิ่มข้อมูลแบบหลายคน" (click)="openModal(modalUsermutiple)"
@@ -293,11 +293,14 @@
 
                 <div *ngIf="roleId != 9|| roleId == 11">
                     <div class="row">
-                        <label class="form-label col-6">เลขที่คำสั่งมอบหมายเขตตรวจ</label>
-                        <label class="form-label col-6">วันที่ของคำสั่งมอบหมายเขตตรวจ</label>
+                        <label *ngIf="roleId != 4" class="form-label col-6">เลขที่คำสั่งมอบหมายเขตตรวจ</label>
+                        <label class="form-label col-6">
+                            <span *ngIf="roleId != 4">วันที่ของคำสั่งมอบหมายเขตตรวจ</span>
+                            <span *ngIf="roleId == 4">วันที่ดำรงตำแหน่ง</span>
+                        </label>
                     </div>
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-6" *ngIf="roleId != 4">
                             <div class="form-group">
                                 <input type="text" formControlName="Commandnumber" class="form-control"
                                     placeholder="กรุณากรอกเลขที่คำสั่งมอบหมายเขตตรวจ">

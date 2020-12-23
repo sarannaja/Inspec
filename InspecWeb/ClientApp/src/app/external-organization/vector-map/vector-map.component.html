@@ -37,20 +37,24 @@
     <div class="col-12">
       <div class="card">
         <div class="card-header" style="margin-bottom: -30px;">
-          <h5 class="card-title">ข้อมูลติดต่อบุคลากร</h5>
+          <h3 class="card-title">ข้อมูลติดต่อบุคลากร</h3>
         </div>
         <div class="card-body">
+
           <div *ngFor="let item of ministryGroup;let m = index;">
-            <h4>{{item.ministrie.name}}</h4>
-            <ul *ngFor="let item2 of item.ministries;let x = index;">
-              <li>
-                {{x+1}}.{{item2.prefix}}{{item2.name}} 
-                ตำแหน่ง{{item2.position}} 
-                <span *ngIf="item2.phoneNumber != null || item2.phoneNumber != 'null' ">เบอร์โทร{{item2.phoneNumber}}</span>
-              </li>
-            </ul>
-            <hr>
+            <details>
+              <summary><span style="font-size: 16px;margin-bottom: 50px;">{{item.ministrie.name}}</span></summary>
+              <ul *ngFor="let item2 of item.ministries;let x = index;">
+                <li>
+                  {{x+1}}.{{item2.prefix}}{{item2.name}} 
+                  ตำแหน่ง{{item2.position}} 
+                  <span *ngIf="item2.phoneNumber != null || item2.phoneNumber != 'null' ">เบอร์โทร {{item2.phoneNumber}}</span>
+                </li>
+              </ul>
+              <hr>
+            </details>
           </div>
+
         </div>
       </div>
     </div>
