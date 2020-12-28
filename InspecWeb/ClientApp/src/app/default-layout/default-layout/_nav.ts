@@ -1397,13 +1397,13 @@ export const InspectorMinistry: NavBar[] = [ //ผู้ตรวจกระท
         ex_link: '0',
         icon: 'fa-file',
         url: '/electronicbook',
-        name: 'สร้างเอง'
+        name: 'ของฉัน'
       },
       {
         ex_link: '0',
         icon: 'fa-file',
         url: '/electronicbook/invited',
-        name: 'ถูกส่ง'
+        name: 'อื่นๆ'
       },
     ]
   },
@@ -2263,13 +2263,13 @@ export const InspectorDepartment: NavBar[] = [ //ผู้ตรวจกรม/
         ex_link: '0',
         icon: 'fa-file',
         url: '/electronicbook',
-        name: 'สร้างเอง'
+        name: 'ของฉัน'
       },
       {
         ex_link: '0',
         icon: 'fa-file',
         url: '/electronicbook/invited',
-        name: 'ถูกส่ง'
+        name: 'อื่นๆ'
       },
     ]
   },

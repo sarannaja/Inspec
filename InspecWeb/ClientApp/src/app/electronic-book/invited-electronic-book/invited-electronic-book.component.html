@@ -14,8 +14,8 @@
       <div class="card-header">
         <h5 class="card-title">สมุดตรวจอิเล็กทรอนิกส์</h5>
         <div class="float-right">
-          <button class="btn btn-primary mr-2" title="เรียงข้อมูลตามวัน" (click)="sortDate()" style="margin-top: -60px;"> <i
-              class="fas fa-calendar-week"></i>
+          <button class="btn btn-primary mr-2" title="เรียงข้อมูลตามวัน" (click)="sortDate()"
+            style="margin-top: -60px;"> <i class="fas fa-calendar-week"></i>
           </button>
         </div>
       </div>
@@ -26,9 +26,9 @@
           <thead>
             <tr>
               <th>#</th>
-              <th>กำหนดการสมุดตรวจ</th>
+              <th>วันที่ตรวจ</th>
               <!-- <th>รายละเอียดสมุดตรวจอิเล็กทรอนิกส์</th> -->
-              <th>ประเด็นนโยบาย</th>
+              <th>ประเด็นนโยบาย/เรื่อง</th>
               <th>ผู้สร้าง</th>
               <th *ngIf="role_id == 6 || role_id == 10">สถานะ</th>
               <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
@@ -37,8 +37,8 @@
           <tbody>
             <tr *ngFor="let item of electronicBookData; let i = index">
               <td>{{ i + 1 }}</td>
-              <td class="pointer" (click)="gotoDetail(item.electronicBookId, item.id)">
-                วันที่ {{item.electronicBook.startDate | thaidate: 'short'}}</td>
+              <td class="pointer" (click)="gotoDetail(item.electronicBookId, item.id)">{{item.electronicBook.startDate |
+                thaidate: 'short'}}</td>
               <!-- <td>{{ item.electronicBook.detail }}</td> -->
               <td>
                 <div *ngFor="let items of item.electronicBook.electronicBookGroups; let i = index">
@@ -46,9 +46,17 @@
                 </div>
               </td>
               <td>{{item.electronicBook.user.prefix}} {{item.electronicBook.user.name}}</td>
-              <td *ngIf="role_id == 6 || role_id == 10">{{ item.status }}</td>
+              <td *ngIf="role_id == 6 || role_id == 10">
+                <label *ngIf="item.status != 'ลงความเห็นแล้ว'">{{ item.status }}</label>
+                <label *ngIf="item.status == 'ลงความเห็นแล้ว'">ลงนามแล้ว</label>
+              </td>
               <td>
-                <i class="align-middle mr-2 fas fa-fw fa-search pointer" (click)="gotoDetail(item.electronicBookId, item.id)"></i>
+                <i *ngIf="item.status == 'รอความเห็นแล้ว'" title="ลงนามสมุดตรวจ"
+                  class="align-middle mr-2 fas fa-fw fa-pen pointer"
+                  (click)="gotoDetail(item.electronicBookId, item.id)"></i>
+                <i *ngIf="item.status == 'ลงความเห็นแล้ว'" title="ดูรายละเอียด"
+                  class="align-middle mr-2 fas fa-fw fa-search pointer"
+                  (click)="gotoDetail(item.electronicBookId, item.id)"></i>
               </td>
             </tr>
           </tbody>

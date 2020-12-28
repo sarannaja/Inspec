@@ -13,14 +13,14 @@
   <div class="col-12">
     <div class="card card-eiei">
       <div class="card-header">
-        <h4 class="card-title mb-0">รายละเอียด</h4>
-        <label style="margin-top: 20px;">กำหนดการสมุดตรวจ
-          {{electronicBookData.electronicBook.startDate | thaidate: 'short'}}</label>
+        <h4 class="card-title mb-0">รายละเอียดสมุดตรวจราชการ</h4>
+        <label style="margin-top: 20px;">วันที่ตรวจราชการ
+          {{electronicBookData.electronicBook.startDate | thaidate: 'medium'}}</label>
         <label></label>
       </div>
       <div class="card-body">
         <div class="form-group">
-          <h4 class="card-title" style="font-size: larger; font-weight: bold;">แผนการตรวจ</h4>
+          <h4 class="card-title" style="font-size: larger; font-weight: bold;">ประเด็นนโยบาย/เรื่อง</h4>
           <div *ngFor="let item of electronicBookData.electronicBookGroup; let i = index" class="col-12">
             <label>{{i+1}}) {{item.centralPolicyTitle}}</label>
             <i class="fas fa-chevron-down" style="margin-left: 10px; font-size: large;" id="centralPolicy{{i}}"
@@ -32,7 +32,7 @@
             <div class="col-12 collapse" id="centralPolicys{{i}}" style="margin-left: 5px;">
               <div>
                 <label>- วันที่: {{item.inspectionPlanEventDate.startDate | thaidate: 'short'}} ถึง
-                  {{item.inspectionPlanEventDate.endDate  | thaidate: 'short'}}</label>
+                  {{item.inspectionPlanEventDate.endDate | thaidate: 'short'}}</label>
               </div>
               <div>
                 <label>- จังหวัด: {{item.inspectionPlanProvinceName}}</label>
@@ -64,6 +64,32 @@
                 </div>
               </div> -->
             </div>
+
+            <div class="row mt-2">
+              <h4 class="card-title mr-3" style="font-size: larger; font-weight: bold;">คณะผู้ตรวจราชการ</h4>
+            </div>
+            <div>
+              <u>ผู้ตรวจราชการกระทรวง:</u>
+              <div *ngFor="let items of invitedPeopleData; let index = index" style="margin-left: 20px;">
+                <label *ngIf="items.user.role_id == 6">- {{items.user.prefix}} {{items.user.name}} -
+                  {{items.user.ministries.name}}</label>
+              </div>
+            </div>
+            <div>
+              <u>ผู้ตรวจราชการกรม:</u>
+              <div *ngFor="let items of invitedPeopleData; let index = index" style="margin-left: 20px;">
+                <label *ngIf="items.user.role_id == 10">- {{items.user.prefix}} {{items.user.name}} -
+                  {{items.user.departments.name}}</label>
+              </div>
+            </div>
+            <div>
+              <u>ที่ปรึกษาผู้ตรวจราชการภาคประชาชน:</u>
+              <div *ngFor="let items of invitedPeopleData; let index = index" style="margin-left: 20px;">
+                <label *ngIf="items.user.role_id == 7">- {{items.user.prefix}} {{items.user.name}} -
+                  ด้าน{{items.user.sides.name}}</label>
+              </div>
+            </div>
+
           </div>
         </div>
 
@@ -81,9 +107,6 @@
               {{items.user.departments.name}}</label>
           </div>
         </div> -->
-
-        <br>
-        <br>
 
         <div *ngIf="opinionData.description != null" class="form-group" style="margin-left: 15px; margin-right: 21px;">
           <form [formGroup]="approveForm">
@@ -135,7 +158,8 @@
                 <div class="row">
                   <div class="col-12" style="padding-left: 0;">
                     <div class="form-group">
-                      <h4 class="card-title" style="font-size: larger; font-weight: bold;"><i class="fas fa-poll-h" style="margin-right: 5px;"></i> ผลการตรวจ</h4>
+                      <h4 class="card-title" style="font-size: larger; font-weight: bold;"><i class="fas fa-poll-h"
+                          style="margin-right: 5px;"></i> ผลการตรวจ</h4>
                       <textarea cols="30" rows="5" formControlName="detail" class="form-control"
                         placeholder="ไม่มีข้อมูล" readonly>
                       </textarea>
@@ -148,7 +172,8 @@
                 <div class="row">
                   <div class="col-12" style="padding-left: 0;">
                     <div class="form-group">
-                      <h4 class="card-title" style="font-size: larger; font-weight: bold;"><i class="fas fa-exclamation-triangle" style="margin-right: 5px;"></i> ปัญหาและอุปสรรค</h4>
+                      <h4 class="card-title" style="font-size: larger; font-weight: bold;"><i
+                          class="fas fa-exclamation-triangle" style="margin-right: 5px;"></i> ปัญหาและอุปสรรค</h4>
                       <textarea cols="30" rows="5" formControlName="problem" class="form-control"
                         placeholder="ไม่มีข้อมูล" readonly>
                       </textarea>
@@ -160,7 +185,8 @@
                 <div class="row">
                   <div class="col-12" style="padding-left: 0;">
                     <div class="form-group">
-                      <h4 class="card-title" style="font-size: larger; font-weight: bold;"><i class="fas fa-comment-medical" style="margin-right: 5px;"></i> ข้อเสนอแนะ</h4>
+                      <h4 class="card-title" style="font-size: larger; font-weight: bold;"><i
+                          class="fas fa-comment-medical" style="margin-right: 5px;"></i> ข้อเสนอแนะ</h4>
                       <textarea cols="30" rows="5" formControlName="suggestion" class="form-control"
                         placeholder="ไม่มีข้อมูล" readonly>
                       </textarea>
@@ -244,14 +270,14 @@
                 <div class="row">
                   <div class="col-12" style="padding-left: 0;">
                     <div class="form-group">
-                      <h4 class="card-title" style="font-size: larger; font-weight: bold;"><i class="fas fa-comment-dots" style="margin-right: 5px;"></i> ลงความเห็น</h4>
+                      <h4 class="card-title" style="font-size: larger; font-weight: bold;"><i
+                          class="fas fa-comment-dots" style="margin-right: 5px;"></i> ข้อเสนอแนะเพิ่มเติม</h4>
                       <textarea cols="30" rows="5" formControlName="opinion" class="form-control container"
-                        placeholder="กรุณาลงความเห็นเพิ่มเติม"
-                        [ngClass]="{ 'is-invalid': submitted && approveForm.controls.opinion.errors }">
+                        placeholder="หากมีความเห็นเพิ่มเติม กรุณากรอกข้อมูล">
                       </textarea>
-                      <div *ngIf="submitted && approveForm.controls.opinion.errors" class="invalid-feedback">
+                      <!-- <div *ngIf="submitted && approveForm.controls.opinion.errors" class="invalid-feedback">
                         <div *ngIf="approveForm.controls.opinion.errors.required">กรุณากรอกรายละเอียด</div>
-                      </div>
+                      </div> -->
                     </div>
                   </div>
                 </div>

@@ -81,7 +81,7 @@ export class DetailInvitedElectronicBookComponent implements OnInit {
     })
 
     this.approveForm = this.fb.group({
-      opinion: new FormControl("", [Validators.required]),
+      opinion: new FormControl(""),
       accept: new FormControl("", [Validators.required]),
     })
 
