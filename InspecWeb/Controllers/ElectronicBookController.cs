@@ -1434,7 +1434,13 @@ namespace InspecWeb.Controllers
             .FirstOrDefault();
 
             {
-                ebookInvite.Description = model.Description;
+                if ( model.Description == null ||  model.Description == "null" ||  model.Description == "")
+                {
+                    ebookInvite.Description = "ไม่มีข้อเสนอแนะเพิ่มเติม";
+                } else {
+                    ebookInvite.Description = model.Description;
+                }
+               
                 ebookInvite.Status = "ลงความเห็นแล้ว";
                 ebookInvite.Approve = model.approve;
             }

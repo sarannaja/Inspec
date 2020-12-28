@@ -19,8 +19,8 @@
             style="margin-top: -60px;">สร้างสมุดตรวจอิเล็กทรอนิกส์</button>
         </div> -->
         <div class="float-right">
-          <button class="btn btn-primary mr-2" title="เรียงข้อมูลตามวัน" (click)="sortDate()" style="margin-top: -60px;"> <i
-              class="fas fa-calendar-week"></i>
+          <button class="btn btn-primary mr-2" title="เรียงข้อมูลตามวัน" (click)="sortDate()"
+            style="margin-top: -60px;"> <i class="fas fa-calendar-week"></i>
           </button>
           <button class="btn btn-primary" title="สร้างสมุดตรวจอิเล็กทรอนิกส์" (click)="createElectronicBook()"
             style="margin-top: -60px;"> <i class="align-middle fas fa-fw fa-plus pointer"></i>
@@ -39,8 +39,8 @@
           <thead>
             <tr>
               <th>#</th>
-              <th>แผนการตรวจราชการ</th>
-              <th>กำหนดการสมุดตรวจ</th>
+              <th>ประเด็นนโยบาย/เรื่อง</th>
+              <th>วันที่ตรวจ</th>
               <!-- <th>รายละเอียดสมุดตรวจอิเล็กทรอนิกส์</th> -->
               <!-- <th>จังหวัด</th> -->
               <th>สถานะ</th>
@@ -58,8 +58,7 @@
               <td *ngIf="item.centralPolicy != null" class="pointer" (click)="gotoDetail(item.id)">
                 {{item.centralPolicy}}
               </td>
-              <td>
-                วันที่ {{item.startDate | thaidate: 'short'}}</td>
+              <td>{{item.startDate | thaidate: 'short'}}</td>
               <!-- <td>{{ item.electronicBook.detail }}</td> -->
               <!-- <td>{{ item.subjectGroup.province.name }}</td> -->
               <!-- <td *ngIf="item.provinceStatus == null">{{ item.status }}</td>
