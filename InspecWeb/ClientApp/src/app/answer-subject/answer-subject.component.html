@@ -3,7 +3,7 @@
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="/main">หน้าหลัก</a></li>
-      <li class="breadcrumb-item active" aria-current="page">แผนการตรวจราชการ</li>
+      <li class="breadcrumb-item active" aria-current="page">ประเด็นการตรวจติดตาม</li>
     </ol>
   </nav>
 </div>
@@ -11,7 +11,7 @@
 <div class="col-12">
   <div class="card card-eiei">
     <div class="card-header" style="margin-bottom: -40px;">
-      <h5 class="card-title">แผนการตรวจราชการ</h5>
+      <h5 class="card-title">ประเด็นการตรวจติดตาม</h5>
       <br>
       <div class="float-right">
         <!-- <button class="btn btn-primary" (click)="openModal(modalProvince)"
@@ -24,9 +24,10 @@
         <thead>
           <tr>
             <th>ที่</th>
-            <th width="30%">แผนการตรวจราชการ</th>
+            <th width="20%">แผนการตรวจราชการ</th>
             <th width="30%">เรื่องที่ตรวจ</th>
-            <th width="40%">วันที่ตรวจ</th>
+            <th width="30%">วันที่ตรวจ</th>
+            <th width="20%">ผู้ตรวจฯ ที่มาตรวจ</th>
             <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
           </tr>
         </thead>
@@ -39,6 +40,7 @@
               <div>{{ item.startDate | thaidate: 'short' }} -
                 {{ item.endDate | thaidate: 'short' }}</div>
             </td>
+            <td>{{ item.user.name }} {{item.user.position}}</td>
             <td>
               <i title="รายละเอียด" class="align-middle mr-2 fas fa-file-medical pointer"
                 (click)="Subjectlist(item.id)"></i>

@@ -43,6 +43,9 @@ export class AnswerSubjectEditComponent implements OnInit {
   listfiles: any = []
   fileData: any = [{ AnswerSubjectFile: '', fileDescription: '' }];
   printstatus: any
+  urllink
+  editanswer: any
+  editdescription: any
 
   constructor(
     private modalService: BsModalService,
@@ -58,6 +61,7 @@ export class AnswerSubjectEditComponent implements OnInit {
   ) {
     this.downloadUrl = baseUrl + '/Uploads';
     this.id = activatedRoute.snapshot.paramMap.get('id')
+    this.urllink = baseUrl + 'answersubject/outsider/';
     this.form = this.fb.group({
       name: [''],
       files: [null]
@@ -103,9 +107,11 @@ export class AnswerSubjectEditComponent implements OnInit {
     this.getAnswerfiles();
     this.getAnsweroutsider();
   }
-  openModalEdit(template: TemplateRef<any>, id) {
+  openModalEdit(template: TemplateRef<any>, id,answer,description) {
     console.log(id);
     this.editid = id
+    this.editanswer = answer
+    this.editdescription = description
     this.modalRef = this.modalService.show(template);
     this.getAnsweruserdetail(id);
   }
@@ -179,9 +185,9 @@ export class AnswerSubjectEditComponent implements OnInit {
       UserId: "",
       SubquestionCentralPolicyProvinceId: [this.resultsubquestion.id],
       Question: [this.resultsubquestion.name],
-      Answer: [""],
+      Answer: [this.editanswer],
       Choice: [test],
-      Description: [""],
+      Description: [this.editdescription],
       Type: [this.resultsubquestion.type]
     }))
     // }
@@ -269,5 +275,10 @@ export class AnswerSubjectEditComponent implements OnInit {
   }
   back() {
     window.history.back();
+  }
+  copyInputMessage(inputElement){
+    inputElement.select();
+    document.execCommand('copy');
+    inputElement.setSelectionRange(0, 0);
   }
 }

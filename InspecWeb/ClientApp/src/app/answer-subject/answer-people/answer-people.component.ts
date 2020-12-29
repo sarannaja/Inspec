@@ -33,7 +33,7 @@ export class AnswerPeopleComponent implements OnInit {
       pagingType: 'full_numbers',
       columnDefs: [
         {
-          targets: [4],
+          targets: [6],
           orderable: false
         }
       ],

@@ -1,5 +1,5 @@
 <div class="header">
-    
+
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/main">หน้าหลัก</a></li>
@@ -15,7 +15,7 @@
             <div class="card-header">
                 <h5 class="card-title mb-0">รายละเอียด</h5>
             </div>
-            <div *ngIf="resultQuestionPeople != null" class="card-body">
+            <div *ngIf="resultQuestionPeople.length != 0; else elseBlock" class="card-body">
                 <form [formGroup]="Form" (ngSubmit)="storestatus(Formstatus.value)">
                     <div class="row" style="margin-top: 10px;">
                         <div class="col-md-6">
@@ -28,22 +28,31 @@
                         </div>
                     </div>
                     <div class="row" style="margin-top: 10px;">
+                        <div class="col-md-6">
+                            ผู้ตรวจฯ ที่ถาม :
+                            {{resultQuestionPeople[0].centralPolicyEvent.inspectionPlanEvent.user.name}}
+                            {{resultQuestionPeople[0].centralPolicyEvent.inspectionPlanEvent.user.position}}
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 10px;">
                         <div class="form-group col-sm-8">
-                            <label for="city">ระยะเวลา</label>
-                            <div class=" d-flex flex-row"
+                            <label for="city">วันที่ตรวจ :
+                                {{resultQuestionPeople[0].centralPolicyEvent.inspectionPlanEvent.startDate | thaidate:
+                                'short'}} - {{resultQuestionPeople[0].centralPolicyEvent.inspectionPlanEvent.endDate |
+                                thaidate: 'short'}}</label>
+                            <!-- <div class=" d-flex flex-row"
                                 *ngFor="let item of resultQuestionPeople[0].centralPolicyEvent.centralPolicy && resultQuestionPeople[0].centralPolicyEvent.centralPolicy.centralPolicyDates; let i = index">
                                 <span>ช่วงที่
                                     {{i+1}})
                                     {{ item.startDate | thaidate: 'short' }} -
                                     {{ item.endDate | thaidate: 'short' }}<br></span>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group col-sm-8">
                             <label for="city">ไฟล์แนบ</label>
-                            <div class=" d-flex flex-row"
-                                *ngFor="let item of resultsubjecteventfiles; let i = index">
+                            <div class=" d-flex flex-row" *ngFor="let item of resultsubjecteventfiles; let i = index">
                                 <a download href="{{downloadUrl}}/{{item.name}}" class="mr-5">
                                     <span>ไฟล์ที่
                                         {{i+1}})
@@ -129,6 +138,23 @@
                     </div>
                 </form>
             </div>
+            <ng-template #elseBlock>
+                <div class="card-body">
+                    <form>
+                        <div class="row" style="margin-top: 10px;">
+                            <div class="col-md-6">
+                                ยังไม่มีคำถาม
+                            </div>
+                        </div>
+                        <div class="form-group col col-lg-12" style="margin-top: 20px; text-align: center;">
+                            <button style="align-self: center;" type="button" class="btn btn-danger"
+                                style="margin-right: 45px;" (click)="back()">ย้อนกลับ</button>
+                            <!-- <button style="align-self: center;" type="submit" class="btn btn-danger">ยกเลิก</button> -->
+                            <!-- <button type="button" class="btn btn-danger" (click)="back()">ยกเลิก</button> -->
+                        </div>
+                    </form>
+                </div>
+            </ng-template>
         </div>
     </div>
 </div>

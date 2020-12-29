@@ -3,9 +3,9 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/main">หน้าหลัก</a></li>
-            <li class="breadcrumb-item"><a href="/answersubject">แผนตรวจราชการ</a></li>
-            <li class="breadcrumb-item"><a href="javascript:void(0)" (click)="back()">ประเด็นนโยบายย่อย</a></li>
-            <li class="breadcrumb-item active" aria-current="page">รายละเอียดประเด็นนโยบายย่อย</li>
+            <li class="breadcrumb-item"><a href="/answersubject">ประเด็นการตรวจติดตาม</a></li>
+            <li class="breadcrumb-item"><a href="javascript:void(0)" (click)="back()">เรื่องที่ตรวจ</a></li>
+            <li class="breadcrumb-item active" aria-current="page">ตอบประเด็นการตรวจ</li>
         </ol>
     </nav>
 </div>
@@ -44,7 +44,16 @@
                                 </div>
                             </div>
                         </div>
-
+                        <div class="row">
+                            <div class="col-md-12">
+                                ลิ้งค์บุคคลภายนอก :
+                                <input class="col-6" type="text" value="{{urllink}}{{id}}/{{userid}}" #userinput>
+                                &nbsp;
+                                &nbsp;
+                                <i class="align-middle mr-2 fas fa-copy" style="font-size: large; cursor: pointer;"
+                                    (click)="copyInputMessage(userinput)" title="คัดลอก"></i>
+                            </div>
+                        </div>
                         <!-- <div class="row" style="margin-top: 10px;">
                             <div class="col-md-6">
                                 <u>ระยะเวลา</u><br>
@@ -89,8 +98,12 @@
                                 <tbody>
                                     <tr *ngFor="let item of resultanswer; let i = index">
                                         <div class="row col-12" style="margin-top: 10px; width: 100%;">
-                                            <td style="border-top: none; width: 50%;">
+                                            <td style="border-top: none; width: 100%;">
                                                 <u>คำถามที่ {{i + 1}}</u>
+                                                &nbsp;
+                                                <i *ngIf="status == 'ร่างกำหนดการ'" title="แก้ไขคำตอบ"
+                                                    class=" align-middle mr-2 fas fa-fw fa-pen pointer"
+                                                    (click)="openModalEdit(modaleditAnswer, item.id,item.answer,item.description)"></i>
                                                 <div>
                                                     <div class="row">
                                                         <div class="col-12" style="margin-top: 6px;">
@@ -105,6 +118,8 @@
                                                     </div>
                                                 </div>
                                             </td>
+                                        </div>
+                                        <div class="row col-12" style="margin-top: 10px; width: 100%;">
                                             <td style="border-top: none; width: 50%;">
                                                 <u>คำตอบ</u>
                                                 <div>
@@ -119,9 +134,7 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                        </div>
-                                        <div class="row col-12" style="margin-top: 10px; width: 100%;">
-                                            <td style="border-top: none; width: 100%;">
+                                            <td style="border-top: none; width: 50%;">
                                                 <u>คำอธิบายคำตอบ</u>
                                                 <div>
                                                     <textarea cols="100%" rows="2" class="form-control"
@@ -130,12 +143,12 @@
                                                 </div>
                                             </td>
                                         </div>
-                                        <div *ngIf="status == 'ร่างกำหนดการ'">
+                                        <!-- <div *ngIf="status == 'ร่างกำหนดการ'">
                                             <td style="border-top: none;">
                                                 <button class="btn btn-info" type="button"
-                                                    (click)="openModalEdit(modaleditAnswer, item.id)">เลือกคำตอบและคำอธิบายใหม่ใหม่</button>
+                                                    (click)="openModalEdit(modaleditAnswer, item.id)">เลือกคำตอบและคำอธิบายใหม่</button>
                                             </td>
-                                        </div>
+                                        </div> -->
                                     </tr>
                                 </tbody>
                             </table>
