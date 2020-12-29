@@ -78,6 +78,7 @@ export class InspectionPlanComponent implements OnInit {
   peopleuserdata: any = [];
   provincialdepartmentuserdata: any = [];
   userProvince: any[] = []
+  userRegion: any[] = []
   ministryId
   watch
   submitted = false;
@@ -126,6 +127,10 @@ export class InspectionPlanComponent implements OnInit {
             this.role_id = result[0].role_id
             this.userProvince = result[0].userProvince
             this.ministryId = result[0].ministryId
+
+            this.userRegion = result[0].userRegion
+
+            // alert(JSON.stringify(this.userProvince))
             // alert(this.role_id)
           })
       })
@@ -155,7 +160,7 @@ export class InspectionPlanComponent implements OnInit {
 
 
     this.getTimeline();
-    this.getScheduleData();
+    // this.getScheduleData();
 
     this.getministryuser();
     this.getdepartmentuser();
@@ -232,6 +237,7 @@ export class InspectionPlanComponent implements OnInit {
       this.currentyear = ((current_date.toISOString() > end_date.toISOString())) ? result.year + 1 : result.year
 
       // alert(JSON.stringify(this.currentyear))
+      this.getScheduleData();
     })
   }
 

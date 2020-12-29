@@ -534,7 +534,7 @@ namespace InspecWeb.Controllers
                 DatabaseName = "CentralPolicy",
                 EventType = "ลบ",
                 EventDate = date,
-                Detail = "ลบแผนการตรวจราชการ"+centralpolicydata.Title,
+                Detail = "ลบแผนการตรวจราชการ" + centralpolicydata.Title,
                 Allid = centralpolicydata.Id,
             };
 
@@ -1473,6 +1473,9 @@ namespace InspecWeb.Controllers
                 .ThenInclude(m => m.CentralPolicyProvinces)
                 .Include(m => m.CentralPolicy)
                 .ThenInclude(m => m.FiscalYearNew)
+                .Include(m => m.CentralPolicy)
+                .ThenInclude(m => m.Typeexaminationplan)
+
                 .Where(m => m.InspectionPlanEventId == planid)
                 .Where(m => m.UserId == id);
 

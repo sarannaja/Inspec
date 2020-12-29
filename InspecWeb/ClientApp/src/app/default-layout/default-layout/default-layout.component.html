@@ -218,11 +218,15 @@
                                                     <span *ngIf="item.status == 1">มีคำเชิญ</span>
 
                                                     <span *ngIf="item.status == 2">ตอบรับคำเชิญ</span>
+
+                                                    <span *ngIf="item.status == 26">ปฏิเสธคำเชิญ</span>
+                                                    <span *ngIf="item.status == 27">มอบหมายให้ผู้อื่น</span>
+
                                                     <span *ngIf="item.status == 3">ผู้ตรวจกำลังจะตรวจ</span>
-                                                    <span *ngIf="item.status == 4">มีประเด็น/คำถาม(หน่วยรับตรวจ)</span>
-                                                    <span *ngIf="item.status == 5">มีประเด็น/คำถาม(ภาคประชาชน)</span>
+                                                    <span *ngIf="item.status == 4">มีประเด็นการตรวจราชการ</span> <!-- มีประเด็น/คำถาม(หน่วยรับตรวจ) -->
+                                                    <span *ngIf="item.status == 5">มีประเด็นการตรวจราชการ</span> <!-- มีประเด็น/คำถาม(ภาคประชาชน) -->
                                                     <span
-                                                        *ngIf="item.status == 6">ตอบประเด็นคำถามเรียบร้อย(ผู้ตรวจราชการ)</span>
+                                                        *ngIf="item.status == 6">ตอบข้อซักถาม</span> <!-- ตอบประเด็นคำถามเรียบร้อย(ผู้ตรวจราชการ) -->
                                                     <span *ngIf="item.status == 7">สมุดตรวจอีเล็กทรอนิกส์</span>
                                                     <span
                                                         *ngIf="item.status == 8">ผู้ว่าราชการจังหวัดลงลายมือชื่อเรียบร้อย</span>
@@ -249,7 +253,11 @@
                                                     <span *ngIf="item.status == 16">{{item.centralPolicy.title}}</span>
                                                     <span *ngIf="item.status == 1">{{item.centralPolicy.title}}</span>
 
-                                                    <span *ngIf="item.status == 2">{{item.centralPolicy.title}}</span>
+                                                    <span *ngIf="item.status == 2">{{item.centralPolicy.title}}..</span>
+
+                                                    <span *ngIf="item.status == 26">{{item.centralPolicy.title}}..</span>
+                                                    <span *ngIf="item.status == 27">{{item.centralPolicy.title}}..</span>
+
                                                     <span *ngIf="item.status == 3">{{item.centralPolicy.title}}</span>
                                                     <span *ngIf="item.status == 4">{{item.centralPolicy.title}}</span>
                                                     <span *ngIf="item.status == 5">{{item.centralPolicy.title}}</span>
@@ -276,8 +284,8 @@
                                                     <span *ngIf="item.status == 25">{{item.centralPolicy.title}}</span>
                                                 </div>
                                                 <div class="text-muted small mt-1">
-                                                     จาก {{item.notificationcreateby[0].userCreate.prefix}} 
-                                                      {{item.notificationcreateby[0].userCreate.name}}                                                    
+                                                     จาก {{item.notificationcreateby[0].userCreate.prefix}}
+                                                      {{item.notificationcreateby[0].userCreate.name}}
                                                 </div>
                                                 <div class="text-muted small mt-1">
                                                     ({{item.notificationcreateby[0].userCreate.position}})
@@ -524,7 +532,7 @@
                             ยืนยันรหัสผ่านไม่ถูกต้อง
                         </span>
                     </div>
-                    
+
                     <div>
                       <p>รหัสผ่านต้องมีอักขระตัวพิมพ์ใหญ่หรืออักขระตัวพิมพ์เล็ก หรืออักขระตัวเลขโดยมีความยาวอย่างน้อย 8 ตัวอักษรแต่ไม่เกิน 16 ตัวอักษร</p>
                     </div>

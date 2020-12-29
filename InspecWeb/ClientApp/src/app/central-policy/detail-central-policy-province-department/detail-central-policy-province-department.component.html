@@ -68,8 +68,9 @@
           <div class="row" style="margin-top: 10px;">
             <div class="col-md-6">
               <u>เชิญที่ปรึกษาผู้ตรวจราชการภาคประชาชน</u> &nbsp;&nbsp;
-              <button *ngIf="role_id == 10 && watch == 0" type="button" class="btn btn-primary"
-                (click)="openModal(modalInvitePeople)">เชิญ</button>
+              <button *ngIf="role_id == 10 && watch == 0" type="button" class="btn btn-primary" title="เชิญ"
+                (click)="openModal(modalInvitePeople)"><i
+                class="align-middle fas fa-fw fa-plus pointer"></i></button>
               <!-- &nbsp;&nbsp;
               <button *ngIf="role_id == 10" type="button" class="btn btn-success"
                 (click)="openModal(modalQuestionPeople)">เพิ่มคำถาม</button> -->
@@ -120,9 +121,10 @@
 
           <div class="row" style="margin-top: 10px;">
             <div class="col-md-6">
-              <u>เชิญหน่วยรับตรวจ</u> &nbsp;&nbsp;
-              <button *ngIf="role_id == 10 && watch == 0" type="button"
-                (click)="openModal(modalInviteProvincialDepartmentPeople)" class="btn btn-primary">เชิญ</button>
+              <u>แจ้งหน่วยรับตรวจ</u> &nbsp;&nbsp;
+              <button *ngIf="role_id == 10 && watch == 0" type="button" title="เชิญ"
+                (click)="openModal(modalInviteProvincialDepartmentPeople)" class="btn btn-primary"><i
+                class="align-middle fas fa-fw fa-plus pointer"></i></button>
             </div>
           </div>
           <div class="row" style="margin-top: 10px;">
@@ -136,10 +138,10 @@
                     <div class="col-7" *ngIf="items.user.role_id == 9">
                       <button *ngIf="items.status == 'รอการตอบรับ'" class="btn btn-sm btn-info"
                         disabled>{{items.status}}</button>
-                      <button *ngIf="items.status == 'ตอบรับ'" class="btn btn-sm btn-success"
-                        disabled>{{items.status}}</button>
+                        <button *ngIf="items.status == 'ตอบรับ'" class="btn btn-sm btn-success"
+                        disabled>รับทราบ</button>
                       <button *ngIf="items.status == 'ปฏิเสธ'" class="btn btn-sm btn-danger"
-                        disabled>{{items.status}}</button>
+                        disabled>ขัดข้อง</button>
                       <button *ngIf="items.status == 'มอบหมาย'" class="btn btn-sm btn-warning"
                         disabled>{{items.status}}</button>
                       &nbsp;&nbsp;&nbsp;
@@ -575,7 +577,7 @@
   <form [formGroup]="Form" (ngSubmit)="storeDepartmentPeople(Form.value)">
     <div class="modal-content">
       <div class="modal-header">
-        <span class="modal-title">จัดการผู้ตรวจการ</span>
+        <span class="modal-title">แจ้งหน่วยรับตรวจ</span>
         <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>

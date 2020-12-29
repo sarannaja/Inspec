@@ -146,7 +146,7 @@ export class InspectionPlanDepartmentComponent implements OnInit {
 
     // this.getCurrentYear();
     this.getTimeline();
-    this.getScheduleData();
+    // this.getScheduleData();
 
     this.getministryuser();
     this.getdepartmentuser();
@@ -221,7 +221,7 @@ export class InspectionPlanDepartmentComponent implements OnInit {
       // alert(JSON.stringify(result))
 
       this.currentyear = ((current_date.toISOString() > end_date.toISOString())) ? result.year + 1 : result.year
-
+      this.getScheduleData();
       // alert(JSON.stringify(this.currentyear))
     })
   }

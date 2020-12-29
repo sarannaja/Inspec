@@ -283,8 +283,8 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     this.getDetailCentralPolicyProvince()
     // this.getquestion();
 
-    this.getDepartmentPeople();
-    this.getMinistryPeople();
+    // this.getDepartmentPeople();
+    // this.getMinistryPeople();
     // this.getUserPeople();
 
     this.getAnswer2();
@@ -421,6 +421,9 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     this.Form.reset();
     this.getProvincialDepartmentPeople();
     this.modalRef = this.modalService.show(template);
+    // setTimeout(() => {
+    // }, 2000);
+
   }
 
   openModal2(template: TemplateRef<any>, subjectid) {
@@ -940,23 +943,26 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     // alert("123")
     await this.userservice.getuserdata(6).subscribe(result => {
       this.resultministrypeople = result // All
+
+      this.centralpolicyservice.getcentralpolicyprovinceuserdata(this.id, this.planId).subscribe(async result => {
+        await result.forEach(async element => {
+          if (element.user.role_id == 6) {
+
+            // var checked = _.filter(element.user.userProvince, (v) => _.includes(this.userProvince.map(result => { return result.provinceId }), v.provinceId)).length
+            // alert(checked)
+            // if (checked > 0) {
+            // alert("123444")
+            await this.allMinistryPeople.push(element.user)
+            // }
+          }
+        }); // Selected
+        // console.log("selectedMinistry: ", this.allMinistryPeople);
+        this.getRecycledMinistryPeople();
+      })
+
     })
 
-    await this.centralpolicyservice.getcentralpolicyprovinceuserdata(this.id, this.planId).subscribe(async result => {
-      await result.forEach(async element => {
-        if (element.user.role_id == 6) {
 
-          // var checked = _.filter(element.user.userProvince, (v) => _.includes(this.userProvince.map(result => { return result.provinceId }), v.provinceId)).length
-          // alert(checked)
-          // if (checked > 0) {
-          // alert("123444")
-          await this.allMinistryPeople.push(element.user)
-          // }
-        }
-      }); // Selected
-      // console.log("selectedMinistry: ", this.allMinistryPeople);
-      this.getRecycledMinistryPeople();
-    })
   }
 
   async getRecycledMinistryPeople() {
@@ -1071,15 +1077,15 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
       // alert(JSON.stringify(this.resultpeople))
       console.log("tttt:", this.resultpeople);
 
-    })
-    await this.centralpolicyservice.getcentralpolicyprovinceuserdata(this.id, this.planId).subscribe(async result => {
-      await result.forEach(async element => {
-        if (element.user.role_id == 7) {
-          this.allUserPeople.push(element.user)
-        }
-      }); // Selected
-      console.log("selectedUser: ", this.allUserPeople);
-      this.getRecycledUserPeople();
+      this.centralpolicyservice.getcentralpolicyprovinceuserdata(this.id, this.planId).subscribe(async result => {
+        await result.forEach(async element => {
+          if (element.user.role_id == 7) {
+            this.allUserPeople.push(element.user)
+          }
+        }); // Selected
+        console.log("selectedUser: ", this.allUserPeople);
+        this.getRecycledUserPeople();
+      })
     })
   }
 
@@ -1132,18 +1138,18 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
   async getDepartmentPeople() {
     await this.userservice.getuserdata(10).subscribe(result => {
       this.resultdepartmentpeople = result // All
+      this.centralpolicyservice.getcentralpolicyprovinceuserdata(this.id, this.planId)
+        .subscribe(async result => {
+          await result.forEach(async element => {
+            if (element.user.role_id == 10) {
+              await this.alldepartmentPeople.push(element.user)
+            }
+          }); // Selected
+          // console.log("selecteddepartment: ", this.alldepartmentPeople);
+          this.getRecycledDepartmentPeople();
+        })
     })
 
-    await this.centralpolicyservice.getcentralpolicyprovinceuserdata(this.id, this.planId)
-      .subscribe(async result => {
-        await result.forEach(async element => {
-          if (element.user.role_id == 10) {
-            await this.alldepartmentPeople.push(element.user)
-          }
-        }); // Selected
-        // console.log("selecteddepartment: ", this.alldepartmentPeople);
-        this.getRecycledDepartmentPeople();
-      })
   }
 
   async getRecycledDepartmentPeople() {
@@ -1257,18 +1263,20 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
   async getProvincialDepartmentPeople() {
     await this.userservice.getuserdata(9).subscribe(result => {
       this.resultprovincialdepartmentpeople = result // All
+
+      this.centralpolicyservice.getcentralpolicyprovinceuserdata(this.id, this.planId)
+        .subscribe(async result => {
+          await result.forEach(async element => {
+            if (element.user.role_id == 9) {
+              await this.allprovincialdepartmentPeople.push(element.user)
+            }
+          }); // Selected
+          // console.log("selectedprovincialdepartment: ", this.allprovincialdepartmentPeople);
+          this.getRecycledProvincialDepartmentPeople();
+        })
+
     })
 
-    await this.centralpolicyservice.getcentralpolicyprovinceuserdata(this.id, this.planId)
-      .subscribe(async result => {
-        await result.forEach(async element => {
-          if (element.user.role_id == 9) {
-            await this.allprovincialdepartmentPeople.push(element.user)
-          }
-        }); // Selected
-        // console.log("selectedprovincialdepartment: ", this.allprovincialdepartmentPeople);
-        this.getRecycledProvincialDepartmentPeople();
-      })
   }
 
   async getRecycledProvincialDepartmentPeople() {
