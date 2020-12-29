@@ -75,6 +75,7 @@
                           (isValid)="isValid = $event" [ngModelOptions]="{standalone: true}"
                           [(ngModel)]="end_date_plan_i[i]" (ngModelChange)="endtime($event,i)" [showMeridian]="false">
                         </timepicker>
+
                         <!-- <timepicker *ngIf="t.at(i).get('end_date_plan').value"
                          [ngModelOptions]="{standalone: true}" [(ngModel)]="end_date_plan_i[i]"
                           (ngModelChange)="enddate($event,i)" [showMeridian]="false">
@@ -116,8 +117,9 @@
                       <!-- {{provincename[i]}}
                       &nbsp;&nbsp; -->
 
-                      <button type="button" *ngIf="t.at(i).get('start_date_plan').value" (click)="Gotoinspecplan(provinceid[i],i)"
-                        class="btn btn-info">กำหนดรายละเอียด</button>
+                      <button type="button" *ngIf="t.at(i).get('start_date_plan').value"
+                        (click)="Gotoinspecplan(provinceid[i],i)" class="btn btn-info"
+                        style="font-size: 12.5px;">กำหนดรายละเอียด</button>
                     </div>
                   </div>
                   <!-- <div class="col-12 col-xl-4" *ngIf="provincename[i] != null">
@@ -187,14 +189,16 @@
 
             <!-- <div class="col-4"></div> -->
 
-            <div class="form-group row">
-              <div class="col-sm-5 ml-sm-auto">
-                <button type="submit" class="btn btn-primary">บันทึก</button>
-                <!-- <button type="submit" class="btn btn-danger">ยกเลิก</button> -->
-              </div>
-              <div class="col-sm-5 ml-sm-auto">
-                <button type="button" class="btn btn-danger" (click)="back()">ยกเลิก</button>
-              </div>
+            <div class="form-group row col-12">
+              <!-- <div class="col-sm-5 ml-sm-auto"> -->
+              &nbsp;&nbsp;<button type="submit" class="btn btn-primary">บันทึก</button>
+              <!-- <button type="submit" class="btn btn-danger">ยกเลิก</button> -->
+              &nbsp;&nbsp;<button type="button" class="btn btn-danger pull-left" (click)="back()">ยกเลิก</button>
+
+              <!-- </div>
+              <div class="col-sm-5 ml-sm-auto" >
+
+              </div> -->
             </div>
 
           </div>

@@ -1025,15 +1025,15 @@ export class DetailCentralPolicyProvinceMinistryComponent implements OnInit {
       // alert(JSON.stringify(this.resultpeople))
       console.log("tttt:", this.resultpeople);
 
-    })
-    await this.centralpolicyservice.getcentralpolicyprovinceuserdata(this.id, this.planId).subscribe(async result => {
-      await result.forEach(async element => {
-        if (element.user.role_id == 7) {
-          this.allUserPeople.push(element.user)
-        }
-      }); // Selected
-      console.log("selectedUser: ", this.allUserPeople);
-      this.getRecycledUserPeople();
+      this.centralpolicyservice.getcentralpolicyprovinceuserdata(this.id, this.planId).subscribe(async result => {
+        await result.forEach(async element => {
+          if (element.user.role_id == 7) {
+            this.allUserPeople.push(element.user)
+          }
+        }); // Selected
+        console.log("selectedUser: ", this.allUserPeople);
+        this.getRecycledUserPeople();
+      })
     })
   }
 
@@ -1085,18 +1085,20 @@ export class DetailCentralPolicyProvinceMinistryComponent implements OnInit {
   async getDepartmentPeople() {
     await this.userservice.getuserdata(10).subscribe(result => {
       this.resultdepartmentpeople = result // All
+
+      this.centralpolicyservice.getcentralpolicyprovinceuserdata(this.id, this.planId)
+        .subscribe(async result => {
+          await result.forEach(async element => {
+            if (element.user.role_id == 10) {
+              await this.alldepartmentPeople.push(element.user)
+            }
+          }); // Selected
+          // console.log("selecteddepartment: ", this.alldepartmentPeople);
+          this.getRecycledDepartmentPeople();
+        })
+
     })
 
-    await this.centralpolicyservice.getcentralpolicyprovinceuserdata(this.id, this.planId)
-      .subscribe(async result => {
-        await result.forEach(async element => {
-          if (element.user.role_id == 10) {
-            await this.alldepartmentPeople.push(element.user)
-          }
-        }); // Selected
-        // console.log("selecteddepartment: ", this.alldepartmentPeople);
-        this.getRecycledDepartmentPeople();
-      })
   }
 
   async getRecycledDepartmentPeople() {
@@ -1208,18 +1210,19 @@ export class DetailCentralPolicyProvinceMinistryComponent implements OnInit {
   async getProvincialDepartmentPeople() {
     await this.userservice.getuserdata(9).subscribe(result => {
       this.resultprovincialdepartmentpeople = result // All
+
+      this.centralpolicyservice.getcentralpolicyprovinceuserdata(this.id, this.planId)
+        .subscribe(async result => {
+          await result.forEach(async element => {
+            if (element.user.role_id == 9) {
+              await this.allprovincialdepartmentPeople.push(element.user)
+            }
+          }); // Selected
+          // console.log("selectedprovincialdepartment: ", this.allprovincialdepartmentPeople);
+          this.getRecycledProvincialDepartmentPeople();
+        })
     })
 
-    await this.centralpolicyservice.getcentralpolicyprovinceuserdata(this.id, this.planId)
-      .subscribe(async result => {
-        await result.forEach(async element => {
-          if (element.user.role_id == 9) {
-            await this.allprovincialdepartmentPeople.push(element.user)
-          }
-        }); // Selected
-        // console.log("selectedprovincialdepartment: ", this.allprovincialdepartmentPeople);
-        this.getRecycledProvincialDepartmentPeople();
-      })
   }
 
   async getRecycledProvincialDepartmentPeople() {

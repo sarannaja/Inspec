@@ -271,7 +271,7 @@ export class CalendarUserComponent implements OnInit {
             colorJa = "#C70039" //red
           } else if (item2.status == "มอบหมาย") {
             // test = 1;
-            colorJa = "#008000" //green
+            colorJa = "#FF8C00" //orange
           }
           return {
             id: item2.inspectionPlanEventId,
