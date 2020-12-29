@@ -57,7 +57,7 @@ export class CentralPolicyComponent implements OnInit {
           //console.log("test" , this.resultuser);
           this.role_id = result[0].role_id
           this.userministryId = result[0].ministryId
-          if (result[0].role_id == 1 ||result[0].role_id == 2) {
+          if (result[0].role_id == 1 || result[0].role_id == 2) {
             console.log("in1", this.role_id);
             this.dtOptions = {
               pagingType: 'full_numbers',
@@ -255,11 +255,15 @@ export class CentralPolicyComponent implements OnInit {
                   // console.log('result[i1]', result[i1], i1);
                   // if (result[i1].status == "ใช้งานจริง") {
                   if (this.role_id != 1 && this.role_id != 2 && result[i1].status == "ใช้งานจริง") {
-                    console.log('ใช้งานจริง', { ...result[i1], count: resultCount });
+                    console.log('role_id != 1,2', { ...result[i1], count: resultCount });
 
                     array.push({ ...result[i1], count: resultCount });
-                  } else if (this.role_id == 1 || this.role_id == 2) {
-                    console.log('ไม่ใช้งานจริง', { ...result[i1], count: resultCount });
+                  } else if (this.role_id == 1) {
+                    console.log('role_id == 1', { ...result[i1], count: resultCount });
+                    array.push({ ...result[i1], count: resultCount });
+                  } else if (this.role_id == 2 && (this.userministryId == result[i1].user.ministryId) ||
+                    (result[i1].status == "ใช้งานจริง" && this.userministryId != result[i1].user.ministryId)) {
+                    console.log('role_id == 2', { ...result[i1], count: resultCount });
                     array.push({ ...result[i1], count: resultCount });
                   }
                   // }
@@ -359,7 +363,7 @@ export class CentralPolicyComponent implements OnInit {
   }
   deleteCentralPolicy(value) {
     this.loading = false;
-    this.centralpolicyservice.deleteCentralPolicy(value,this.userid).subscribe(response => {
+    this.centralpolicyservice.deleteCentralPolicy(value, this.userid).subscribe(response => {
       console.log(value);
       console.log(this.selectfiscalyearid);
       this._NotofyService.onSuccess("ลบข้อมูล")

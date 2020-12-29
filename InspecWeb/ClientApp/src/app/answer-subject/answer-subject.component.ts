@@ -30,7 +30,7 @@ export class AnswerSubjectComponent implements OnInit {
       pagingType: 'full_numbers',
       columnDefs: [
         {
-          targets: [4],
+          targets: [5],
           orderable: false
         }
       ],

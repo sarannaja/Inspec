@@ -12,6 +12,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { NotofyService } from 'src/app/services/notofy.service';
 import { TypeexamibationplanService } from 'src/app/services/typeexamibationplan.service';
 import { FiscalyearnewService } from 'src/app/services/fiscalyearnew.service';
+import { UserService } from 'src/app/services/user.service';
 
 interface addInput {
   id: number;
@@ -59,6 +60,7 @@ export class CreateCentralPolicyComponent implements OnInit {
   fileData: any = [{ CentralpolicyFile: '', fileDescription: '' }];
   listfiles: any = [];
   submitted = false;
+  userministryId
 
   constructor(
     private fb: FormBuilder,
@@ -72,7 +74,8 @@ export class CreateCentralPolicyComponent implements OnInit {
     private external: ExternalOrganizationService,
     private spinner: NgxSpinnerService,
     private _NotofyService: NotofyService,
-    private typeexamibationplanservice: TypeexamibationplanService
+    private typeexamibationplanservice: TypeexamibationplanService,
+    private userService: UserService,
   ) {
     this.form = this.fb.group({
       name: [''],
@@ -88,6 +91,13 @@ export class CreateCentralPolicyComponent implements OnInit {
         console.log(result);
         // alert(this.userid)
       })
+    this.userService.getuserfirstdata(this.userid)
+      .subscribe(result => {
+        this.userministryId = result[0].ministryId
+        console.log("userministryId",this.userministryId);
+
+      })
+
 
     this.Form = this.fb.group({
       title: new FormControl("", [Validators.required]),
@@ -136,8 +146,20 @@ export class CreateCentralPolicyComponent implements OnInit {
   }
   getTypeexamibationplan() {
     this.typeexamibationplanservice.getdata().subscribe(result => {
-      this.resulttypeexamibationplan = result
+      console.log(this.userministryId);
+      if (this.userministryId == 1) {
+        console.log("if");
+        this.resulttypeexamibationplan = result
+      } else {
+        console.log("else");
+        for (let i = 0; i < result.length; i++) {
+          if (result[i].name != "ตรวจราชการแบบบูรณาการ") {
+            this.resulttypeexamibationplan.push({ ...result[i] });
+          }
+        }
+      }
     })
+
   }
   getfiscalyear() {
     this.fiscalyearnewservice.getdata().subscribe(result => {
@@ -272,9 +294,9 @@ export class CreateCentralPolicyComponent implements OnInit {
             console.log("test1: ", this.province);
 
             this.province.sort((a, b) => {
-              if(a.provincesGroupId > b.provincesGroupId) {
+              if (a.provincesGroupId > b.provincesGroupId) {
                 return 1;
-              } else if(a.provincesGroupId < b.provincesGroupId) {
+              } else if (a.provincesGroupId < b.provincesGroupId) {
                 return -1;
               } else {
                 return 0;

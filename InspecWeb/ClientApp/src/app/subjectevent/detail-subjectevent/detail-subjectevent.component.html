@@ -32,8 +32,8 @@
             </div>
           </div>
           <div class="row" style="margin-top: 10px;">
-            <div class="col-md-6">
-              ประเด็นนโยบาย : {{resultdetailcentralpolicy.title}}
+            <div class="col-md-12">
+              ประเด็นนโยบาย/เรื่อง/โครงการ : {{resultdetailcentralpolicy.title}}
             </div>
           </div>
           <div class="row" style="margin-top: 10px;">
@@ -51,35 +51,7 @@
           </div>
 
 
-          <div class="row" style="margin-top: 10px;" *ngIf="subjectgroup.subjectNotificationDate == null">
-            <!-- null -->
-            <div class="col-12 col-md-6">
-              <label>วันที่แจ้งเตือน</label>
-              <my-date-picker-th formControlName="notificationsubjectdate" [options]="myDatePickerOptions" required>
-              </my-date-picker-th>
-            </div>
-            <div class="col-12 col-md-6">
-              <label>วันกำหนดส่ง</label>
-              <my-date-picker-th formControlName="deadlinesubjectdate" [options]="myDatePickerOptions" required>
-              </my-date-picker-th>
-            </div>
-          </div>
-
-          <div class="row" style="margin-top: 10px;" *ngIf="subjectgroup.subjectNotificationDate != null">
-            <!-- not null -->
-            <div class="col-12 col-md-6">
-              <label>วันที่แจ้งเตือน</label>
-              <my-date-picker-th [selDate]="notificationsubjectDate" [options]="myDatePickerOptions" required
-                (dateChanged)="onStartDateChanged($event)">
-              </my-date-picker-th>
-            </div>
-            <div class="col-12 col-md-6">
-              <label>วันกำหนดส่ง</label>
-              <my-date-picker-th [selDate]="deadlinesubjectDate" [options]="myDatePickerOptions" required
-                (dateChanged)="onEndDateChanged($event)">
-              </my-date-picker-th>
-            </div>
-          </div>
+          
 
 
           <div class="row" style="margin-top: 10px;">
@@ -91,9 +63,8 @@
                       <td style="border-top: none; width: 1%;">
                         <div class="row" *ngIf="checkname[i] != checkname[i-1]">
                           <i class="fa fa-tags" style="margin-top: 5px;"></i>
-                          <span class="mb-2" style="margin-left: 15px; font-size: 20px"><b>ประเด็นการตรวจติดตาม</b></span>
-
-
+                          <span class="mb-2"
+                            style="margin-left: 15px; font-size: 20px"><b>ประเด็นการตรวจติดตาม</b></span>
 
                           <button style="margin-top: -10px; margin-left: 10px;"
                             *ngIf="subjectgroupstatus == 'ร่างกำหนดการ'" type="button" class="btn btn-info"
@@ -103,10 +74,43 @@
 
                         </div>
 
+                        <div *ngIf="i == 0">
+                        <div class="row" style="margin-top: 10px;" *ngIf="subjectgroup.subjectNotificationDate == null">
+                          <!-- null -->
+                          <div class="col-12 col-md-6">
+                            <label>วันที่แจ้งเตือน</label>
+                            <my-date-picker-th formControlName="notificationsubjectdate" [options]="myDatePickerOptions" required>
+                            </my-date-picker-th>
+                          </div>
+                          <div class="col-12 col-md-6">
+                            <label>วันกำหนดส่ง</label>
+                            <my-date-picker-th formControlName="deadlinesubjectdate" [options]="myDatePickerOptions" required>
+                            </my-date-picker-th>
+                          </div>
+                        </div>
+              
+                        <div class="row" style="margin-top: 10px;" *ngIf="subjectgroup.subjectNotificationDate != null">
+                          <!-- not null -->
+                          <div class="col-12 col-md-6">
+                            <label>วันที่แจ้งเตือน</label>
+                            <my-date-picker-th [selDate]="notificationsubjectDate" [options]="myDatePickerOptions" required
+                              (dateChanged)="onStartDateChanged($event)">
+                            </my-date-picker-th>
+                          </div>
+                          <div class="col-12 col-md-6">
+                            <label>วันกำหนดส่ง</label>
+                            <my-date-picker-th [selDate]="deadlinesubjectDate" [options]="myDatePickerOptions" required
+                              (dateChanged)="onEndDateChanged($event)">
+                            </my-date-picker-th>
+                          </div>
+                        </div>
+                      </div>
+
+
                         <div class="row" style="margin-top: 10px;">
                           <div class="col-10" style="margin-left: 35px;">
-                            <input type="text" value="{{items.name}}" class="form-control" placeholder="กรุณากรอกเรื่อง"
-                              readonly>
+                            <input type="text" value="{{items.name}}" class="form-control"
+                              style="background-color: #04bdce;" placeholder="กรุณากรอกเรื่อง" readonly>
                           </div>
 
                         </div>
@@ -237,7 +241,8 @@
                           data-toggle="collapse" type="button" [attr.data-target]="'#graphs' + i" aria-expanded="false"
                           aria-controls="graphs" style="margin-left: 20px; font-size: small;">แสดงกราฟ
                         </button> -->
-                        <button class="btn btn-danger" type="button"
+                        <button *ngIf="item.subquestionChoiceCentralPolicyProvinces[0].name != 'โปรดระบุ'"
+                          class="btn btn-danger" type="button"
                           (click)="checkChart(item.id)? closeChart(item.id): showChart.push(item.id)"
                           style="margin-left: 20px; font-size: small;">{{checkChart(item.id)? 'ย่อกราฟ':'แสดงกราฟ'}}
                         </button>
@@ -353,8 +358,8 @@
                           style="margin-top: 10px;">
                           <a class="col-12">
                             <span class="row">
-                              <div class="col-3">{{i+1}} .<a download
-                                  href="{{downloadUrl}}/{{itemFiles.name}}">{{ itemFiles.name }}</a></div>
+                              <div class="col-3">{{i+1}} .<a download href="{{downloadUrl}}/{{itemFiles.name}}">{{
+                                  itemFiles.name }}</a></div>
                               <div class="col-5">คำอธิบาย {{itemFiles.description}}</div>
                               <div class="col-4">โดย {{itemFiles.user.name}}</div>
                             </span>
@@ -383,43 +388,12 @@
 
 
           <div class="form-group" *ngIf="subjectgroupland == 'ลงพื้นที่'" style="margin-top: 10px;">
-            <div class="row col-12" style="margin-top: 10px;" *ngIf="subjectgroup.peopleQuestionNotificationDate == null">
-              <!-- null -->
-              <div class="col-12 col-md-6">
-                <label>วันที่แจ้งเตือน</label>
-                <my-date-picker-th formControlName="notificationpeoplequestiondate" [options]="myDatePickerOptions"
-                  required>
-                </my-date-picker-th>
-              </div>
-              <div class="col-12 col-md-6">
-                <label>วันกำหนดส่ง</label>
-                <my-date-picker-th formControlName="deadlinepeoplequestiondate" [options]="myDatePickerOptions"
-                  required>
-                </my-date-picker-th>
-              </div>
-            </div>
-
-            <div class="row" style="margin-top: 10px;" *ngIf="subjectgroup.peopleQuestionDeadlineDate != null">
-              <!-- not null -->
-              <div class="col-12 col-md-6">
-                <label>วันที่แจ้งเตือน</label>
-                <my-date-picker-th [selDate]="notificationpeoplequestionDate" [options]="myDatePickerOptions" required
-                  (dateChanged)="onStartDateChanged2($event)">
-                </my-date-picker-th>
-              </div>
-              <div class="col-12 col-md-6">
-                <label>วันกำหนดส่ง</label>
-                <my-date-picker-th [selDate]="deadlinepeoplequestionDate" [options]="myDatePickerOptions" required
-                  (dateChanged)="onEndDateChanged2($event)">
-                </my-date-picker-th>
-              </div>
-            </div>
-
-            <br>
             <div class="col-md-12">
               <div class="row">
                 <i class="fa fa-tags" style="margin-top: 15px;"></i>
-                <span style="margin-top: 10px;margin-left: 15px;font-size: 20px;"><b>คำถามภาคประชาชน</b></span> &nbsp;&nbsp;
+                <span
+                  style="margin-top: 10px;margin-left: 15px;font-size: 20px;"><b>คำถามที่ปรึกษาผู้ตรวจราชการภาคประชาชน</b></span>
+                &nbsp;&nbsp;
                 <button *ngIf="subjectgroupstatus == 'ร่างกำหนดการ'" type="button" class="btn btn-success btn-xs"
                   (click)="openModalQuestionPeople(modalQuestionPeople)">เพิ่มคำถาม</button>
                 <!-- <button *ngIf="subjectgroupstatus == 'ใช้งานจริง'" style="margin-right: 15px;" type="button"
@@ -428,6 +402,39 @@
                 <!-- <button *ngIf="subjectgroupstatus == 'ใช้งานจริง' && answerpeople.length != 0" type="button"
                   class="btn btn-success btn-xs"
                   (click)="reportModalComment(modalreportcomment)">รายงานความคิดเห็น</button> -->
+              </div>
+              <br>
+              <div class="row col-12" style="margin-top: 10px;"
+                *ngIf="subjectgroup.peopleQuestionNotificationDate == null">
+                <!-- null -->
+                <div class="col-12 col-md-6">
+                  <label>วันที่แจ้งเตือน</label>
+                  <my-date-picker-th formControlName="notificationpeoplequestiondate" [options]="myDatePickerOptions"
+                    required>
+                  </my-date-picker-th>
+                </div>
+                <div class="col-12 col-md-6">
+                  <label>วันกำหนดส่ง</label>
+                  <my-date-picker-th formControlName="deadlinepeoplequestiondate" [options]="myDatePickerOptions"
+                    required>
+                  </my-date-picker-th>
+                </div>
+              </div>
+
+              <div class="row" style="margin-top: 10px;" *ngIf="subjectgroup.peopleQuestionDeadlineDate != null">
+                <!-- not null -->
+                <div class="col-12 col-md-6">
+                  <label>วันที่แจ้งเตือน</label>
+                  <my-date-picker-th [selDate]="notificationpeoplequestionDate" [options]="myDatePickerOptions" required
+                    (dateChanged)="onStartDateChanged2($event)">
+                  </my-date-picker-th>
+                </div>
+                <div class="col-12 col-md-6">
+                  <label>วันกำหนดส่ง</label>
+                  <my-date-picker-th [selDate]="deadlinepeoplequestionDate" [options]="myDatePickerOptions" required
+                    (dateChanged)="onEndDateChanged2($event)">
+                  </my-date-picker-th>
+                </div>
               </div>
               <br>
               <div *ngFor="let item3 of questionpeople; let i = index">

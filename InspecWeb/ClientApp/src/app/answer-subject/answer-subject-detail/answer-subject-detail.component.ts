@@ -35,6 +35,9 @@ export class AnswerSubjectDetailComponent implements OnInit {
   fileData: any = [{ AnswerSubjectFile: '', fileDescription: '' }];
   submitted = false;
   downloadUrl: any;
+  urllink
+  editanswer: any
+  editdescription: any
 
   constructor(
     private answersubjectservice: AnswersubjectService,
@@ -48,6 +51,7 @@ export class AnswerSubjectDetailComponent implements OnInit {
     @Inject('BASE_URL') baseUrl: string
   ) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
+    this.urllink = baseUrl + 'answersubject/outsider/';
     this.form = this.fb.group({
       name: [''],
       files: [null]
@@ -222,5 +226,10 @@ export class AnswerSubjectDetailComponent implements OnInit {
   }
   back() {
     window.history.back();
+  }
+  copyInputMessage(inputElement){
+    inputElement.select();
+    document.execCommand('copy');
+    inputElement.setSelectionRange(0, 0);
   }
 }

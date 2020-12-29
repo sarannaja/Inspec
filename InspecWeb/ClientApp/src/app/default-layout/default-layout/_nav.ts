@@ -1586,7 +1586,7 @@ export const publicsector: NavBar[] = [ //ภาคประชาชน
   {
     icon: 'fa-book',
     url: "/answerpeople",
-    name: "คำถามภาคประชาชน",
+    name: "ข้อซักถาม",
     menuname: "m21",
     orderby: 18 ,
   },
