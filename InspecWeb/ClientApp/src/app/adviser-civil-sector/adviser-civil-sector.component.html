@@ -17,10 +17,15 @@
                     <div class="col-4">
                       <div style="margin-bottom: 20px;">
                         <div class="form-group">
-                          <select (change)="Changeregion($event)" [(ngModel)]="region" name="region" class="form-control select2" data-toggle="select2"> 
+                            <select (change)="Changeregion($event)" [(ngModel)]="region" name="region" class="form-control" data-toggle="select2"> 
                               <option  [value]="0">เขตตรวจราชการทั้งหมด</option>
                               <option *ngFor="let item of selectdataregion" [value]="item.value">{{item.label}}</option>
-                          </select>
+                            </select>
+                           
+                            <!-- <ng-select [(ngModel)]="region" bindLabel="label" bindValue="value" [items]="selectdataregion" 
+                                formControlName="region" (change)="Changeregion($event)">
+                            </ng-select> -->
+
                         </div>
                       </div>
                     </div>

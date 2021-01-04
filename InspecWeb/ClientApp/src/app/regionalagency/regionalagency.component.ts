@@ -82,7 +82,16 @@ export class RegionalagencyComponent implements OnInit {
       },
       dom: 'Bfrtip',
       buttons: [
-        { extend: 'excel', text: 'Excel', className: 'btn btn-success glyphicon glyphicon-list-alt' },
+        { 
+          extend: 'excel', 
+          text: 'Excel', 
+          className: 'btn btn-success glyphicon glyphicon-list-alt' ,
+          customize: function( xlsx ) {
+            var sheet = xlsx.xl.worksheets['หน่วยงานในส่วนภูมิภาค.xml'];
+            $('row c[r^="C"]', sheet).attr( 's', '2' );
+          },
+          messageTop: 'หน่วยงานในส่วนภูมิภาค'
+        },
         { extend: 'pdf', text: 'Pdf', className: 'btn btn-primary glyphicon glyphicon-file' },
         { extend: 'print', text: 'Print', className: 'btn btn-primary glyphicon glyphicon-print' }
       ]

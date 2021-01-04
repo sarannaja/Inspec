@@ -27,6 +27,7 @@ export class ProvincialDepartmentComponent implements OnInit {
   ministryname: data = {}
   departmentname: data = {}
   name:any;
+  countprovince = 0 ;
   provincialdepartmentId: any;
   departmentId: any;
   ministryid: any;
