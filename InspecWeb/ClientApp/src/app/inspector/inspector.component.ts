@@ -62,7 +62,16 @@ export class InspectorComponent implements OnInit {
         },
         dom: 'Bfrtip',
         buttons: [
-          { extend: 'excel', text: 'Excel', className: 'btn btn-success glyphicon glyphicon-list-alt' },
+          { 
+            extend: 'excel', 
+            text: 'Excel', 
+            className: 'btn btn-success glyphicon glyphicon-list-alt' ,
+            customize: function( xlsx ) {
+              var sheet = xlsx.xl.worksheets['ผู้ตรวจราชการ.xml'];
+              $('row c[r^="C"]', sheet).attr( 's', '2' );
+            },
+            messageTop: 'ผู้ตรวจราชการ'
+          },
           { extend: 'pdf', text: 'Pdf', className: 'btn btn-primary glyphicon glyphicon-file' },
           { extend: 'print', text: 'Print', className: 'btn btn-primary glyphicon glyphicon-print' }
         ]
