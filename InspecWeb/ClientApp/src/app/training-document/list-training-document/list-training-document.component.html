@@ -30,7 +30,7 @@
                   <thead>
                       <tr>
                           <th width="5%">#</th>
-                          <th width="35%" style="min-width: 200px;">เอกสารประกอบการฝึกอบรม(คำอธิบาย)</th>
+                          <th width="35%" style="min-width: 200px;">รายละเอียดเอกสาร</th>
                           <th width="30%" style="min-width: 200px;">ไฟล์แนบ</th>
                           <th width="20%" style="min-width: 200px;">วันที่เพิ่ม</th>
                           <th width="10%" style="min-width: 200px;"><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
@@ -69,11 +69,18 @@
             <div class="modal-body m-3">
                 <div class="form-group">
                     <label for="test" class="form-label">รายละเอียดเอกสาร</label>
-                    <input type="text" formControlName="detail" class="form-control" placeholder="กรุณากรอกรายละเอียดเอกสาร">
+                    <input type="text" formControlName="detail" class="form-control" placeholder="กรุณากรอกรายละเอียดเอกสาร"
+                    [ngClass]="{ 'is-invalid': submitted && f.detail.errors }">
+                    <div *ngIf="submitted && f.detail.errors" class="invalid-feedback">
+                        <div *ngIf="f.detail.errors.required">กรุณากรอกรายละเอียดเอกสาร</div>
+                      </div>
                     <br>
                     <label class="form-label w-100">แนบไฟล์</label>
-                    <input type="file" (change)="uploadFile($event)">
+                    <input type="file" (change)="uploadFile($event)" [ngClass]="{ 'is-invalid': submitted && Form.controls.files.errors }">
                     <small class="form-text text-muted">สำหรับแนบไฟล์ ฯลฯ.</small>
+                    <div *ngIf="submitted && Form.controls.files.errors" class="invalid-feedback">
+                        <div *ngIf="Form.controls.files.errors.required">กรุณาแนบไฟล์เอกสาร</div>
+                      </div>
                 </div>
             </div>
             <div class="modal-footer">

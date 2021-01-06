@@ -41,8 +41,10 @@
                           <th width="5%" class="text-center" style="vertical-align: text-top;">ลำดับที่</th>
                           <th width="40%" class="text-center" style="vertical-align: text-top;">หลักสูตร</th>
                           <th width="10%" class="text-center" style="vertical-align: text-top;">รุ่น/ปี</th>
-                          <th width="25%" class="text-center" style="vertical-align: text-top;">หัวข้อการศึกษา</th>
-                          <th width="20%" class="text-center" style="vertical-align: text-top;">รายงานของผู้เข้ารับ</th>
+                          <th width="25%" class="text-center" style="vertical-align: text-top;">วันที่สมัคร</th>
+                          <th width="20%" class="text-center" style="vertical-align: text-top;">สถานะ</th>
+                          <!-- <th width="25%" class="text-center" style="vertical-align: text-top;">หัวข้อการศึกษา</th> -->
+                          <!-- <th width="20%" class="text-center" style="vertical-align: text-top;">รายงานของผู้เข้ารับ</th> -->
                       </tr>
                   </thead>
                   <tbody>
@@ -50,9 +52,20 @@
                         <td class="text-center">{{ i + 1 }}</td>
                         <td>{{ item.training.name }}</td>
                         <td class="text-center">{{ item.training.generation }}/{{ item.training.year }}</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td class="text-center">{{ item.createdAt | thaidate:'forlog' }}</td>
+                        <td class="text-center">
+                            <ng-container *ngIf="item.status == 0;else msecond">
+                                <span class="text-primary">ส่งสมัครเรียบร้อย</span>
+                            </ng-container>
+                            <ng-template #msecond>
+                                <ng-container *ngIf="item.status == 1;else mthird">
+                                    <span class="text-success">ระหว่างการอบรม</span>
+                                </ng-container>
+                            </ng-template>
+                            <ng-template #mthird>
+                              <span class="text-danger">ไม่ได้รับสิทธิ์การอบรม</span>
+                            </ng-template>
+                        </td>
                     </tr>
                     
                   </tbody>
