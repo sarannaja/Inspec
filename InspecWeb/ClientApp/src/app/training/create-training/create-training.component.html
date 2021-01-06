@@ -23,9 +23,9 @@
                                 <div class="form-group">
                                     <label>รหัสปี</label><label class="red-sm">*ระบุ2หลัก</label>
                                     <input type="text" maxlength="2" formControlName="year" class="form-control"
-                                        placeholder="กรุณากรอกปี (2หลัก)" [ngClass]="{ 'is-invalid': submitted && f.year.errors }">
+                                        placeholder="กรุณากรอกรหัสปี (2หลัก)" [ngClass]="{ 'is-invalid': submitted && f.year.errors }">
                                         <div *ngIf="submitted && f.year.errors" class="invalid-feedback">
-                                        <div *ngIf="f.year.errors.required">กรุณากรอกปี</div>
+                                        <div *ngIf="f.year.errors.required">กรุณากรอกรหัสปี</div>
                                          </div>
                                 </div>
                                 &nbsp;&nbsp;
@@ -55,17 +55,17 @@
                                     <input type="text" formControlName="generation" class="form-control"
                                         placeholder="กรุณากรอกรุ่นที่" [ngClass]="{ 'is-invalid': submitted && f.generation.errors }">
                                         <div *ngIf="submitted && f.generation.errors" class="invalid-feedback">
-                                            <div *ngIf="f.generation.errors.required">กรุณากรอกรหัสหลักสูตร</div>
+                                            <div *ngIf="f.generation.errors.required">กรุณากรอกรุ่นที่</div>
                                         </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label>คำอธิบายหลักสูตรการอบรม</label><label class="red-sm">*</label>
                                 <textarea type="text" formControlName="detail" class="form-control"
-                                    placeholder="กรุณากรอคำอธิบายหลักสูตรการอบรม"
+                                    placeholder="กรุณากรอกคำอธิบายหลักสูตรการอบรม"
                                     style="width: 100%; height:200px;" [ngClass]="{ 'is-invalid': submitted && f.detail.errors }"></textarea>
                                     <div *ngIf="submitted && f.detail.errors" class="invalid-feedback">
-                                        <div *ngIf="f.detail.errors.required">กรุณากรอกรหัสหลักสูตร</div>
+                                        <div *ngIf="f.detail.errors.required">กรุณากรอกคำอธิบายหลักสูตรการอบรม</div>
                                     </div>
                                 <!-- <span class="font-13 text-muted">e.g "DD/MM/YYYY"</span> -->
                             </div>

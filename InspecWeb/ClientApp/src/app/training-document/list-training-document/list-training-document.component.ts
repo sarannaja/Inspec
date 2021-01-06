@@ -31,6 +31,7 @@ export class ListTrainingDocumentComponent implements OnInit {
   downloadUrl: string;
   userid: string;
   namefile: any;
+  submitted = false;
 
   constructor(private modalService: BsModalService,
     private authorize: AuthorizeService,
@@ -75,11 +76,12 @@ export class ListTrainingDocumentComponent implements OnInit {
     };
     this.Form = this.fb.group({
       detail: new FormControl(null, [Validators.required]),
+      files: new FormControl("", [Validators.required]),
 
     })
-    this.form = this.fb.group({
-      files: [null]
-    })
+    // this.form = this.fb.group({
+    //   files: [null]
+    // })
 
     this.trainingservice.getlisttrainingdocumentdata(this.trainingid)
       .subscribe(result => {
@@ -99,6 +101,7 @@ export class ListTrainingDocumentComponent implements OnInit {
   }
 
   openModal(template: TemplateRef<any>, id: any = null) {
+    this.submitted = false;
     this.delid = id;
     //console.log(this.delid);
     this.modalRef = this.modalService.show(template);
@@ -115,11 +118,19 @@ export class ListTrainingDocumentComponent implements OnInit {
   storeTraining(value) {
     //alert(JSON.stringify(value))
     //alert(this.form.value.files)
+
+    if (this.Form.invalid) {
+      this.submitted = true;
+      console.log(this.Form.invalid);
+      return;
+    } else {
+
     this.spinner.show();
-    this.trainingservice.addTrainingDocument(value, this.form.value.files, this.trainingid).subscribe(response => {
+    this.trainingservice.addTrainingDocument(value, this.Form.value.files, this.trainingid).subscribe(response => {
       console.log("addTrainingDocument =>", response);
-      this.Form.reset()
-      this.modalRef.hide()
+      this.Form.reset();
+      this.submitted = false;
+      this.modalRef.hide();
       this.loading = false;
       this.logService.addLog(this.userid,'TrainingDocument','เพิ่ม',response.detail,response.id).subscribe();
       this.trainingservice.sendmaildocument(this.trainingid).subscribe(resultmail => {
@@ -134,13 +145,14 @@ export class ListTrainingDocumentComponent implements OnInit {
       
     })
   }
+  }
 
   uploadFile(event) {
     const file = (event.target as HTMLInputElement).files;
-    this.form.patchValue({
+    this.Form.patchValue({
       files: file
     });
-    this.form.get('files').updateValueAndValidity()
+    this.Form.get('files').updateValueAndValidity()
   }
 
   addFile(event) {
