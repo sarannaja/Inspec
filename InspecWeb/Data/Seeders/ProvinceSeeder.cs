@@ -13,7 +13,8 @@ namespace InspecWeb.Data.Seeders
         public void Configure(EntityTypeBuilder<Province> builder)
         {
             builder.HasData(
-                new Province{ Id = 1,
+                new Province{ 
+                    Id = 1,
                     SectorId = 1,
                     ProvincesGroupId = 1,
                     Name = "กรุงเทพมหานคร",
