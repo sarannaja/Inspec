@@ -288,7 +288,7 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
         icon: 'fa-file',
         //url: '/nationalstrategy',
         url:'http://nscr.nesdb.go.th/%E0%B8%A2%E0%B8%B8%E0%B8%97%E0%B8%98%E0%B8%A8%E0%B8%B2%E0%B8%AA%E0%B8%95%E0%B8%A3%E0%B9%8C%E0%B8%8A%E0%B8%B2%E0%B8%95%E0%B8%B4/',
-        name: 'ยุทธศาตร์ชาติ'
+        name: 'ยุทธศาสตร์ชาติ'
       },
       {
         ex_link: '1',
@@ -532,7 +532,7 @@ export const Centraladmin: NavBar[] = [ //แอดมินส่วนกล�
         icon: 'fa-file',
         //url: '/nationalstrategy',
         url:'http://nscr.nesdb.go.th/%E0%B8%A2%E0%B8%B8%E0%B8%97%E0%B8%98%E0%B8%A8%E0%B8%B2%E0%B8%AA%E0%B8%95%E0%B8%A3%E0%B9%8C%E0%B8%8A%E0%B8%B2%E0%B8%95%E0%B8%B4/',
-        name: 'ยุทธศาตร์ชาติ'
+        name: 'ยุทธศาสตร์ชาติ'
       },
       {
         ex_link: '1',
@@ -793,7 +793,7 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
         icon: 'fa-file',
         //url: '/nationalstrategy',
         url:'http://nscr.nesdb.go.th/%E0%B8%A2%E0%B8%B8%E0%B8%97%E0%B8%98%E0%B8%A8%E0%B8%B2%E0%B8%AA%E0%B8%95%E0%B8%A3%E0%B9%8C%E0%B8%8A%E0%B8%B2%E0%B8%95%E0%B8%B4/',
-        name: 'ยุทธศาตร์ชาติ'
+        name: 'ยุทธศาสตร์ชาติ'
       },
       {
         ex_link: '1',
@@ -976,7 +976,7 @@ export const Provincialgovernor: NavBar[] = [ //ผู้ว่าราชก�
         icon: 'fa-file',
         //url: '/nationalstrategy',
         url:'http://nscr.nesdb.go.th/%E0%B8%A2%E0%B8%B8%E0%B8%97%E0%B8%98%E0%B8%A8%E0%B8%B2%E0%B8%AA%E0%B8%95%E0%B8%A3%E0%B9%8C%E0%B8%8A%E0%B8%B2%E0%B8%95%E0%B8%B4/',
-        name: 'ยุทธศาตร์ชาติ'
+        name: 'ยุทธศาสตร์ชาติ'
       },
       {
         ex_link: '1',
@@ -1202,7 +1202,7 @@ export const Adminprovince: NavBar[] = [ //หัวหน้าสำนัก�
         icon: 'fa-file',
         //url: '/nationalstrategy',
         url:'http://nscr.nesdb.go.th/%E0%B8%A2%E0%B8%B8%E0%B8%97%E0%B8%98%E0%B8%A8%E0%B8%B2%E0%B8%AA%E0%B8%95%E0%B8%A3%E0%B9%8C%E0%B8%8A%E0%B8%B2%E0%B8%95%E0%B8%B4/',
-        name: 'ยุทธศาตร์ชาติ'
+        name: 'ยุทธศาสตร์ชาติ'
       },
       {
         ex_link: '1',
@@ -1426,7 +1426,7 @@ export const InspectorMinistry: NavBar[] = [ //ผู้ตรวจกระท
         icon: 'fa-file',
         //url: '/nationalstrategy',
         url:'http://nscr.nesdb.go.th/%E0%B8%A2%E0%B8%B8%E0%B8%97%E0%B8%98%E0%B8%A8%E0%B8%B2%E0%B8%AA%E0%B8%95%E0%B8%A3%E0%B9%8C%E0%B8%8A%E0%B8%B2%E0%B8%95%E0%B8%B4/',
-        name: 'ยุทธศาตร์ชาติ'
+        name: 'ยุทธศาสตร์ชาติ'
       },
       {
         ex_link: '1',
@@ -1616,7 +1616,7 @@ export const publicsector: NavBar[] = [ //ภาคประชาชน
         icon: 'fa-file',
         //url: '/nationalstrategy',
         url:'http://nscr.nesdb.go.th/%E0%B8%A2%E0%B8%B8%E0%B8%97%E0%B8%98%E0%B8%A8%E0%B8%B2%E0%B8%AA%E0%B8%95%E0%B8%A3%E0%B9%8C%E0%B8%8A%E0%B8%B2%E0%B8%95%E0%B8%B4/',
-        name: 'ยุทธศาตร์ชาติ'
+        name: 'ยุทธศาสตร์ชาติ'
       },
       {
         ex_link: '1',
@@ -1834,7 +1834,7 @@ export const president: NavBar[] = [ //ผู้บริหารหรือ�
         icon: 'fa-file',
         //url: '/nationalstrategy',
         url:'http://nscr.nesdb.go.th/%E0%B8%A2%E0%B8%B8%E0%B8%97%E0%B8%98%E0%B8%A8%E0%B8%B2%E0%B8%AA%E0%B8%95%E0%B8%A3%E0%B9%8C%E0%B8%8A%E0%B8%B2%E0%B8%95%E0%B8%B4/',
-        name: 'ยุทธศาตร์ชาติ'
+        name: 'ยุทธศาสตร์ชาติ'
       },
       {
         ex_link: '1',
@@ -2066,7 +2066,7 @@ export const InspectorExamination: NavBar[] = [ //หน่วยรับตร
         icon: 'fa-file',
         //url: '/nationalstrategy',
         url:'http://nscr.nesdb.go.th/%E0%B8%A2%E0%B8%B8%E0%B8%97%E0%B8%98%E0%B8%A8%E0%B8%B2%E0%B8%AA%E0%B8%95%E0%B8%A3%E0%B9%8C%E0%B8%8A%E0%B8%B2%E0%B8%95%E0%B8%B4/',
-        name: 'ยุทธศาตร์ชาติ'
+        name: 'ยุทธศาสตร์ชาติ'
       },
       {
         ex_link: '1',
@@ -2292,7 +2292,7 @@ export const InspectorDepartment: NavBar[] = [ //ผู้ตรวจกรม/
         icon: 'fa-file',
         //url: '/nationalstrategy',
         url:'http://nscr.nesdb.go.th/%E0%B8%A2%E0%B8%B8%E0%B8%97%E0%B8%98%E0%B8%A8%E0%B8%B2%E0%B8%AA%E0%B8%95%E0%B8%A3%E0%B9%8C%E0%B8%8A%E0%B8%B2%E0%B8%95%E0%B8%B4/',
-        name: 'ยุทธศาตร์ชาติ'
+        name: 'ยุทธศาสตร์ชาติ'
       },
       {
         ex_link: '1',
