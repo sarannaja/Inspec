@@ -147,8 +147,53 @@ namespace InspecWeb.Controllers
                 }
 
             }
-            if (Status == 2 || Status == 6 || Status == 26 || Status == 27)
+
+            if (Status == 2 || Status == 26 || Status == 27)
             {
+                var inspectionplans = _context.InspectionPlanEvents
+                .Include(m => m.CentralPolicyEvents)
+                .ThenInclude(m => m.CentralPolicy)
+                .Where(m => m.Id == xe)
+                .FirstOrDefault();
+
+                var data = new Notification
+                {
+                    UserID = inspectionplans.CreatedBy,
+                    CentralPolicyId = CentralPolicyId,
+                    ProvinceId = ProvinceId,
+                    status = Status,
+                    noti = 1,
+                    CreatedAt = date,
+                    xe = xe
+                };
+                _context.Notifications.Add(data);
+                _context.SaveChanges();
+
+                var data2 = new Notificationcreateby
+                {
+                    NotificationId = data.Id,
+                    CreateBy = createby
+                };
+                _context.Notificationcreateby.Add(data2);
+                _context.SaveChanges();
+
+                if (Status == 2)
+                {
+                    _externalOrganizationController.SendNotification(UserId, "ตอบรับคำเชิญ" + CentralPolicyData.Title);
+                }
+                else if (Status == 26)
+                {
+                    _externalOrganizationController.SendNotification(UserId, "ปฏิเสธคำเชิญ" + CentralPolicyData.Title);
+                }
+                else if (Status == 27)
+                {
+                    _externalOrganizationController.SendNotification(UserId, "มอบหมายให้ผู้อื่น" + CentralPolicyData.Title);
+                }
+            }
+
+            if (Status == 6)
+            {
+
                 var inspectionplans = _context.InspectionPlanEvents
                     .Include(m => m.CentralPolicyEvents)
                     .ThenInclude(m => m.CentralPolicy)
@@ -177,22 +222,8 @@ namespace InspecWeb.Controllers
                 _context.Notificationcreateby.Add(data2);
                 _context.SaveChanges();
 
-                if (Status == 2)
-                {
-                    _externalOrganizationController.SendNotification(UserId, "ตอบรับคำเชิญ" + CentralPolicyData.Title);
-                }
-                else if (Status == 6)
-                {
-                    _externalOrganizationController.SendNotification(UserId, "ตอบประเด็นคำถามเรียบร้อย(ผู้ตรวจราชการ)" + CentralPolicyData.Title);
-                }
-                else if (Status == 26)
-                {
-                    _externalOrganizationController.SendNotification(UserId, "ปฏิเสธคำเชิญ" + CentralPolicyData.Title);
-                }
-                  else if (Status == 27)
-                {
-                    _externalOrganizationController.SendNotification(UserId, "มอบหมายให้ผู้อื่น" + CentralPolicyData.Title);
-                }
+                _externalOrganizationController.SendNotification(UserId, "ตอบประเด็นคำถามเรียบร้อย(ผู้ตรวจราชการ)" + CentralPolicyData.Title);
+
             }
 
             //if (Status == 3 || Status == 4)
