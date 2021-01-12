@@ -51,7 +51,6 @@ export class ElectronicBookProvinceComponent implements OnInit {
             this.role_id = result[0].role_id
             this.provinceId = result[0].userProvince[0].provinceId
             this.provincialDepartmentID = result[0].provincialDepartmentId
-            this.getElectronicBook();
           })
       })
     this.dtOptions = {
@@ -79,6 +78,9 @@ export class ElectronicBookProvinceComponent implements OnInit {
         },
       }
     };
+    setTimeout(() => {
+      this.getElectronicBook();
+    }, 500);
   }
 
   openModal(template: TemplateRef<any>, id) {

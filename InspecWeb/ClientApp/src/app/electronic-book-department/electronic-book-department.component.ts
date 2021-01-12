@@ -55,7 +55,6 @@ export class ElectronicBookDepartmentComponent implements OnInit {
               return item.provinceId
             })
             this.provincialDepartmentID = result[0].provincialDepartmentId
-            this.getElectronicBook();
           })
       })
     this.dtOptions = {
@@ -83,6 +82,9 @@ export class ElectronicBookDepartmentComponent implements OnInit {
         },
       }
     };
+    setTimeout(() => {
+      this.getElectronicBook();
+    }, 500);
   }
 
   openModal(template: TemplateRef<any>, id) {
@@ -143,7 +145,7 @@ export class ElectronicBookDepartmentComponent implements OnInit {
   }
 
   gotoDetail(id, ebookProvincialDepartmentId) {
-    this.router.navigate(['/electronicbook/departmentdetail/' + id, {electronicBookProvincialDepartmentId: ebookProvincialDepartmentId}])
+    this.router.navigate(['/electronicbook/departmentdetail/' + id, { electronicBookProvincialDepartmentId: ebookProvincialDepartmentId }])
   }
 
   gotoTheme(id, elecId) {
