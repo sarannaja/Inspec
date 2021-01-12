@@ -42,13 +42,13 @@ namespace InspecWeb.Controllers
 
         // GET: api/values
         [HttpGet]
-        public IEnumerable<CentralPolicy> Get()
+        public IActionResult GetCentralpolicy()
         {
             //var centralpolicydata = from P in _context.CentralPolicies
             //                        select P;
             //return centralpolicydata;
 
-            return _context.CentralPolicies
+            var centralpolicydata = _context.CentralPolicies
                    .Include(m => m.FiscalYearNew)
                    .Include(m => m.Typeexaminationplan)
                    .Include(m => m.CentralPolicyProvinces)
@@ -59,7 +59,37 @@ namespace InspecWeb.Controllers
                    .ThenInclude(m => m.Departments)
                    .OrderByDescending(m => m.Id)
                    .Where(m => m.Class == "แผนการตรวจประจำปี" && m.Id != 1)
+                   .Select(m => new
+                   {
+                       Id = m.Id,
+                       title = m.Title,
+                       typeexaminationplanname = m.Typeexaminationplan.Name,
+                       fiscalYearNewyear = m.FiscalYearNew.Year,
+                       centralPolicyDates = m.CentralPolicyDates,
+                       userministriesname = m.User.Ministries.Name,
+                       userdepartmentsname = m.User.Departments.Name,
+                       userministryId = m.User.MinistryId,
+                       status = m.Status,
+                       updateAt = m.UpdateAt
+                   })
                    .ToList();
+
+            List<object> termlists = new List<object>();
+            foreach (var prop in centralpolicydata)
+            {
+                var subjectdata = _context.SubjectCentralPolicyProvinces
+                    .Include(m => m.SubjectDateCentralPolicyProvinces)
+                    .ThenInclude(m => m.CentralPolicyDateProvince)
+                    .Include(m => m.CentralPolicyProvince)
+                    //.Where(m => m.CentralPolicyId == id);
+                    .Where(m => m.CentralPolicyProvince.CentralPolicyId == prop.Id && m.Type == "Master")
+                    .Count();
+                // var data = new {} 
+                termlists.Add(new { prop, count = subjectdata });
+            }
+            object[] terms = termlists.ToArray();
+
+            return Ok(terms);
         }
 
         // GET api/values/5
@@ -97,10 +127,47 @@ namespace InspecWeb.Controllers
                 .ThenInclude(m => m.Ministries)
                 .ThenInclude(m => m.Departments)
                 .OrderByDescending(m => m.Id)
-                .Where(m => m.FiscalYearNewId == id && m.Class == "แผนการตรวจประจำปี" && m.Id != 1).ToList();
+                .Where(m => m.FiscalYearNewId == id && m.Class == "แผนการตรวจประจำปี" && m.Id != 1)
+                .Select(m => new
+                {
+                    Id = m.Id,
+                    title = m.Title,
+                    typeexaminationplanname = m.Typeexaminationplan.Name,
+                    fiscalYearNewyear = m.FiscalYearNew.Year,
+                    centralPolicyDates = m.CentralPolicyDates,
+                    userministriesname = m.User.Ministries.Name,
+                    userdepartmentsname = m.User.Departments.Name,
+                    userministryId = m.User.MinistryId,
+                    status = m.Status,
+                    updateAt = m.UpdateAt
+                })
+                .ToList();
+
+            List<object> termlists = new List<object>();
+            foreach (var prop in centralpolicydata)
+            {
+                var subjectdata = _context.SubjectCentralPolicyProvinces
+                    .Include(m => m.SubjectDateCentralPolicyProvinces)
+                    .ThenInclude(m => m.CentralPolicyDateProvince)
+                    .Include(m => m.CentralPolicyProvince)
+                    //.Where(m => m.CentralPolicyId == id);
+                    .Where(m => m.CentralPolicyProvince.CentralPolicyId == prop.Id && m.Type == "Master")
+                    .Count();
+                // var data = new {} 
+                termlists.Add(new { prop, count = subjectdata });
+            }
+            object[] terms = termlists.ToArray();
 
 
-            return Ok(centralpolicydata);
+
+            // for (int i = 0; i < centralpolicydata.Count(); i++)
+            // {
+
+
+            //     return Ok(subjectdata.Count());
+            // }
+
+            return Ok(terms);
             //return "value";
         }
 
