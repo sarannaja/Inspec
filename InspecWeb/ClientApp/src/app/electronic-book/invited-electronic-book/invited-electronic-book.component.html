@@ -51,7 +51,7 @@
                 <label *ngIf="item.status == 'ลงความเห็นแล้ว'">ลงนามแล้ว</label>
               </td>
               <td>
-                <i *ngIf="item.status == 'รอความเห็นแล้ว'" title="ลงนามสมุดตรวจ"
+                <i *ngIf="item.status != 'ลงความเห็นแล้ว'" title="ลงนามสมุดตรวจ"
                   class="align-middle mr-2 fas fa-fw fa-pen pointer"
                   (click)="gotoDetail(item.electronicBookId, item.id)"></i>
                 <i *ngIf="item.status == 'ลงความเห็นแล้ว'" title="ดูรายละเอียด"
