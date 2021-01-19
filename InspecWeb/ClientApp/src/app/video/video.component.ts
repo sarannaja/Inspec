@@ -16,6 +16,24 @@ export class VideoComponent implements OnInit {
   videos: Video[] = [];
   currentvideo = null;
   currentIndex = -1;
+  checkrole: any[] = [
+    {
+      id: 0,
+      name: "ทั้งหมด"
+    },
+    {
+      id: 1,
+      name: "การใช้งานระบบสำหรับผู้ดูแลระบบ"
+    },
+    {
+      id: 2,
+      name: "การใช้งานระบบสำหรับบุคลากรในระบบตรวจราชการ"
+    },
+    {
+      id: 3,
+      name: "การใช้งานระบบสำหรับหน่วยรับตรวจ"
+    },
+  ]
   title = '';
   video: Video = new Video();
   submitted = false;
@@ -43,10 +61,13 @@ export class VideoComponent implements OnInit {
       }
 
     };
-    this.retrievevideos();
+    this.retrievevideos({ id: 0 });
     // this.saveVideo()
   }
+  checkRoleShow($event) {
+    console.log($event);
 
+  }
 
   saveVideo() {
     let video: Video = {
@@ -70,10 +91,11 @@ export class VideoComponent implements OnInit {
   refreshList() {
     this.currentvideo = null;
     this.currentIndex = -1;
-    this.retrievevideos();
+    this.retrievevideos({ id: 0 });
   }
 
-  retrievevideos() {
+  retrievevideos($event) {
+    this.videos = []
     this.videoService.getAll().snapshotChanges().pipe(
       map(changes =>
         changes.map(c =>
@@ -81,9 +103,9 @@ export class VideoComponent implements OnInit {
         )
       )
     ).subscribe(data => {
-      console.log(data);
 
-      this.videos = data;
+      this.videos = $event.id == 0 ? data : data.filter(res => res.role_id == $event.id);
+      console.log(this.videos);
     });
   }
   modalRef: BsModalRef;

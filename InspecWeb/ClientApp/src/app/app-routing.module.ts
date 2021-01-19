@@ -231,7 +231,7 @@ const routes: Routes = [
   { path: 'centralpolicy/detailcentralpolicyprovince/ministry/noauth/:result', component: DetailCentralPolicyProvinceMinistryComponent },
   { path: 'centralpolicy/detailcentralpolicyprovince/department/noauth/:result', component: DetailCentralPolicyProvinceDepartmentComponent },
   {
-    path: 'video_example', loadChildren: () => import('./video/video.module').then(m => m.VideoModule)
+    path: 'main/video', loadChildren: () => import('./video/video.module').then(m => m.VideoModule)
   },
   {
     path: 'vector', loadChildren: () => import('./external-organization/external-organization.module')
@@ -477,19 +477,19 @@ const routes: Routes = [
   { path: 'maincentralpolicy/detailrowcentralpolicy/:id', component: DetailrowCentralPolicyComponent },
   { path: 'mainsubject/:id', component: BeforeSubjectComponent },
   { path: 'mainsubject/detailsubject/:id', component: DetailSubjectComponent },
-  { path: 'supportgovernment/governmentinspectionareamain', component: GovernmentinspectionareaComponent},
-  { path: 'supportgovernment/governmentinspectionareamain/detail/:id', component: DetailGovernmentinspectionareaComponent},
-  { path: 'supportgovernment/circularlettermain', component: CircularletterComponent},
-  { path: 'infoministrymain', component: InfoMinistryComponent},
+  { path: 'supportgovernment/governmentinspectionareamain', component: GovernmentinspectionareaComponent },
+  { path: 'supportgovernment/governmentinspectionareamain/detail/:id', component: DetailGovernmentinspectionareaComponent },
+  { path: 'supportgovernment/circularlettermain', component: CircularletterComponent },
+  { path: 'infoministrymain', component: InfoMinistryComponent },
   { path: 'infoministrymain/:id/infodepartment', component: InfoDepartmentComponent },
-  { path: 'informationprovincemain', component: InfomationProvinceComponent},
-  { path: 'infodistrictmain/:id', component: InfoDistrictComponent},
-  { path: 'infosubdistrictmain/:id', component: InfoSubdistrictComponent},
-  { path: 'infovillagemain/:id', component: InfoVillageComponent},
-  { path: 'inspectormain', component: InspectorComponent},
-  { path: 'inspectionordermain', component: InspectionorderComponent},
-  { path: 'governmentinspectionplaniframe', component: GovernmentinspectionplaniframeComponent}, //แผนการตรวจราชการประจำปี iframe
-  { path: 'informationinspectioniframe', component: InformationinspectioniframeComponent}, //ข้อมูลประกอบการตรวจราชการ iframe
+  { path: 'informationprovincemain', component: InfomationProvinceComponent },
+  { path: 'infodistrictmain/:id', component: InfoDistrictComponent },
+  { path: 'infosubdistrictmain/:id', component: InfoSubdistrictComponent },
+  { path: 'infovillagemain/:id', component: InfoVillageComponent },
+  { path: 'inspectormain', component: InspectorComponent },
+  { path: 'inspectionordermain', component: InspectionorderComponent },
+  { path: 'governmentinspectionplaniframe', component: GovernmentinspectionplaniframeComponent }, //แผนการตรวจราชการประจำปี iframe
+  { path: 'informationinspectioniframe', component: InformationinspectioniframeComponent }, //ข้อมูลประกอบการตรวจราชการ iframe
   { path: '**', redirectTo: 'main/thaimap', pathMatch: 'full' },
 
 ]
