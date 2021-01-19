@@ -22,7 +22,11 @@ export class ElectronicbookreportService {
     var test: any = [];
 
     electronicBookData.ebookInvite.forEach(element => {
-      if (element.user.role_id == 6 || element.user.role_id == 10 || element.user.role_id == 7) {
+      // if (element.user.role_id == 6 || element.user.role_id == 10 || element.user.role_id == 7) {
+      //   test.push(element)
+      // }
+
+      if (element.user.role_id == 6 || element.user.role_id == 10) {
         test.push(element)
       }
     });
@@ -44,14 +48,14 @@ export class ElectronicbookreportService {
           approve: item.approve,
         }
       }
-      else if (item.user.role_id == 7) {
-        return {
-          inspectorName: "ที่ปรึกษาผู้ตรวจภาคประชาชน" + "\n" + "ด้าน" + item.user.sides.name + "\n" + item.user.prefix + item.user.name,
-          inspectorSign: null,
-          inspectorDescription: "-",
-          approve: "-",
-        }
-      }
+      // else if (item.user.role_id == 7) {
+      //   return {
+      //     inspectorName: "ที่ปรึกษาผู้ตรวจภาคประชาชน" + "\n" + "ด้าน" + item.user.sides.name + "\n" + item.user.prefix + item.user.name,
+      //     inspectorSign: null,
+      //     inspectorDescription: "-",
+      //     approve: "-",
+      //   }
+      // }
     })
 
     console.log("CHECK: ", exportData);
