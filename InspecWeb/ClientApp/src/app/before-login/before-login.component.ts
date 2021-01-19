@@ -21,8 +21,9 @@ export class BeforeLoginComponent implements OnInit {
     window.location.href = '/main'
   }
   Gotovideo() {
-    console.log('go login ');
-    window.location.href = '/video'
+    this.router.navigate(['/videoex'])
+    // console.log('go login ');
+    // window.location.href = '/video'
   }
 
   goToCalendar() {
