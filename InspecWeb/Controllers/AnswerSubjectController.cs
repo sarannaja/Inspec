@@ -311,6 +311,8 @@ namespace InspecWeb.Controllers
                         .Include(m => m.SubquestionCentralPolicyProvinces)
                         .ThenInclude(m => m.SubjectCentralPolicyProvinceGroups)
                         .ThenInclude(m => m.ProvincialDepartment)
+                        .Include(m => m.AnswerSubquestionStatuses)
+                        // .Where(m => m.AnswerSubquestionStatuses.Any(m => m.UserId == userid))
                         .Where(m => m.SubjectGroupId == id && m.Type == "NoMaster" && m.Status == "ใช้งานจริง")
                         //.Where(m => m.CentralPolicyProvinceId == id && m.Type == "NoMaster")
                         .Where(m => m.SubquestionCentralPolicyProvinces.Any(m => m.SubjectCentralPolicyProvinceGroups.Any(m => m.ProvincialDepartmentId == userdata.ProvincialDepartmentId)))
