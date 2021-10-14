@@ -1,5 +1,5 @@
 <div class="header">
-  
+
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="/main">หน้าหลัก</a></li>
@@ -24,9 +24,9 @@
         <thead>
           <tr>
             <th width="10%">ที่</th>
-            <th width="80%">หัวข้อการตรวจ</th>
+            <th width="60%">หัวข้อการตรวจ</th>
             <!-- <th>ระยะเวลา</th> -->
-            <!-- <th>สถานะ</th> -->
+            <th width="20%">สถานะ</th>
             <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
           </tr>
         </thead>
@@ -55,8 +55,14 @@
                 {{ item2.centralPolicyDateProvince.endDate | thaidate: 'year' }}</div>
             </td> -->
             <!-- <td>{{item.status}}</td> -->
+            <td *ngIf="item.answerSubquestionStatuses.length == 0; else elseBlock">รอการตอบคำถาม</td>
+            <ng-template #elseBlock>
+              <td *ngIf="item.answerSubquestionStatuses[0].status == 'ร่างกำหนดการ'">ร่างคำตอบแล้ว</td>
+              <td *ngIf="item.answerSubquestionStatuses[0].status == 'ใช้งานจริง'">ใช้คำตอบแล้ว</td>
+            </ng-template>
             <td>
-              <i title="ตอบประเด็นการตรวจ" class=" align-middle mr-2 fas fa-fw fa-clipboard-list pointer" (click)="Subjectdetail(item.id)"></i>
+              <i title="ตอบประเด็นการตรวจ" class=" align-middle mr-2 fas fa-fw fa-clipboard-list pointer"
+                (click)="Subjectdetail(item.id)"></i>
               <!-- <i class="align-middle mr-2 fas fa-fw fa-search pointer" (click)="Subjectdetail(item.id)"></i> -->
               <!-- <i class="align-middle mr-2 fas fa-fw fa-pen pointer" (click)="EditSubject(item.id)"></i>
                 <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
