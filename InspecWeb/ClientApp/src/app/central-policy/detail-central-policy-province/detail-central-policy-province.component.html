@@ -102,8 +102,7 @@
                       <span *ngIf="items.report != null">
                         เหตุผลที่เปลี่ยนแปลงสถานะ {{items.report}}
                       </span>
-                      <!-- มอบหมายให้ นายศรัณญ์ สาพรหม เบอร์ติดต่อ 0894161768 -->
-                      <span *ngIf="items.status == 'มอบหมาย' && items.forwardName != null">
+                      <span *ngIf="items.forwardCount == 1 && items.forwardName != null">
                         มอบหมายให้ {{items.forwardName}} เบอร์ติดต่อ {{items.forwardPhone}}
                       </span>
 
@@ -151,8 +150,8 @@
                       <span *ngIf="items.report != null">
                         เหตุผลที่เปลี่ยนแปลงสถานะ {{items.report}}
                       </span>
-                      <!-- มอบหมายให้ นายศรัณญ์ สาพรหม เบอร์ติดต่อ 0894161768 -->
-                      <span *ngIf="items.status == 'มอบหมาย' && items.forwardName != null">
+
+                      <span *ngIf="items.forwardCount == 1 && items.forwardName != null">
                         มอบหมายให้ {{items.forwardName}} เบอร์ติดต่อ {{items.forwardPhone}}
                       </span>
 
@@ -205,8 +204,8 @@
                       <span *ngIf="items.report != null">
                         เหตุผลที่เปลี่ยนแปลงสถานะ {{items.report}}
                       </span>
-                      <!-- มอบหมายให้ นายศรัณญ์ สาพรหม เบอร์ติดต่อ 0894161768 -->
-                      <span *ngIf="items.status == 'มอบหมาย' && items.forwardName != null">
+
+                      <span *ngIf="items.forwardCount == 1 && items.forwardName != null">
                         มอบหมายให้ {{items.forwardName}} เบอร์ติดต่อ {{items.forwardPhone}}
                       </span>
 

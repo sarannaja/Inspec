@@ -17,7 +17,7 @@
       </div>
       <div class="card-body">
         <form [formGroup]="form" (ngSubmit)="storeFiles(form.value)">
-          <div *ngIf="resultdate != null" class="row">
+          <div class="row">
             <div class="col-md-6">
               ชื่อ - นามสกุล : {{resultuser.name}}
             </div>
@@ -467,8 +467,8 @@
 
           <div *ngIf="subjectgroupstatus == 'รายงานแล้ว'" class="form-group" style="margin-left: 2px;">
             <div class="row">
-              <i class="fa fa-tags" style="margin-top: 5px;"></i>
-              <h4 style="margin-left: 15px;">ข้อเสนอแนะ</h4>
+              <i class="fa fa-tags" style="margin-top: 15px;margin-left: 10px;"></i>
+              <span style="margin-top: 10px;margin-left: 15px;font-size: 20px;"><b>ข้อเสนอแนะ</b></span> &nbsp;&nbsp;
               <!-- <button type="button" style="margin-bottom: 10px; margin-left: 20px; font-size: small;"
                 class="btn btn-primary" (click)="storeReportsuggestions()">รายงานแบบข้อเสนอแนะของผู้ตรวจราชการ
               </button>
@@ -477,7 +477,7 @@
                 (click)="reportModalSuggestionsresult(modalreportsuggestionsresult)">รายงานผลการดำเนินการตามข้อเสนอแนะ
               </button> -->
             </div>
-            <textarea *ngIf="subjectgroupstatussuggestion == 'ร่างกำหนดการ'" cols="
+            <textarea *ngIf="subjectgroupstatussuggestion == 'ร่างกำหนดการ' && role_id != 1 && role_id != 2" cols="
               30" rows="2" type="text" formControlName="suggestion" class="form-control"
               placeholder="กรุณากรอกข้อเสนอแนะ"></textarea>
 
@@ -486,7 +486,7 @@
               placeholder="กรุณากรอกข้อเสนอแนะ"></textarea>
             <br>
 
-            <div class="form-group col-12" *ngIf="subjectgroupstatussuggestion == 'ร่างกำหนดการ'">
+            <div class="form-group col-12" *ngIf="subjectgroupstatussuggestion == 'ร่างกำหนดการ' && role_id != 1 && role_id != 2">
               <div class="mb-3">
                 <input type="radio" name="statussuggestion" value="ร่างกำหนดการ" checked
                   formControlName="statussuggestion">

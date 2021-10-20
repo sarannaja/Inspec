@@ -57,8 +57,8 @@
         <div class="row-8">
           <div class="row ml-1">
 
-            <span class="card" style="border-width: 0.5px; padding: 5px;">{{timelineData.startDate | thaidate: 'short'}}
-              - {{timelineData.endDate | thaidate: 'short'}}</span>
+            <span class="card" style="border-width: 0.5px; padding: 5px;">{{timelineData.startDate | thaidate: 'forlog'}} น.
+              - {{timelineData.endDate | thaidate: 'forlog'}} น.</span>
             <!-- <input style="width: 12%;" class="form-control" value="{{timelineData.startDate | thaidate: 'short'}}"
               readonly>
             <label style="margin-left: 5px; margin-right: 5px; font-weight: bold;"> - </label>
@@ -549,6 +549,12 @@
             <my-date-picker-th [selDate]="startDate" [options]="myDatePickerOptions"
               (dateChanged)="onStartDateChanged($event)" required>
             </my-date-picker-th>
+
+            <timepicker [ngModelOptions]="{standalone: true}" [(ngModel)]="startDateTime"
+            (ngModelChange)="starttime($event)"
+              [showMeridian]="false" >
+            </timepicker>
+
           </div>
         </div>
         <div class="col-12 col-xl-2">
@@ -561,6 +567,11 @@
             <my-date-picker-th [selDate]="endDate" [options]="myDatePickerOptions"
               (dateChanged)="onEndDateChanged($event)" required>
             </my-date-picker-th>
+
+            <timepicker [ngModelOptions]="{standalone: true}" [(ngModel)]="endDateTime"
+            (ngModelChange)="endtime($event)"
+              [showMeridian]="false" >
+            </timepicker>
           </div>
         </div>
       </div>

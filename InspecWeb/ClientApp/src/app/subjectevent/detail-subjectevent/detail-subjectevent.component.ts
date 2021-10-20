@@ -324,10 +324,12 @@ export class DetailSubjecteventComponent implements OnInit {
   }
 
   async openModalQuestionPeople(template: TemplateRef<any>) {
+    this.submitted = false;
     this.modalRef = this.modalService.show(template);
   }
 
   async openModal(template: TemplateRef<any>) {
+    this.submitted = false;
     this.modalRef = this.modalService.show(template);
     // await this.getMinistryPeople();
     // await this.getUserPeople();
@@ -336,14 +338,17 @@ export class DetailSubjecteventComponent implements OnInit {
 
 
   openModal3(template: TemplateRef<any>, subjectid) {
+    this.submitted = false;
     this.subjectid = subjectid
   }
 
   openAlertModal(template: TemplateRef<any>) {
+    this.submitted = false;
     this.modalRef = this.modalService.show(template);
   }
 
   editModal(template: TemplateRef<any>, id, name) {
+    this.submitted = false;
     this.editid = id;
     this.subquestionclosename = name;
 
@@ -528,10 +533,21 @@ export class DetailSubjecteventComponent implements OnInit {
         // this.resultdate = result.centralPolicyEventdata.inspectionPlanEvent
         this.provincename = result.provincedata.name
         this.provinceid = result.provincedata.id
-        this.resultuser = result.userdata
+        // this.resultuser = result.userdata
         // this.electronicbookid = result.centralPolicyEventdata.electronicBookId
         // this.resultdetailcentralpolicyprovince = result.subjectcentralpolicyprovincedata
         this.centralpolicyprovincedata = result.centralpolicyprovince
+
+        // alert(result.centralPolicyEventdata.inspectionPlanEvent.id);
+
+        // if (result.centralPolicyEventdata.inspectionPlanEvent.id != null) {
+        //   // alert("IN")
+        //   this.centralpolicyservice.getdetailcentralpolicyprovincedata3(result.centralPolicyEventdata.inspectionPlanEvent.id)
+        //     .subscribe(result2 => {
+        //       alert(JSON.stringify(result2))
+        //       this.resultuser = result.userdata
+        //     })
+        // }
         // this.form.patchValue({
         //   questionPeople: this.centralpolicyprovincedata.questionPeople,
         //   status: this.centralpolicyprovincedata.status
@@ -626,7 +642,8 @@ export class DetailSubjecteventComponent implements OnInit {
         this.subjectgroupstatussuggestion = this.subjectgroup.statusSuggestion
 
         this.subjectgroupland = this.subjectgroup.land
-
+        this.resultuser = result.userdata
+        // this.subjectgroups = this.subjectgroup.created
         // alert("123")
         // alert(this.subjectgroupland)
 
@@ -723,18 +740,18 @@ export class DetailSubjecteventComponent implements OnInit {
       this.Form.reset()
 
       if (value.status == "ใช้งานจริง") {
-        this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, this.userid, 4, this.subjectgroupid, null,this.userid)
+        this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, this.userid, 4, this.subjectgroupid, null, this.userid)
           .subscribe(response => {
             //console.log(response);
           })
-        this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, this.userid, 5, this.subjectgroupid, null,this.userid)
+        this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, this.userid, 5, this.subjectgroupid, null, this.userid)
           .subscribe(response => {
             //console.log(response);
           })
       }
 
       if (value.statussuggestion == "ใช้งานจริง") {
-        this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, this.userid, 25, this.subjectgroupid, null,this.userid)
+        this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, this.userid, 25, this.subjectgroupid, null, this.userid)
           .subscribe(response => {
             //console.log(response);
           })
@@ -752,8 +769,8 @@ export class DetailSubjecteventComponent implements OnInit {
 
   storeDepartment(value) {
     // alert(this.subjectid)
-    this.submitted = true;
     if (this.Form2.invalid) {
+      this.submitted = true;
       console.log("in1");
       return;
     } else {
@@ -777,7 +794,7 @@ export class DetailSubjecteventComponent implements OnInit {
 
 
       for (let i = 0; i < UserPeopleanswerId.length; i++) {
-        this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, UserPeopleanswerId[i], 5, 1, null,this.userid)
+        this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, UserPeopleanswerId[i], 5, 1, null, this.userid)
           .subscribe(response => {
             //console.log(response);
 
@@ -1054,6 +1071,7 @@ export class DetailSubjecteventComponent implements OnInit {
   }
 
   async openAnswerModal(template: TemplateRef<any>) {
+    this.submitted = false;
     this.modalRef = this.modalService.show(template);
   }
 
@@ -1062,6 +1080,7 @@ export class DetailSubjecteventComponent implements OnInit {
     this.fileType = type;
   }
   openAddModalQuestionsclose(template: TemplateRef<any>, subjectid) {
+    this.submitted = false;
     //console.log("subjectid:", subjectid);
     this.modalRef = this.modalService.show(template);
     this.FormAddQuestionsclose = this.fb.group({
@@ -1076,6 +1095,7 @@ export class DetailSubjecteventComponent implements OnInit {
     })
   }
   openModalSubject2(template: TemplateRef<any>, subjectid) {
+    this.submitted = false;
     this.departmentService.getdepartmentdata(this.provinceid).subscribe(res => {
       this.department = res.map((item, index) => {
         return {
@@ -1106,6 +1126,7 @@ export class DetailSubjecteventComponent implements OnInit {
   }
 
   openModalSubject(template: TemplateRef<any>, subjectid, departmentSelected: any[] = []) {
+    this.submitted = false;
     this.departmentService.getdepartmentdata(this.provinceid).subscribe(res => {
       this.department = res.map((item, index) => {
         return {
@@ -1142,6 +1163,7 @@ export class DetailSubjecteventComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
   openModal2(template: TemplateRef<any>, subjectid, departmentSelected: any[] = []) {
+    this.submitted = false;
     this.subjectid = subjectid
     this.departmentService.getdepartmentdata(this.provinceid).subscribe(res => {
       this.department = res.map((item, index) => {
@@ -1190,8 +1212,8 @@ export class DetailSubjecteventComponent implements OnInit {
   }
   AddQuestionsclose(value) {
     //console.log(value);
-    this.submitted = true;
     if (this.FormAddQuestionsclose.get('name').invalid) {
+      this.submitted = true;
       console.log("in1");
       return;
     } else {
@@ -1209,8 +1231,8 @@ export class DetailSubjecteventComponent implements OnInit {
     // alert("123")
     // this.spinner.show();
     //console.log("valuevaluevaluevaluevaluevaluevaluevalue", value);
-    this.submitted = true;
     if (this.FormSubject.get('name').invalid && this.FormSubject.get('DepartmentId').invalid) {
+      this.submitted = true;
       console.log("in1");
       return;
     } else {

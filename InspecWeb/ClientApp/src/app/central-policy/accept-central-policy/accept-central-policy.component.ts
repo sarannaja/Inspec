@@ -135,7 +135,7 @@ export class AcceptCentralPolicyComponent implements OnInit {
   }
 
   getDetailCentralPolicyProvince() {
-    this.centralpolicyservice.getdetailcentralpolicyprovincedata(this.centralpolicyproviceid)
+    this.centralpolicyservice.getdetailcentralpolicyprovincedata2(this.centralpolicyproviceid,this.planid)
       .subscribe(result => {
         console.log("123", result);
         // alert(JSON.stringify(result))
