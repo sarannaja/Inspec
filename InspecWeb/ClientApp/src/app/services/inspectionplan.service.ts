@@ -133,11 +133,11 @@ export class InspectionplanService {
     return this.http.post(this.url + "changeplanstatus", formData);
   }
 
-  editplandate(planid, startdate, enddate, userid) {
+  editplandate(planid, startdate, enddate, userid, starttime, endtime) {
     const formData = new FormData();
     formData.append('planid', planid);
-    formData.append('startdate', startdate.year + '-' + startdate.month + '-' + startdate.day);
-    formData.append('enddate', enddate.year + '-' + enddate.month + '-' + enddate.day);
+    formData.append('startdate', startdate.year + '-' + startdate.month + '-' + startdate.day + " " + starttime);
+    formData.append('enddate', enddate.year + '-' + enddate.month + '-' + enddate.day + " " + endtime);
     formData.append('userid', userid);
     return this.http.post(this.url + "editplandate", formData);
   }

@@ -142,8 +142,8 @@ export class CreateInspectionPlanEventComponent implements OnInit {
 
     // alert(JSON.stringify(value))
     if (this.Form.invalid) {
-      this.submitted = true;
       console.log("in1");
+      this.submitted = true;
       return;
     } else {
       this.submitted = false;

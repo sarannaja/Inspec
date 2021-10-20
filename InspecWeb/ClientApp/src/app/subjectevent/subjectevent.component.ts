@@ -465,8 +465,8 @@ export class SubjecteventComponent implements OnInit {
     }
   }
   storeCentralPolicy2(value) {
-    this.submitted = true;
     if (this.Form2.invalid) {
+      this.submitted = true;
       console.log("in1");
       return;
     } else {

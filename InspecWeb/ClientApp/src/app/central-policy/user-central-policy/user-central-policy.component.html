@@ -17,16 +17,17 @@
       <div class="card-header" style="margin-bottom: -20px;">
 
         <div class="float-right" *ngIf="status == 'รอการตอบรับ';else elseBlock">
-          <button *ngIf="role_id == 6 || role_id == 10" (click)="openModal2(changestatusacceptModal,'ตอบรับ')"
-            value="ตอบรับ" class="btn btn-primary">ตอบรับ</button>
+          <button *ngIf="role_id == 6 || role_id == 10 || role_id == 7"
+            (click)="openModal2(changestatusacceptModal,'ตอบรับ')" value="ตอบรับ"
+            class="btn btn-primary">ตอบรับ</button>
           <button *ngIf="role_id == 9" (click)="openModal2(changestatusacceptModal,'ตอบรับ')" value="ตอบรับ"
             class="btn btn-primary">รับทราบ</button>
 
           &nbsp;&nbsp;
 
 
-          <button *ngIf="role_id == 6 || role_id == 10" (click)="openModal2(changestatusrefuseModal,'ปฏิเสธ')"
-            value="ปฏิเสธ" class="btn btn-danger">ปฏิเสธ</button>
+          <button *ngIf="role_id == 6 || role_id == 10 || role_id == 7"
+            (click)="openModal2(changestatusrefuseModal,'ปฏิเสธ')" value="ปฏิเสธ" class="btn btn-danger">ปฏิเสธ</button>
           <button *ngIf="role_id == 9" (click)="openModal2(changestatusrefuseModal,'ปฏิเสธ')" value="ปฏิเสธ"
             class="btn btn-danger">ขัดข้อง</button>
           &nbsp;&nbsp;
@@ -43,10 +44,23 @@
         <ng-template #elseBlock>
           <div class="float-right row" style="margin-right: 20px;">
             <button (click)="openModal2(changetocancel,'ปฏิเสธ')" value="ตอบรับ" *ngIf="status == 'ตอบรับ'"
-              style="margin-top: -10px;" type="button" class="btn btn-danger btn-xs">เปลี่ยนแปลงการตอบรับเชิญ</button>
+              style="margin-top: -10px;" type="button" class="btn btn-danger btn-xs">เปลี่ยนแปลงการตอบรับคำเชิญ</button>
             <button (click)="openModal2(changetoaccept,'ตอบรับ')" value="ปฏิเสธ" *ngIf="status == 'ปฏิเสธ'"
-              style="margin-top: -10px;" type="button" class="btn btn-primary btn-xs">เปลี่ยนแปลงการตอบรับเชิญ</button>
+              style="margin-top: -10px;" type="button" class="btn btn-primary btn-xs">เปลี่ยนแปลงการตอบรับคำเชิญ</button>
             &nbsp;&nbsp;
+
+            <!-- <button (click)="openModal2(changetocancel,'ปฏิเสธ')" value="ตอบรับ" *ngIf="status == 'ตอบรับ' || status == 'มอบหมาย'"
+            style="margin-top: -10px;" type="button" class="btn btn-danger btn-xs">เปลี่ยนแปลงการตอบรับเชิญ</button>
+          <button (click)="openModal2(changetoaccept,'ตอบรับ')" value="ปฏิเสธ" *ngIf="status == 'ปฏิเสธ' || status == 'มอบหมาย'"
+            style="margin-top: -10px;" type="button" class="btn btn-primary btn-xs">เปลี่ยนแปลงการตอบรับเชิญ</button>
+          &nbsp;&nbsp; -->
+
+            <!-- <button *ngIf="status == 'มอบหมาย'" (click)="openModal2(changestatusacceptModal,'ตอบรับ')" value="ตอบรับ"
+              class="btn btn-primary">ตอบรับ</button>
+            &nbsp;&nbsp;
+            <button *ngIf="status == 'มอบหมาย'" (click)="openModal2(changestatusrefuseModal,'ปฏิเสธ')" value="ปฏิเสธ"
+              class="btn btn-danger">ปฏิเสธ</button>
+            &nbsp;&nbsp; -->
 
             <button *ngIf="role_id == 6 && ForwardName != 'ถูกมอบหมาย' && ForwardCount == 0"
               (click)="openModal(assignModal)" value="มอบหมาย" class="btn btn-success">มอบหมาย</button>
@@ -54,19 +68,12 @@
             <button *ngIf="role_id == 10 && ForwardName != 'ถูกมอบหมาย'  && ForwardCount == 0"
               (click)="openModal(assigndepartModal)" value="มอบหมาย" class="btn btn-success">มอบหมาย</button>
 
-            <button *ngIf="status == 'มอบหมาย'" (click)="openModal2(changestatusacceptModal,'ตอบรับ')" value="ตอบรับ"
-              class="btn btn-primary">ตอบรับ</button>
-            &nbsp;&nbsp;
-            <button *ngIf="status == 'มอบหมาย'" (click)="openModal2(changestatusrefuseModal,'ปฏิเสธ')" value="ปฏิเสธ"
-              class="btn btn-danger">ปฏิเสธ</button>
-            &nbsp;&nbsp;
-
             <span style="font-size: 18px;">สถานะปัจจุบัน : {{status}}</span>
 
-            <span *ngIf="role_id == 6 && (ForwardName != 'ถูกมอบหมาย' || ForwardName != null)" style="font-size: 18px;">
+            <span *ngIf="role_id == 6 && ForwardCount == 1" style="font-size: 18px;">
               , มอบหมายให้ : {{ForwardName}}</span>
-            <span *ngIf="role_id == 10 && (ForwardName != 'ถูกมอบหมาย' || ForwardName != null)"
-              style="font-size: 18px;"> , มอบหมายให้ : {{ForwardName}}</span>
+            <span *ngIf="role_id == 10 && ForwardCount == 1" style="font-size: 18px;"> , มอบหมายให้ :
+              {{ForwardName}}</span>
 
           </div>
         </ng-template>
