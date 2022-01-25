@@ -57,7 +57,7 @@ export class CentralPolicyComponent implements OnInit {
           //console.log("test" , this.resultuser);
           this.role_id = result[0].role_id
           this.userministryId = result[0].ministryId
-          if (result[0].role_id == 1 ||result[0].role_id == 2) {
+          if (result[0].role_id == 1 || result[0].role_id == 2) {
             console.log("in1", this.role_id);
             this.dtOptions = {
               pagingType: 'full_numbers',
@@ -174,41 +174,55 @@ export class CentralPolicyComponent implements OnInit {
     this.loading = false
     this.resultcentralpolicy = []
     this.centralpolicyservice.getcentralpolicydata()
-      .subscribe(async result => {
+      .subscribe(result => {
+        this.resultcentralpolicy = result.map(m => { return { ...m.prop, count: m.count } }).filter(item => {
+          if (this.role_id != 1 && this.role_id != 2 && item.status == "ใช้งานจริง") {
+            return item
+          } else if (this.role_id == 1) {
+            // console.log('role_id == 1', { ...result[i1], count: resultCount });
+            return item
+          } else if (this.role_id == 2 && (this.userministryId == item.userministryId) ||
+            (item.status == "ใช้งานจริง" && this.userministryId != item.userministryId)) {
+            // console.log('role_id == 2', { ...result[i1], count: resultCount });
+            return item
+          }
+        })
+        this.loading = true;
+        this.spinner.hide();
         // this.resultcentralpolicy = result.map(result2=>{
         //   return
         // })
-        const doAsync = () => {
-          return new Promise((resolve, reject) => {
-            setTimeout(() => {
-              let array: any[] = []
-              for (let i1 = 0; i1 < result.length; i1++) {
-                //console.log('this.id[i1]', this.id[i1]);
-                console.log("result", result[0], i1);
+        // const doAsync = () => {
+        //   return new Promise((resolve, reject) => {
+        //     setTimeout(() => {
+        //       let array: any[] = []
+        //       for (let i1 = 0; i1 < result.length; i1++) {
+        //         //console.log('this.id[i1]', this.id[i1]);
+        //         console.log("result", result[0], i1);
 
-                this.centralpolicyservice.getcentralpolicysubjectcount(result[i1].id).subscribe(resultCount => {
-                  console.log('result[i1]', result[i1], i1);
+        //         this.centralpolicyservice.getcentralpolicysubjectcount(result[i1].id).subscribe(resultCount => {
+        //           console.log('result[i1]', result[i1], i1);
 
-                  if (this.role_id != 1 && this.role_id != 2 && result[i1].status == "ใช้งานจริง") {
-                    array.push({ ...result[i1], count: resultCount });
-                  } else if (this.role_id == 1 || this.role_id == 2) {
-                    array.push({ ...result[i1], count: resultCount });
-                  }
-                })
-                // }, 100 * i1 + 1)
-              }
-              resolve(array)
-              // return
-            }, 300)
-          })
-        }
-        doAsync().then(res => {
-          this.resultcentralpolicy = res
-          setTimeout(() => {
-            this.loading = true;
+        //           if (this.role_id != 1 && this.role_id != 2 && result[i1].status == "ใช้งานจริง") {
+        //             array.push({ ...result[i1], count: resultCount });
+        //           } else if (this.role_id == 1 || this.role_id == 2) {
+        //             array.push({ ...result[i1], count: resultCount });
+        //           }
+        //         })
+        //         // }, 100 * i1 + 1)
+        //       }
+        //       resolve(array)
+        //       // return
+        //     }, 300)
+        //   })
+        // }
+        // doAsync().then(res => {
+        //   this.resultcentralpolicy = res
+        //   setTimeout(() => {
+        //     this.loading = true;
 
-          }, 500)
-        })
+        //   }, 500)
+        // })
         // if (this.role_id != 1 && this.role_id == 2) {
         //   // this.resultcentralpolicy = []
         //   // result.forEach(element => {
@@ -227,9 +241,6 @@ export class CentralPolicyComponent implements OnInit {
         //   })
         //   console.log("data", this.resultcentralpolicy);
         // }
-
-
-        this.spinner.hide();
       })
   }
   get result17() {
@@ -241,46 +252,65 @@ export class CentralPolicyComponent implements OnInit {
     this.resultcentralpolicy = []
     this.centralpolicyservice.getcentralpolicyfiscalyeardata(currentyear.id)
       .subscribe(result => {
-        // console.log("eiei",result);
-        const doAsync = () => {
-          return new Promise((resolve, reject) => {
-            // setTimeout(() => {
-            let array: any[] = []
-            for (let i1 = 0; i1 < result.length; i1++) {
-              //console.log('this.id[i1]', this.id[i1]);
-              // console.log("result", result[0], i1);
-
-              this.centralpolicyservice.getcentralpolicysubjectcount(result[i1].id)
-                .subscribe((resultCount) => {
-                  // console.log('result[i1]', result[i1], i1);
-                  // if (result[i1].status == "ใช้งานจริง") {
-                  if (this.role_id != 1 && this.role_id != 2 && result[i1].status == "ใช้งานจริง") {
-                    console.log('ใช้งานจริง', { ...result[i1], count: resultCount });
-
-                    array.push({ ...result[i1], count: resultCount });
-                  } else if (this.role_id == 1 || this.role_id == 2) {
-                    console.log('ไม่ใช้งานจริง', { ...result[i1], count: resultCount });
-                    array.push({ ...result[i1], count: resultCount });
-                  }
-                  // }
-                })
-
-
-              // }, 100 * i1 + 1)
-            }
-
-            resolve(array)
-            // return
-            // }, 300)
-          })
-        }
-        doAsync().then(res => {
-          this.resultcentralpolicy = res
-          setTimeout(() => {
-            this.loading = true;
-
-          }, 500)
+        this.resultcentralpolicy = result.map(m => { return { ...m.prop, count: m.count } }).filter(item => {
+          if (this.role_id != 1 && this.role_id != 2 && item.status == "ใช้งานจริง") {
+            return item
+          } else if (this.role_id == 1) {
+            // console.log('role_id == 1', { ...result[i1], count: resultCount });
+            return item
+          } else if (this.role_id == 2 && (this.userministryId == item.userministryId) ||
+            (item.status == "ใช้งานจริง" && this.userministryId != item.userministryId)) {
+            // console.log('role_id == 2', { ...result[i1], count: resultCount });
+            return item
+          }
         })
+        this.loading = true;
+        this.spinner.hide();
+        // const doAsync = () => {
+        //   return new Promise((resolve, reject) => {
+        //     // setTimeout(() => {
+        //     let array: any[] = []
+        //     for (let i1 = 0; i1 < result.length; i1++) {
+        //       //console.log('this.id[i1]', this.id[i1]);
+        //       // console.log("result", result[0], i1);
+
+        // this.centralpolicyservice.getcentralpolicysubjectcount(result[i1].id)
+        //   .subscribe((resultCount) => {
+        //     // console.log('result[i1]', result[i1], i1);
+        //     // if (result[i1].status == "ใช้งานจริง") {
+        //     if (this.role_id != 1 && this.role_id != 2 && result[i1].status == "ใช้งานจริง") {
+        //       // console.log('role_id != 1,2', { ...result[i1], count: resultCount });
+
+        //       array.push({ ...result[i1], count: resultCount });
+        //     } else if (this.role_id == 1) {
+        //       // console.log('role_id == 1', { ...result[i1], count: resultCount });
+        //       array.push({ ...result[i1], count: resultCount });
+        //     } else if (this.role_id == 2 && (this.userministryId == result[i1].user.ministryId) ||
+        //       (result[i1].status == "ใช้งานจริง" && this.userministryId != result[i1].user.ministryId)) {
+        //       // console.log('role_id == 2', { ...result[i1], count: resultCount });
+        //       array.push({ ...result[i1], count: resultCount });
+        //     }
+        //     // }
+        //   })
+
+
+        //       // }, 100 * i1 + 1)
+        //     }
+
+        //     resolve(array)
+        //     // return
+        //     // }, 300)
+        //   })
+        // }
+        // doAsync().then((res: any) => {
+        //   console.log(res);
+
+        //   this.resultcentralpolicy = res.map(m => { return { ...m.prop, count: m.count } })
+        //   setTimeout(() => {
+        //     this.loading = true;
+
+        //   }, 500)
+        // })
         // if (this.role_id != 1 && this.role_id != 2) {
 
         //   doAsync().then(res => {
@@ -293,73 +323,86 @@ export class CentralPolicyComponent implements OnInit {
         // }
 
         // this.loading = true;
-        this.spinner.hide();
       })
   }
   getSelectfiscalyear() {
     this.resultcentralpolicy = []
     this.centralpolicyservice.getcentralpolicyfiscalyeardata(this.selectfiscalyearid)
       .subscribe(result => {
-        // this.resultcentralpolicy = result
-        const doAsync = () => {
-          return new Promise((resolve, reject) => {
-            setTimeout(() => {
-              let array: any[] = []
-              for (let i1 = 0; i1 < result.length; i1++) {
-                //console.log('this.id[i1]', this.id[i1]);
-                console.log("result", result[0], i1);
-
-                this.centralpolicyservice.getcentralpolicysubjectcount(result[i1].id).subscribe(resultCount => {
-                  console.log('result[i1]', result[i1], i1);
-
-                  if (this.role_id != 1 && this.role_id != 2 && result[i1].status == "ใช้งานจริง") {
-                    array.push({ ...result[i1], count: resultCount });
-                  } else if (this.role_id == 1 || this.role_id == 2) {
-                    array.push({ ...result[i1], count: resultCount });
-                  }
-                })
-
-
-                // }, 100 * i1 + 1)
-              }
-
-              resolve(array)
-              // return
-            }, 300)
-          })
-        }
-        doAsync().then(res => {
-          this.resultcentralpolicy = res
-          setTimeout(() => {
-            this.loading = true;
-
-          }, 500)
+        this.resultcentralpolicy = result.map(m => { return { ...m.prop, count: m.count } }).filter(item => {
+          if (this.role_id != 1 && this.role_id != 2 && item.status == "ใช้งานจริง") {
+            return item
+          } else if (this.role_id == 1) {
+            // console.log('role_id == 1', { ...result[i1], count: resultCount });
+            return item
+          } else if (this.role_id == 2 && (this.userministryId == item.userministryId) ||
+            (item.status == "ใช้งานจริง" && this.userministryId != item.userministryId)) {
+            // console.log('role_id == 2', { ...result[i1], count: resultCount });
+            return item
+          }
         })
-        // if (this.role_id != 1 && this.role_id != 2) {
-        //   // this.resultcentralpolicy = []
-        //   // result.forEach(element => {
-        //   //   // if (element.status == "ใช้งานจริง") {
-        //   //   //   this.resultcentralpolicy.push(element);
-        //   //   // }
-        //   //   this.resultcentralpolicy.push(element);
-        //   // });
-        //   // console.log("data", this.resultcentralpolicy);
-        //   doAsync().then(res => {
-        //     this.resultcentralpolicy = res
+        this.loading = true;
+        this.spinner.hide();
+        // this.resultcentralpolicy = result
+        // const doAsync = () => {
+        //   return new Promise((resolve, reject) => {
         //     setTimeout(() => {
-        //       this.loading = true;
+        //       let array: any[] = []
+        //       for (let i1 = 0; i1 < result.length; i1++) {
+        //         //console.log('this.id[i1]', this.id[i1]);
+        //         console.log("result", result[0], i1);
 
-        //     }, 100)
+        //         this.centralpolicyservice.getcentralpolicysubjectcount(result[i1].id).subscribe(resultCount => {
+        //           console.log('result[i1]', result[i1], i1);
+
+        //           if (this.role_id != 1 && this.role_id != 2 && result[i1].status == "ใช้งานจริง") {
+        //             array.push({ ...result[i1], count: resultCount });
+        //           } else if (this.role_id == 1 || this.role_id == 2) {
+        //             array.push({ ...result[i1], count: resultCount });
+        //           }
+        //         })
+
+
+        //         // }, 100 * i1 + 1)
+        //       }
+
+        //       resolve(array)
+        //       // return
+        //     }, 300)
         //   })
         // }
+        // doAsync().then(res => {
+        //   this.resultcentralpolicy = res
+        //   setTimeout(() => {
+        //     this.loading = true;
 
-        // this.loading = true;
-        this.spinner.hide();
+        //   }, 500)
+        // })
+        // // if (this.role_id != 1 && this.role_id != 2) {
+        // //   // this.resultcentralpolicy = []
+        // //   // result.forEach(element => {
+        // //   //   // if (element.status == "ใช้งานจริง") {
+        // //   //   //   this.resultcentralpolicy.push(element);
+        // //   //   // }
+        // //   //   this.resultcentralpolicy.push(element);
+        // //   // });
+        // //   // console.log("data", this.resultcentralpolicy);
+        // //   doAsync().then(res => {
+        // //     this.resultcentralpolicy = res
+        // //     setTimeout(() => {
+        // //       this.loading = true;
+
+        // //     }, 100)
+        // //   })
+        // // }
+
+        // // this.loading = true;
+        // this.spinner.hide();
       })
   }
   deleteCentralPolicy(value) {
     this.loading = false;
-    this.centralpolicyservice.deleteCentralPolicy(value,this.userid).subscribe(response => {
+    this.centralpolicyservice.deleteCentralPolicy(value, this.userid).subscribe(response => {
       console.log(value);
       console.log(this.selectfiscalyearid);
       this._NotofyService.onSuccess("ลบข้อมูล")

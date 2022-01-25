@@ -1,10 +1,10 @@
 <div class="header">
-  
+
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="/main">หน้าหลัก</a></li>
-      <li class="breadcrumb-item"><a href="javascript:void(0)" (click)="back()">แผนตรวจราชการ</a></li>
-      <li class="breadcrumb-item active" aria-current="page">ประเด็นนโยบายย่อย</li>
+      <li class="breadcrumb-item"><a href="javascript:void(0)" (click)="back()">ประเด็นการตรวจติดตาม</a></li>
+      <li class="breadcrumb-item active" aria-current="page">เรื่องที่ตรวจ</li>
     </ol>
   </nav>
 </div>
@@ -24,9 +24,9 @@
         <thead>
           <tr>
             <th width="10%">ที่</th>
-            <th width="80%">หัวข้อการตรวจ</th>
+            <th width="60%">หัวข้อการตรวจ</th>
             <!-- <th>ระยะเวลา</th> -->
-            <!-- <th>สถานะ</th> -->
+            <th width="20%">สถานะ</th>
             <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
           </tr>
         </thead>
@@ -38,16 +38,16 @@
             <td>
               <span style="font-weight: 1000;">{{ item.name }}</span>
               <br>
-              <label class="form-text">ลิ้งค์บุคคลภายนอก</label>
+              <!-- <label class="form-text">ลิ้งค์บุคคลภายนอก</label> -->
               <!-- <a class="form-control">{{urllink}}{{item.id}}</a> -->
-              <div class="input-group">
+              <!-- <div class="input-group">
                 <input class="col-10" type="text" value="{{urllink}}{{item.id}}/{{userid}}" #userinput>
                 &nbsp;
                 &nbsp;
                 <i class="align-middle mr-2 fas fa-copy" style="font-size: large; cursor: pointer;"
                   (click)="copyInputMessage(userinput)" title="คัดลอก"></i>
 
-              </div>
+              </div> -->
             </td>
             <!-- <td>
               <div *ngFor="let item2 of item.subjectDateCentralPolicyProvinces;">
@@ -55,8 +55,14 @@
                 {{ item2.centralPolicyDateProvince.endDate | thaidate: 'year' }}</div>
             </td> -->
             <!-- <td>{{item.status}}</td> -->
+            <td *ngIf="item.answerSubquestionStatuses.length == 0; else elseBlock">รอการตอบคำถาม</td>
+            <ng-template #elseBlock>
+              <td *ngIf="item.answerSubquestionStatuses[0].status == 'ร่างกำหนดการ'">ร่างคำตอบแล้ว</td>
+              <td *ngIf="item.answerSubquestionStatuses[0].status == 'ใช้งานจริง'">ใช้คำตอบแล้ว</td>
+            </ng-template>
             <td>
-              <i title="ตอบคำถามประเด็นนโยบายย่อย" class=" align-middle mr-2 fas fa-fw fa-pen pointer" (click)="Subjectdetail(item.id)"></i>
+              <i title="ตอบประเด็นการตรวจ" class=" align-middle mr-2 fas fa-fw fa-clipboard-list pointer"
+                (click)="Subjectdetail(item.id)"></i>
               <!-- <i class="align-middle mr-2 fas fa-fw fa-search pointer" (click)="Subjectdetail(item.id)"></i> -->
               <!-- <i class="align-middle mr-2 fas fa-fw fa-pen pointer" (click)="EditSubject(item.id)"></i>
                 <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
@@ -69,109 +75,6 @@
   </div>
 </div>
 
-<!-- BEGIN primary modal -->
-<ng-template #modalSubject class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-  <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
-  <form [formGroup]="Form" (ngSubmit)="storeSubject(Form.value)">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">จัดการประเด็นนโยบาย</h5>
-        <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body m-3">
-        <div class="form-group">
-          <label for="test" class="form-label">ชื่อประเด็นนโยบาย</label>
-          <input type="text" formControlName="name" class="form-control" placeholder="กรุณากรอกชื่อประเด็นนโยบาย">
-        </div>
-        <!-- <div class="col-12 col-xl-5">
-              <div class="form-group">
-                <my-date-picker-th formControlName="start_date"   [items]="myDatePickerOptions" required>
-                </my-date-picker-th>
-              </div>
-            </div> -->
-        <!-- <div class="col-12 col-xl-2">
-              <div class="form-group" align="center">
-                ถึง
-              </div>
-            </div> -->
-        <!-- <div class="col-12 col-xl-5">
-              <div class="form-group">
-                <my-date-picker-th formControlName="end_date"   [items]="myDatePickerOptions" required>
-                </my-date-picker-th>
-              </div>
-            </div> -->
-        <div class="form-group">
-          <label for="test" class="form-label">กำหนดระยะเวลา</label>
-          <ng-select bindLabel="label" bindValue="value" multiple="true" placeholder="กรุณาเลือกระยะเวลา"
-            [items]="times" name="ํTime" formControlName="centralpolicydateid">
-          </ng-select>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-primary">บันทึก</button>
-        <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
-      </div>
-    </div>
-  </form>
-  <!-- </div> -->
-</ng-template>
-<!-- END primary modal -->
-
-
-<!-- BEGIN primary modal -->
-<ng-template #modaldeleteSubject class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-body text-center" style="background-color: white; border-radius: 5px;">
-    <i class="fa fa-info-circle delete-icon"></i>
-    <p style="font-size: xx-large; color: #565656; margin-top: 20px;">
-      ลบข้อมูล
-    </p>
-    <p style="font-size: medium; color: #545454;">
-      คุณต้องการลบข้อมูลนี้ใช่หรือไม่ ?
-    </p>
-    <button type="button" class="btn btn-primary btnMargin" (click)="deleteSubject(delid)">
-      ใช่
-    </button>
-    <button type="button" class="btn btn-danger btnMargin" (click)="modalRef.hide()">
-      ไม่ใช่
-    </button>
-  </div>
-</ng-template>
-<!-- END primary modal -->
-
-<!-- BEGIN primary modal -->
-<ng-template #modaleditProvince class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-  <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
-  <form [formGroup]="EditForm" (ngSubmit)="editProvince(EditForm.value,delid)">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">จัดการจังหวัด</h5>
-        <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body m-3">
-        <div class="form-group">
-          <label for="test" class="form-label">ชื่อจังหวัด</label>
-          <!-- <input type="text" formControlName="test" class="form-control" placeholder="test"> -->
-          <input type="text" value="{{name}}" formControlName="provincename" class="form-control"
-            placeholder="กรุณากรอกชื่อจังหวัด">
-          <br>
-          <label for="test" class="form-label">ลิ้งค์​</label>
-          <input type="text" value="{{link}}" formControlName="provincelink" class="form-control"
-            placeholder="กรุณากรอกจังหวัดลิ้ง">
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-primary">บันทึก</button>
-        <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
-      </div>
-    </div>
-  </form>
-  <!-- </div> -->
-</ng-template>
-<!-- END primary modal -->
 <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">
   <p style="font-size: 20px; color: white">Loading...</p>
 </ngx-spinner>

@@ -78,11 +78,17 @@ export class InspectionPlanComponent implements OnInit {
   peopleuserdata: any = [];
   provincialdepartmentuserdata: any = [];
   userProvince: any[] = []
+  userRegion: any[] = []
   ministryId
   watch
   submitted = false;
   lastpath
   checkSort = 0
+
+  startDateTime: any;
+  endDateTime: any;
+
+  mytime: Date = new Date();
 
   constructor(private modalService: BsModalService,
     private notificationService: NotificationService,
@@ -100,7 +106,6 @@ export class InspectionPlanComponent implements OnInit {
   }
 
   async ngOnInit() {
-
     this.lastpath = window.location.pathname.split('/')[1];
     // alert(this.lastpath)
 
@@ -126,6 +131,10 @@ export class InspectionPlanComponent implements OnInit {
             this.role_id = result[0].role_id
             this.userProvince = result[0].userProvince
             this.ministryId = result[0].ministryId
+
+            this.userRegion = result[0].userRegion
+
+            // alert(JSON.stringify(this.userProvince))
             // alert(this.role_id)
           })
       })
@@ -155,7 +164,8 @@ export class InspectionPlanComponent implements OnInit {
 
 
     this.getTimeline();
-    this.getScheduleData();
+    // this.getScheduleData();
+    // this.gettimetime(1);
 
     this.getministryuser();
     this.getdepartmentuser();
@@ -214,8 +224,27 @@ export class InspectionPlanComponent implements OnInit {
       this.endDate = this.time(this.timelineData.endDate)
       this.year = this.getyear(this.timelineData.startDate)
       // alert(JSON.stringify(this.year))
+      this.startDateTime = this.gettimetime(this.timelineData.startDate);
+      this.endDateTime = this.gettimetime(this.timelineData.endDate);
       this.getCurrentYear();
+      console.log("startDateTime: ", this.startDateTime);
+
+
     })
+  }
+
+  gettimetime(date) {
+    console.log("Date: ", date);
+
+    let ssss = new Date(date)
+    var new_date = {
+      year: ssss.getFullYear(),
+      month: ssss.getMonth() + 1,
+      day: ssss.getDate()
+    }
+    console.log("newDate: ", new_date);
+
+    return ssss
   }
 
   getCurrentYear() {
@@ -232,6 +261,7 @@ export class InspectionPlanComponent implements OnInit {
       this.currentyear = ((current_date.toISOString() > end_date.toISOString())) ? result.year + 1 : result.year
 
       // alert(JSON.stringify(this.currentyear))
+      this.getScheduleData();
     })
   }
 
@@ -303,8 +333,8 @@ export class InspectionPlanComponent implements OnInit {
     this.router.navigate(['/acceptcentralpolicy', id])
   }
   storeCentralPolicyEventRelation(value) {
-    this.submitted = true;
     if (this.Form.invalid) {
+      this.submitted = true;
       console.log("in1");
       return;
     } else {
@@ -318,7 +348,7 @@ export class InspectionPlanComponent implements OnInit {
         // this.modalService.show('modaldeleteProvince');
 
         for (let i = 0; i < CentralpolicyId.length; i++) {
-          this.notificationService.addNotification(CentralpolicyId[i], this.provinceid, this.userid, 3, this.id, null,this.userid)
+          this.notificationService.addNotification(CentralpolicyId[i], this.provinceid, this.userid, 3, this.id, null, this.userid)
             .subscribe(response => {
               console.log(response);
             })
@@ -658,7 +688,7 @@ export class InspectionPlanComponent implements OnInit {
           if (UserMinistryId != null) {
             if (this.timelineData.status == "ใช้งานจริง") {
               for (let i = 0; i < UserMinistryId.length; i++) {
-                this.notificationService.addNotification(this.data[j].centralPolicyId, this.provinceid, UserMinistryId[i], 1, this.id, null,this.userid)
+                this.notificationService.addNotification(this.data[j].centralPolicyId, this.provinceid, UserMinistryId[i], 1, this.id, null, this.userid)
                   .subscribe(response => {
                     console.log(response);
                   })
@@ -668,7 +698,7 @@ export class InspectionPlanComponent implements OnInit {
           if (UserDepartmentId != null) {
             if (this.timelineData.status == "ใช้งานจริง") {
               for (let i = 0; i < UserDepartmentId.length; i++) {
-                this.notificationService.addNotification(this.data[j].centralPolicyId, this.provinceid, UserDepartmentId[i], 1, this.id, null,this.userid)
+                this.notificationService.addNotification(this.data[j].centralPolicyId, this.provinceid, UserDepartmentId[i], 1, this.id, null, this.userid)
                   .subscribe(response => {
                     console.log(response);
                   })
@@ -678,7 +708,7 @@ export class InspectionPlanComponent implements OnInit {
           if (UserProvincialDepartmentId != null) {
             if (this.timelineData.status == "ใช้งานจริง") {
               for (let i = 0; i < UserProvincialDepartmentId.length; i++) {
-                this.notificationService.addNotification(this.data[j].centralPolicyId, this.provinceid, UserProvincialDepartmentId[i], 1, this.id, null,this.userid)
+                this.notificationService.addNotification(this.data[j].centralPolicyId, this.provinceid, UserProvincialDepartmentId[i], 1, this.id, null, this.userid)
                   .subscribe(response => {
                     console.log(response);
                   })
@@ -689,7 +719,7 @@ export class InspectionPlanComponent implements OnInit {
           if (UserPeopleId != null) {
             if (this.timelineData.status == "ใช้งานจริง") {
               for (let i = 0; i < UserPeopleId.length; i++) {
-                this.notificationService.addNotification(this.data[j].centralPolicyId, this.provinceid, UserPeopleId[i], 1, this.id, null,this.userid)
+                this.notificationService.addNotification(this.data[j].centralPolicyId, this.provinceid, UserPeopleId[i], 1, this.id, null, this.userid)
                   .subscribe(response => {
                     console.log(response);
                   })
@@ -722,7 +752,7 @@ export class InspectionPlanComponent implements OnInit {
       // location.reload();
       this.getTimeline();
 
-      this.notificationService.addNotification(1, this.provinceid, 1, 16, this.id, null,this.userid)
+      this.notificationService.addNotification(1, this.provinceid, 1, 16, this.id, null, this.userid)
         .subscribe(response => {
           console.log(response);
         })
@@ -768,6 +798,9 @@ export class InspectionPlanComponent implements OnInit {
     // alert(JSON.stringify(event))
     this.startDate = event.date;
     this.startDate2 = event.date;
+
+    // this.startDateTime = event
+    // console.log("startDateTime: ", this.startDateTime);
     console.log("SS: ", this.startDate);
   }
 
@@ -778,11 +811,38 @@ export class InspectionPlanComponent implements OnInit {
     console.log("EE: ", this.endDate);
   }
   EditPlanDate() {
+
+    if (this.endDateTime.getHours() < 10 && this.endDateTime.getMinutes() < 10) {
+      this.endDateTime = "0" + this.endDateTime.getHours() + ":0" + this.endDateTime.getMinutes() + ":00"
+    } else if (this.endDateTime.getHours() < 10) {
+      this.endDateTime = "0" + this.endDateTime.getHours() + ":" + this.endDateTime.getMinutes() + ":00"
+    } else if (this.endDateTime.getMinutes() < 10) {
+      this.endDateTime = this.startDateTime.getHours() + ":0" + this.endDateTime.getMinutes() + ":00"
+    } else {
+      this.endDateTime = this.endDateTime.getHours() + ":" + this.endDateTime.getMinutes() + ":00"
+    }
+
+    if (this.startDateTime.getHours() < 10 && this.startDateTime.getMinutes() < 10) {
+      this.startDateTime = "0" + this.startDateTime.getHours() + ":0" + this.startDateTime.getMinutes() + ":00"
+    } else if (this.startDateTime.getHours() < 10) {
+      this.startDateTime = "0" + this.startDateTime.getHours() + ":" + this.endDateTime.getMinutes() + ":00"
+    } else if (this.startDateTime.getMinutes() < 10) {
+      this.startDateTime = this.startDateTime.getHours() + ":0" + this.startDateTime.getMinutes() + ":00"
+    } else {
+      this.startDateTime = this.startDateTime.getHours() + ":" + this.startDateTime.getMinutes() + ":00"
+    }
+
+    // alert(this.endDateTime)
+    // alert(this.endDateTime.getHours())
+    // alert(this.endDateTime.getMinutes())
+    // alert(this.endDateTime.getSeconds())
+
     // alert(JSON.stringify(this.startDate))
-    this.inspectionplanservice.editplandate(this.id, this.startDate, this.endDate, this.userid).subscribe(response => {
+    this.inspectionplanservice.editplandate(this.id, this.startDate, this.endDate, this.userid,this.startDateTime,this.endDateTime).subscribe(response => {
       this.modalRef.hide()
       this.getTimeline();
     })
+
   }
   EditCentralPolicy(value) {
     console.log(value);
@@ -925,4 +985,12 @@ export class InspectionPlanComponent implements OnInit {
     }
   }
 
+  starttime(event) {
+    console.log('Time changed', event);
+    this.startDateTime = event
+  }
+  endtime(event) {
+    console.log('Time changed', event);
+    this.endDateTime = event
+  }
 }

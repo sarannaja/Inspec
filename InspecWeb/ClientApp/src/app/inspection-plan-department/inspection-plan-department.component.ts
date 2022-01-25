@@ -146,7 +146,7 @@ export class InspectionPlanDepartmentComponent implements OnInit {
 
     // this.getCurrentYear();
     this.getTimeline();
-    this.getScheduleData();
+    // this.getScheduleData();
 
     this.getministryuser();
     this.getdepartmentuser();
@@ -221,7 +221,7 @@ export class InspectionPlanDepartmentComponent implements OnInit {
       // alert(JSON.stringify(result))
 
       this.currentyear = ((current_date.toISOString() > end_date.toISOString())) ? result.year + 1 : result.year
-
+      this.getScheduleData();
       // alert(JSON.stringify(this.currentyear))
     })
   }
@@ -294,8 +294,8 @@ export class InspectionPlanDepartmentComponent implements OnInit {
     this.router.navigate(['/acceptcentralpolicy', id])
   }
   storeCentralPolicyEventRelation(value) {
-    this.submitted = true;
     if (this.Form.invalid) {
+      this.submitted = true;
       console.log("in1");
       return;
     } else {
@@ -763,7 +763,7 @@ export class InspectionPlanDepartmentComponent implements OnInit {
   }
   EditPlanDate() {
     // alert(JSON.stringify(this.startDate))
-    this.inspectionplanservice.editplandate(this.id, this.startDate, this.endDate,this.userid).subscribe(response => {
+    this.inspectionplanservice.editplandate(this.id, this.startDate, this.endDate,this.userid,1,1).subscribe(response => {
       this.modalRef.hide()
       this.getTimeline();
     })

@@ -92,12 +92,12 @@
             <tr *ngFor="let item of resultcentralpolicy|sort:'desc':'id'; let i = index">
               <td (click)="DetailrowCentralPolicy(item.id,item.title)" class="pointer">{{ i + 1 }}</td>
               <td (click)="DetailrowCentralPolicy(item.id,item.title)" class="pointer">
-                {{ item.typeexaminationplan.name }}</td>
+                {{ item.typeexaminationplanname }}</td>
               <td (click)="DetailrowCentralPolicy(item.id,item.title)" class="pointer">
                 {{ item.title }} ( {{item.count}} )</td>
               <!-- *ngIf="item.status == 'ใช้งานจริง';" -->
               <!-- <td *ngIf="item.status == 'ร่างกำหนดการ';">{{ item.title }}</td> -->
-              <td (click)="DetailrowCentralPolicy(item.id,item.title)" class="pointer">{{item.fiscalYearNew.year}}</td>
+              <td (click)="DetailrowCentralPolicy(item.id,item.title)" class="pointer">{{item.fiscalYearNewyear}}</td>
               <td (click)="DetailrowCentralPolicy(item.id,item.title)" class="pointer">
                 <div *ngFor="let item2 of item.centralPolicyDates;">{{ item2.startDate | thaidate: 'short' }} -
                   {{ item2.endDate | thaidate: 'short' }}</div>
@@ -105,10 +105,10 @@
               <!-- <td (click)="DetailrowCentralPolicy(item.id,item.title)" class="pointer">{{item.user.name}}</td> -->
               <td>
                 <div>
-                  <label class="badge badge-secondary mr-1">{{item.user.ministries.name}}</label>
+                  <label class="badge badge-secondary mr-1">{{item.userministriesname}}</label>
                 </div>
                 <div>
-                  <label class="badge badge-secondary mr-1">{{item.user.departments.name}}</label>
+                  <label class="badge badge-secondary mr-1">{{item.userdepartmentsname}}</label>
                 </div>
               </td>
               <td (click)="DetailrowCentralPolicy(item.id,item.title)" class="pointer">
@@ -117,7 +117,7 @@
                 (click)="DetailrowCentralPolicy(item.id,item.title)" class="pointer">ร่าง</td>
               <td *ngIf="item.status == 'ใช้งานจริง' && role_id == 1"
                 (click)="DetailrowCentralPolicy(item.id,item.title)" class="pointer">ใช้งาน</td>
-                <td *ngIf="item.status == 'ร่างกำหนดการ'  && role_id == 2"
+              <td *ngIf="item.status == 'ร่างกำหนดการ'  && role_id == 2"
                 (click)="DetailrowCentralPolicy(item.id,item.title)" class="pointer">ร่าง</td>
               <td *ngIf="item.status == 'ใช้งานจริง' && role_id == 2"
                 (click)="DetailrowCentralPolicy(item.id,item.title)" class="pointer">ใช้งาน</td>
@@ -126,7 +126,7 @@
                   <i title="รายละเอียด" style="margin-top: 6px;" class="align-middle mr-2 fas fa-fw fa-search pointer"
                     (click)="Subject(item.id,item.title)"></i>
                   <!-- <i class="align-middle mr-2 fas fa-fw fa-book pointer" (click)="DetailCentralPolicy(item.id)"></i> -->
-                  <div *ngIf="role_id == 1 || role_id == 2 && item.user.ministryId == userministryId">
+                  <div *ngIf="role_id == 1 || role_id == 2 && item.userministryId == userministryId">
                     <i title="แก้ไขเรื่องที่ตรวจ" class="align-middle mr-2 fas fa-fw fa-pen pointer"
                       (click)="EditCentralPolicy(item.id)"></i>
 

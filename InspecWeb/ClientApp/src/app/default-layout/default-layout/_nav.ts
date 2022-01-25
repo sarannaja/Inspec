@@ -37,7 +37,7 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
   {
     icon: 'fa-calendar',
     url: '/inspectionplanevent/all',
-    name: "ปฏิทินการตรวจราชการภาพรวม",
+    name: "ปฏิทินการตรวจราชการ",
     menuname: "m3",
     orderby: 3 ,
   },
@@ -509,7 +509,7 @@ export const Centraladmin: NavBar[] = [ //แอดมินส่วนกล�
   {
     icon: 'fa-calendar',
     url: '/inspectionplanevent/all',
-    name: "ปฏิทินการตรวจราชการภาพรวม",
+    name: "ปฏิทินการตรวจราชการ",
     menuname: "m3",
     orderby: 3 ,
   },
@@ -1397,13 +1397,13 @@ export const InspectorMinistry: NavBar[] = [ //ผู้ตรวจกระท
         ex_link: '0',
         icon: 'fa-file',
         url: '/electronicbook',
-        name: 'สร้างเอง'
+        name: 'ของฉัน'
       },
       {
         ex_link: '0',
         icon: 'fa-file',
         url: '/electronicbook/invited',
-        name: 'ถูกส่ง'
+        name: 'อื่นๆ'
       },
     ]
   },
@@ -1586,7 +1586,7 @@ export const publicsector: NavBar[] = [ //ภาคประชาชน
   {
     icon: 'fa-book',
     url: "/answerpeople",
-    name: "คำถามภาคประชาชน",
+    name: "ข้อซักถาม",
     menuname: "m21",
     orderby: 18 ,
   },
@@ -2263,13 +2263,13 @@ export const InspectorDepartment: NavBar[] = [ //ผู้ตรวจกรม/
         ex_link: '0',
         icon: 'fa-file',
         url: '/electronicbook',
-        name: 'สร้างเอง'
+        name: 'ของฉัน'
       },
       {
         ex_link: '0',
         icon: 'fa-file',
         url: '/electronicbook/invited',
-        name: 'ถูกส่ง'
+        name: 'อื่นๆ'
       },
     ]
   },

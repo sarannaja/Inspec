@@ -5,15 +5,29 @@ import { RouterModule, Routes } from '@angular/router';
 import { SharingModule } from '../sharing/sharing.module';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/', pathMatch: 'full' },
-  { path: '', component: BeforeLoginComponent }
+  // { path: '', redirectTo: '/', pathMatch: 'full' },
+
+  {
+    path: '',
+    children: [
+      { path: '', component: BeforeLoginComponent },
+      { path: 'videoex', loadChildren: () => import('../video/video.module').then(m => m.VideoModule) },
+    ]
+  }
+
+  // {
+  //   children: [
+
+
+  //   ]
+  // }
 ];
 
 @NgModule({
   declarations: [],
   imports: [
     RouterModule.forChild(routes),
-    
+
   ],
   exports: [RouterModule]
 })

@@ -115,7 +115,7 @@ namespace InspecWeb.Controllers
                 // Insert a title paragraph.
                 var title = document.InsertParagraph("วันที่ตรวจราชการ: " + testDate);
                 title.Alignment = Alignment.center;
-                title.SpacingAfter(10d);
+                title.SpacingAfter(15d);
                 title.FontSize(16d);
                 title.Bold();
 

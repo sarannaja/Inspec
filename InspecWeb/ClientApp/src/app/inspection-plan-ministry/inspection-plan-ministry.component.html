@@ -20,23 +20,18 @@
   <div class="col-12">
     <div class="card card-eiei">
       <div class="card-header" style="margin-bottom: -20px;">
-        <label class="card-title">กำหนดการตรวจราชการ</label>
-        <label>จังหวัด{{ScheduleData.scheduleData.province.name}}</label>
-        <label style="margin-left: 5px;">ของ {{ScheduleData.userData.prefix}}
-          {{ScheduleData.userData.name}}</label>
-        <br>
-        <label>สร้างเมื่อ : {{ScheduleData.scheduleData.createdAt | thaidate: 'short'}}</label>
-        <div class="float-right" style="margin-top: -120px;">
+
+        <div class="float-right">
           <!-- <button *ngIf="role_id == 6 && data.length != 0" type="button" (click)="openModal(modalInviteMinistryPeople)"
           style="margin-top: -60px;" class="btn btn-primary">เชิญผู้ตรวจราชการกระทรวง</button> -->
 
           <i *ngIf="role_id == 6 && data.length != 0 && watch == 0" (click)="openModal(modalInviteMinistryPeople)"
-            title="เชิญผู้ร่วมตรวจราชการ/ระบุหน่วยรับตรวจ" style="margin-top: -60px;"
+            title="เชิญผู้ร่วมตรวจราชการ/ระบุหน่วยรับตรวจ"
             class="align-middle fas fa-fw fa-user-plus pointer"></i>
 
           &nbsp;&nbsp;
 
-          <button class="btn btn-primary" title="เพิ่มเรื่องที่ตรวจติดตาม" style="margin-top: -60px;"
+          <button class="btn btn-primary" title="เพิ่มเรื่องที่ตรวจติดตาม"
             *ngIf="role_id == 6 && timelineData.status == 'ร่างกำหนดการ' && watch == 0"
             (click)="openModal(modalCentralPolicyEventRelation)">
             <i class="align-middle fas fa-fw fa-plus pointer"></i></button>
@@ -47,10 +42,18 @@
         <button *ngIf="role_id == 6" class="btn btn-success" (click)="CrateInspectionPlan(id)"
           style="margin-top: -60px;">เพิ่มเรื่องที่ตรวจติดตามอื่นๆ</button> -->
         </div>
+
+        <label class="card-title">กำหนดการตรวจราชการ</label>
+        <label>จังหวัด{{ScheduleData.scheduleData.province.name}}</label>
+        <label style="margin-left: 5px;">ของ {{ScheduleData.userData.prefix}}
+          {{ScheduleData.userData.name}}</label>
+        <br>
+        <label>สร้างเมื่อ : {{ScheduleData.scheduleData.createdAt | thaidate: 'short'}}</label>
+
         <div class="row-12">
           <div class="row ml-1">
-            <span class="card" style="border-width: 0.5px; padding: 5px;">{{timelineData.startDate | thaidate: 'short'}}
-              - {{timelineData.endDate | thaidate: 'short'}}</span>
+            <span class="card" style="border-width: 0.5px; padding: 5px;">{{timelineData.startDate | thaidate: 'forlog'}} น.
+              - {{timelineData.endDate | thaidate: 'forlog'}} น.</span>
             <!-- <input style="width: 12%;" class="form-control" value="{{timelineData.startDate | thaidate: 'short'}}"
               readonly>
             <label style="margin-left: 5px; margin-right: 5px; font-weight: bold;"> - </label>
@@ -137,7 +140,12 @@
             aria-controls="departments"></i><br>
           <div class="col-12 collapse" id="departments">
             <span *ngFor="let item of departmentuserdata; let i = index">
-              {{i+1}}. {{item.user.departments.name}} - {{item.user.prefix + " " + item.user.name}}<br>
+              {{i+1}}. {{item.user.departments.name}} - {{item.user.prefix + " " + item.user.name}}
+              <button *ngIf="item.status == 'รอการตอบรับ'" class="btn btn-sm btn-info" disabled>{{item.status}}</button>
+              <button *ngIf="item.status == 'ตอบรับ'" class="btn btn-sm btn-success" disabled>{{item.status}}</button>
+              <button *ngIf="item.status == 'ปฏิเสธ'" class="btn btn-sm btn-danger" disabled>{{item.status}}</button>
+              <button *ngIf="item.status == 'มอบหมาย'" class="btn btn-sm btn-warning" disabled>{{item.status}}</button>
+              <br>
             </span>
           </div>
         </div>
@@ -149,7 +157,12 @@
             aria-controls="peoples"></i><br>
           <div class="col-12 collapse" id="peoples">
             <span *ngFor="let item of peopleuserdata; let i = index">
-              {{i+1}}. {{item.user.sides.name}} - {{item.user.prefix + " " + item.user.name}}<br>
+              {{i+1}}. {{item.user.sides.name}} - {{item.user.prefix + " " + item.user.name}}
+              <button *ngIf="item.status == 'รอการตอบรับ'" class="btn btn-sm btn-info" disabled>{{item.status}}</button>
+              <button *ngIf="item.status == 'ตอบรับ'" class="btn btn-sm btn-success" disabled>{{item.status}}</button>
+              <button *ngIf="item.status == 'ปฏิเสธ'" class="btn btn-sm btn-danger" disabled>{{item.status}}</button>
+              <button *ngIf="item.status == 'มอบหมาย'" class="btn btn-sm btn-warning" disabled>{{item.status}}</button>
+              <br>
             </span>
           </div>
         </div>
@@ -162,7 +175,12 @@
             aria-expanded="false" aria-controls="provincialdepartments"></i><br>
           <div class="col-12 collapse" id="provincialdepartments">
             <span *ngFor="let item of provincialdepartmentuserdata; let i = index">
-              {{i+1}}. {{item.user.provincialDepartments.name}} - {{item.user.prefix + " " + item.user.name}}<br>
+              {{i+1}}. {{item.user.provincialDepartments.name}} - {{item.user.prefix + " " + item.user.name}}
+              <button *ngIf="item.status == 'รอการตอบรับ'" class="btn btn-sm btn-info" disabled>{{item.status}}</button>
+              <button *ngIf="item.status == 'ตอบรับ'" class="btn btn-sm btn-success" disabled>รับทราบ</button>
+              <button *ngIf="item.status == 'ปฏิเสธ'" class="btn btn-sm btn-danger" disabled>ขัดข้อง</button>
+              <button *ngIf="item.status == 'มอบหมาย'" class="btn btn-sm btn-warning" disabled>{{item.status}}</button>
+              <br>
             </span>
           </div>
         </div>
@@ -219,24 +237,24 @@
 
               <td>
                 <!-- <i *ngIf="item.centralPolicy.class == 'แผนการตรวจ'" class="align-middle mr-2 fas fa-fw fa-search pointer" (click)="Subject(item.centralPolicyId,item.title)"></i> -->
-                <i *ngIf="watch == 0" class="align-middle mr-2 fas fa-fw fa-envelope pointer"
+                <i *ngIf="watch == 0" class="align-middle mr-2 fas fa-fw fa-envelope pointer" title="เชิญผู้ร่วมตรวจราชการ/ระบุหน่วยรับตรวจ"
                   (click)="DetailCentralPolicy(item.centralPolicyId, 0)"></i>
-                <i *ngIf="watch == 1" class="align-middle mr-2 fas fa-fw fa-search pointer"
+                <i *ngIf="watch == 1" class="align-middle mr-2 fas fa-fw fa-search pointer" title="ดูรายละเอียด"
                   (click)="DetailCentralPolicy(item.centralPolicyId, 1)"></i>
 
                 <i *ngIf="role_id == 6 && item.centralPolicy.class == 'แผนการตรวจประจำปี' && timelineData.status == 'ร่างกำหนดการ' && watch == 0"
-                  class="align-middle mr-2 fas fa-fw fa-trash pointer"
+                  class="align-middle mr-2 fas fa-fw fa-trash pointer" title="ลบแผนการตรวจ"
                   (click)="openModal2(ModalDeleteCentralPolicyEvent, item.id)"></i>
 
                 <i *ngIf="role_id == 6 && item.centralPolicy.class == 'แผนการตรวจ' && timelineData.status == 'ร่างกำหนดการ' && watch == 0"
-                  class="align-middle mr-2 fas fa-fw fa-pen pointer"
+                  class="align-middle mr-2 fas fa-fw fa-pen pointer" title="แก้ไขแผนการตรวจ"
                   (click)="openModaledit(ModalEditCentralPolicy,item.id)"></i>
                 <i *ngIf="role_id == 6 && item.centralPolicy.class == 'แผนการตรวจ' && timelineData.status == 'ร่างกำหนดการ' && watch == 0"
-                  class="align-middle mr-2 fas fa-fw fa-trash pointer"
+                  class="align-middle mr-2 fas fa-fw fa-trash pointer" title="ลบแผนการตรวจ"
                   (click)="openModal2(ModalDeleteCentralPolicy,item.centralPolicyId)"></i>
 
                 <i *ngIf="role_id == 6 && item.centralPolicy.class == 'ประเด็นการตรวจติดตาม' && timelineData.status == 'ร่างกำหนดการ' && watch == 0"
-                  class="align-middle mr-2 fas fa-fw fa-trash pointer"
+                  class="align-middle mr-2 fas fa-fw fa-trash pointer" title="ลบแผนการตรวจ"
                   (click)="openModal2(ModalDeleteCentralPolicy,item.centralPolicyId)"></i>
 
               </td>

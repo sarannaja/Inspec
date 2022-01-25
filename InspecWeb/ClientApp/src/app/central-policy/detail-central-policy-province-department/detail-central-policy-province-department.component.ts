@@ -539,7 +539,7 @@ export class DetailCentralPolicyProvinceDepartmentComponent implements OnInit {
   // }
 
   getDetailCentralPolicyProvince() {
-    this.centralpolicyservice.getdetailcentralpolicyprovincedata(this.id)
+    this.centralpolicyservice.getdetailcentralpolicyprovincedata2(this.id,this.planId)
       .subscribe(result => {
         console.log("123", result);
         // alert(JSON.stringify(result))
@@ -1025,15 +1025,15 @@ export class DetailCentralPolicyProvinceDepartmentComponent implements OnInit {
       // alert(JSON.stringify(this.resultpeople))
       console.log("tttt:", this.resultpeople);
 
-    })
-    await this.centralpolicyservice.getcentralpolicyprovinceuserdata(this.id, this.planId).subscribe(async result => {
-      await result.forEach(async element => {
-        if (element.user.role_id == 7) {
-          this.allUserPeople.push(element.user)
-        }
-      }); // Selected
-      console.log("selectedUser: ", this.allUserPeople);
-      this.getRecycledUserPeople();
+      this.centralpolicyservice.getcentralpolicyprovinceuserdata(this.id, this.planId).subscribe(async result => {
+        await result.forEach(async element => {
+          if (element.user.role_id == 7) {
+            this.allUserPeople.push(element.user)
+          }
+        }); // Selected
+        console.log("selectedUser: ", this.allUserPeople);
+        this.getRecycledUserPeople();
+      })
     })
   }
 
@@ -1208,18 +1208,18 @@ export class DetailCentralPolicyProvinceDepartmentComponent implements OnInit {
   async getProvincialDepartmentPeople() {
     await this.userservice.getuserdata(9).subscribe(result => {
       this.resultprovincialdepartmentpeople = result // All
+      this.centralpolicyservice.getcentralpolicyprovinceuserdata(this.id, this.planId)
+        .subscribe(async result => {
+          await result.forEach(async element => {
+            if (element.user.role_id == 9) {
+              await this.allprovincialdepartmentPeople.push(element.user)
+            }
+          }); // Selected
+          // console.log("selectedprovincialdepartment: ", this.allprovincialdepartmentPeople);
+          this.getRecycledProvincialDepartmentPeople();
+        })
     })
 
-    await this.centralpolicyservice.getcentralpolicyprovinceuserdata(this.id, this.planId)
-      .subscribe(async result => {
-        await result.forEach(async element => {
-          if (element.user.role_id == 9) {
-            await this.allprovincialdepartmentPeople.push(element.user)
-          }
-        }); // Selected
-        // console.log("selectedprovincialdepartment: ", this.allprovincialdepartmentPeople);
-        this.getRecycledProvincialDepartmentPeople();
-      })
   }
 
   async getRecycledProvincialDepartmentPeople() {

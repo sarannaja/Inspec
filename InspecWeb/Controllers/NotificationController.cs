@@ -31,7 +31,7 @@ namespace InspecWeb.Controllers
         {
             var Notifications = _context.Notifications
                .Include(m => m.User)
-               .Include(m =>m.Notificationcreateby)
+               .Include(m => m.Notificationcreateby)
                .ThenInclude(m => m.UserCreate)
                .Include(m => m.CentralPolicy)
                .Where(m => m.UserID == id).OrderByDescending(m => m.Id);
@@ -60,7 +60,7 @@ namespace InspecWeb.Controllers
         // POST api/values
         [Route("api/[controller]")]
         [HttpPost]
-        public Notification Post(long CentralPolicyId, long ProvinceId, string UserId, long Status, long xe, string title,string createby)
+        public Notification Post(long CentralPolicyId, long ProvinceId, string UserId, long Status, long xe, string title, string createby)
         {
             System.Console.WriteLine("Status : " + Status);
 
@@ -72,7 +72,7 @@ namespace InspecWeb.Controllers
             if (Status == 1)
             {
                 var data = new Notification
-                
+
                 {
                     UserID = UserId,
                     CentralPolicyId = CentralPolicyId,
@@ -123,7 +123,7 @@ namespace InspecWeb.Controllers
 
                     System.Console.WriteLine("UserId : " + item.UserId);
 
-                     var data4 = new Notification
+                    var data4 = new Notification
                     {
                         UserID = item.UserId,
                         CentralPolicyId = CentralPolicyId,
@@ -147,8 +147,53 @@ namespace InspecWeb.Controllers
                 }
 
             }
-            if (Status == 2 || Status == 6)
+
+            if (Status == 2 || Status == 26 || Status == 27)
             {
+                var inspectionplans = _context.InspectionPlanEvents
+                .Include(m => m.CentralPolicyEvents)
+                .ThenInclude(m => m.CentralPolicy)
+                .Where(m => m.Id == xe)
+                .FirstOrDefault();
+
+                var data = new Notification
+                {
+                    UserID = inspectionplans.CreatedBy,
+                    CentralPolicyId = CentralPolicyId,
+                    ProvinceId = ProvinceId,
+                    status = Status,
+                    noti = 1,
+                    CreatedAt = date,
+                    xe = xe
+                };
+                _context.Notifications.Add(data);
+                _context.SaveChanges();
+
+                var data2 = new Notificationcreateby
+                {
+                    NotificationId = data.Id,
+                    CreateBy = createby
+                };
+                _context.Notificationcreateby.Add(data2);
+                _context.SaveChanges();
+
+                if (Status == 2)
+                {
+                    _externalOrganizationController.SendNotification(UserId, "ตอบรับคำเชิญ" + CentralPolicyData.Title);
+                }
+                else if (Status == 26)
+                {
+                    _externalOrganizationController.SendNotification(UserId, "ปฏิเสธคำเชิญ" + CentralPolicyData.Title);
+                }
+                else if (Status == 27)
+                {
+                    _externalOrganizationController.SendNotification(UserId, "มอบหมายให้ผู้อื่น" + CentralPolicyData.Title);
+                }
+            }
+
+            if (Status == 6)
+            {
+
                 var inspectionplans = _context.InspectionPlanEvents
                     .Include(m => m.CentralPolicyEvents)
                     .ThenInclude(m => m.CentralPolicy)
@@ -177,14 +222,8 @@ namespace InspecWeb.Controllers
                 _context.Notificationcreateby.Add(data2);
                 _context.SaveChanges();
 
-                if (Status == 2)
-                {
-                    _externalOrganizationController.SendNotification(UserId, "ตอบรับคำเชิญ" + CentralPolicyData.Title);
-                }
-                else if (Status == 6)
-                {
-                    _externalOrganizationController.SendNotification(UserId, "ตอบประเด็นคำถามเรียบร้อย(ผู้ตรวจราชการ)" + CentralPolicyData.Title);
-                }
+                _externalOrganizationController.SendNotification(UserId, "ตอบประเด็นคำถามเรียบร้อย(ผู้ตรวจราชการ)" + CentralPolicyData.Title);
+
             }
 
             //if (Status == 3 || Status == 4)
@@ -376,15 +415,15 @@ namespace InspecWeb.Controllers
                 {
                     System.Console.WriteLine("st10 2 : " + item.UserID);
 
-                   // var userregions = _context.UserRegions
-                   //.Include(m => m.User)
-                   //.Where(m => m.UserID == item.UserID)
-                   //.First();
+                    // var userregions = _context.UserRegions
+                    //.Include(m => m.User)
+                    //.Where(m => m.UserID == item.UserID)
+                    //.First();
 
-                   // var userother = _context.Users
-                   //   .Include(m => m.UserRegion)
-                   //   .Where(m => m.Role_id == userregions.User.Role_id)
-                   //   .First();
+                    // var userother = _context.Users
+                    //   .Include(m => m.UserRegion)
+                    //   .Where(m => m.Role_id == userregions.User.Role_id)
+                    //   .First();
 
                     var data = new Notification
                     {
@@ -403,8 +442,8 @@ namespace InspecWeb.Controllers
 
                     var data2 = new Notificationcreateby
                     {
-                       NotificationId = data.Id,
-                       CreateBy = createby
+                        NotificationId = data.Id,
+                        CreateBy = createby
                     };
                     _context.Notificationcreateby.Add(data2);
                     _context.SaveChanges();

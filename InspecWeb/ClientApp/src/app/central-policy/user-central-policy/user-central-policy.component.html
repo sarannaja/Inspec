@@ -1,5 +1,5 @@
 <div class="header">
-  
+
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a [routerLink]="['/main']">หน้าหลัก</a></li>
@@ -15,25 +15,21 @@
   <div class="col-12">
     <div class="card card-eiei">
       <div class="card-header" style="margin-bottom: -20px;">
-        <label class="card-title">กำหนดการตรวจราชการ</label>
-        <label>จังหวัด {{ScheduleData.scheduleData.province.name}}</label>
-        <label style="margin-left: 5px;">ของ {{ScheduleData.userData.prefix}}
-          {{ScheduleData.userData.name}}</label>
-        <br>
-        <label>สร้างเมื่อ : {{ScheduleData.scheduleData.createdAt | thaidate: 'short'}}</label>
-        <div class="row" style="margin-left: 5px;">
-          <input style="width: 12%;" class="form-control" value="{{timelineData.startDate | thaidate: 'short'}}"
-            readonly>
-          <label style="margin-left: 5px; margin-right: 5px; font-weight: bold;"> - </label>
-          <input style="width: 12%;" class="form-control" value="{{timelineData.endDate | thaidate: 'short'}}" readonly>
-        </div>
 
-        <div class="float-right" style="margin-top: -60px;" *ngIf="status == 'รอการตอบรับ';else elseBlock">
-          <button (click)="openModal2(changestatusacceptModal,'ตอบรับ')" value="ตอบรับ"
+        <div class="float-right" *ngIf="status == 'รอการตอบรับ';else elseBlock">
+          <button *ngIf="role_id == 6 || role_id == 10 || role_id == 7"
+            (click)="openModal2(changestatusacceptModal,'ตอบรับ')" value="ตอบรับ"
             class="btn btn-primary">ตอบรับ</button>
+          <button *ngIf="role_id == 9" (click)="openModal2(changestatusacceptModal,'ตอบรับ')" value="ตอบรับ"
+            class="btn btn-primary">รับทราบ</button>
+
           &nbsp;&nbsp;
-          <button (click)="openModal2(changestatusrefuseModal,'ปฏิเสธ')" value="ปฏิเสธ"
-            class="btn btn-danger">ปฏิเสธ</button>
+
+
+          <button *ngIf="role_id == 6 || role_id == 10 || role_id == 7"
+            (click)="openModal2(changestatusrefuseModal,'ปฏิเสธ')" value="ปฏิเสธ" class="btn btn-danger">ปฏิเสธ</button>
+          <button *ngIf="role_id == 9" (click)="openModal2(changestatusrefuseModal,'ปฏิเสธ')" value="ปฏิเสธ"
+            class="btn btn-danger">ขัดข้อง</button>
           &nbsp;&nbsp;
 
           <button *ngIf="role_id == 6 && ForwardName != 'ถูกมอบหมาย' && ForwardCount == 0"
@@ -46,12 +42,25 @@
         </div>
 
         <ng-template #elseBlock>
-          <div class="float-right row" style="margin-top: -60px; margin-right: 20px;">
+          <div class="float-right row" style="margin-right: 20px;">
             <button (click)="openModal2(changetocancel,'ปฏิเสธ')" value="ตอบรับ" *ngIf="status == 'ตอบรับ'"
-              style="margin-top: -10px;" type="button" class="btn btn-danger btn-xs">เปลี่ยนแปลงการตอบรับเชิญ</button>
+              style="margin-top: -10px;" type="button" class="btn btn-danger btn-xs">เปลี่ยนแปลงการตอบรับคำเชิญ</button>
             <button (click)="openModal2(changetoaccept,'ตอบรับ')" value="ปฏิเสธ" *ngIf="status == 'ปฏิเสธ'"
-              style="margin-top: -10px;" type="button" class="btn btn-primary btn-xs">เปลี่ยนแปลงการตอบรับเชิญ</button>
+              style="margin-top: -10px;" type="button" class="btn btn-primary btn-xs">เปลี่ยนแปลงการตอบรับคำเชิญ</button>
             &nbsp;&nbsp;
+
+            <!-- <button (click)="openModal2(changetocancel,'ปฏิเสธ')" value="ตอบรับ" *ngIf="status == 'ตอบรับ' || status == 'มอบหมาย'"
+            style="margin-top: -10px;" type="button" class="btn btn-danger btn-xs">เปลี่ยนแปลงการตอบรับเชิญ</button>
+          <button (click)="openModal2(changetoaccept,'ตอบรับ')" value="ปฏิเสธ" *ngIf="status == 'ปฏิเสธ' || status == 'มอบหมาย'"
+            style="margin-top: -10px;" type="button" class="btn btn-primary btn-xs">เปลี่ยนแปลงการตอบรับเชิญ</button>
+          &nbsp;&nbsp; -->
+
+            <!-- <button *ngIf="status == 'มอบหมาย'" (click)="openModal2(changestatusacceptModal,'ตอบรับ')" value="ตอบรับ"
+              class="btn btn-primary">ตอบรับ</button>
+            &nbsp;&nbsp;
+            <button *ngIf="status == 'มอบหมาย'" (click)="openModal2(changestatusrefuseModal,'ปฏิเสธ')" value="ปฏิเสธ"
+              class="btn btn-danger">ปฏิเสธ</button>
+            &nbsp;&nbsp; -->
 
             <button *ngIf="role_id == 6 && ForwardName != 'ถูกมอบหมาย' && ForwardCount == 0"
               (click)="openModal(assignModal)" value="มอบหมาย" class="btn btn-success">มอบหมาย</button>
@@ -59,20 +68,32 @@
             <button *ngIf="role_id == 10 && ForwardName != 'ถูกมอบหมาย'  && ForwardCount == 0"
               (click)="openModal(assigndepartModal)" value="มอบหมาย" class="btn btn-success">มอบหมาย</button>
 
-            <button *ngIf="status == 'มอบหมาย'" (click)="openModal2(changestatusacceptModal,'ตอบรับ')" value="ตอบรับ"
-              class="btn btn-primary">ตอบรับ</button>
-            &nbsp;&nbsp;
-            <button *ngIf="status == 'มอบหมาย'" (click)="openModal2(changestatusrefuseModal,'ปฏิเสธ')" value="ปฏิเสธ"
-              class="btn btn-danger">ปฏิเสธ</button>
-            &nbsp;&nbsp;
+            <span style="font-size: 18px;">สถานะปัจจุบัน : {{status}}</span>
 
-            <h4>สถานะปัจจุบัน : {{status}}</h4>
+            <span *ngIf="role_id == 6 && ForwardCount == 1" style="font-size: 18px;">
+              , มอบหมายให้ : {{ForwardName}}</span>
+            <span *ngIf="role_id == 10 && ForwardCount == 1" style="font-size: 18px;"> , มอบหมายให้ :
+              {{ForwardName}}</span>
+
           </div>
-
-
-
         </ng-template>
 
+        <label class="card-title">กำหนดการตรวจราชการ</label>
+        <label>จังหวัด {{ScheduleData.scheduleData.province.name}}</label>
+        <label style="margin-left: 5px;">ของ {{ScheduleData.userData.prefix}}
+          {{ScheduleData.userData.name}}</label>
+        <br>
+        <label>สร้างเมื่อ : {{ScheduleData.scheduleData.createdAt | thaidate: 'short'}}</label>
+        <!-- <div class="row" style="margin-left: 5px;">
+          <input style="width: 12%;" class="form-control" value="{{timelineData.startDate | thaidate: 'short'}}"
+            readonly>
+          <label style="margin-left: 5px; margin-right: 5px; font-weight: bold;"> - </label>
+          <input style="width: 12%;" class="form-control" value="{{timelineData.endDate | thaidate: 'short'}}" readonly>
+        </div> -->
+        <div class="row ml-1">
+          <span class="card" style="border-width: 0.5px; padding: 5px;">{{timelineData.startDate | thaidate: 'short'}}
+            - {{timelineData.endDate | thaidate: 'short'}}</span>
+        </div>
 
 
       </div>
@@ -84,19 +105,19 @@
             <tr>
               <th>#</th>
               <th>แผนการตรวจราชการ</th>
-              <th>ประเด็นนโยบาย</th>
+              <th>ประเด็นนโยบาย/เรื่อง</th>
               <!-- <th>ปี</th> -->
               <!-- <th>ระยะเวลา</th> -->
               <!-- <th>สถานะกำหนดการ</th>
               <th>สถานะ</th> -->
-              <th>ผู้เชิญ</th>
+              <th>ผู้ตรวจฯ</th>
               <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let item of resultcentralpolicy; let i = index">
               <td>{{ i + 1 }}</td>
-              <td>{{ item.centralPolicy.class }}</td>
+              <td>{{ item.centralPolicy.typeexaminationplan.name }}</td>
               <td>{{ item.centralPolicy.title }}</td>
               <!-- <td>{{item.centralPolicy.fiscalYear.year}}</td> -->
               <!-- <td>
@@ -187,7 +208,7 @@
 
   <div class="modal-content">
     <div class="modal-header">
-      <h5 class="modal-title">การมอบหมาย</h5>
+      <span class="modal-title">มอบหมายผู้ตรวจราชการ</span>
       <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -208,20 +229,20 @@
           <label>ประเภทผู้รับมอบหมาย*</label>
           <select class="form-control select2" data-toggle="select2" (change)="checktype($event.target.value)">
             <option value=null>กรุณาเลือกประเภทผู้รับมอบหมาย</option>
-            <option value="ผู้ตรวจกระทรวง">ผู้ตรวจกระทรวง</option>
-            <option value="ผู้ตรวจกรม">ผู้ตรวจกรม</option>
+            <option value="ผู้ตรวจกระทรวง">ผู้ตรวจราชการกระทรวง</option>
+            <option value="ผู้ตรวจกรม">ผู้ตรวจราชการกรม</option>
           </select>
         </div>
 
         <div *ngIf="peopletype == 1" class="form-group">
-          <label class="form-label">เชิญผู้ตรวจราชการกระทรวง</label>
+          <label class="form-label">มอบหมายผู้ตรวจราชการกระทรวง</label>
           <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกชื่อ-นามสกุล" [multiple]="false"
             [items]="MinistrySelect" name="UserId" formControlName="UserId">
           </ng-select>
         </div>
 
         <div *ngIf="peopletype == 2" class="form-group">
-          <label class="form-label">เชิญผู้ตรวจราชการกรม</label>
+          <label class="form-label">มอบหมายผู้ตรวจราชการกรม</label>
           <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกชื่อ-นามสกุล" [multiple]="false"
             [items]="DepartmentSelect" name="UserId" formControlName="UserId">
           </ng-select>

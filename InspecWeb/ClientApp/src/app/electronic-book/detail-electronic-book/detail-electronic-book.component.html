@@ -13,12 +13,12 @@
   <div class="col-12">
     <div class="card card-eiei">
       <div class="card-header">
-        <h4 class="card-title mb-0">รายละเอียด</h4>
+        <h4 class="card-title mb-0">รายละเอียดสมุดตรวจราชการ</h4>
         <button class="btn btn-primary float-right" (click)="printReport()"
           title="พิมพ์สมุดตรวจอิเล็กทรอนิกส์">พิมพ์รายงาน
         </button>
-        <label style="margin-top: 20px;">กำหนดการสมุดตรวจ
-          {{electronicBookData.electronicBook.startDate | thaidate: 'short'}}</label>
+        <label style="margin-top: 20px;">วันที่ตรวจราชการ
+          {{electronicBookData.electronicBook.startDate | thaidate: 'medium'}}</label>
         <!-- <div *ngIf="electronicBookData.electronicBook.provinceStatus == 'ส่งสมุดตรวจให้จังหวัดแล้ว'" class="row"
           style="float: right; margin: 20px;">
           <h3 style="color: green;">ส่งสมุดตรวจแล้ว</h3><i class="fas fa-check-circle"
@@ -27,7 +27,7 @@
       </div>
       <div class="card-body">
         <div class="form-group">
-          <h4 class="card-title" style="font-size: larger; font-weight: bold;">แผนการตรวจ</h4>
+          <h4 class="card-title" style="font-size: larger; font-weight: bold;">ประเด็นนโยบาย/เรื่อง</h4>
           <div *ngIf="electronicBookData.electronicBook.centralPolicy != null">
             <input type="text" class="form-control" value="{{electronicBookData.electronicBook.centralPolicy}}"
               readonly>
@@ -43,7 +43,7 @@
             <div class="col-12 collapse" id="centralPolicys{{i}}" style="margin-left: 5px;">
               <div>
                 <label>- วันที่: {{item.inspectionPlanEventDate.startDate | thaidate: 'short'}} ถึง
-                  {{item.inspectionPlanEventDate.endDate  | thaidate: 'short'}}</label>
+                  {{item.inspectionPlanEventDate.endDate | thaidate: 'short'}}</label>
               </div>
               <div>
                 <label>- จังหวัด: {{item.inspectionPlanProvinceName}}</label>
@@ -78,8 +78,16 @@
           </div>
         </div>
         <div *ngIf="electronicBookData.electronicBook.centralPolicy == null">
-          <h4 class="card-title" style="font-size: larger; font-weight: bold;">ผู้ตรวจราชการจากกำหนดการตรวจ</h4>
-          <div
+          <div class="row ml-1">
+            <h4 class="card-title mr-3" style="font-size: larger; font-weight: bold;">คณะผู้ตรวจราชการ</h4>
+            <button
+              *ngIf="electronicBookData.electronicBook.status != 'ใช้งานจริง' && electronicBookData.electronicBook.status != 'ส่งสมุดตรวจแล้ว' && electronicBookData.electronicBook.centralPolicy == null"
+              class="btn btn-success" (click)="openInviteModal(modalInviteMinistryPeople)"
+              title="เชิญผู้ตรวจราชการเพิ่มเติม" style="margin-top: -5px;"><i
+                class="align-middle fas fa-fw fa-plus pointer"></i>
+            </button>
+          </div>
+          <div class="ml-2"
             *ngIf="electronicBookData.ebookInvite.length == 0 || electronicBookData.ebookInvite.length > 0 && electronicBookData.electronicBook.status == 'ร่างกำหนดการ'">
             <u>ผู้ตรวจราชการกระทรวง:</u>
             <div *ngFor="let items of invitedPeopleData; let index = index" style="margin-left: 20px;">
@@ -87,7 +95,7 @@
                 {{items.user.ministries.name}}</label>
             </div>
           </div>
-          <div
+          <div class="ml-2"
             *ngIf="electronicBookData.ebookInvite.length == 0 || electronicBookData.ebookInvite.length > 0 && electronicBookData.electronicBook.status == 'ร่างกำหนดการ'">
             <u>ผู้ตรวจราชการกรม:</u>
             <div *ngFor="let items of invitedPeopleData; let index = index" style="margin-left: 20px;">
@@ -95,7 +103,7 @@
                 {{items.user.departments.name}}</label>
             </div>
           </div>
-          <div
+          <div class="ml-2"
             *ngIf="electronicBookData.ebookInvite.length == 0 || electronicBookData.ebookInvite.length > 0 && electronicBookData.electronicBook.status == 'ร่างกำหนดการ'">
             <u>ที่ปรึกษาผู้ตรวจราชการภาคประชาชน:</u>
             <div *ngFor="let items of invitedPeopleData; let index = index" style="margin-left: 20px;">
@@ -103,10 +111,10 @@
                 ด้าน{{items.user.sides.name}}</label>
             </div>
           </div>
-          <br>
+
           <div
             *ngIf="electronicBookData.ebookInvite.length > 0 && electronicBookData.electronicBook.status == 'ร่างกำหนดการ'">
-            <h4 class="card-title" style="font-size: larger; font-weight: bold;">ผู้ตรวจราชการเพิ่มเติม</h4>
+            <h4 class="card-title mt-2" style="font-size: larger; font-weight: bold;">คณะผู้ตรวจราชการเพิ่มเติม</h4>
             <div
               *ngIf="electronicBookData.ebookInvite.length > 0 && electronicBookData.electronicBook.status == 'ร่างกำหนดการ'">
               <u>ผู้ตรวจราชการกระทรวง:</u>
@@ -137,7 +145,7 @@
             </div> -->
           </div>
 
-          <div
+          <div class="ml-2"
             *ngIf="electronicBookData.ebookInvite.length > 0 && electronicBookData.electronicBook.status == 'ใช้งานจริง' || electronicBookData.electronicBook.status == 'ส่งสมุดตรวจแล้ว'">
             <u>ผู้ตรวจราชการกระทรวง:</u>
             <i class="fas fa-chevron-down" style="margin-left: 10px; font-size: large; cursor: pointer;"
@@ -193,7 +201,7 @@
               </div>
             </div>
           </div>
-          <div
+          <div class="ml-2"
             *ngIf="electronicBookData.ebookInvite.length > 0 && electronicBookData.electronicBook.status == 'ใช้งานจริง' || electronicBookData.electronicBook.status == 'ส่งสมุดตรวจแล้ว'">
             <u>ผู้ตรวจราชการกรม:</u>
             <i class="fas fa-chevron-down" style="margin-left: 10px; font-size: large; cursor: pointer;"
@@ -250,7 +258,7 @@
               </div>
             </div>
           </div>
-          <div
+          <div class="ml-2"
             *ngIf="electronicBookData.ebookInvite.length > 0 && electronicBookData.electronicBook.status == 'ใช้งานจริง' || electronicBookData.electronicBook.status == 'ส่งสมุดตรวจแล้ว'">
             <u>ที่ปรึกษาผู้ตรวจราชการภาคประชาชน:</u>
             <i class="fas fa-chevron-down" style="margin-left: 10px; font-size: large; cursor: pointer;"
@@ -276,9 +284,6 @@
               placeholder="ไม่มีข้อมูล" readonly></textarea>
           </div>
         </div>
-        <button
-          *ngIf="electronicBookData.electronicBook.status != 'ใช้งานจริง' && electronicBookData.electronicBook.status != 'ส่งสมุดตรวจแล้ว' && electronicBookData.electronicBook.centralPolicy == null"
-          class="btn btn-success" (click)="openInviteModal(modalInviteMinistryPeople)">เชิญผู้ตรวจเพิ่มเติม</button>
         <br>
         <hr>
         <br>
@@ -340,6 +345,11 @@
                 <label style="margin-left: 10px;">ใช้งาน</label>
               </div>
             </div>
+
+            <div *ngIf="electronicBookData.electronicBook.provinceType == 'ส่งให้จังหวัด'">
+              <input type="checkbox" [checked]="true" [disabled]="true"> ส่งผู้ว่าราชการจังหวัด
+            </div>
+
             <label for=""
               *ngIf="electronicBookData.electronicBook.electronicBookFiles.length > 0">ไฟล์แนบสมุดตรวจอิเล็กทรอนิกส์</label>
             <div class="row" *ngFor="let item of electronicBookData.electronicBook.electronicBookFiles; let i = index"
@@ -352,6 +362,7 @@
               </a>
               <input type="text" value="{{item.description}}" style="width: 80%;" class="form-control ml-4" readonly>
             </div>
+
             <!-- <div *ngIf="electronicBookData.electronicBookAccept != null">
               <div class="row"
                 *ngFor="let item of electronicBookData.electronicBookAccept.electronicBookProvinceApproveFiles; let i = index"
@@ -613,6 +624,7 @@
                   <label style="margin-left: 10px;">ใช้งาน</label>
                 </div>
               </div>
+
             </div>
             <div class="modal-footer" style="text-align: center;">
               <button type="submit" class="btn btn-primary">บันทึก</button>

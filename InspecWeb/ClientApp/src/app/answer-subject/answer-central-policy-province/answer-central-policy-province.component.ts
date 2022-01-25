@@ -66,16 +66,22 @@ export class AnswerCentralPolicyProvinceComponent implements OnInit {
     this.answersubjectservice.getcentralpolicyprovince(this.id, this.inspectionPlanEventId)
       .subscribe(result => {
         this.resultQuestionPeople = result
-        this.provinceid = this.resultQuestionPeople[0].centralPolicyEvent.inspectionPlanEvent.provinceId
-        this.centralPolicyProvinceId = this.resultQuestionPeople[0].centralPolicyEvent.centralPolicyId
-        this.subjectGroupId = this.resultQuestionPeople[0].centralPolicyEvent.subjectGroupPeopleQuestions[0].subjectGroupId
-        this.centralPolicyId = this.resultQuestionPeople[0].centralPolicyEvent.centralPolicyId
-        this.getSubjectEventFiles()
-        this.spinner.hide();
-        this.addvalue();
+        console.log(this.resultQuestionPeople);
+        if (this.resultQuestionPeople.length != 0) {
+          this.provinceid = this.resultQuestionPeople[0].centralPolicyEvent.inspectionPlanEvent.provinceId
+          this.centralPolicyProvinceId = this.resultQuestionPeople[0].centralPolicyEvent.centralPolicyId
+          this.subjectGroupId = this.resultQuestionPeople[0].centralPolicyEvent.subjectGroupPeopleQuestions[0].subjectGroupId
+          this.centralPolicyId = this.resultQuestionPeople[0].centralPolicyEvent.centralPolicyId
+          this.getSubjectEventFiles()
+          this.spinner.hide();
+          this.addvalue();
+        } else {
+          this.spinner.hide();
+        }
+
       })
   }
-  getSubjectEventFiles(){
+  getSubjectEventFiles() {
     this.answersubjectservice.getSubjectEventFiles(this.subjectGroupId).subscribe(result => {
       this.resultsubjecteventfiles = result
     })
@@ -106,7 +112,7 @@ export class AnswerCentralPolicyProvinceComponent implements OnInit {
       this.answersubjectservice.addStatusrole7(valuestatus, this.resultQuestionPeople[0].centralPolicyEventId, this.userid).subscribe(result => {
         console.log("result", result.id);
         if (valuestatus.Status == "ใช้งานจริง") {
-          this.notificationService.addNotification(this.centralPolicyId, this.provinceid, this.userid, 6, this.subjectGroupId,null,this.userid)
+          this.notificationService.addNotification(this.centralPolicyId, this.provinceid, this.userid, 6, this.subjectGroupId, null, this.userid)
             .subscribe(response => {
               console.log("innoti", response);
             })

@@ -209,19 +209,19 @@
               </div>
               <br><br>
 
-              <label>หน่วยงาน/สังกัด</label><span class="star">*</span>
+              <label>กระทรวง</label><span class="star">*</span>
               <input type="text" value="" formControlName="department" class="form-control"
                 placeholder="กรุณากรอกหน่วยงาน/สังกัด" readonly>
               <br>
 
-              <label>กระทรวง/กรม</label><span class="star">*</span>
+              <label>หน่วยงาน/กรม</label><span class="star">*</span>
               <input type="text" value="" formControlName="departmentnew" class="form-control"
                 placeholder="กรุณากรอกกระทรวง/กรม" readonly>
               <br>
 
               <label>เลขประจำตัวประชาชน</label><span class="star">*</span>
               <input type="text" value="" formControlName="cardid" class="form-control"
-                placeholder="กรุณากรอกบัตรประชาชน" maxlength="13"
+                placeholder="กรุณากรอกบัตรประชาชน" maxlength="13" numbersOnly
                 [ngClass]="{ 'is-invalid': submitted && f.cardid.errors }">
               <div *ngIf="submitted && f.cardid.errors" class="invalid-feedback">
                 <div *ngIf="f.cardid.errors.required">กรุณากรอกบัตรประชาชน</div>
@@ -247,7 +247,7 @@
 
               <label>เบอร์โทรศัพท์มือถือ</label><span class="star">*</span>
               <input type="text" value="{{ PhoneNumber }}" formControlName="phone" class="form-control"
-                placeholder="กรุณากรอกเบอร์โทรศัพท์" [ngClass]="{ 'is-invalid': submitted && f.phone.errors }">
+                placeholder="กรุณากรอกเบอร์โทรศัพท์" maxlength="10" numbersOnly [ngClass]="{ 'is-invalid': submitted && f.phone.errors }">
               <div *ngIf="submitted && f.phone.errors" class="invalid-feedback">
                 <div *ngIf="f.phone.errors.required">กรุณากรอกเบอร์โทรศัพท์</div>
               </div>

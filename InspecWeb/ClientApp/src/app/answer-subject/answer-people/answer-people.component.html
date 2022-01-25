@@ -1,5 +1,4 @@
 <div class="header">
-
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="/main">หน้าหลัก</a></li>
@@ -25,9 +24,10 @@
           <tr>
             <th width="5%">ที่</th>
             <th windth="20%">แผนการตรวจราชการ</th>
-            <th width="25%">เรื่องที่ตรวจ</th>
+            <th width="20%">เรื่องที่ตรวจ</th>
             <th width="10%">ปี</th>
-            <th width="25%">ระยะเวลาการตรวจ</th>
+            <th width="20%">ผู้ตรวจฯ ที่ถาม</th>
+            <th width="20%">วันที่ตรวจ</th>
             <th width="10%"><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
           </tr>
         </thead>
@@ -37,13 +37,18 @@
             <td>{{item.centralPolicy.typeexaminationplan.name}}</td>
             <td>{{ item.centralPolicy.title }}</td>
             <td>{{item.centralPolicy.fiscalYearNew.year}}
+            <td>{{item.inspectionPlanEvent.user.name}} {{item.inspectionPlanEvent.user.position}}</td>
             <td>
-              <div *ngFor="let item2 of item.centralPolicy.centralPolicyDates;">{{ item2.startDate | thaidate: 'short' }} -
-                {{ item2.endDate | thaidate: 'short' }}</div>
+              {{ item.inspectionPlanEvent.startDate | thaidate: 'short'
+              }} -
+              {{ item.inspectionPlanEvent.endDate | thaidate: 'short' }}
+              <!-- <div *ngFor="let item2 of item.centralPolicy.centralPolicyDates;">{{ item2.startDate | thaidate: 'short'
+                }} -
+                {{ item2.endDate | thaidate: 'short' }}</div> -->
             </td>
             <td>
               <!-- <i class="align-middle mr-2 fas fa-fw fa-search pointer" (click)="Subjectlist(item.centralPolicyId,item.provinceId)"></i> -->
-              <i title="รายละเอียด" class="align-middle mr-2 fas fa-fw fa-book pointer"
+              <i title="ตอบข้อซักถาม" class="align-middle mr-2 fas fa-fw fa-book pointer"
                 (click)="getCentralpolicyprovince(item.centralPolicyId,item.provinceId,item.inspectionPlanEventId)"></i>
             </td>
           </tr>

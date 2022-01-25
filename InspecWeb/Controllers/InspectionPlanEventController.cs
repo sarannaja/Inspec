@@ -119,7 +119,7 @@ namespace InspecWeb.Controllers
                     .Include(m => m.CentralPolicyEvents)
                     .ThenInclude(m => m.CentralPolicy)
                     .ThenInclude(m => m.CentralPolicyProvinces)
-                    //.Where(m => m.Status == "ใช้งานจริง")
+                    .Where(m => m.Status == "ใช้งานจริง")
                     //.Where(m => m.CentralPolicyEvents.Any(i => i.InspectionPlanEventId == id));
                     .ToList();
 

@@ -12,8 +12,10 @@
         <div class="card card-eiei">
             <div class="card-header">
                 <h5 class="card-title">วิดิทัศน์สอนการใช้งานระบบ</h5>
-                <div class="float-right">
-
+                <div class="float-left" style="width: 25%;">
+                    <ng-select bindLabel="name" bindValue="id" placeholder="กรุณาเลือกหน่วยงาน" [multiple]="false"
+                        [items]="checkrole" #roleId (change)="retrievevideos($event)">
+                    </ng-select>
                 </div>
             </div>
             <div class="card-body">
@@ -28,12 +30,14 @@
                         </tr>
                     </thead>
                     <tbody>
+
                         <tr *ngFor="let item of videos; let i = index">
                             <td>{{ i + 1 }}</td>
                             <td>{{item.title}}</td>
                             <td>{{ item.description}} </td>
 
-                            <td> <a href="javascript:void(0)" (click)="openModal(item)" class="align-middle mr-2 fas fa-fw fa-search pointer"></a>
+                            <td> <a href="javascript:void(0)" (click)="openModal(item)"
+                                    class="align-middle mr-2 fas fa-fw fa-search pointer"></a>
                             </td>
                         </tr>
                     </tbody>

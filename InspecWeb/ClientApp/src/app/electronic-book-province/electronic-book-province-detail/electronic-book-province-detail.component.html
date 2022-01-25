@@ -14,9 +14,9 @@
   <div class="col-12">
     <div class="card card-eiei">
       <div class="card-header">
-        <h4 class="card-title mb-0">รายละเอียด</h4>
-        <label style="margin-top: 20px;">กำหนดการสมุดตรวจ
-          {{electronicBookData.electronicBook.startDate | thaidate: 'short'}}</label>
+        <h4 class="card-title mb-0">รายละเอียดสมุดตรวจราชการ</h4>
+        <label style="margin-top: 20px;">วันที่ตรวจราชการ
+          {{electronicBookData.electronicBook.startDate | thaidate: 'medium'}}</label>
         <!-- <div *ngIf="electronicBookData.electronicBookAccept.electronicBookProvinceApproveFiles.length > 0" class="row"
           style="float: right; margin: 20px;">
           <h3 style="color: green;">แนบลายมือชื่อแล้ว</h3><i class="fas fa-check-circle"
@@ -25,7 +25,7 @@
       </div>
       <div class="card-body">
         <div class="form-group">
-          <h4 class="card-title" style="font-size: larger; font-weight: bold;">แผนการตรวจ</h4>
+          <h4 class="card-title" style="font-size: larger; font-weight: bold;">ประเด็นนโยบาย/เรื่อง</h4>
           <div *ngIf="electronicBookData.electronicBook.centralPolicy != null">
             <input type="text" class="form-control" value="{{electronicBookData.electronicBook.centralPolicy}}"
               readonly>

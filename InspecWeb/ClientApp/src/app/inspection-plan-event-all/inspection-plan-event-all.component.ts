@@ -150,7 +150,7 @@ export class InspectionPlanEventAllComponent implements OnInit {
         },
         navLinks: true,
         editable: false,
-        eventLimit: false,
+        eventLimit: 4,
         locale: 'th',
         viewRender: function (view, element) {
           setTimeout(function () {

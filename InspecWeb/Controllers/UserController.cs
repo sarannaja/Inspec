@@ -2382,8 +2382,8 @@ namespace InspecWeb.Controllers
 
             if (model.Formprofile != 1) // 1 คือแก้ไขจากตัวuser เอง
             {
-                //var tresult = await _userManager.RemovePasswordAsync(userdata);
-                //await _userManager.AddPasswordAsync(userdata, passwordrandom);
+                var tresult = await _userManager.RemovePasswordAsync(userdata);
+                await _userManager.AddPasswordAsync(userdata, passwordrandom);
             }
 
             //<!-- ปามมาไหม่ -->

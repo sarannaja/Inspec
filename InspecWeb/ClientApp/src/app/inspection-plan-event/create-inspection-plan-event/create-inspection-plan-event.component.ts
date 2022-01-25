@@ -142,8 +142,8 @@ export class CreateInspectionPlanEventComponent implements OnInit {
 
     // alert(JSON.stringify(value))
     if (this.Form.invalid) {
-      this.submitted = true;
       console.log("in1");
+      this.submitted = true;
       return;
     } else {
       this.submitted = false;
@@ -299,11 +299,11 @@ export class CreateInspectionPlanEventComponent implements OnInit {
             var ends = new Set(this.end_date_plan_i);
             ends.delete(this.end_date_plan_i[i]);
             this.end_date_plan_i = Array.from(ends);
-            if(this.role_id == 3){
+            if (this.role_id == 3) {
               window.open(this.url + 'inspectionplan/' + id + '/' + provinceid + '/' + watch);
-            } else if (this.role_id == 6){
+            } else if (this.role_id == 6) {
               window.open(this.url + 'inspectionplan/inspectorministry/' + id + '/' + provinceid + '/' + watch);
-            } else if (this.role_id == 10){
+            } else if (this.role_id == 10) {
               window.open(this.url + 'inspectionplan/inspectordepartment/' + id + '/' + provinceid + '/' + watch);
             }
 
@@ -319,11 +319,17 @@ export class CreateInspectionPlanEventComponent implements OnInit {
     this.start_date_plan_i[i] = event
     this.disableDate_i(event, i)
 
+    // this.start_date_plan_i[i] = [{
+    //   hour: 13,
+    //   minute: 30
+    // }]
+
     //console.log(this.start_date_plan_i[i]);
 
     // alert(JSON.stringify(event))
   }
   starttime(event, i) {
+    console.log('Time changed', event);
     this.start_date_plan_i[i] = event
 
   }
@@ -366,7 +372,7 @@ export class CreateInspectionPlanEventComponent implements OnInit {
 
     this.myDatePickerOptions_i[i] = {
       disableDateRanges: [{
-        end: { year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() - 1 },
+        end: { year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() - 1, },
         begin: { year: date.getFullYear() - 10, month: date.getMonth() + 1, day: date.getDate() - 1 }
       }]
     }

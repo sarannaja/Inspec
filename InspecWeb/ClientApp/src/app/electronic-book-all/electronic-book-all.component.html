@@ -36,8 +36,8 @@
           <thead>
             <tr>
               <th>#</th>
-              <th>แผนการตรวจราชการ</th>
-              <th>กำหนดการสมุดตรวจ</th>
+              <th>ประเด็นนโยบาย/เรื่อง</th>
+              <th>วันที่ตรวจ</th>
               <!-- <th>รายละเอียดสมุดตรวจอิเล็กทรอนิกส์</th> -->
               <!-- <th>จังหวัด</th> -->
               <th>ผู้สร้าง</th>
@@ -58,8 +58,7 @@
               <td *ngIf="item.centralPolicy != null" class="pointer" (click)="gotoDetail(item.id)">
                 {{item.centralPolicy}}
               </td>
-              <td>
-                วันที่ {{item.startDate | thaidate: 'short'}}</td>
+              <td>{{item.startDate | thaidate: 'short'}}</td>
               <td>{{item.user.prefix}} {{item.user.name}}</td>
               <td>{{item.user.ministries.name}}</td>
               <td>{{item.user.departments.name}}</td>

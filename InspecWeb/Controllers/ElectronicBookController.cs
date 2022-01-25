@@ -167,10 +167,16 @@ namespace InspecWeb.Controllers
                  //    .Select(b => b.SubjectCentralPolicyProvinceGroups
                  //    .Select(v => v.ProvincialDepartmentId)))),
 
+                 //provincialDepartmentId = x.CentralPolicyEvent.CentralPolicy.SubjectGroups
+                 //.Where(x => x.Status == "ใช้งานจริง" || x.Status == "รายงานแล้ว")
+                 //.Select(x => x.SubjectCentralPolicyProvinces
+                 //.Select(x => x.SubquestionCentralPolicyProvinces
+                 //.Select(x => x.SubjectCentralPolicyProvinceGroups
+                 //.Select(x => x.ProvincialDepartmentId)))),
 
-                 provincialDepartmentId = x.CentralPolicyEvent.CentralPolicy.SubjectGroups
-                 .Where(x => x.Status == "ใช้งานจริง" || x.Status == "รายงานแล้ว")
-                 .Select(x => x.SubjectCentralPolicyProvinces
+                 provincialDepartmentId = x.CentralPolicyEvent.SubjectGroupPeopleQuestions
+                 .Where(x => x.SubjectGroup.Status == "ใช้งานจริง" || x.SubjectGroup.Status == "รายงานแล้ว")
+                 .Select(x => x.SubjectGroup.SubjectCentralPolicyProvinces
                  .Select(x => x.SubquestionCentralPolicyProvinces
                  .Select(x => x.SubjectCentralPolicyProvinceGroups
                  .Select(x => x.ProvincialDepartmentId)))),
@@ -1434,7 +1440,15 @@ namespace InspecWeb.Controllers
             .FirstOrDefault();
 
             {
-                ebookInvite.Description = model.Description;
+                if (model.Description == null || model.Description == "null" || model.Description == "")
+                {
+                    ebookInvite.Description = "ไม่มีข้อเสนอแนะเพิ่มเติม";
+                }
+                else
+                {
+                    ebookInvite.Description = model.Description;
+                }
+
                 ebookInvite.Status = "ลงความเห็นแล้ว";
                 ebookInvite.Approve = model.approve;
             }

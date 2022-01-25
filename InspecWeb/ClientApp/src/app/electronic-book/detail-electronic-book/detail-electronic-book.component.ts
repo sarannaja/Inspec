@@ -55,6 +55,7 @@ export class DetailElectronicBookComponent implements OnInit {
   url: any;
   ministryId: any;
   departmentId: any;
+  userProvince: any[] = []
 
 
   constructor(
@@ -95,6 +96,7 @@ export class DetailElectronicBookComponent implements OnInit {
             this.role_id = result[0].role_id;
             this.ministryId = result[0].ministryId;
             this.departmentId = result[0].departmentId;
+            this.userProvince = result[0].userProvince;
             // alert(this.role_id)
           })
       })
@@ -240,7 +242,7 @@ export class DetailElectronicBookComponent implements OnInit {
       console.log("filter 1 : ", test);
 
       var userInvite = test.map((item, index) => {
-        return {userId: item.userId, role_Id: item.user.role_id};
+        return { userId: item.userId, role_Id: item.user.role_id };
       })
       console.log("userrrrr: ", userInvite);
 
@@ -294,7 +296,7 @@ export class DetailElectronicBookComponent implements OnInit {
           console.log("FILTER JA: ", test);
 
           test.forEach(element => {
-            this.notificationService.addNotification(this.electronicBookData.electronicBookGroup[0].centralPolicyId, 1, element.userId, 7, this.electId,null,this.userid)
+            this.notificationService.addNotification(this.electronicBookData.electronicBookGroup[0].centralPolicyId, 1, element.userId, 7, this.electId, null, this.userid)
               .subscribe(response => {
                 console.log("Noti res: ", response);
               })
@@ -303,14 +305,14 @@ export class DetailElectronicBookComponent implements OnInit {
 
         else if (this.electronicBookData.electronicBook.centralPolicy != null) {
           this.electronicBookData.electronicBookAccept.forEach(element => {
-            this.notificationService.addNotification(1, element.provinceId, this.userid, 17, this.electId,null,this.userid)
+            this.notificationService.addNotification(1, element.provinceId, this.userid, 17, this.electId, null, this.userid)
               .subscribe(response => {
                 console.log("Noti 17 province: ", response);
               })
           });
 
           this.electronicBookData.electronicBookDepartment.forEach(element2 => {
-            this.notificationService.addNotification(1, element2.provincialDepartmentId, this.userid, 18, this.electId,null,this.userid)
+            this.notificationService.addNotification(1, element2.provincialDepartmentId, this.userid, 18, this.electId, null, this.userid)
               .subscribe(response => {
                 console.log("Noti 18 provincial:", response);
               })
@@ -343,14 +345,14 @@ export class DetailElectronicBookComponent implements OnInit {
 
 
       this.provinceId.forEach(element => {
-        this.notificationService.addNotification(this.electronicBookData.electronicBookGroup[0].centralPolicyId, element, this.userid, 17, this.electId,null,this.userid)
+        this.notificationService.addNotification(this.electronicBookData.electronicBookGroup[0].centralPolicyId, element, this.userid, 17, this.electId, null, this.userid)
           .subscribe(response => {
             console.log("Noti 17 province: ", response);
           })
       });
 
       this.provincialDepartmentId.forEach(element2 => {
-        this.notificationService.addNotification(this.electronicBookData.electronicBookGroup[0].centralPolicyId, element2, this.userid, 18, this.electId,null,this.userid)
+        this.notificationService.addNotification(this.electronicBookData.electronicBookGroup[0].centralPolicyId, element2, this.userid, 18, this.electId, null, this.userid)
           .subscribe(response => {
             console.log("Noti 18 provincial:", response);
           })
@@ -367,8 +369,28 @@ export class DetailElectronicBookComponent implements OnInit {
     await this.userservice.getuserdata(6).subscribe(async result => {
       this.resultministrypeople = result // All
       console.log("Ministry: ", this.resultministrypeople);
+
       for (var i = 0; i < this.resultministrypeople.length; i++) {
-        await this.selectdataministrypeople.push({ value: this.resultministrypeople[i].id, label: this.resultministrypeople[i].ministries.name + " - " + this.resultministrypeople[i].name })
+        var checked = _.filter(this.resultministrypeople[i].userProvince, (v) => _.includes(this.userProvince.map(result => { return result.provinceId }), v.provinceId)).length
+        console.log("Check: ", checked);
+
+        if (checked > 0) {
+          var userregion = "";
+
+          for (var j = 0; j < this.resultministrypeople[i].userRegion.length; j++) {
+            if (this.resultministrypeople[i].userRegion[j].region.name == "เขตตรวจราชส่วนกลาง") {
+              this.resultministrypeople[i].userRegion[j].region.name = "ส่วนกลาง"
+            } else {
+              this.resultministrypeople[i].userRegion[j].region.name = this.resultministrypeople[i].userRegion[j].region.name.replace('เขตตรวจราชการที่', '');
+            }
+            if (j == (this.resultministrypeople[i].userRegion.length - 1)) {
+              userregion += this.resultministrypeople[i].userRegion[j].region.name
+            } else {
+              userregion += this.resultministrypeople[i].userRegion[j].region.name + ", "
+            }
+          }
+          await this.selectdataministrypeople.push({ value: this.resultministrypeople[i].id, label: this.resultministrypeople[i].ministries.name + " - " + this.resultministrypeople[i].name + " เขต " + userregion })
+        }
       }
 
       var data: any[] = this.invitedPeopleData.map(result => {
@@ -391,8 +413,27 @@ export class DetailElectronicBookComponent implements OnInit {
     await this.userservice.getuserdataSameMinistry(6, this.ministryId).subscribe(async result => {
       this.resultministrypeople = result // All
       console.log("Ministry6: ", this.resultministrypeople);
+
       for (var i = 0; i < this.resultministrypeople.length; i++) {
-        await this.selectdataministrypeople.push({ value: this.resultministrypeople[i].id, label: this.resultministrypeople[i].ministries.name + " - " + this.resultministrypeople[i].name })
+        var checked = _.filter(this.resultministrypeople[i].userProvince, (v) => _.includes(this.userProvince.map(result => { return result.provinceId }), v.provinceId)).length
+
+        if (checked > 0) {
+          var userregion = "";
+
+          for (var j = 0; j < this.resultministrypeople[i].userRegion.length; j++) {
+            if (this.resultministrypeople[i].userRegion[j].region.name == "เขตตรวจราชส่วนกลาง") {
+              this.resultministrypeople[i].userRegion[j].region.name = "ส่วนกลาง"
+            } else {
+              this.resultministrypeople[i].userRegion[j].region.name = this.resultministrypeople[i].userRegion[j].region.name.replace('เขตตรวจราชการที่', '');
+            }
+            if (j == (this.resultministrypeople[i].userRegion.length - 1)) {
+              userregion += this.resultministrypeople[i].userRegion[j].region.name
+            } else {
+              userregion += this.resultministrypeople[i].userRegion[j].region.name + ", "
+            }
+          }
+          await this.selectdataministrypeople.push({ value: this.resultministrypeople[i].id, label: this.resultministrypeople[i].ministries.name + " - " + this.resultministrypeople[i].name + " เขต " + userregion })
+        }
       }
 
       var data: any[] = this.invitedPeopleData.map(result => {
@@ -409,12 +450,30 @@ export class DetailElectronicBookComponent implements OnInit {
       ))
     })
   }
+
   async getDepartmentPeople() {
     this.selectdatadepartmentpeople = [];
     await this.userservice.getuserdata(10).subscribe(async result => {
       this.resultdepartmentpeople = result // All
       for (var i = 0; i < this.resultdepartmentpeople.length; i++) {
-        await this.selectdatadepartmentpeople.push({ value: this.resultdepartmentpeople[i].id, label: this.resultdepartmentpeople[i].ministries.name + " - " + this.resultdepartmentpeople[i].name })
+        var checked = _.filter(this.resultdepartmentpeople[i].userProvince, (v) => _.includes(this.userProvince.map(result => { return result.provinceId }), v.provinceId)).length
+        if (checked > 0) {
+          var userregion = "";
+
+          for (var j = 0; j < this.resultdepartmentpeople[i].userRegion.length; j++) {
+            if (this.resultdepartmentpeople[i].userRegion[j].region.name == "เขตตรวจราชส่วนกลาง") {
+              this.resultdepartmentpeople[i].userRegion[j].region.name = "ส่วนกลาง"
+            } else {
+              this.resultdepartmentpeople[i].userRegion[j].region.name = this.resultdepartmentpeople[i].userRegion[j].region.name.replace('เขตตรวจราชการที่', '');
+            }
+            if (j == (this.resultdepartmentpeople[i].userRegion.length - 1)) {
+              userregion += this.resultdepartmentpeople[i].userRegion[j].region.name
+            } else {
+              userregion += this.resultdepartmentpeople[i].userRegion[j].region.name + ", "
+            }
+          }
+          await this.selectdatadepartmentpeople.push({ value: this.resultdepartmentpeople[i].id, label: this.resultdepartmentpeople[i].departments.name + " - " + this.resultdepartmentpeople[i].name + " เขต " + userregion })
+        }
       }
 
       var data: any[] = this.invitedPeopleData.map(result => {
@@ -439,7 +498,24 @@ export class DetailElectronicBookComponent implements OnInit {
       console.log("in 6department: ", this.resultdepartmentpeople);
 
       for (var i = 0; i < this.resultdepartmentpeople.length; i++) {
-        await this.selectdatadepartmentpeople.push({ value: this.resultdepartmentpeople[i].id, label: this.resultdepartmentpeople[i].ministries.name + " - " + this.resultdepartmentpeople[i].name })
+        var checked = _.filter(this.resultdepartmentpeople[i].userProvince, (v) => _.includes(this.userProvince.map(result => { return result.provinceId }), v.provinceId)).length
+        if (checked > 0) {
+          var userregion = "";
+
+          for (var j = 0; j < this.resultdepartmentpeople[i].userRegion.length; j++) {
+            if (this.resultdepartmentpeople[i].userRegion[j].region.name == "เขตตรวจราชส่วนกลาง") {
+              this.resultdepartmentpeople[i].userRegion[j].region.name = "ส่วนกลาง"
+            } else {
+              this.resultdepartmentpeople[i].userRegion[j].region.name = this.resultdepartmentpeople[i].userRegion[j].region.name.replace('เขตตรวจราชการที่', '');
+            }
+            if (j == (this.resultdepartmentpeople[i].userRegion.length - 1)) {
+              userregion += this.resultdepartmentpeople[i].userRegion[j].region.name
+            } else {
+              userregion += this.resultdepartmentpeople[i].userRegion[j].region.name + ", "
+            }
+          }
+          await this.selectdatadepartmentpeople.push({ value: this.resultdepartmentpeople[i].id, label: this.resultdepartmentpeople[i].departments.name + " - " + this.resultdepartmentpeople[i].name + " เขต " + userregion })
+        }
       }
 
       var data: any[] = this.invitedPeopleData.map(result => {
@@ -463,7 +539,24 @@ export class DetailElectronicBookComponent implements OnInit {
       console.log("in10asdfasdfsdfsdfsadfasdfs: ", result);
 
       for (var i = 0; i < this.resultdepartmentpeople.length; i++) {
-        await this.selectdatadepartmentpeople.push({ value: this.resultdepartmentpeople[i].id, label: this.resultdepartmentpeople[i].ministries.name + " - " + this.resultdepartmentpeople[i].name })
+        var checked = _.filter(this.resultdepartmentpeople[i].userProvince, (v) => _.includes(this.userProvince.map(result => { return result.provinceId }), v.provinceId)).length
+        if (checked > 0) {
+          var userregion = "";
+
+          for (var j = 0; j < this.resultdepartmentpeople[i].userRegion.length; j++) {
+            if (this.resultdepartmentpeople[i].userRegion[j].region.name == "เขตตรวจราชส่วนกลาง") {
+              this.resultdepartmentpeople[i].userRegion[j].region.name = "ส่วนกลาง"
+            } else {
+              this.resultdepartmentpeople[i].userRegion[j].region.name = this.resultdepartmentpeople[i].userRegion[j].region.name.replace('เขตตรวจราชการที่', '');
+            }
+            if (j == (this.resultdepartmentpeople[i].userRegion.length - 1)) {
+              userregion += this.resultdepartmentpeople[i].userRegion[j].region.name
+            } else {
+              userregion += this.resultdepartmentpeople[i].userRegion[j].region.name + ", "
+            }
+          }
+          await this.selectdatadepartmentpeople.push({ value: this.resultdepartmentpeople[i].id, label: this.resultdepartmentpeople[i].departments.name + " - " + this.resultdepartmentpeople[i].name + " เขต " + userregion })
+        }
       }
 
       var data: any[] = this.invitedPeopleData.map(result => {
