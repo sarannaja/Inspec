@@ -12,6 +12,7 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { Subscription } from 'rxjs/internal/Subscription';
 import { IMyOptions } from 'mydatepicker-th';
 import { DepartmentService } from '../services/department.service';
+import { NotofyService } from '../services/notofy.service';
 
 @Component({
   selector: 'app-external-register',
@@ -121,6 +122,7 @@ export class ExternalRegisterComponent implements OnInit {
     private userService: UserService,
     private spinner: NgxSpinnerService,
     private departmentService: DepartmentService,
+    private _NotofyService: NotofyService,
     @Inject('BASE_URL') baseUrl: string
   ) {
     this.subscription = this.userService.getUserNav()
@@ -220,6 +222,7 @@ export class ExternalRegisterComponent implements OnInit {
         this.addForm.reset()
         // this.modalRef.hide()
         // this.loading = false
+        this._NotofyService.onSuccess("สมัครสมาชิก")
         this.router.navigate(['/train/']);
       })
     }

@@ -25,12 +25,35 @@
               <tr>
                 <th>#</th>
                 <th>กระทรวง</th>
+                <th>link</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let item of resultministry; let i = index">
                 <td>{{ i + 1 }}</td>
-                <td class="pointer" (click)="infodepartment(item.id)">{{item.name}}</td>             
+                <td class="pointer" (click)="infodepartment(item.id)">{{item.name}}</td>
+                <td class="pointer">
+                  <span *ngIf="item.name == 'สำนักนายกรัฐมนตรี' "><a href="https://www.thaigov.go.th/" target="_blank">https://www.thaigov.go.th/</a></span>
+                  <span *ngIf="item.name == 'กระทรวงศึกษาธิการ' "><a href="https://www.moe.go.th/" target="_blank">https://www.moe.go.th/</a></span>
+                  <span *ngIf="item.name == 'กระทรวงการคลัง' "><a href="http://www.mof.go.th" target="_blank">http://www.mof.go.th</a></span>
+                  <span *ngIf="item.name == 'กระทรวงการต่างประเทศ' "><a href="https://www.mfa.go.th/" target="_blank">https://www.mfa.go.th/</a></span>
+                  <span *ngIf="item.name == 'กระทรวงการท่องเที่ยวและกีฬา' "><a href="https://www.mots.go.th/" target="_blank">https://www.mots.go.th/</a></span>
+                  <span *ngIf="item.name == 'กระทรวงการพัฒนาสังคมและความมั่นคงของมนุษย์' "><a href="https://www.m-society.go.th/home.php" target="_blank">https://www.m-society.go.th/home.php</a></span>
+                  <span *ngIf="item.name == 'กระทรวงเกษตรและสหกรณ์' "><a href="https://www.moac.go.th" target="_blank">https://www.moac.go.th</a></span>
+                  <span *ngIf="item.name == 'กระทรวงคมนาคม' "><a href="https://www.mot.go.th/" target="_blank">https://www.mot.go.th/</a></span>
+                  <span *ngIf="item.name == 'กระทรวงทรัพยากรธรรมชาติและสิ่งแวดล้อม' "><a href="http://www.mnre.go.th/" target="_blank">http://www.mnre.go.th/</a></span>
+                  <span *ngIf="item.name == 'กระทรวงดิจิทัลเพื่อเศรษฐกิจและสังคม' "><a href="https://www.mdes.go.th/" target="_blank">https://www.mdes.go.th/</a></span>
+                  <span *ngIf="item.name == 'กระทรวงพลังงาน' "><a href="http://energy.go.th/" target="_blank">http://energy.go.th/</a></span>
+                  <span *ngIf="item.name == 'กระทรวงพาณิชย์' "><a href="https://www.moc.go.th/" target="_blank">https://www.moc.go.th/</a></span>
+                  <span *ngIf="item.name == 'กระทรวงมหาดไทย' "><a href="http://www.moi.go.th/portal/page?_pageid=33,268287&_dad=portal&_schema=PORTAL" target="_blank">http://www.moi.go.th/portal/page?_pageid=33,268287&_dad=portal&_schema=PORTAL</a></span>
+                  <span *ngIf="item.name == 'กระทรวงยุติธรรม' "><a href="https://www.moj.go.th/" target="_blank">https://www.moj.go.th/</a></span>
+                  <span *ngIf="item.name == 'กระทรวงแรงงาน' "><a href="http://energy.go.th/" target="_blank">http://energy.go.th/</a></span>
+                  <span *ngIf="item.name == 'กระทรวงวัฒนธรรม' "><a href="https://www.mol.go.th/" target="_blank">https://www.mol.go.th/</a></span>
+                  <span *ngIf="item.name == 'กระทรวงการอุดมศึกษา วิทยาศาสตร์ วิจัยและนวัตกรรม' "><a href="https://www.mhesi.go.th/" target="_blank">https://www.mhesi.go.th/</a></span>
+                  <span *ngIf="item.name == 'กระทรวงสาธารณสุข' "><a href="https://www.moph.go.th/" target="_blank">https://www.moph.go.th/</a></span>
+                  <span *ngIf="item.name == 'กระทรวงอุตสาหกรรม' "><a href="https://www.industry.go.th/" target="_blank">https://www.industry.go.th/</a></span>
+                  <span *ngIf="item.name == 'ไม่สังกัดกระทรวง' "><a href="https://www.egov.go.th/th/government-agency/537/" target="_blank">https://www.egov.go.th/th/government-agency/537/</a></span>
+                </td>
               </tr>
             </tbody>
           </table>
@@ -38,4 +61,3 @@
       </div>
     </div>
   </div>
-  

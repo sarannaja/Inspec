@@ -67,7 +67,11 @@
       <div *ngIf="check_value.length != 0" class="modal-body m-3">
         <div *ngFor="let item of check_value; let i = index" class="form-group">
           <div class="row">
-            <label class="col-7">{{i+1}}.{{item.menu_map.name}}</label>
+            <label class="col-7">
+              {{i+1}}.{{item.menu_map.name}}
+              <span *ngIf=" (i+1) == 30 ">(ผู้ตรวจราชการกระทรวง,กรม)</span>
+              <span *ngIf=" (i+1) == 31 ">(ผู้ภาคประชาชน)</span>     
+            </label>
 
             <div class="col-5">
               <label class="form-check form-check-inline" *ngFor="let state of status">

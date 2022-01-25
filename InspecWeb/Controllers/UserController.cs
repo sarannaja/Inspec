@@ -2191,7 +2191,7 @@ namespace InspecWeb.Controllers
                 userdata.Role_id = model.Role_id;
                 userdata.Startdate = model.Startdate;
                 userdata.Enddate = model.Enddate;
-                userdata.Active = 1;
+               // userdata.Active = 1;
                 userdata.Commandnumberdate = model.Commandnumberdate;//ลงวันที่คำสั่ง  
                 userdata.Commandnumber = model.Commandnumber;
                 //userdata.CreatedAt = model.CreatedAt;
@@ -2208,8 +2208,12 @@ namespace InspecWeb.Controllers
                 userdata.Postalcode = model.Postalcode;
                 userdata.Autocreateuser = model.Autocreateuser;
                 System.Console.WriteLine("testuser3.5 : " + Username);
-                userdata.UserName = Username;
-                userdata.Pw = passwordrandom;
+                if (userdata.UserName != Username)
+                {
+                    userdata.UserName = Username;
+                    userdata.Pw = passwordrandom;
+                }
+               
                 System.Console.WriteLine("testuser4 : " + model.SideId);
 
                 // <!-- ลบเขตก่อน -->
