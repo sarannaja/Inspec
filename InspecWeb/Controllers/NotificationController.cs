@@ -366,7 +366,7 @@ namespace InspecWeb.Controllers
             //<!-- แจ้งข้อสั่งการ -->
             if (Status == 10)
             {
-                //System.Console.WriteLine("st10 : " + CentralPolicyId + " : " + ProvinceId + " : " + UserId + " : " + Status + " : " + xe + " : " + title);
+                System.Console.WriteLine("st10 1: " + CentralPolicyId + " : " + ProvinceId + " : " + UserId + " : " + Status + " : " + xe + " : " + title);
 
                 var ExecutiveOrderAnswersdata = _context.ExecutiveOrderAnswers
                   .Where(m => m.ExecutiveOrderId == xe)
@@ -374,7 +374,7 @@ namespace InspecWeb.Controllers
 
                 foreach (var item in ExecutiveOrderAnswersdata)
                 {
-                    System.Console.WriteLine("st10 USERID : " + item.UserID);
+                    System.Console.WriteLine("st10 2 : " + item.UserID);
 
                    // var userregions = _context.UserRegions
                    //.Include(m => m.User)
@@ -408,7 +408,7 @@ namespace InspecWeb.Controllers
                     };
                     _context.Notificationcreateby.Add(data2);
                     _context.SaveChanges();
-
+                    System.Console.WriteLine("st10 3 : " + createby);
                     _externalOrganizationController.SendNotification(item.UserID, "ข้อสั่งการ" + title);
                 }
             }

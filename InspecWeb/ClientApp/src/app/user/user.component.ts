@@ -683,6 +683,7 @@ export class UserComponent implements OnInit {
     var new_date = { date: { year: ssss.getFullYear(), month: ssss.getMonth() + 1, day: ssss.getDate() } }
     return new_date
   }
+  
   showtext(event){
   
     if(event.value == "อื่นๆ"){
