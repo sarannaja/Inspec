@@ -299,7 +299,8 @@ const routes: Routes = [
       { path: 'training/manage/:id', component: TrainingManageComponent, canActivate: [AuthorizeGuard] },
       {
         path: 'training/programlogin/:id', loadChildren: () => import('./training-programlogin/training-programlogin.module')
-          .then(m => m.TrainingProgramloginModule), canActivate: [AuthorizeGuard]
+          .then(m => m.TrainingProgramloginModule), 
+          //canActivate: [AuthorizeGuard]
       },
       // { path: 'training/programlogin/:id', component: TrainingProgramLoginComponent, canActivate: [AuthorizeGuard] },
       { path: 'training/lecturerlist/:id', component: TrainingLecturerListComponent, canActivate: [AuthorizeGuard] },
