@@ -724,7 +724,7 @@ namespace InspecWeb.Controllers {
                     foreach (var data in databody)
                     {
 
-                        textbody = textbody + Host + data.Name + "' > " + data.TrainingProgram.ProgramTopic + " วันที่ " + data.TrainingProgram.ProgramDate + " (" + data.TrainingProgram.MinuteStartDate + "-" + data.TrainingProgram.MinuteEndDate + ")" + "</a><br />";
+                        textbody = textbody + Host + data.Name + "' > " + data.TrainingProgram.ProgramTopic + " วันที่ " + data.TrainingProgram.ProgramDate.AddYears(+543).ToString("dd/MM/yyyy") + " (" + data.TrainingProgram.MinuteStartDate + "-" + data.TrainingProgram.MinuteEndDate + ")" + "</a><br />";
                         //termsList.Add(data.Name);
 
                     }
