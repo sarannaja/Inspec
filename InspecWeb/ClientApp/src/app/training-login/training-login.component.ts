@@ -12,8 +12,10 @@ export class TrainingLoginComponent implements OnInit {
   downloadUrl: any;
   url: any;
   Form: FormGroup;
-  trainingPhaseId: any;
+  trainingId: any;
   trainingData: any = [];
+  trainingProgramLoginData: any = [];
+  datedetail: any = [];
   submitted = false;
   fail = 0;
   dateId: any;
@@ -28,7 +30,7 @@ export class TrainingLoginComponent implements OnInit {
   ) {
     this.downloadUrl = baseUrl + '/Uploads';
     this.url = baseUrl;
-    this.trainingPhaseId = activatedRoute.snapshot.paramMap.get('phaseid')
+    this.trainingId = activatedRoute.snapshot.paramMap.get('phaseid')
     this.dateId = activatedRoute.snapshot.paramMap.get('dateid')
     this.dateType = activatedRoute.snapshot.paramMap.get('datetype')
   }
@@ -37,16 +39,47 @@ export class TrainingLoginComponent implements OnInit {
     this.Form = this.fb.group({
       username: new FormControl("", [Validators.required]),
     })
-    console.log("phaseID: ", this.trainingPhaseId);
+    console.log("phaseID: ", this.trainingId);
     console.log("dateID: ", this.dateId);
 
     this.getTrainingData();
+    this.getTrainingProgramData();
   }
 
   getTrainingData() {
-    this.trainingLoginService.getTrainingData(this.trainingPhaseId).subscribe(res => {
+    this.trainingLoginService.getTrainingData(this.trainingId).subscribe(res => {
       console.log("trainingData => ", res);
       this.trainingData = res;
+    })
+  }
+
+  getTrainingProgramData() {
+    this.trainingLoginService.getTrainingProgramLogin(this.dateId).subscribe(res => {
+      console.log("TrainingProgramLoginData => ", res);
+
+      
+
+      if (res == null){
+        console.log("no =>");
+        this.datedetail = 0;
+      }
+      else{
+
+        if (res.morning == 1 && this.dateType == 1){
+          this.trainingProgramLoginData = res;
+          this.datedetail = 1;
+        }
+        else if (res.afternoon == 1 && this.dateType == 2){
+          this.trainingProgramLoginData = res;
+          this.datedetail = 1;
+        }
+        
+      }
+
+
+      // console.log("morning =>", res.morning);
+      // console.log("afternoon =>", res.afternoon);
+
     })
   }
 
@@ -57,7 +90,7 @@ export class TrainingLoginComponent implements OnInit {
       console.log("in1");
       return;
     } else {
-      this.trainingLoginService.signInTraining(value, this.trainingPhaseId, this.dateId, this.dateType).subscribe(res => {
+      this.trainingLoginService.signInTraining(value, this.trainingId, this.dateId, this.dateType).subscribe(res => {
         console.log('RES => ', res);
         if (res.status == 300) {
           this.router.navigate(['/training/login-success', { trainingName: this.trainingData.name + "รุ่นที่ " }])

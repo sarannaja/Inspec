@@ -17,6 +17,10 @@ export class TrainingLoginService {
     return this.http.get(this.url + "getTrainingByPhaseId/" + trainingPhaseId);
   }
 
+  getTrainingProgramLogin(trainingprogramloginid) {
+    return this.http.get<any>(this.url + "TrainingProgramLogin/get/" + trainingprogramloginid);
+  }
+
   signInTraining(trainingData, trainingPhaseId, trainingProgramLoginId, dateType) {
     console.log("Training Data: ", trainingData);
     console.log("Training PhaseId: ", trainingPhaseId);
@@ -39,6 +43,7 @@ export class TrainingLoginService {
   getTrainingProgramDate(trainingid) {
     return this.http.get<any>(this.url + "TrainingProgramDate/get/" + trainingid);
   }
+
 
   getTrainingProgramDate2(trainingid) {
     return this.http.get<any>(this.url + "TrainingProgramDate2/get/" + trainingid);

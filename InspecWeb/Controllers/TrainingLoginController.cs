@@ -41,11 +41,29 @@ namespace InspecWeb.Controllers
             return Ok(trainingData);
         }
 
+        //GET api/training/TrainingProgramLogin/get/:??
+        [HttpGet("TrainingProgramLogin/get/{trainingprogramloginid}")]
+        public IActionResult GetTrainingProgramLogin(long trainingprogramloginid)
+        {
+            var result = new List<object>();
+
+            var data = _context.TrainingProgramLoginQRCodes
+                //.Include(m => m.TrainingPhase)
+                //.ThenInclude(m => m.Training)
+                //.Include(m => m.TrainingProgramLoginQRCodes)
+                .Where(m => m.Id == trainingprogramloginid)
+                .FirstOrDefault();
+
+            return Ok(data);
+
+        }
+
+
         [HttpPost("trainingSignin")]
         public IActionResult TrainingSignin(TrainingLoginViewModel model)
         {
             System.Console.WriteLine("Username: " + model.username);
-            System.Console.WriteLine("PhaseId: " + model.trainingPhaseId);
+            System.Console.WriteLine("TrainingId: " + model.trainingPhaseId);
             System.Console.WriteLine("trainingProgramLoginId: " + model.trainingProgramLoginId);
             System.Console.WriteLine("dateType: " + model.dateType);
 
@@ -179,6 +197,8 @@ namespace InspecWeb.Controllers
             return Ok(districtdata);
 
         }
+
+        
 
         [HttpPost("trainingSignin2")]
         public IActionResult TrainingSignin2(TrainingLoginViewModel model)

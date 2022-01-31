@@ -13,9 +13,39 @@
             <div class="m-sm-4">
               <div class="text-center">
                 <label style="font-size: x-large; font-weight: 600;">ลงชื่อเข้าร่วมอบรม</label><br>
-                <label class="mb-4" style="font-size: large; font-weight: 600;">โครงการ {{trainingData.name}} รุ่นที่ {{trainingData.generation}}</label>
+                <label class="mb-4" style="font-size: large; font-weight: 600;">หลักสูตร {{trainingData.name}} รุ่นที่ {{trainingData.generation}}</label><br>
+                
+                <div *ngIf="datedetail == 1;">
+                  <label class="text-primary" *ngIf="dateType == 1;" style="font-size: x-large; font-weight: 600;">{{trainingProgramLoginData.programDate | thaidate:'short'}} (เช้า)</label>
+                  <label class="text-primary" *ngIf="dateType == 2;" style="font-size: x-large; font-weight: 600;">{{trainingProgramLoginData.programDate | thaidate:'short'}} (บ่าย)</label>
+                </div>
+
+                <div *ngIf="datedetail == 0;">
+                  <label class="text-danger" style="font-size: x-large; font-weight: 600;">ไม่พบข้อมูลลงเวลาในระบบกรุณาติดต่อเจ้าหน้าที่</label><br>
+                </div>
+                
+                <!-- <td class="text-center">
+                  <ng-container *ngIf="item.status == 0; else ansmsecond">
+                      <label class="badge badge-danger mr-1">ปิดประกาศ</label>
+                  </ng-container>
+                  <ng-template #ansmsecond>
+  
+                      <ng-container *ngIf="item.status == 1; else ansmtree">
+                        <label class="badge badge-success mr-1">ประกาศ</label>
+                      </ng-container>
+                  </ng-template>
+                  <ng-template #ansmtree>
+  
+                    <ng-container *ngIf="item.status == 2;">
+                      <label class="badge badge-primary mr-1">อบรมเสร็จสิ้น</label>
+                    </ng-container>
+                </ng-template>
+  
+  
+                </td> -->
+
               </div>
-              <form [formGroup]="Form" (ngSubmit)="TrainingSignin(Form.value)">
+              <form [formGroup]="Form" (ngSubmit)="TrainingSignin(Form.value)"  *ngIf="datedetail == 1;">
                 <div class="form-group">
                   <input class="form-control form-control-lg" placeholder="กรอกชื่อผู้ใช้" formControlName="username"
                     [ngClass]="{ 'is-invalid': submitted && Form.controls.username.errors }" />
@@ -24,7 +54,7 @@
                     <div *ngIf="Form.controls.username.errors.required">กรุณกรอกชื่อผู้ใช้</div>
                   </div>
                   <div *ngIf="fail == 100" style="color: red;" class="mt-1 ml-1">ขออภัย ไม่มีข้อมูลในระบบ</div>
-                  <div *ngIf="fail == 200" style="color: red;" class="mt-1 ml-1">คุณได้ลงทะเบียนเข้าร่วมอบรมนี้แล้ว</div>
+                  <div *ngIf="fail == 200" style="color: green;" class="mt-1 ml-1">คุณได้ลงทะเบียนเข้าร่วมอบรมนี้แล้ว</div>
                 </div>
                 <div>
                 </div>

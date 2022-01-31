@@ -52,6 +52,9 @@ export class ProgramTrainingComponent implements OnInit {
   lineChart: any;
   submitted = false;
 
+  phasestartdate: any;
+  phaseenddate: any;
+
   lecturer: any = []
   oldlecturer: any = []
   removelecturer: any = []
@@ -239,6 +242,9 @@ export class ProgramTrainingComponent implements OnInit {
         console.log(result);
         
         if (result.length > 0){
+          this.phasestartdate = result[0].trainingPhase.startDate;
+          this.phaseenddate = result[0].trainingPhase.endDate;
+
           console.log("startDate =>", result[0].trainingPhase.startDate);
           console.log("endDate =>", result[0].trainingPhase.endDate);
 

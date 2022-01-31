@@ -20,3 +20,63 @@
     text-overflow: ellipsis;
     white-space: nowrap;
   }
+
+
+  @media print {
+
+    html,
+    body {
+      width: 210mm;
+      height: 297mm;
+      /* font-family: 'Niramit', sans-serif; */
+    }
+
+    #lineChart2{
+        width: 100% !important;
+    }
+
+    #lineChart{
+        width: 100% !important;
+    }
+  
+    
+
+    .page {
+      margin: 0;
+      border: initial;
+      border-radius: initial;
+      width: initial;
+      min-height: initial;
+      box-shadow: initial;
+      background: initial;
+      page-break-after: always;
+    }
+  
+    /* footer {
+      display: none;
+    } */
+  
+    button {
+      display: none;
+    }
+  
+    /* header {
+      display: none;
+    }
+  
+    h1 {
+      display: none;
+    }
+  
+    nav {
+      display: none;
+    }
+  
+    h5 {
+      display: none;
+    }
+  
+    p {
+      display: none;
+    } */
+  }

@@ -7,6 +7,7 @@ import { FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { AuthorizeService } from 'src/api-authorization-new/authorize.service';
 import { now } from 'moment';
+import { dateToLocalArray } from '@fullcalendar/core/datelib/marker';
 
 @Component({
   selector: 'app-detail-default-layout-train',
@@ -37,6 +38,8 @@ export class DetailDefaultLayoutTrainComponent implements OnInit {
   mainUrl: any;
   Form: FormGroup;
   userid: string;
+  reg_check: any;
+
   
   // constructor() { }
   constructor(private modalService: BsModalService,
@@ -53,6 +56,10 @@ export class DetailDefaultLayoutTrainComponent implements OnInit {
     }
 
   ngOnInit() {
+    var now = new Date();
+     //this.reg_check = now.toUTCString();
+     console.log("Datenow",now );
+
     this.dtOptions = {
       // pagingType: 'full_numbers',
       // columnDefs: [
@@ -75,7 +82,7 @@ export class DetailDefaultLayoutTrainComponent implements OnInit {
 
     };
 
-
+    
     
     this.trainingservice.getTrainingPhase(this.trainingid)
       .subscribe(result => {
@@ -108,6 +115,30 @@ export class DetailDefaultLayoutTrainComponent implements OnInit {
         this.regisstartdate = result[0].regisStartDate
         this.regisenddate = result[0].regisEndDate
       
+        console.log(now.toISOString());
+        console.log(result[0].regisStartDate);
+        console.log(result[0].regisEndDate);
+      
+
+
+        if (now.toISOString() >= result[0].regisStartDate){
+          console.log("now.toISOString() >= result[0].regisStartDate");
+          if (now.toISOString() <= result[0].regisEndDate){
+            this.reg_check = 1
+            
+            console.log("now.toISOString() <= result[0].regisEndDate");
+          }
+          else{
+            this.reg_check = 0
+            console.log("else Date");
+          }
+  
+        }
+
+        
+        
+        
+
 
         // if(this.datex > this.regisstartdate){
         //   alert("เปิดรับสมัคร");

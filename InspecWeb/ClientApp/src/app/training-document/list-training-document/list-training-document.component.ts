@@ -107,6 +107,11 @@ export class ListTrainingDocumentComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
 
+  openModalSendEmail(template: TemplateRef<any>) {
+    this.submitted = false;
+    this.modalRef = this.modalService.show(template);
+  }
+
   opendeleteModal(template: TemplateRef<any>, id: any = null, name) {
     this.delid = id;
     this.namefile = name;
@@ -160,6 +165,17 @@ export class ListTrainingDocumentComponent implements OnInit {
   }
   get f() { return this.Form.controls }
   get d() { return this.f.inputdate as FormArray }
+
+  SendEmail() {
+    this.modalRef.hide()
+    this.loading = false;
+    this.trainingservice.sendmaildocument(this.trainingid).subscribe(resultmail => {
+        this.loading = true;
+        this.spinner.hide();
+        this._NotofyService.onSuccess("ทำการส่ง Email ผู้มีสิทธิ์เข้าอบรมเรียบร้อย");
+        //console.log(this.resulttraining);
+    });
+  }
 
   deleteTraining(value) {
     this.trainingservice.deleteTrainingDocument(value).subscribe(response => {

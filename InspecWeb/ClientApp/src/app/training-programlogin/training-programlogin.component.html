@@ -48,14 +48,46 @@
                                         
                                         <!-- <a href="javascript:void(0)" (click)="downloadQrCode('qrcode0','test1')"> -->
                                         <a href="{{mainUrl}}training/login/{{item.trainingPhaseId}}/{{item.programloginId[0]}}/1" target="_blank">
-                                            
+                                            <qrcode  [qrdata]="StringQRCode(item.trainingPhaseId,item.programloginId[0],1)" [size]="256" [level]="'M'"></qrcode>
                                         </a>
-                                        <qrcode   [qrdata]="StringQRCode(item.trainingPhaseId,item.programloginId[0],1)" [size]="256" [level]="'M'"></qrcode>
-                                            <!-- {{ item.trainingProgramLoginQRCodes.id }} -->
-                                            <!-- <a href="javascript:void(0)" (click)="downloadQrCode('qrcode0','test1')">
-                                                <qrcode  id="qrcode0" [qrdata]="{{mainUrl}}" [size]="256" [level]="'M'"></qrcode>
-            
-                                            </a> -->
+                                            
+                                        <!-- <button id="btn-export" class="btn btn-primary" (click)="downloadQrCode('A'+item.trainingPhaseId+item.programloginId[0]+1,'test1')"><i
+                                            class="fas fa-print mr-2"></i>Download
+                                        </button> -->
+
+                                        <button id="btn-export" class="btn btn-primary" (click)="OpenModaldownload(modaldownloadA)"><i
+                                            class="fas fa-print mr-2"></i>Download
+                                        </button>
+
+                                        
+
+                                        <!-- BEGIN Send Email modal -->
+                                        <ng-template #modaldownloadA class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+                                            <div class="modal-body text-center" style="background-color: white; border-radius: 5px;">
+                                                <div id="A{{item.trainingPhaseId}}{{item.programloginId[0]}}1" >
+                                                    <h3>{{item.programDate | thaidate: 'short'}} 
+                                                        (เช้า) </h3>
+                                                    <!-- {{ item.trainingProgramLoginQRCodes.id }} -->
+                                                    <a href="javascript:void(0)" >
+                                                        <qrcode id="A{{item.trainingPhaseId}}{{item.programloginId[0]}}1" [qrdata]="StringQRCode(item.trainingPhaseId,item.programloginId[0],1)" width="500" size="1000" [size]="1000" [level]="'M'"></qrcode>
+                    
+                                                    </a>
+        
+                                                </div>
+                                                <a href="{{mainUrl}}training/login/{{item.trainingPhaseId}}/{{item.programloginId[0]}}/1" target="_blank" class="form-control">{{mainUrl}}training/login/{{item.trainingPhaseId}}/{{item.programloginId[0]}}/1</a>
+                                                <br>
+                                                <button type="button" class="btn btn-primary btnMargin" (click)="downloadQrCode('A'+item.trainingPhaseId+item.programloginId[0]+1,'Training')">
+                                                    Save
+                                                </button>
+                                                <button type="button" class="btn btn-danger btnMargin" (click)="modalRef.hide()">
+                                                    Close
+                                                </button>
+                                            </div>
+                                        </ng-template>
+                                        <!-- END Send Email modal -->
+
+
+
                                         <!-- <br />
                                         (เข้า) -->
                                         
@@ -91,6 +123,39 @@
                                                 <qrcode   [qrdata]="StringQRCode(item.trainingPhaseId,item.programloginId[0],2)" [size]="256" [level]="'M'"></qrcode>
             
                                             </a>
+
+                                            <button id="btn-export" class="btn btn-primary" (click)="OpenModaldownload(modaldownloadB)"><i
+                                                class="fas fa-print mr-2"></i>Download
+                                            </button>
+
+
+                                            <!-- BEGIN Send Email modal -->
+                                            <ng-template #modaldownloadB class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+                                                <div class="modal-body text-center" style="background-color: white; border-radius: 5px;">
+                                                    <div id="B{{item.trainingPhaseId}}{{item.programloginId[0]}}2" >
+                                                        <h3>{{item.programDate | thaidate: 'short'}} 
+                                                            (บ่าย) </h3>
+                                                        <!-- {{ item.trainingProgramLoginQRCodes.id }} -->
+                                                        <a href="javascript:void(0)" >
+                                                            <qrcode id="B{{item.trainingPhaseId}}{{item.programloginId[0]}}2" [qrdata]="StringQRCode(item.trainingPhaseId,item.programloginId[0],2)" width="500" size="1000" [size]="1000" [level]="'M'"></qrcode>
+                        
+                                                        </a>
+            
+                                                    </div>
+
+                                                    <a href="{{mainUrl}}training/login/{{item.trainingPhaseId}}/{{item.programloginId[0]}}/2" target="_blank" class="form-control">{{mainUrl}}training/login/{{item.trainingPhaseId}}/{{item.programloginId[0]}}/2</a>
+                                                    <br>
+                                                    <button type="button" class="btn btn-primary btnMargin" (click)="downloadQrCode('B'+item.trainingPhaseId+item.programloginId[0]+2,'Training')">
+                                                        Save
+                                                    </button>
+                                                    <button type="button" class="btn btn-danger btnMargin" (click)="modalRef.hide()">
+                                                        Close
+                                                    </button>
+                                                </div>
+                                            </ng-template>
+                                        <!-- END Send Email modal -->
+
+
                                             <!-- {{ item.trainingProgramLoginQRCodes.id }} -->
                                             <!-- <a href="javascript:void(0)" (click)="downloadQrCode('qrcode0','test1')">
                                                 <qrcode  id="qrcode0" [qrdata]="{{mainUrl}}" [size]="256" [level]="'M'"></qrcode>
@@ -207,6 +272,9 @@
     </div>
 
 </div>
+
+
+
 
 
 <!-- BEGIN primary modal -->

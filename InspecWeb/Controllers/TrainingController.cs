@@ -57,7 +57,7 @@ namespace InspecWeb.Controllers {
         // GET: api/Training
         [HttpGet]
         public IEnumerable<Training> Get () {
-            var trainingdata = from P in _context.Trainings
+            var trainingdata = from P in _context.Trainings.OrderByDescending(m => m.Id)
             select P;
             return trainingdata;
 
@@ -74,6 +74,7 @@ namespace InspecWeb.Controllers {
         public IEnumerable<Training> GetTrainingsShowPage () {
             var trainingdata = from P in _context.Trainings
                 .Where (m => m.Status == 1)
+                .OrderByDescending(m => m.Id)
             select P;
             return trainingdata;
         }
@@ -86,7 +87,7 @@ namespace InspecWeb.Controllers {
 
             var result = new List<object> ();
 
-            var survey = _context.TrainingSurveyTopics.ToList ();
+            var survey = _context.TrainingSurveyTopics.OrderByDescending(m => m.Id).ToList ();
 
             //var survey = _context.Trainings
             //    .Include(m => m.TrainingSurveys).ToList();
@@ -434,11 +435,16 @@ namespace InspecWeb.Controllers {
             System.Console.WriteLine (datatraining[0].Name);
 
             List<string> termsList = new List<string> ();
-            string textbodyHead = "<h1>" + datatraining[0].Name + "</h1>";
+            string textbodyHead = "<h1>หลักสูตร " + datatraining[0].Name + "</h1>";
             string textbody = "";
             string textdoc = "";
             string textdocHead = "เอกสารเพิ่มเติม <br />";
             string Host = $"<a href='{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}/uploads/";
+            
+            string TrainingDetail1 = "<br />ท่านสามารถดูกำหนดการ และรายละเอียดเพิ่มเติมได้ที่ลิงก์ด้านล่าง<br />";
+            string TrainingDetail2 = $"<a href='{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}/train/detail/"+ trainingid + "'>ดูรายละเอียด</a><br>";
+
+
             string textFoot = "<br /><br /> ระบบตรวจราชการอิเล็กทรอนิกส์ <br /> สำนักงานปลัดสำนักนายกรัฐมนตรี";
             //string EndHost = "></a>";
 
@@ -447,7 +453,7 @@ namespace InspecWeb.Controllers {
                 foreach (var data in databody)
                 {
 
-                    textbody = textbody + Host + data.Name + "' > " + data.TrainingProgram.ProgramTopic + " วันที่ " + data.TrainingProgram.ProgramDate + " (" + data.TrainingProgram.MinuteStartDate + "-" + data.TrainingProgram.MinuteEndDate + ")" + "</a><br />";
+                    textbody = textbody  + "วันที่ " + data.TrainingProgram.ProgramDate.AddYears(543).ToString("dd/MM/yyyy") + " (" + data.TrainingProgram.MinuteStartDate + "-" + data.TrainingProgram.MinuteEndDate + ") " + Host + data.Name + "' > " + data.TrainingProgram.ProgramTopic + "</a><br />";
                     //termsList.Add(data.Name);
 
                 }
@@ -458,7 +464,8 @@ namespace InspecWeb.Controllers {
                 foreach (var item in datadoc)
                 {
 
-                    textdoc = "เอกสารเพิ่มเติม <br />" + textdoc + Host + item.Name + "' > " + item.Detail + "</a><br />";
+                    textdoc = textdoc + Host + item.Name + "' > " + item.Detail + "</a><br />";
+                    //textdoc = "เอกสารเพิ่มเติม <br />" + textdoc + Host + item.Name + "' > " + item.Detail + "</a><br />";
                     //termsList.Add(data.Name);
 
                 }
@@ -468,11 +475,13 @@ namespace InspecWeb.Controllers {
 
             //return Ok(textbody);
 
+
+
             string mailbody = "";
             if (status == 1) {
-                mailbody = textbodyHead + "<br /> ท่านได้รับอนุมัติสิทธิ์ในการเข้าร่วมอบรมหลักสูตร ท่านสามารถดาวน์โหลดไฟล์เพื่อประกอบการฝึกอบรมตาม วัน/เวลา การอบรม <br />" + textbody + "<br />" + textdocHead + textdoc + textFoot;
+                mailbody = textbodyHead + "<br /> ท่านได้รับอนุมัติสิทธิ์ในการเข้าร่วมอบรมหลักสูตร ท่านสามารถดาวน์โหลดไฟล์เพื่อประกอบการฝึกอบรมตาม วัน/เวลา การอบรม <br />" + textbody + "<br />" + textdocHead + textdoc + TrainingDetail1 + TrainingDetail2 + textFoot;
             } else if (status == 2) {
-                mailbody = textbodyHead + "<br /> ท่านไม่ผ่านสมัครเข้าร่วมอบรมหลักสูตร เนื่องจากท่านไม่ตรงตามเงื่อนไขคุณสมบัติของหลักสูตรอบรม <br />" + textFoot;
+                mailbody = textbodyHead + "<br /> ท่านไม่ผ่านสมัครเข้าร่วมอบรมหลักสูตร เนื่องจากท่านไม่ตรงตามเงื่อนไขคุณสมบัติของหลักสูตรอบรม <br />" + TrainingDetail1 + TrainingDetail2 + textFoot;
                 System.Console.WriteLine (mailbody);
             }
 
@@ -596,7 +605,7 @@ namespace InspecWeb.Controllers {
 
                 System.Console.WriteLine ("Count" + databody.Count().ToString ());
                 List<string> termsList = new List<string> ();
-                string textbodyHead = "<h1>" + databody[0].TrainingProgram.TrainingPhase.Training.Name + "</h1>";
+                string textbodyHead = "<h1>หลักสูตร " + databody[0].TrainingProgram.TrainingPhase.Training.Name + "</h1>";
 
                 string Host = $"<a href='{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}/uploads/";
                 string textFoot = "<br /><br /> ระบบตรวจราชการอิเล็กทรอนิกส์ <br /> สำนักงานปลัดสำนักนายกรัฐมนตรี";
@@ -605,12 +614,17 @@ namespace InspecWeb.Controllers {
                 string textdoc = "";
                 string textdocHead = "เอกสารเพิ่มเติม <br />";
 
+                string TrainingDetail1 = "<br />ท่านสามารถดูกำหนดการ และรายละเอียดเพิ่มเติมได้ที่ลิงก์ด้านล่าง<br />";
+                string TrainingDetail2 = $"<a href='{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}/train/detail/"+ trainingId + "'>ดูรายละเอียด</a><br>";
+
+
+
                 if (databody.Count > 0)
                 {
                     foreach (var data in databody)
                     {
 
-                        textbody = textbody + Host + data.Name + "' > " + data.TrainingProgram.ProgramTopic + " วันที่ " + data.TrainingProgram.ProgramDate + " (" + data.TrainingProgram.MinuteStartDate + "-" + data.TrainingProgram.MinuteEndDate + ")" + "</a><br />";
+                        textbody = textbody + " วันที่ " + data.TrainingProgram.ProgramDate.AddYears(543).ToString("dd/MM/yyyy") + " (" + data.TrainingProgram.MinuteStartDate + "-" + data.TrainingProgram.MinuteEndDate + ") " + Host + data.Name + "' > " + data.TrainingProgram.ProgramTopic + "</a><br />";
                         //termsList.Add(data.Name);
 
                     }
@@ -639,9 +653,9 @@ namespace InspecWeb.Controllers {
                 //return Ok(textbody);
                 string mailbody = "";
                 if (traningregisterid.status == 1) {
-                    mailbody = textbodyHead + "<br /> ท่านได้รับอนุมัติสิทธิ์ในการเข้าร่วมอบรมหลักสูตร ท่านสามารถดาวน์โหลดไฟล์เพื่อประกอบการฝึกอบรมตาม วัน/เวลา การอบรม <br />" + textbody + "<br />"+ textdocHead + textdoc + textFoot;
+                    mailbody = textbodyHead + "<br /> ท่านได้รับอนุมัติสิทธิ์ในการเข้าร่วมอบรมหลักสูตร ท่านสามารถดาวน์โหลดไฟล์เพื่อประกอบการฝึกอบรมตาม วัน/เวลา การอบรม <br />" + textbody + "<br />"+ textdocHead + textdoc + TrainingDetail1 + TrainingDetail2 + textFoot;
                 } else if (traningregisterid.status == 2) {
-                    mailbody = textbodyHead + "<br /> ท่านไม่ผ่านสมัครเข้าร่วมอบรมหลักสูตร เนื่องจากท่านไม่ตรงตามเงื่อนไขคุณสมบัติของหลักสูตรอบรม <br />" + textFoot;
+                    mailbody = textbodyHead + "<br /> ท่านไม่ผ่านสมัครเข้าร่วมอบรมหลักสูตร เนื่องจากท่านไม่ตรงตามเงื่อนไขคุณสมบัติของหลักสูตรอบรม <br />" + TrainingDetail1 + TrainingDetail2 + textFoot;
                 }
 
                 System.Console.WriteLine(mailbody);
@@ -711,12 +725,16 @@ namespace InspecWeb.Controllers {
                 System.Console.WriteLine(datatraining[0].Name);
 
                 List<string> termsList = new List<string>();
-                string textbodyHead = "<h1>" + datatraining[0].Name + "</h1>";
+                string textbodyHead = "<h1>หลักสูตร " + datatraining[0].Name + "</h1>";
                 string textbody = "";
                 string textdocHead = "เอกสารเพิ่มเติม <br />";
                 string textdoc = "";
                 string Host = $"<a href='{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}/uploads/";
                 string textFoot = "<br /><br /> ระบบตรวจราชการอิเล็กทรอนิกส์ <br /> สำนักงานปลัดสำนักนายกรัฐมนตรี";
+
+                string TrainingDetail1 = "<br />ท่านสามารถดูกำหนดการ และรายละเอียดเพิ่มเติมได้ที่ลิงก์ด้านล่าง<br />";
+                string TrainingDetail2 = $"<a href='{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}/train/detail/"+ trainingid + "'>ดูรายละเอียด</a><br>";
+
                 //string EndHost = "></a>";
 
                 if (databody.Count > 0)
@@ -724,7 +742,7 @@ namespace InspecWeb.Controllers {
                     foreach (var data in databody)
                     {
 
-                        textbody = textbody + Host + data.Name + "' > " + data.TrainingProgram.ProgramTopic + " วันที่ " + data.TrainingProgram.ProgramDate + " (" + data.TrainingProgram.MinuteStartDate + "-" + data.TrainingProgram.MinuteEndDate + ")" + "</a><br />";
+                        textbody = textbody + "วันที่ " + data.TrainingProgram.ProgramDate.AddYears(543).ToString("dd/MM/yyyy") + " (" + data.TrainingProgram.MinuteStartDate + "-" + data.TrainingProgram.MinuteEndDate + ") " + Host + data.Name + "' > "+ data.TrainingProgram.ProgramTopic +  "</a><br />";
                         //termsList.Add(data.Name);
 
                     }
@@ -746,7 +764,7 @@ namespace InspecWeb.Controllers {
                 //return Ok(textbody);
 
                 string mailbody = "";
-                mailbody = textbodyHead + "<br /> ท่านได้รับอนุมัติสิทธิ์ในการเข้าร่วมอบรมหลักสูตร ท่านสามารถดาวน์โหลดไฟล์เพื่อประกอบการฝึกอบรมตาม วัน/เวลา การอบรม <br />" + textbody + "<br />" + textdocHead + textdoc + textFoot;
+                mailbody = textbodyHead + "<br /> ท่านได้รับอนุมัติสิทธิ์ในการเข้าร่วมอบรมหลักสูตร ท่านสามารถดาวน์โหลดไฟล์เพื่อประกอบการฝึกอบรมตาม วัน/เวลา การอบรม <br />" + textbody + "<br />" + textdocHead + textdoc + TrainingDetail1 + TrainingDetail2 + textFoot;
 
 
                 ///----------------email
@@ -757,7 +775,7 @@ namespace InspecWeb.Controllers {
                         //ToEmail = "toey.aphisit@outlook.com",
                         ToEmail = Emailregis,
                         Body = mailbody,
-                        Subject = "ระบบตรวจราชการอิเล็กทรอนิกส์"
+                        Subject = "ระบบตรวจราชการอิเล็กทรอนิกส์ (เอกสารเพิ่มเติม)"
                         //Host = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}",
                     };
                     await mailService.SendEmailAsync(send);

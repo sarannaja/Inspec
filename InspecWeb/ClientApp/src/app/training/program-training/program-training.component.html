@@ -20,6 +20,7 @@
                     </button> -->
 
                 </h5>
+                <h3 class="text-primary">ช่วง : {{ phasestartdate | thaidate:'short'}} - {{ phaseenddate | thaidate:'short'}}</h3>
                 <div class="float-right">
                     <button class="btn btn-primary" (click)="openModal(modalProgram)">เพิ่มหลักสูตรการอบรม(กิจกรรม)</button>
                 </div>
@@ -99,7 +100,7 @@
                             <div *ngIf="f.programtype.errors.required">กรุณาเวลาเริ่ม</div>
                         </div> -->
                         <br>
-
+                        <h3 class="text-primary">ช่วง : {{ phasestartdate | thaidate:'short'}} - {{ phaseenddate | thaidate:'short'}}</h3>
                         <label for="test" class="form-label">วันที่</label>
                         <my-date-picker-th formControlName="programdate" [options]="dateOption" required>
                         </my-date-picker-th>
@@ -302,7 +303,7 @@
                             <div *ngIf="fedit.programtype.errors.required">กรุณาเลือกประเภทกิจกรรม</div>
                         </div>
                         <br>
-
+                        <h3 class="text-primary">ช่วง : {{ phasestartdate | thaidate:'short'}} - {{ phaseenddate | thaidate:'short'}}</h3>
                         <label for="test" class="form-label">วันที่</label>
                         <my-date-picker-th [selDate]="fe.value.programdate"  (dateChanged)="onDateChanged($event)"
                             [options]="dateOption" required>

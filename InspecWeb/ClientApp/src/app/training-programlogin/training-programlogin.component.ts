@@ -161,8 +161,18 @@ export class TrainingProgramLoginComponent implements OnInit {
     
   }
 
+  OpenModaldownload(template: TemplateRef<any> ) {
+
+    this.modalRef = this.modalService.show(template);
+  }
+
   downloadQrCode(idQrcode,filename) {
-    const image = html2canvas(document.querySelector('#' + idQrcode)).then(
+    const image = html2canvas(document.querySelector('#' + idQrcode),
+    {
+      width: 600,
+      height: 600
+    }).then(
+      
       canvas => fs.saveAs(canvas.toDataURL(), filename)
     );
   }
@@ -192,6 +202,40 @@ export class TrainingProgramLoginComponent implements OnInit {
     this.router.navigate(['/training/manage/', this.trainingid])
   }
 
+
+  test(){
+
+
+  }
+
+
+
+  downloadQrCode2(idQrcode,filename) {
+    const image = html2canvas(document.querySelector('#' + idQrcode)).then(
+      canvas => fs.saveAs(canvas.toDataURL(), filename)
+    );
+  }
+
+
+  print(): void {
+    // let printContents, popupWin;
+    // printContents = document.getElementById('printhod').innerHTML;
+    // popupWin = window.open('', '_blank', 'top=0,left=0,height=auto,width=100%');
+    // popupWin.document.open();
+    // popupWin.document.write(`
+    //   <html>
+    //     <head>
+    //       <title>Print tab</title>
+    //       <style>
+    //       //........Customized style.......
+    //       </style>
+    //     </head>
+    // <body onload="window.print();window.close()">${printContents}</body>
+    //   </html>`
+    // );
+    // popupWin.document.close();
+    window.print();
+  }
 
 
 }

@@ -126,6 +126,10 @@
                 <label >{{ detail }}</label>
                 <br>
                 <br>
+                
+                สถานะ : <label class="badge badge-danger mr-1" *ngIf="reg_check == 0;" style="font-size: x-large; font-weight: 600;">ปิดการรับสมัคร</label>
+                <label class="badge badge-success mr-1" *ngIf="reg_check == 1;" style="font-size: x-large; font-weight: 600;">เปิดการรับสมัคร</label>
+
                 <!-- <h5>กำหนดระยะรับสมัครเข้าอบรม : <label >{{ regisstartdate | thaidate:'year'}} - {{ regisenddate | thaidate:'year'}}</label></h5> -->
                 <!-- <h5>กำหนดระยะเวลาอบรม : <label >{{ startdate | thaidate:'year'}} - {{ enddate | thaidate:'year'}}</label></h5> -->
                 <h5>คุณสมบัติที่รับสมัคร <label (click)="gotoConditionRegisterTraining()" class="text-primary pointer">>> คลิก << </label></h5>
@@ -162,7 +166,11 @@
                 <br>
                 <div class="text-center">
                     <!-- <a href="{{ mainUrl }}train/register/{{ trainingid }}" class="btn btn-info">สมัครอบรม</a> -->
-                    <button (click)="gotoRegisterTraining()" class="btn btn-info">สมัครอบรม</button>
+
+                    
+                    
+                    <button *ngIf="reg_check == 1;"  (click)="gotoRegisterTraining()" class="btn btn-info">สมัครอบรม</button>
+                    
                     <button class="btn btn-light" style="margin-left: 80px;" (click)="gotoBack()">ย้อนกลับ</button>
                     <br>
 
