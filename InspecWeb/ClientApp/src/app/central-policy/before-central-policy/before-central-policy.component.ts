@@ -42,8 +42,8 @@ export class BeforeCentralPolicyComponent implements OnInit {
       pagingType: 'full_numbers',
       columnDefs: [
         {
-          targets: [8],
-          orderable: false
+          // targets: [8],
+          // orderable: false
         }
       ],
       "language": {
@@ -85,8 +85,11 @@ export class BeforeCentralPolicyComponent implements OnInit {
 
       if (this.currentyear == "allfiscalyear") {
         this.getCentralPolicy()
+        console.log("1");
+        
       } else {
         this.getCurrentCentralPolicy(this.currentyear)
+        console.log("2");
       }
 
     })
@@ -121,6 +124,7 @@ export class BeforeCentralPolicyComponent implements OnInit {
         }
         doAsync().then(res => {
           this.resultcentralpolicy = res
+          console.log(this.resultcentralpolicy);
           setTimeout(() => {
             this.loading = true;
 
@@ -158,13 +162,15 @@ export class BeforeCentralPolicyComponent implements OnInit {
           })
         }
         doAsync().then(res => {
+          console.log("res",res);
           this.resultcentralpolicy = res
+          console.log("resultcentralpolicy", this.resultcentralpolicy);
           setTimeout(() => {
             this.loading = true;
 
           }, 500)
         })
-        console.log("23123123", this.resultcentralpolicy);
+        // console.log("23123123", this.resultcentralpolicy);
 
         this.spinner.hide();
       })

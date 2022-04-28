@@ -48,34 +48,34 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let item of resultcentralpolicy|sort:'desc':'id'; let i = index">
-                            <td (click)="DetailrowCentralPolicy(item.id,item.title)" class="pointer">{{ i + 1 }}</td>
-                            <td (click)="DetailrowCentralPolicy(item.id,item.title)" class="pointer">
-                                {{ item.typeexaminationplan.name }}</td>
-                            <td (click)="DetailrowCentralPolicy(item.id,item.title)" class="pointer">
-                                {{ item.title }} ( {{item.count}} )</td>
+                            <td (click)="DetailrowCentralPolicy(item.prop.id,item.prop.title)" class="pointer">{{ i + 1 }}</td>
+                            <td (click)="DetailrowCentralPolicy(item.prop.id,item.prop.title)" class="pointer">
+                                {{ item.prop.typeexaminationplanname }}</td>
+                            <td (click)="DetailrowCentralPolicy(item.prop.id,item.prop.title)" class="pointer">
+                                {{ item.prop.title }} ( {{item.count}} )</td>
                             <!-- *ngIf="item.status == 'ใช้งานจริง';" -->
                             <!-- <td *ngIf="item.status == 'ร่างกำหนดการ';">{{ item.title }}</td> -->
-                            <td (click)="DetailrowCentralPolicy(item.id,item.title)" class="pointer">
-                                {{item.fiscalYearNew.year}}</td>
-                            <td (click)="DetailrowCentralPolicy(item.id,item.title)" class="pointer">
-                                <div *ngFor="let item2 of item.centralPolicyDates;">{{ item2.startDate | thaidate:
+                            <td (click)="DetailrowCentralPolicy(item.prop.id,item.prop.title)" class="pointer">
+                                {{item.prop.fiscalYearNewyear}}</td>
+                            <td (click)="DetailrowCentralPolicy(item.prop.id,item.prop.title)" class="pointer">
+                                <div *ngFor="let item2 of item.prop.centralPolicyDates;">{{ item2.startDate | thaidate:
                                     'short' }} -
                                     {{ item2.endDate | thaidate: 'short' }}</div>
                             </td>
                             <!-- <td (click)="DetailrowCentralPolicy(item.id,item.title)" class="pointer">{{item.user.name}}</td> -->
                             <td>
                                 <div>
-                                    <label class="badge badge-secondary mr-1">{{item.user.ministries.name}}</label>
+                                    <label class="badge badge-secondary mr-1">{{item.prop.userministriesname}}</label>
                                 </div>
                                 <div>
-                                    <label class="badge badge-secondary mr-1">{{item.user.departments.name}}</label>
+                                    <label class="badge badge-secondary mr-1">{{item.prop.userdepartmentsname}}</label>
                                 </div>
                             </td>
-                            <td (click)="DetailrowCentralPolicy(item.id,item.title)" class="pointer">
-                                {{item.updateAt | thaidate: 'short'}}</td>
-                            <td *ngIf="item.status == 'ร่างกำหนดการ'"
-                                (click)="DetailrowCentralPolicy(item.id,item.title)" class="pointer">ร่าง</td>
-                            <td *ngIf="item.status == 'ใช้งานจริง'" (click)="DetailrowCentralPolicy(item.id,item.title)"
+                            <td (click)="DetailrowCentralPolicy(item.prop.id,item.prop.title)" class="pointer">
+                                {{item.prop.updateAt | thaidate: 'short'}}</td>
+                            <td *ngIf="item.prop.status == 'ร่างกำหนดการ'"
+                                (click)="DetailrowCentralPolicy(item.prop.id,item.prop.title)" class="pointer">ร่าง</td>
+                            <td *ngIf="item.prop.status == 'ใช้งานจริง'" (click)="DetailrowCentralPolicy(item.prop.id,item.prop.title)"
                                 class="pointer">ใช้งาน</td>
                             <!-- <td *ngIf="item.status == 'ร่างกำหนดการ'  && role_id == 2"
                                 (click)="DetailrowCentralPolicy(item.id,item.title)" class="pointer">ร่าง</td>
@@ -85,7 +85,7 @@
                                 <div class="row">
                                     <i title="รายละเอียด" style="margin-top: 6px;"
                                         class="align-middle mr-2 fas fa-fw fa-search pointer"
-                                        (click)="Subject(item.id,item.title)"></i>
+                                        (click)="Subject(item.prop.id,item.prop.title)"></i>
                                 </div>
                             </td>
                         </tr>

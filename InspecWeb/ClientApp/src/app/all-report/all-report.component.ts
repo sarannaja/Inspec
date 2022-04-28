@@ -121,12 +121,12 @@ export class AllReportComponent implements OnInit {
     this.getImportFiscalYears();
 
     this.getImportedReport();
-    // this.getRegion();
-    // this.getZone();
-    // this.getPresident();
+    this.getRegion();
+    this.getZone();
+    this.getPresident();
 
-    // this.getProvince();
-    // this.getDepartment();
+    this.getProvince();
+    this.getDepartment();
 
     this.reportForm = this.fb.group({
       centralPolicyEvent: new FormControl(null, [Validators.required]),

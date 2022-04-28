@@ -284,16 +284,16 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
     orderby: 26 ,
     children: [
       {
-        ex_link: '0',
+        ex_link: '1',
         icon: 'fa-file',
         //url: '/nationalstrategy',
-        url:'http://nscr.nesdb.go.th/%E0%B8%A2%E0%B8%B8%E0%B8%97%E0%B8%98%E0%B8%A8%E0%B8%B2%E0%B8%AA%E0%B8%95%E0%B8%A3%E0%B9%8C%E0%B8%8A%E0%B8%B2%E0%B8%95%E0%B8%B4/',
+        url:'http://nscr.nesdc.go.th/ns/',
         name: 'ยุทธศาสตร์ชาติ'
       },
       {
         ex_link: '1',
         icon: 'fa-file',
-        url: 'http://nscr.nesdb.go.th/%E0%B9%81%E0%B8%9C%E0%B8%99%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%9B%E0%B8%8F%E0%B8%B4%E0%B8%A3%E0%B8%B9%E0%B8%9B%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B9%80%E0%B8%97%E0%B8%A8/',
+        url: 'http://nscr.nesdc.go.th/cr/',
         name: 'แผนการปฏิรูปประเทศ'
       },
       {
@@ -528,16 +528,16 @@ export const Centraladmin: NavBar[] = [ //แอดมินส่วนกล�
     orderby: 26 ,
     children: [
       {
-        ex_link: '0',
+        ex_link: '1',
         icon: 'fa-file',
         //url: '/nationalstrategy',
-        url:'http://nscr.nesdb.go.th/%E0%B8%A2%E0%B8%B8%E0%B8%97%E0%B8%98%E0%B8%A8%E0%B8%B2%E0%B8%AA%E0%B8%95%E0%B8%A3%E0%B9%8C%E0%B8%8A%E0%B8%B2%E0%B8%95%E0%B8%B4/',
+        url:'http://nscr.nesdc.go.th/ns/',
         name: 'ยุทธศาสตร์ชาติ'
       },
       {
         ex_link: '1',
         icon: 'fa-file',
-        url: 'http://nscr.nesdb.go.th/%E0%B9%81%E0%B8%9C%E0%B8%99%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%9B%E0%B8%8F%E0%B8%B4%E0%B8%A3%E0%B8%B9%E0%B8%9B%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B9%80%E0%B8%97%E0%B8%A8/',
+        url: 'http://nscr.nesdc.go.th/cr/',
         name: 'แผนการปฏิรูปประเทศ'
       },
       {
@@ -789,16 +789,16 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
     orderby: 26 ,
     children: [
       {
-        ex_link: '0',
+        ex_link: '1',
         icon: 'fa-file',
         //url: '/nationalstrategy',
-        url:'http://nscr.nesdb.go.th/%E0%B8%A2%E0%B8%B8%E0%B8%97%E0%B8%98%E0%B8%A8%E0%B8%B2%E0%B8%AA%E0%B8%95%E0%B8%A3%E0%B9%8C%E0%B8%8A%E0%B8%B2%E0%B8%95%E0%B8%B4/',
+        url:'http://nscr.nesdc.go.th/ns/',
         name: 'ยุทธศาสตร์ชาติ'
       },
       {
         ex_link: '1',
         icon: 'fa-file',
-        url: 'http://nscr.nesdb.go.th/%E0%B9%81%E0%B8%9C%E0%B8%99%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%9B%E0%B8%8F%E0%B8%B4%E0%B8%A3%E0%B8%B9%E0%B8%9B%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B9%80%E0%B8%97%E0%B8%A8/',
+        url: 'http://nscr.nesdc.go.th/cr/',
         name: 'แผนการปฏิรูปประเทศ'
       },
       {
@@ -972,16 +972,16 @@ export const Provincialgovernor: NavBar[] = [ //ผู้ว่าราชก�
     orderby: 26 ,
     children: [
       {
-        ex_link: '0',
+        ex_link: '1',
         icon: 'fa-file',
         //url: '/nationalstrategy',
-        url:'http://nscr.nesdb.go.th/%E0%B8%A2%E0%B8%B8%E0%B8%97%E0%B8%98%E0%B8%A8%E0%B8%B2%E0%B8%AA%E0%B8%95%E0%B8%A3%E0%B9%8C%E0%B8%8A%E0%B8%B2%E0%B8%95%E0%B8%B4/',
+        url:'http://nscr.nesdc.go.th/ns/',
         name: 'ยุทธศาสตร์ชาติ'
       },
       {
         ex_link: '1',
         icon: 'fa-file',
-        url: 'http://nscr.nesdb.go.th/%E0%B9%81%E0%B8%9C%E0%B8%99%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%9B%E0%B8%8F%E0%B8%B4%E0%B8%A3%E0%B8%B9%E0%B8%9B%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B9%80%E0%B8%97%E0%B8%A8/',
+        url: 'http://nscr.nesdc.go.th/cr/',
         name: 'แผนการปฏิรูปประเทศ'
       },
       {
@@ -1198,16 +1198,16 @@ export const Adminprovince: NavBar[] = [ //หัวหน้าสำนัก�
     orderby: 26 ,
     children: [
       {
-        ex_link: '0',
+        ex_link: '1',
         icon: 'fa-file',
         //url: '/nationalstrategy',
-        url:'http://nscr.nesdb.go.th/%E0%B8%A2%E0%B8%B8%E0%B8%97%E0%B8%98%E0%B8%A8%E0%B8%B2%E0%B8%AA%E0%B8%95%E0%B8%A3%E0%B9%8C%E0%B8%8A%E0%B8%B2%E0%B8%95%E0%B8%B4/',
+        url:'http://nscr.nesdc.go.th/ns/',
         name: 'ยุทธศาสตร์ชาติ'
       },
       {
         ex_link: '1',
         icon: 'fa-file',
-        url: 'http://nscr.nesdb.go.th/%E0%B9%81%E0%B8%9C%E0%B8%99%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%9B%E0%B8%8F%E0%B8%B4%E0%B8%A3%E0%B8%B9%E0%B8%9B%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B9%80%E0%B8%97%E0%B8%A8/',
+        url: 'http://nscr.nesdc.go.th/cr/',
         name: 'แผนการปฏิรูปประเทศ'
       },
       {
@@ -1422,16 +1422,16 @@ export const InspectorMinistry: NavBar[] = [ //ผู้ตรวจกระท
     orderby: 26 ,
     children: [
       {
-        ex_link: '0',
+        ex_link: '1',
         icon: 'fa-file',
         //url: '/nationalstrategy',
-        url:'http://nscr.nesdb.go.th/%E0%B8%A2%E0%B8%B8%E0%B8%97%E0%B8%98%E0%B8%A8%E0%B8%B2%E0%B8%AA%E0%B8%95%E0%B8%A3%E0%B9%8C%E0%B8%8A%E0%B8%B2%E0%B8%95%E0%B8%B4/',
+        url:'http://nscr.nesdc.go.th/ns/',
         name: 'ยุทธศาสตร์ชาติ'
       },
       {
         ex_link: '1',
         icon: 'fa-file',
-        url: 'http://nscr.nesdb.go.th/%E0%B9%81%E0%B8%9C%E0%B8%99%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%9B%E0%B8%8F%E0%B8%B4%E0%B8%A3%E0%B8%B9%E0%B8%9B%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B9%80%E0%B8%97%E0%B8%A8/',
+        url: 'http://nscr.nesdc.go.th/cr/',
         name: 'แผนการปฏิรูปประเทศ'
       },
       {
@@ -1612,16 +1612,16 @@ export const publicsector: NavBar[] = [ //ภาคประชาชน
     orderby: 26 ,
     children: [
       {
-        ex_link: '0',
+        ex_link: '1',
         icon: 'fa-file',
         //url: '/nationalstrategy',
-        url:'http://nscr.nesdb.go.th/%E0%B8%A2%E0%B8%B8%E0%B8%97%E0%B8%98%E0%B8%A8%E0%B8%B2%E0%B8%AA%E0%B8%95%E0%B8%A3%E0%B9%8C%E0%B8%8A%E0%B8%B2%E0%B8%95%E0%B8%B4/',
+        url:'http://nscr.nesdc.go.th/ns/',
         name: 'ยุทธศาสตร์ชาติ'
       },
       {
         ex_link: '1',
         icon: 'fa-file',
-        url: 'http://nscr.nesdb.go.th/%E0%B9%81%E0%B8%9C%E0%B8%99%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%9B%E0%B8%8F%E0%B8%B4%E0%B8%A3%E0%B8%B9%E0%B8%9B%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B9%80%E0%B8%97%E0%B8%A8/',
+        url: 'http://nscr.nesdc.go.th/cr/',
         name: 'แผนการปฏิรูปประเทศ'
       },
       {
@@ -1830,16 +1830,16 @@ export const president: NavBar[] = [ //ผู้บริหารหรือ�
     orderby: 26 ,
     children: [
       {
-        ex_link: '0',
+        ex_link: '1',
         icon: 'fa-file',
         //url: '/nationalstrategy',
-        url:'http://nscr.nesdb.go.th/%E0%B8%A2%E0%B8%B8%E0%B8%97%E0%B8%98%E0%B8%A8%E0%B8%B2%E0%B8%AA%E0%B8%95%E0%B8%A3%E0%B9%8C%E0%B8%8A%E0%B8%B2%E0%B8%95%E0%B8%B4/',
+        url:'http://nscr.nesdc.go.th/ns/',
         name: 'ยุทธศาสตร์ชาติ'
       },
       {
         ex_link: '1',
         icon: 'fa-file',
-        url: 'http://nscr.nesdb.go.th/%E0%B9%81%E0%B8%9C%E0%B8%99%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%9B%E0%B8%8F%E0%B8%B4%E0%B8%A3%E0%B8%B9%E0%B8%9B%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B9%80%E0%B8%97%E0%B8%A8/',
+        url: 'http://nscr.nesdc.go.th/cr/',
         name: 'แผนการปฏิรูปประเทศ'
       },
       {
@@ -2062,16 +2062,16 @@ export const InspectorExamination: NavBar[] = [ //หน่วยรับตร
     orderby: 26 ,
     children: [
       {
-        ex_link: '0',
+        ex_link: '1',
         icon: 'fa-file',
         //url: '/nationalstrategy',
-        url:'http://nscr.nesdb.go.th/%E0%B8%A2%E0%B8%B8%E0%B8%97%E0%B8%98%E0%B8%A8%E0%B8%B2%E0%B8%AA%E0%B8%95%E0%B8%A3%E0%B9%8C%E0%B8%8A%E0%B8%B2%E0%B8%95%E0%B8%B4/',
+        url:'http://nscr.nesdc.go.th/ns/',
         name: 'ยุทธศาสตร์ชาติ'
       },
       {
         ex_link: '1',
         icon: 'fa-file',
-        url: 'http://nscr.nesdb.go.th/%E0%B9%81%E0%B8%9C%E0%B8%99%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%9B%E0%B8%8F%E0%B8%B4%E0%B8%A3%E0%B8%B9%E0%B8%9B%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B9%80%E0%B8%97%E0%B8%A8/',
+        url: 'http://nscr.nesdc.go.th/cr/',
         name: 'แผนการปฏิรูปประเทศ'
       },
       {
@@ -2288,16 +2288,16 @@ export const InspectorDepartment: NavBar[] = [ //ผู้ตรวจกรม/
     orderby: 26 ,
     children: [
       {
-        ex_link: '0',
+        ex_link: '1',
         icon: 'fa-file',
         //url: '/nationalstrategy',
-        url:'http://nscr.nesdb.go.th/%E0%B8%A2%E0%B8%B8%E0%B8%97%E0%B8%98%E0%B8%A8%E0%B8%B2%E0%B8%AA%E0%B8%95%E0%B8%A3%E0%B9%8C%E0%B8%8A%E0%B8%B2%E0%B8%95%E0%B8%B4/',
+        url:'http://nscr.nesdc.go.th/ns/',
         name: 'ยุทธศาสตร์ชาติ'
       },
       {
         ex_link: '1',
         icon: 'fa-file',
-        url: 'http://nscr.nesdb.go.th/%E0%B9%81%E0%B8%9C%E0%B8%99%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%9B%E0%B8%8F%E0%B8%B4%E0%B8%A3%E0%B8%B9%E0%B8%9B%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B9%80%E0%B8%97%E0%B8%A8/',
+        url: 'http://nscr.nesdc.go.th/cr/',
         name: 'แผนการปฏิรูปประเทศ'
       },
       {

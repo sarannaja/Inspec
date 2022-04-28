@@ -748,7 +748,7 @@ export class ReportInspectionPlanEventComponent implements OnInit {
   }
 
   getImportFiscalYears() {
-    this.exportReportService.getImportReportFiscalYears().subscribe(res => {
+    this.exportReportService.getImportReportFiscalYears2().subscribe(res => {
       console.log("fiscalYear1: ", res);
       this.fiscalYearData = res.importFiscalYear.map((item, index) => {
         return {

@@ -261,6 +261,10 @@ export class ExportReportService {
     return this.http.get<any>(this.url + "/getImportReportFiscalYears/");
   }
 
+  getImportReportFiscalYears2() {
+    return this.http.get<any>(this.url + "/getImportReportFiscalYears2/");
+  }
+
   getImportReportFiscalYearRelations() {
     return this.http.get<any>(this.url + "/getImportReportFiscalYearRelations");
   }

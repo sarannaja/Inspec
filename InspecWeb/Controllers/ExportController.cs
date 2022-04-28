@@ -1501,6 +1501,15 @@ namespace InspecWeb.Controllers
             return Ok(new { importFiscalYear });
         }
 
+        [HttpGet("getImportReportFiscalYears2")]
+        public IActionResult GetImportReportFiscalYears2()
+        {
+            var importFiscalYear = _context.FiscalYears
+                .ToList();
+
+            return Ok(new { importFiscalYear });
+        }
+
         [HttpGet("getImportReportFiscalYearRelations")]
         public IActionResult GetImportReportFiscalYearRelations()
         {
