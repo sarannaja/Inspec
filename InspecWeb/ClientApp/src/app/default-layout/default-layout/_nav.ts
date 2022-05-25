@@ -353,15 +353,15 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
       {
         ex_link: '0',
         icon: 'fa-file',
-        url: '/cabinetserver',
+        url: '/maincabinet',
         name: 'คณะรัฐมนตรี'
       },
-      {
-        ex_link: '0',
-        icon: 'fa-file',
-        url: '/external/otps',
-        name: 'คณะรัฐมนตรี(ระบบ otps)'
-      },
+      // {
+      //   ex_link: '0',
+      //   icon: 'fa-file',
+      //   url: '/external/otps',
+      //   name: 'คณะรัฐมนตรี(ระบบ otps)'
+      // },
       {
         ex_link: '0',
         icon: 'fa-file',
@@ -387,9 +387,9 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
         name: 'คณะกรรมการธรรมมาภิบาลจังหวัด'
       },
       {
-        ex_link: '0',
+        ex_link: '1',
         icon: 'fa-file',
-        url: '#',
+        url: 'https://www.ggc.opm.go.th/index.php?page=map',
         name: 'เครือข่ายคณะกรรมการธรรมมาภิบาลจังหวัด'
       },
       {
@@ -597,15 +597,15 @@ export const Centraladmin: NavBar[] = [ //แอดมินส่วนกล�
       {
         ex_link: '0',
         icon: 'fa-file',
-        url: '/cabinetserver',
+        url: '/maincabinet',
         name: 'คณะรัฐมนตรี'
       },
-      {
-        ex_link: '0',
-        icon: 'fa-file',
-        url: '/external/otps',
-        name: 'คณะรัฐมนตรี(ระบบ otps)'
-      },
+      // {
+      //   ex_link: '0',
+      //   icon: 'fa-file',
+      //   url: '/external/otps',
+      //   name: 'คณะรัฐมนตรี(ระบบ otps)'
+      // },
       {
         ex_link: '0',
         icon: 'fa-file',
@@ -631,9 +631,9 @@ export const Centraladmin: NavBar[] = [ //แอดมินส่วนกล�
         name: 'คณะกรรมการธรรมมาภิบาลจังหวัด'
       },
       {
-        ex_link: '0',
+        ex_link: '1',
         icon: 'fa-file',
-        url: '#',
+        url: 'https://www.ggc.opm.go.th/index.php?page=map',
         name: 'เครือข่ายคณะกรรมการธรรมมาภิบาลจังหวัด'
       },
       {
@@ -858,15 +858,15 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
       {
         ex_link: '0',
         icon: 'fa-file',
-        url: '/cabinetserver',
+        url: '/maincabinet',
         name: 'คณะรัฐมนตรี'
       },
-      {
-        ex_link: '0',
-        icon: 'fa-file',
-        url: '/external/otps',
-        name: 'คณะรัฐมนตรี(ระบบ otps)'
-      },
+      // {
+      //   ex_link: '0',
+      //   icon: 'fa-file',
+      //   url: '/external/otps',
+      //   name: 'คณะรัฐมนตรี(ระบบ otps)'
+      // },
       {
         ex_link: '0',
         icon: 'fa-file',
@@ -892,9 +892,9 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
         name: 'คณะกรรมการธรรมมาภิบาลจังหวัด'
       },
       {
-        ex_link: '0',
+        ex_link: '1',
         icon: 'fa-file',
-        url: '#',
+        url: 'https://www.ggc.opm.go.th/index.php?page=map',
         name: 'เครือข่ายคณะกรรมการธรรมมาภิบาลจังหวัด'
       },
       {
@@ -1041,15 +1041,15 @@ export const Provincialgovernor: NavBar[] = [ //ผู้ว่าราชก�
       {
         ex_link: '0',
         icon: 'fa-file',
-        url: '/cabinetserver',
+        url: '/maincabinet',
         name: 'คณะรัฐมนตรี'
       },
-      {
-        ex_link: '0',
-        icon: 'fa-file',
-        url: '/external/otps',
-        name: 'คณะรัฐมนตรี(ระบบ otps)'
-      },
+      // {
+      //   ex_link: '0',
+      //   icon: 'fa-file',
+      //   url: '/external/otps',
+      //   name: 'คณะรัฐมนตรี(ระบบ otps)'
+      // },
       {
         ex_link: '0',
         icon: 'fa-file',
@@ -1075,9 +1075,9 @@ export const Provincialgovernor: NavBar[] = [ //ผู้ว่าราชก�
         name: 'คณะกรรมการธรรมมาภิบาลจังหวัด'
       },
       {
-        ex_link: '0',
+        ex_link: '1',
         icon: 'fa-file',
-        url: '#',
+        url: 'https://www.ggc.opm.go.th/index.php?page=map',
         name: 'เครือข่ายคณะกรรมการธรรมมาภิบาลจังหวัด'
       },
       {
@@ -1267,15 +1267,15 @@ export const Adminprovince: NavBar[] = [ //หัวหน้าสำนัก�
       {
         ex_link: '0',
         icon: 'fa-file',
-        url: '/cabinetserver',
+        url: '/maincabinet',
         name: 'คณะรัฐมนตรี'
       },
-      {
-        ex_link: '0',
-        icon: 'fa-file',
-        url: '/external/otps',
-        name: 'คณะรัฐมนตรี(ระบบ otps)'
-      },
+      // {
+      //   ex_link: '0',
+      //   icon: 'fa-file',
+      //   url: '/external/otps',
+      //   name: 'คณะรัฐมนตรี(ระบบ otps)'
+      // },
       {
         ex_link: '0',
         icon: 'fa-file',
@@ -1301,9 +1301,9 @@ export const Adminprovince: NavBar[] = [ //หัวหน้าสำนัก�
         name: 'คณะกรรมการธรรมมาภิบาลจังหวัด'
       },
       {
-        ex_link: '0',
+        ex_link: '1',
         icon: 'fa-file',
-        url: '#',
+        url: 'https://www.ggc.opm.go.th/index.php?page=map',
         name: 'เครือข่ายคณะกรรมการธรรมมาภิบาลจังหวัด'
       },
       {
@@ -1491,15 +1491,15 @@ export const InspectorMinistry: NavBar[] = [ //ผู้ตรวจกระท
       {
         ex_link: '0',
         icon: 'fa-file',
-        url: '/cabinetserver',
+        url: '/maincabinet',
         name: 'คณะรัฐมนตรี'
       },
-      {
-        ex_link: '0',
-        icon: 'fa-file',
-        url: '/external/otps',
-        name: 'คณะรัฐมนตรี(ระบบ otps)'
-      },
+      // {
+      //   ex_link: '0',
+      //   icon: 'fa-file',
+      //   url: '/external/otps',
+      //   name: 'คณะรัฐมนตรี(ระบบ otps)'
+      // },
       {
         ex_link: '0',
         icon: 'fa-file',
@@ -1525,9 +1525,9 @@ export const InspectorMinistry: NavBar[] = [ //ผู้ตรวจกระท
         name: 'คณะกรรมการธรรมมาภิบาลจังหวัด'
       },
       {
-        ex_link: '0',
+        ex_link: '1',
         icon: 'fa-file',
-        url: '#',
+        url: 'https://www.ggc.opm.go.th/index.php?page=map',
         name: 'เครือข่ายคณะกรรมการธรรมมาภิบาลจังหวัด'
       },
       {
@@ -1681,15 +1681,15 @@ export const publicsector: NavBar[] = [ //ภาคประชาชน
       {
         ex_link: '0',
         icon: 'fa-file',
-        url: '/cabinetserver',
+        url: '/maincabinet',
         name: 'คณะรัฐมนตรี'
       },
-      {
-        ex_link: '0',
-        icon: 'fa-file',
-        url: '/external/otps',
-        name: 'คณะรัฐมนตรี(ระบบ otps)'
-      },
+      // {
+      //   ex_link: '0',
+      //   icon: 'fa-file',
+      //   url: '/external/otps',
+      //   name: 'คณะรัฐมนตรี(ระบบ otps)'
+      // },
       {
         ex_link: '0',
         icon: 'fa-file',
@@ -1715,9 +1715,9 @@ export const publicsector: NavBar[] = [ //ภาคประชาชน
         name: 'คณะกรรมการธรรมมาภิบาลจังหวัด'
       },
       {
-        ex_link: '0',
+        ex_link: '1',
         icon: 'fa-file',
-        url: '#',
+        url: 'https://www.ggc.opm.go.th/index.php?page=map',
         name: 'เครือข่ายคณะกรรมการธรรมมาภิบาลจังหวัด'
       },
       {
@@ -1899,15 +1899,15 @@ export const president: NavBar[] = [ //ผู้บริหารหรือ�
       {
         ex_link: '0',
         icon: 'fa-file',
-        url: '/cabinetserver',
+        url: '/maincabinet',
         name: 'คณะรัฐมนตรี'
       },
-      {
-        ex_link: '0',
-        icon: 'fa-file',
-        url: '/external/otps',
-        name: 'คณะรัฐมนตรี(ระบบ otps)'
-      },
+      // {
+      //   ex_link: '0',
+      //   icon: 'fa-file',
+      //   url: '/external/otps',
+      //   name: 'คณะรัฐมนตรี(ระบบ otps)'
+      // },
       {
         ex_link: '0',
         icon: 'fa-file',
@@ -1933,9 +1933,9 @@ export const president: NavBar[] = [ //ผู้บริหารหรือ�
         name: 'คณะกรรมการธรรมมาภิบาลจังหวัด'
       },
       {
-        ex_link: '0',
+        ex_link: '1',
         icon: 'fa-file',
-        url: '#',
+        url: 'https://www.ggc.opm.go.th/index.php?page=map',
         name: 'เครือข่ายคณะกรรมการธรรมมาภิบาลจังหวัด'
       },
       {
@@ -2131,15 +2131,15 @@ export const InspectorExamination: NavBar[] = [ //หน่วยรับตร
       {
         ex_link: '0',
         icon: 'fa-file',
-        url: '/cabinetserver',
+        url: '/maincabinet',
         name: 'คณะรัฐมนตรี'
       },
-      {
-        ex_link: '0',
-        icon: 'fa-file',
-        url: '/external/otps',
-        name: 'คณะรัฐมนตรี(ระบบ otps)'
-      },
+      // {
+      //   ex_link: '0',
+      //   icon: 'fa-file',
+      //   url: '/external/otps',
+      //   name: 'คณะรัฐมนตรี(ระบบ otps)'
+      // },
       {
         ex_link: '0',
         icon: 'fa-file',
@@ -2165,9 +2165,9 @@ export const InspectorExamination: NavBar[] = [ //หน่วยรับตร
         name: 'คณะกรรมการธรรมมาภิบาลจังหวัด'
       },
       {
-        ex_link: '0',
+        ex_link: '1',
         icon: 'fa-file',
-        url: '#',
+        url: 'https://www.ggc.opm.go.th/index.php?page=map',
         name: 'เครือข่ายคณะกรรมการธรรมมาภิบาลจังหวัด'
       },
       {
@@ -2357,15 +2357,15 @@ export const InspectorDepartment: NavBar[] = [ //ผู้ตรวจกรม/
       {
         ex_link: '0',
         icon: 'fa-file',
-        url: '/cabinetserver',
+        url: '/maincabinet',
         name: 'คณะรัฐมนตรี'
       },
-      {
-        ex_link: '0',
-        icon: 'fa-file',
-        url: '/external/otps',
-        name: 'คณะรัฐมนตรี(ระบบ otps)'
-      },
+      // {
+      //   ex_link: '0',
+      //   icon: 'fa-file',
+      //   url: '/external/otps',
+      //   name: 'คณะรัฐมนตรี(ระบบ otps)'
+      // },
       {
         ex_link: '0',
         icon: 'fa-file',
@@ -2391,9 +2391,9 @@ export const InspectorDepartment: NavBar[] = [ //ผู้ตรวจกรม/
         name: 'คณะกรรมการธรรมมาภิบาลจังหวัด'
       },
       {
-        ex_link: '0',
+        ex_link: '1',
         icon: 'fa-file',
-        url: '#',
+        url: 'https://www.ggc.opm.go.th/index.php?page=map',
         name: 'เครือข่ายคณะกรรมการธรรมมาภิบาลจังหวัด'
       },
       {

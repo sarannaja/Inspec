@@ -3,7 +3,8 @@
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a [routerLink]="['/main']">หน้าหลัก</a></li>
       <li class="breadcrumb-item active">ข้อมูลการติดต่อบุคลากร</li>
-      <li class="breadcrumb-item active">รายชื่อคณะรัฐมนตรี</li>
+      <li class="breadcrumb-item "><a [routerLink]="['/maincabinet']">คณะรัฐมนตรี</a></li>
+      <li class="breadcrumb-item active">คณะรัฐมนตรี (จากกำหนดสิทธิ์)</li>
     </ol>
   </nav>
 </div>
@@ -11,7 +12,7 @@
   <div class="col-12">
     <div class="card card-eiei">
       <div class="card-header" style="margin-bottom: -30px;">
-        <h5 class="card-title">รายชื่อคณะรัฐมนตรี</h5>
+        <h5 class="card-title">คณะรัฐมนตรี (จากกำหนดสิทธิ์)</h5>
         <div style="margin-bottom: 0px;width: 30%;">
         <select (change)="Changeministry($event)" [(ngModel)]="ministry" name="ministry" class="form-control select2" data-toggle="select2"> 
           <option  [value]="0">กระทรวงทั้งหมด</option>

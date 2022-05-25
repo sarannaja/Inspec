@@ -54,7 +54,7 @@ namespace InspecWeb.Controllers
         {
             var date = DateTime.Now;
             var filesname = "null";
-            var random = RandomString(15);
+            var random = RandomString(4);
             //ตรวจสอบว่ามี Folder Upload ใน wwwroot มั้ย
             if (!Directory.Exists(_environment.WebRootPath + "/assets" + "//InspectionorderFile//"))
             {
@@ -72,16 +72,17 @@ namespace InspecWeb.Controllers
                 {
                     string filePath2 = formFile.Value.FileName;
                     string filename = Path.GetFileName(filePath2);
-                    string ext = Path.GetExtension(filename);
+                    string ext = Path.GetExtension(filename);//นามสกุลไฟล์
 
                     if (formFile.Value.Length > 0)
                     {
                         // using (var stream = System.IO.File.Create(filePath + formFile.Value.FileName))
-                        using (var stream = System.IO.File.Create(filePath + random + ext))
+                      
+                        using (var stream = System.IO.File.Create(filePath + random+"_"+formFile.Value.FileName))
                         {
                             await formFile.Value.CopyToAsync(stream);
-
-                            filesname = random + ext;
+                         
+                            filesname = random +"_"+ formFile.Value.FileName;
                         }
                     }
                 }
@@ -137,11 +138,11 @@ namespace InspecWeb.Controllers
 
                     if (formFile.Value.Length > 0)
                     {
-                        using (var stream = System.IO.File.Create(filePath + random + ext))
+                        using (var stream = System.IO.File.Create(filePath + random+"_"+formFile.Value.FileName))
                         {
                             await formFile.Value.CopyToAsync(stream);
 
-                            filesname = random + ext;
+                           filesname = random +"_"+ formFile.Value.FileName;
                         }
                     }
                 }

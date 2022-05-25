@@ -14,6 +14,7 @@ export class InspectionorderService {
     return this.http.get(this.url)
   }
   addInspectionorder(inspectionorderData, file: FileList){
+    // alert("2");
     const formData = new FormData();
     formData.append('name',inspectionorderData.name);
     formData.append('year',inspectionorderData.year);

@@ -89,7 +89,7 @@ namespace InspecWeb.Controllers
         {
             List<RegionOtps> model = null;
             var client = new HttpClient();
-            var task = client.GetAsync("https://api.otps.go.th/api/Regions")
+            var task = client.GetAsync("https://old-api.otps.go.th/api/Regions")
                 .ContinueWith((taskwithresponse) =>
                 {
                     var response = taskwithresponse.Result;
@@ -108,7 +108,7 @@ namespace InspecWeb.Controllers
         {
             List<OtpsProvinces> model = null;
             var client = new HttpClient();
-            var task = client.GetAsync("https://api.otps.go.th/api/Provinces")
+            var task = client.GetAsync("https://old-api.otps.go.th/api/Provinces")
                 .ContinueWith((taskwithresponse) =>
                 {
                     var response = taskwithresponse.Result;
@@ -126,7 +126,7 @@ namespace InspecWeb.Controllers
         {
             OtpsProvinceFiscalYearsList model = null;
             var client = new HttpClient();
-            var task = client.GetAsync("https://api.otps.go.th/api/Provinces/" + Id)
+            var task = client.GetAsync("https://old-api.otps.go.th/api/Provinces/" + Id)
                 .ContinueWith((taskwithresponse) =>
                 {
                     var response = taskwithresponse.Result;
@@ -147,7 +147,7 @@ namespace InspecWeb.Controllers
         {
             List<OtpsMinisters> model = null;
             var client = new HttpClient();
-            var task = client.GetAsync("https://api.otps.go.th/api/Ministers")
+            var task = client.GetAsync("https://old-api.otps.go.th/api/Ministers")
                 .ContinueWith((taskwithresponse) =>
                 {
                     var response = taskwithresponse.Result;
@@ -167,7 +167,7 @@ namespace InspecWeb.Controllers
         {
             List<OtpsMinisters> model = null;
             var client = new HttpClient();
-            var task = client.GetAsync("https://api.otps.go.th/api/Ministers")
+            var task = client.GetAsync("https://old-api.otps.go.th/api/Ministers")
                 .ContinueWith((taskwithresponse) => {
                     var response = taskwithresponse.Result;
                     var jsonString = response.Content.ReadAsStringAsync();
@@ -184,7 +184,7 @@ namespace InspecWeb.Controllers
 
             List<OtpsMinisters> model = null;
             var client = new HttpClient();
-            var task = client.GetAsync("https://api.otps.go.th/api/Ministers")
+            var task = client.GetAsync("https://old-api.otps.go.th/api/Ministers")
                 .ContinueWith((taskwithresponse) => {
                     var response = taskwithresponse.Result;
                     var jsonString = response.Content.ReadAsStringAsync();
@@ -237,7 +237,7 @@ namespace InspecWeb.Controllers
         public IActionResult OnGetOtpsCabinets () {
             List<Cabinets> model = null;
             var client = new HttpClient();
-            var task = client.GetAsync("https://api.otps.go.th/api/Cabinets")
+            var task = client.GetAsync("https://old-api.otps.go.th/api/Cabinets")
                 .ContinueWith((taskwithresponse) =>
                 {
                     var response = taskwithresponse.Result;
@@ -442,7 +442,7 @@ namespace InspecWeb.Controllers
         {
             NewRegion model = null;
             var client = new HttpClient();
-            var task = client.GetAsync("https://api.otps.go.th/api/Regions/" + id)
+            var task = client.GetAsync("https://old-api.otps.go.th/api/Regions/" + id)
                 .ContinueWith((taskwithresponse) =>
                 {
                     var response = taskwithresponse.Result;
@@ -459,7 +459,7 @@ namespace InspecWeb.Controllers
         {
             List<OtpsProvince> model = null;
             var client = new HttpClient();
-            var task = client.GetAsync("https://api.otps.go.th/api/Provinces")
+            var task = client.GetAsync("https://old-api.otps.go.th/api/Provinces")
                 .ContinueWith((taskwithresponse) =>
                 {
                     var response = taskwithresponse.Result;
@@ -477,7 +477,7 @@ namespace InspecWeb.Controllers
         {
             OtpsProvinceFiscalYearsList model = null;
             var client = new HttpClient();
-            var task = client.GetAsync("https://api.otps.go.th/api/Provinces/ " + Id)
+            var task = client.GetAsync("https://old-api.otps.go.th/api/Provinces/ " + Id)
                 .ContinueWith((taskwithresponse) =>
                 {
                     var response = taskwithresponse.Result;
@@ -663,7 +663,7 @@ namespace InspecWeb.Controllers
 
             List<OtpsMinisters> model = null;
             var client = new HttpClient();
-            var task = client.GetAsync("https://api.otps.go.th/api/Ministers")
+            var task = client.GetAsync("https://old-api.otps.go.th/api/Ministers")
                 .ContinueWith((taskwithresponse) =>
                 {
                     var response = taskwithresponse.Result;
@@ -709,7 +709,7 @@ namespace InspecWeb.Controllers
 
             List<ExternalOrganizationNew> model = new List<ExternalOrganizationNew>();
             var client = new HttpClient();
-            var task = client.GetAsync("https://api.otps.go.th/api/Ministers")
+            var task = client.GetAsync("https://old-api.otps.go.th/api/Ministers")
                 .ContinueWith((taskwithresponse) =>
                 {
                     var response = taskwithresponse.Result;
@@ -798,7 +798,7 @@ namespace InspecWeb.Controllers
             //before List<ExternalOrganizationNew> model = null;
             List<ExternalOrganizationNew> model = new List<ExternalOrganizationNew>();
             var client = new HttpClient();
-            var task = client.GetAsync("https://api.otps.go.th/api/Ministers")
+            var task = client.GetAsync("https://old-api.otps.go.th/api/Ministers")
                 .ContinueWith((taskwithresponse) =>
                 {
                     var response = taskwithresponse.Result;

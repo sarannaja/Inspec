@@ -202,6 +202,7 @@ import { BeforeCentralPolicyComponent } from './central-policy/before-central-po
 import { BeforeSubjectComponent } from './subject/before-subject/before-subject.component';
 import { GovernmentinspectionplaniframeComponent } from './governmentinspectionplaniframe/governmentinspectionplaniframe.component'; //แผนการตรวจราชการประจำปี iframe
 import { InformationinspectioniframeComponent } from './informationinspectioniframe/informationinspectioniframe.component';
+import { MaincabinetComponent } from './main-cabinet/main-cabinet.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/', pathMatch: 'full' },
@@ -452,6 +453,7 @@ const routes: Routes = [
       { path: 'menu', component: MenuComponent, canActivate: [AuthorizeGuard] },
       { path: 'supportgovernment/governmentinspectionarea', component: GovernmentinspectionareaComponent, canActivate: [AuthorizeGuard] },
       { path: 'supportgovernment/governmentinspectionarea/detail/:id', component: DetailGovernmentinspectionareaComponent, canActivate: [AuthorizeGuard] },
+      { path: 'maincabinet', component: MaincabinetComponent,canActivate: [AuthorizeGuard] }, //yochigang20220525
     ]
   },
   { path: 'train/detail/:id', component: DetailDefaultLayoutTrainComponent },

@@ -246,6 +246,7 @@ import { BeforeSubjectComponent } from './subject/before-subject/before-subject.
 import { AuthorizeService } from 'src/api-authorization-new/authorize.service';
 import { GovernmentinspectionplaniframeComponent } from './governmentinspectionplaniframe/governmentinspectionplaniframe.component'; //แผนการตรวจราชการประจำปี iframe
 import { InformationinspectioniframeComponent } from './informationinspectioniframe/informationinspectioniframe.component';
+import { MaincabinetComponent } from './main-cabinet/main-cabinet.component';
 
 
 
@@ -463,6 +464,7 @@ import { InformationinspectioniframeComponent } from './informationinspectionifr
     BeforeSubjectComponent,
     GovernmentinspectionplaniframeComponent, //แผนการตรวจราชการประจำปี 
     InformationinspectioniframeComponent, //ข้อมูลประกอบการตรวจราชการ
+    MaincabinetComponent, //yochigang20220525
   ],
 
   imports: [

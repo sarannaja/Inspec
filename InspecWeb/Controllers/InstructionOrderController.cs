@@ -74,11 +74,11 @@ namespace InspecWeb.Controllers
                 if (formFile.Value.Length > 0)
                 {
                     // using (var stream = System.IO.File.Create(filePath + formFile.Value.FileName))
-                    using (var stream = System.IO.File.Create(filePath + random + ext))
+                    using (var stream = System.IO.File.Create(filePath + random+"_"+formFile.Value.FileName))
                     {
                         await formFile.Value.CopyToAsync(stream);
 
-                        filesname = random + ext;
+                        filesname = random + formFile.Value.FileName;
                     }
                 }
             }
@@ -132,11 +132,11 @@ namespace InspecWeb.Controllers
 
                     if (formFile.Value.Length > 0)
                     {
-                        using (var stream = System.IO.File.Create(filePath + random + ext))
+                        using (var stream = System.IO.File.Create(filePath + random+"_"+formFile.Value.FileName))
                         {
                             await formFile.Value.CopyToAsync(stream);
 
-                            filesname = random + ext;
+                           filesname = random + formFile.Value.FileName;
                         }
                        
                     }
