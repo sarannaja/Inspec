@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { SubjectService } from 'src/app/services/subject.service';
 import { ActivatedRoute } from '@angular/router';
 import { CentralpolicyService } from 'src/app/services/centralpolicy.service';
@@ -19,12 +19,16 @@ export class DetailSubjectComponent implements OnInit {
   id: any
   centralpolicyid: any
   boxcount = 0
+  downloadUrl: any;
+
   constructor(
     private subjectservice: SubjectService,
     private activatedRoute: ActivatedRoute,
     private centralpolicyservice: CentralpolicyService,
+    @Inject('BASE_URL') baseUrl: string
   ) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
+    this.downloadUrl = baseUrl + '/Uploads';
   }
 
   ngOnInit() {
