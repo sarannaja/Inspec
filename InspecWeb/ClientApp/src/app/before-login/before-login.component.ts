@@ -70,4 +70,8 @@ export class BeforeLoginComponent implements OnInit {
     location.href = '/inspectormain'
   }
 
+  goToUserManual() {
+    window.location.href = 'https://drive.google.com/drive/folders/1NQH01HNfONHLY3eXDcHr4G-Fxr4C_rzE?usp=sharing'
+  }
+
 }

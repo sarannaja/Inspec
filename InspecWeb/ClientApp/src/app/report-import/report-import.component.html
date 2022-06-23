@@ -245,13 +245,12 @@
 
         <div class="col-12 col-xl-12">
           <div class="form-group">
-            <label class="form-label">ข้อสั่งการของผู้บังคับบัญชา*</label>
+            <label class="form-label">ข้อสั่งการของผู้บังคับบัญชา</label>
             <textarea class="form-control" name="command" formControlName="command" id="" cols="30" rows="5"
-              placeholder="กรุณากรอกข้อสั่งการของผู้บังคับบัญชา"
-              [ngClass]="{ 'is-invalid': submitted && reportForm.controls.command.errors }"></textarea>
-            <div *ngIf="submitted && reportForm.controls.command.errors" class="invalid-feedback">
+              placeholder="กรุณากรอกข้อสั่งการของผู้บังคับบัญชา"></textarea>
+            <!-- <div *ngIf="submitted && reportForm.controls.command.errors" class="invalid-feedback">
               <div *ngIf="reportForm.controls.command.errors.required">กรุณากรอกข้อสั่งการของผู้บังคับบัญชา</div>
-            </div>
+            </div> -->
           </div>
         </div>
 
@@ -413,7 +412,7 @@
 
         <div class="col-12 col-xl-12">
           <div class="form-group">
-            <label class="form-label">ข้อสั่งการของผู้บังคับบัญชา*</label>
+            <label class="form-label">ข้อสั่งการของผู้บังคับบัญชา</label>
             <textarea class="form-control" name="command" formControlName="command" id="" cols="30" rows="5"
               placeholder="กรุณากรอกข้อสั่งการของผู้บังคับบัญชา"></textarea>
           </div>

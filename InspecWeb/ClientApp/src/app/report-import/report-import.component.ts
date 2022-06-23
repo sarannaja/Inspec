@@ -123,7 +123,7 @@ export class ReportImportComponent implements OnInit {
       monitoringTopics: new FormControl(null, [Validators.required]),
       detailReport: new FormControl(null, [Validators.required]),
       suggestion: new FormControl(null, [Validators.required]),
-      command: new FormControl(null, [Validators.required]),
+      command: new FormControl(null),
     })
 
     this.form = this.fb.group({
