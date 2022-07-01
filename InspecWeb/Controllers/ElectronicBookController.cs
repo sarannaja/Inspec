@@ -854,7 +854,7 @@ namespace InspecWeb.Controllers
         }
 
         [HttpPut("editSuggestion")]
-        public void PutSuggestion([FromForm] ElectronicBookViewModel model)
+        public async Task<IActionResult> PutSuggestion([FromForm] ElectronicBookViewModel model)
         {
             var ElectSuggestionData = _context.ElectronicBooks
                 .Where(x => x.Id == model.ElectID)
@@ -904,6 +904,57 @@ namespace InspecWeb.Controllers
             System.Console.WriteLine("Finish Update Suggestion");
             _context.SaveChanges();
 
+            System.Console.WriteLine("Start Upload");
+
+            if (!Directory.Exists(_environment.WebRootPath + "//Uploads//"))
+            {
+                Directory.CreateDirectory(_environment.WebRootPath + "//Uploads//"); //สร้าง Folder Upload ใน wwwroot
+            }
+
+            //var BaseUrl = url.ActionContext.HttpContext.Request.Scheme;
+            // path ที่เก็บไฟล์
+            var filePath = _environment.WebRootPath + "//Uploads//";
+            long ebookFileId = 0;
+
+            if (model.files != null)
+            {
+                System.Console.WriteLine("Start Upload 2");
+                foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
+                //foreach (var formFile in data.files)
+                {
+                    System.Console.WriteLine("Start Upload 3");
+                    var random = RandomString(10);
+                    string filePath2 = formFile.Value.FileName;
+                    string filename = Path.GetFileName(filePath2);
+                    string ext = Path.GetExtension(filename);
+                    if (formFile.Value.Length > 0)
+                    {
+                        System.Console.WriteLine("Start Upload 4");
+                        // using (var stream = System.IO.File.Create(filePath + formFile.Value.FileName))
+                        using (var stream = System.IO.File.Create(filePath + random + ext))
+                        {
+                            await formFile.Value.CopyToAsync(stream);
+                        }
+                        System.Console.WriteLine("Start Upload 4.1");
+                        System.Console.WriteLine("ContentType : " + formFile.Value.ContentType.ToString());
+                        var ElectronicBookFile = new ElectronicBookFile
+                        {
+                            ElectronicBookId = model.ElectID,
+                            Name = random + ext,
+                            Description = Path.GetFileNameWithoutExtension(filePath2),
+                            Type = formFile.Value.ContentType.ToString(),
+                        };
+                        System.Console.WriteLine("Start Upload 4.2");
+                        _context.ElectronicBookFiles.Add(ElectronicBookFile);
+                        _context.SaveChanges();
+                        ebookFileId = ElectronicBookFile.Id;
+                        System.Console.WriteLine("Start Upload 4.3");
+                    }
+                    System.Console.WriteLine("Start Upload 5");
+                }
+                _context.SaveChanges();
+            }
+
             var logdata = new Log
             {
                 UserId = ElectSuggestionData.CreatedBy,
@@ -915,6 +966,8 @@ namespace InspecWeb.Controllers
             };
             _context.Logs.Add(logdata);
             _context.SaveChanges();
+
+            return Ok(new { Status = true });
         }
 
         [HttpPut("editSuggestionown")]
