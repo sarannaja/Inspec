@@ -1523,11 +1523,15 @@ namespace InspecWeb.Controllers
                         .Include(m => m.Province)
                         .Include(m => m.CentralPolicy)
                         .ThenInclude(m => m.FiscalYearNew)
+
                         .OrderByDescending(m => m.Id)
                         //.Include(m => m.SubjectCentralPolicyProvinces)
                         //.Where(m => m.SubjectCentralPolicyProvinces.Any(m => m.Type != "Master"))
                         .Where(p => p.RoleCreatedBy == 3)
-                        .Where(m => m.Type == "NoMaster").ToList();
+                        .Where(m => m.Type == "NoMaster")
+                        // .Select(m => m.CentralPolicy.Id)
+                        // .SelectMany(m => m.CentralPolicy.Id)
+                        .ToList();
 
                 List<object> termsList = new List<object>();
                 foreach (var inspectionplan in subjectgroupsdatas)

@@ -117,20 +117,34 @@ export class InspectionPlanEventComponent implements OnInit {
             }
           }
           // alert(item.centralPolicyEvents[0].centralPolicy.title)
-          if (item.centralPolicyEvents.length != 0) {
-            var name = ""
-            for (var i = 0; i < item.centralPolicyEvents.length; i++) {
-              if (i == (item.centralPolicyEvents.length - 1)) {
-                name = name + item.centralPolicyEvents[i].centralPolicy.title
-              } else {
-                name = name + item.centralPolicyEvents[i].centralPolicy.title + ", "
-              }
-            }
+          // if (item.centralPolicyEvents.length != 0) {
+          //   var name = ""
+          //   for (var i = 0; i < item.centralPolicyEvents.length; i++) {
+          //     if (i == (item.centralPolicyEvents.length - 1)) {
+          //       name = name + item.centralPolicyEvents[i].centralPolicy.title
+          //     } else {
+          //       name = name + item.centralPolicyEvents[i].centralPolicy.title + ", "
+          //     }
+          //   }
+          //   return {
+          //     id: item.id,
+          //     title: item.province.name,
+          //     name: item.province.name + " : " + name,
+          //     provinceid: item.province.id,
+          //     // id: item.centralPolicyEvents[0].centralPolicy.centralPolicyProvinces[0].id,
+          //     // title: item.province.name + ", " + item.centralPolicyEvents[0].centralPolicy.title,
+          //     start: moment(item.startDate), //.format("YYYY-MM-DD"),
+          //     end: moment(item.endDate), //.format("YYYY-MM-DD"),
+          //     color: colorJa,
+          //     roleCreatedBy: roleCreatedBy,
+          //   }
+          // }
+          // else {
             return {
               id: item.id,
               title: item.province.name,
-              name: item.province.name + " : " + name,
               provinceid: item.province.id,
+              // name: '',
               // id: item.centralPolicyEvents[0].centralPolicy.centralPolicyProvinces[0].id,
               // title: item.province.name + ", " + item.centralPolicyEvents[0].centralPolicy.title,
               start: moment(item.startDate), //.format("YYYY-MM-DD"),
@@ -138,21 +152,7 @@ export class InspectionPlanEventComponent implements OnInit {
               color: colorJa,
               roleCreatedBy: roleCreatedBy,
             }
-          }
-          else {
-            return {
-              id: item.id,
-              title: item.province.name,
-              provinceid: item.province.id,
-              name: '',
-              // id: item.centralPolicyEvents[0].centralPolicy.centralPolicyProvinces[0].id,
-              // title: item.province.name + ", " + item.centralPolicyEvents[0].centralPolicy.title,
-              start: moment(item.startDate), //.format("YYYY-MM-DD"),
-              end: moment(item.endDate), //.format("YYYY-MM-DD"),
-              color: colorJa,
-              roleCreatedBy: roleCreatedBy,
-            }
-          }
+          // }
         })
         // alert(JSON.stringify(this.inspectionplancalendar))
         this.getcalendar();

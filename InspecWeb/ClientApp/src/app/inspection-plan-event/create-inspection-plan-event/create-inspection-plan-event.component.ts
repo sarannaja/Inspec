@@ -60,6 +60,7 @@ export class CreateInspectionPlanEventComponent implements OnInit {
   boxId: any = 0
   submitted = false;
   role_id: any
+  realLength
 
   constructor(
     private fb: FormBuilder, private authorize: AuthorizeService,
@@ -168,33 +169,42 @@ export class CreateInspectionPlanEventComponent implements OnInit {
           // addT.push(this.t.at(i).value)
         }
       }
+      this.realLength = this.t.length
       this.removeThem()
     }
   }
   removeThem() {
     let count = 0
-    for (let i = 0; i < this.t.length; i++) {
-      if (this.dateChecked(this.start_date_plan_i[i], this.end_date_plan_i[i])) {
+    // console.log(this.t)
+    // for (let j = 0; j < this.realLength; j++) {
+      for (let i = this.t.length - 1; i >= 0; i--) {
+        if (this.dateChecked(this.start_date_plan_i[i], this.end_date_plan_i[i])) {
 
+          // const items = this.t.value
+          // const valueToRemove = this.t.value[i]
+          // const filteredItems = items.filter((item) => item !== valueToRemove )
+          // this.t.value = filteredItems
+          // this.t = filteredItems
 
-        this.t.removeAt(i)
+          this.t.removeAt(i)
 
-        let starts = new Set(this.start_date_plan_i);
-        starts.delete(this.start_date_plan_i[i]);
-        this.start_date_plan_i = Array.from(starts);
+          let starts = new Set(this.start_date_plan_i);
+          starts.delete(this.start_date_plan_i[i]);
+          this.start_date_plan_i = Array.from(starts);
 
-        let ends = new Set(this.end_date_plan_i);
-        ends.delete(this.end_date_plan_i[i]);
-        this.end_date_plan_i = Array.from(ends);
+          let ends = new Set(this.end_date_plan_i);
+          ends.delete(this.end_date_plan_i[i]);
+          this.end_date_plan_i = Array.from(ends);
 
-        count++
-      } else {
+          count++
+        } else {
+        }
       }
-    }
+    // }
     // alert(this.t.length)
     if (this.t.length == 0) {
       // setTimeout(()=>thi)
-      this._dialog.confirm('ต้องการเพิ่มข้อมูลต่อหรือไม่', 'ตอนนี้ข้อมูลของคุณเพิ่มเรียบร้อยแล้วคุณต้องการเพิ่มข้อมูลต่อหรือไม่', 'เพิ่มต่อ', 'ไม่เพิ่มต่อ')
+      this._dialog.confirm('ต้องการเพิ่มข้อมูลต่อหรือไม่ ', 'ตอนนี้ข้อมูลของคุณเพิ่มเรียบร้อยแล้วคุณต้องการเพิ่มข้อมูลต่อหรือไม่', 'เพิ่มต่อ', 'ไม่เพิ่มต่อ')
         .then((result: any) => {
           result.status ? this.t.push(this.fb.group({
             start_date_plan: '',

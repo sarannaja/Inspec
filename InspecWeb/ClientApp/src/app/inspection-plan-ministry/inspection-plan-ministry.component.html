@@ -33,7 +33,7 @@
 
           <button class="btn btn-primary" title="เพิ่มเรื่องที่ตรวจติดตาม"
             *ngIf="role_id == 6 && timelineData.status == 'ร่างกำหนดการ' && watch == 0"
-            (click)="openModal(modalCentralPolicyEventRelation)">
+            (click)="openModalAddCentralPolicy(modalCentralPolicyEventRelation)">
             <i class="align-middle fas fa-fw fa-plus pointer"></i></button>
 
           <!-- <button *ngIf="role_id == 6" class="btn btn-success" (click)="openModal(modalCentralPolicyEventRelation)"
