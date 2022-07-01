@@ -285,6 +285,18 @@ export class InspectionPlanComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
 
+  async openModalAddCentralPolicy(template: TemplateRef<any>) {
+    this.submitted = false;
+    // this.loading = false;
+    // this.getMinistryPeople();
+    // this.getDepartmentPeople();
+    // this.getUserPeople();
+    // this.getProvincialDepartmentPeople();
+
+    this.checkInspec = null;
+    this.modalRef = this.modalService.show(template);
+  }
+
   openModal2(template: TemplateRef<any>, delid) {
     this.delid = delid
     this.modalRef = this.modalService.show(template);
@@ -402,8 +414,8 @@ export class InspectionPlanComponent implements OnInit {
       // this.loading = true;
       console.log("RESULTS: ", this.data);
       await this.inspectionplanservice.getcentralpolicydata(this.provinceid, this.currentyear)
-        .subscribe(async result => {
-          this.resultcentralpolicy = result //All
+        .subscribe(async (result:any) => {
+          this.resultcentralpolicy = result.data //All
           await this.getRecycled()
           // alert(JSON.stringify(this.resultcentralpolicy))
         })
@@ -814,21 +826,21 @@ export class InspectionPlanComponent implements OnInit {
 
     if (this.endDateTime.getHours() < 10 && this.endDateTime.getMinutes() < 10) {
       this.endDateTime = "0" + this.endDateTime.getHours() + ":0" + this.endDateTime.getMinutes() + ":00"
-    } else if (this.endDateTime.getHours() < 10) {
+    } else if (this.endDateTime.getHours() < 10 && this.endDateTime.getMinutes() >= 10) {
       this.endDateTime = "0" + this.endDateTime.getHours() + ":" + this.endDateTime.getMinutes() + ":00"
-    } else if (this.endDateTime.getMinutes() < 10) {
-      this.endDateTime = this.startDateTime.getHours() + ":0" + this.endDateTime.getMinutes() + ":00"
-    } else {
+    } else if (this.endDateTime.getHours() >= 10 && this.endDateTime.getMinutes() < 10) {
+      this.endDateTime = this.endDateTime.getHours() + ":0" + this.endDateTime.getMinutes() + ":00" 
+    } else if (this.endDateTime.getHours() >= 10 && this.endDateTime.getMinutes() >= 10) {
       this.endDateTime = this.endDateTime.getHours() + ":" + this.endDateTime.getMinutes() + ":00"
     }
 
     if (this.startDateTime.getHours() < 10 && this.startDateTime.getMinutes() < 10) {
       this.startDateTime = "0" + this.startDateTime.getHours() + ":0" + this.startDateTime.getMinutes() + ":00"
-    } else if (this.startDateTime.getHours() < 10) {
-      this.startDateTime = "0" + this.startDateTime.getHours() + ":" + this.endDateTime.getMinutes() + ":00"
-    } else if (this.startDateTime.getMinutes() < 10) {
+    } else if (this.startDateTime.getHours() < 10 && this.startDateTime.getMinutes() >= 10) {
+      this.startDateTime = "0" + this.startDateTime.getHours() + ":" + this.startDateTime.getMinutes() + ":00"
+    } else if (this.startDateTime.getHours() >= 10 && this.startDateTime.getMinutes() < 10) {
       this.startDateTime = this.startDateTime.getHours() + ":0" + this.startDateTime.getMinutes() + ":00"
-    } else {
+    } else if (this.startDateTime.getHours() >= 10 && this.startDateTime.getMinutes() >= 10) {
       this.startDateTime = this.startDateTime.getHours() + ":" + this.startDateTime.getMinutes() + ":00"
     }
 

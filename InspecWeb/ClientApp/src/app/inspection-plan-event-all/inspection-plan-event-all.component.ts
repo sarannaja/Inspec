@@ -22,7 +22,7 @@ declare var $: any;
 })
 export class InspectionPlanEventAllComponent implements OnInit {
   url = "";
-  resultinspectionplanevent: any = []
+  // resultinspectionplanevent: any = []
   inspectionplancalendar: any = []
   resultuserregion: any[] = []
   delid: any
@@ -74,7 +74,7 @@ export class InspectionPlanEventAllComponent implements OnInit {
     this.inspectionplanservice.getinspectionplaneventalldata()
       .subscribe(result => {
         //console.log(result);
-        this.resultinspectionplanevent = result
+        // this.resultinspectionplanevent = result
         this.inspectionplancalendar = result
         this.inspectionplancalendar = this.inspectionplancalendar.map((item, index) => {
 
@@ -92,33 +92,33 @@ export class InspectionPlanEventAllComponent implements OnInit {
             colorJa = "#C70039" //blue
           }
 
-          if (item.centralPolicyEvents.length != 0) {
-            var name = ""
-            for (var i = 0; i < item.centralPolicyEvents.length; i++) {
-              if (i == (item.centralPolicyEvents.length - 1)) {
-                name = name + item.centralPolicyEvents[i].centralPolicy.title
-              } else {
-                name = name + item.centralPolicyEvents[i].centralPolicy.title + ", "
-              }
-            }
+          // if (item.centralPolicyEvents.length != 0) {
+          //   var name = ""
+          //   for (var i = 0; i < item.centralPolicyEvents.length; i++) {
+          //     if (i == (item.centralPolicyEvents.length - 1)) {
+          //       name = name + item.centralPolicyEvents[i].centralPolicy.title
+          //     } else {
+          //       name = name + item.centralPolicyEvents[i].centralPolicy.title + ", "
+          //     }
+          //   }
+          //   return {
+          //     id: item.id,
+          //     title: item.province.name,
+          //     name: item.province.name + " : " + name,
+          //     provinceid: item.province.id,
+          //     // id: item.centralPolicyEvents[0].centralPolicy.centralPolicyProvinces[0].id,
+          //     // title: item.province.name + ", " + item.centralPolicyEvents[0].centralPolicy.title,
+          //     start: moment(item.startDate), //.format("YYYY-MM-DD"),
+          //     end: moment(item.endDate), //.format("YYYY-MM-DD"),
+          //     color: colorJa,
+          //     roleCreatedBy: roleCreatedBy,
+          //   }
+          // }
+          // else {
             return {
               id: item.id,
-              title: item.province.name,
-              name: item.province.name + " : " + name,
-              provinceid: item.province.id,
-              // id: item.centralPolicyEvents[0].centralPolicy.centralPolicyProvinces[0].id,
-              // title: item.province.name + ", " + item.centralPolicyEvents[0].centralPolicy.title,
-              start: moment(item.startDate), //.format("YYYY-MM-DD"),
-              end: moment(item.endDate), //.format("YYYY-MM-DD"),
-              color: colorJa,
-              roleCreatedBy: roleCreatedBy,
-            }
-          }
-          else {
-            return {
-              id: item.id,
-              title: item.province.name,
-              provinceid: item.province.id,
+              title: item.provincename,
+              provinceid: item.provinceid,
               name: '',
               // id: item.centralPolicyEvents[0].centralPolicy.centralPolicyProvinces[0].id,
               // title: item.province.name + ", " + item.centralPolicyEvents[0].centralPolicy.title,
@@ -127,7 +127,7 @@ export class InspectionPlanEventAllComponent implements OnInit {
               color: colorJa,
               roleCreatedBy: roleCreatedBy,
             }
-          }
+          // }
         })
         this.getcalendar();
         // setTimeout(() => {
@@ -212,7 +212,7 @@ export class InspectionPlanEventAllComponent implements OnInit {
     this.inspectionplanservice.getinspectionplaneventuserprovincedata(value)
       .subscribe(result => {
         console.log(result);
-        this.resultinspectionplanevent = result
+        // this.resultinspectionplanevent = result
         this.inspectionplancalendar = result
         this.inspectionplancalendar = this.inspectionplancalendar.map((item, index) => {
 
@@ -230,33 +230,33 @@ export class InspectionPlanEventAllComponent implements OnInit {
             colorJa = "#C70039" //blue
           }
 
-          if (item.centralPolicyEvents.length != 0) {
-            var name = ""
-            for (var i = 0; i < item.centralPolicyEvents.length; i++) {
-              if (i == (item.centralPolicyEvents.length - 1)) {
-                name = name + item.centralPolicyEvents[i].centralPolicy.title
-              } else {
-                name = name + item.centralPolicyEvents[i].centralPolicy.title + ", "
-              }
-            }
+          // if (item.centralPolicyEvents.length != 0) {
+          //   var name = ""
+          //   for (var i = 0; i < item.centralPolicyEvents.length; i++) {
+          //     if (i == (item.centralPolicyEvents.length - 1)) {
+          //       name = name + item.centralPolicyEvents[i].centralPolicy.title
+          //     } else {
+          //       name = name + item.centralPolicyEvents[i].centralPolicy.title + ", "
+          //     }
+          //   }
+          //   return {
+          //     id: item.id,
+          //     title: item.province.name,
+          //     name: item.province.name + " : " + name,
+          //     provinceid: item.province.id,
+          //     // id: item.centralPolicyEvents[0].centralPolicy.centralPolicyProvinces[0].id,
+          //     // title: item.province.name + ", " + item.centralPolicyEvents[0].centralPolicy.title,
+          //     start: moment(item.startDate), //.format("YYYY-MM-DD"),
+          //     end: moment(item.endDate), //.format("YYYY-MM-DD"),
+          //     color: colorJa,
+          //     roleCreatedBy: roleCreatedBy,
+          //   }
+          // }
+          // else {
             return {
               id: item.id,
-              title: item.province.name,
-              name: item.province.name + " : " + name,
-              provinceid: item.province.id,
-              // id: item.centralPolicyEvents[0].centralPolicy.centralPolicyProvinces[0].id,
-              // title: item.province.name + ", " + item.centralPolicyEvents[0].centralPolicy.title,
-              start: moment(item.startDate), //.format("YYYY-MM-DD"),
-              end: moment(item.endDate), //.format("YYYY-MM-DD"),
-              color: colorJa,
-              roleCreatedBy: roleCreatedBy,
-            }
-          }
-          else {
-            return {
-              id: item.id,
-              title: item.province.name,
-              provinceid: item.province.id,
+              title: item.provincename,
+              provinceid: item.provinceid,
               name: '',
               // id: item.centralPolicyEvents[0].centralPolicy.centralPolicyProvinces[0].id,
               // title: item.province.name + ", " + item.centralPolicyEvents[0].centralPolicy.title,
@@ -265,7 +265,7 @@ export class InspectionPlanEventAllComponent implements OnInit {
               color: colorJa,
               roleCreatedBy: roleCreatedBy,
             }
-          }
+          // }
         })
         // alert(JSON.stringify(this.inspectionplancalendar))
         this.getcalendar();

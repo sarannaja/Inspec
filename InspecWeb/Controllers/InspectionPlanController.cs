@@ -90,7 +90,7 @@ namespace InspecWeb.Controllers
 
         // GET api/values/5
         [HttpGet("getcentralpolicydata/{provinceid}/{year}")]
-        public IEnumerable<CentralPolicy> Get2(long provinceid, long year)
+        public IActionResult Get2(long provinceid, long year) //IEnumerable<CentralPolicy>
         {
             //return _context.CentralPolicies
             //           .Include(m => m.CentralPolicyProvinces)
@@ -105,7 +105,7 @@ namespace InspecWeb.Controllers
             //.OrderByDescending(x => x.Year)
             //.FirstOrDefault();
 
-            return _context.CentralPolicies
+            var data = _context.CentralPolicies
                 .Include(m => m.CentralPolicyProvinces)
                 .ThenInclude(m => m.SubjectCentralPolicyProvinces)
                 //.Include(m => m.FiscalYear)
@@ -113,7 +113,14 @@ namespace InspecWeb.Controllers
                 //.Where(m => m.CentralPolicyProvinces.Any(i => i.SubjectCentralPolicyProvinces.Any(i => i.CentralPolicyProvince.ProvinceId == provinceid)))
                 .Where(m => m.FiscalYearNewId == year2.Id)
                 .Where(m => m.CentralPolicyProvinces.Any(i => i.ProvinceId == provinceid && i.Active == 1))
+                .Select(m => new {
+                    id = m.Id,
+                    title = m.Title,
+                    status = m.Status,
+                })
                 .ToList();
+
+                return Ok(new{data});
         }
 
         // POST api/values

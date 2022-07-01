@@ -527,7 +527,7 @@ export class DetailSubjecteventComponent implements OnInit {
   getDetailCentralPolicyProvince() {
     this.centralpolicyservice.getdetailcentralpolicyprovincedata(this.id)
       .subscribe(result => {
-        //console.log("123", result);
+        console.log("getDetailCentralPolicyProvince 1=>", result);
         // alert(JSON.stringify(result))
         this.resultdetailcentralpolicy = result.centralpolicydata
         // this.resultdate = result.centralPolicyEventdata.inspectionPlanEvent
@@ -613,6 +613,7 @@ export class DetailSubjecteventComponent implements OnInit {
     // alert("123")
     this.centralpolicyservice.getSubjecteventdetaildata(this.id, this.subjectgroupid)
       .subscribe(result => {
+        console.log("getsubjecteventDetail 1=>", result);
 
         this.resultdetailcentralpolicyprovince = result.subjectcentralpolicyprovincedata
 
@@ -1066,7 +1067,7 @@ export class DetailSubjecteventComponent implements OnInit {
   getAnswer2() {
     this.centralpolicyservice.getAnswer(this.id).subscribe(res => {
       this.answerData = res;
-      //console.log("answer: ", this.answerData);
+      console.log("getAnswer2 1=> ", this.answerData);
     })
   }
 

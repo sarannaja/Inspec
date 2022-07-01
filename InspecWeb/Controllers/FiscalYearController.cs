@@ -332,7 +332,7 @@ namespace InspecWeb.Controllers
                 var importFiscalYearRelations = _context.FiscalYearRelations
                     .Include(x => x.Region)
                     .Include(x => x.Province)
-                    .Where(x => x.FiscalYearId == fiscalYearId)
+                    .Where(x => x.FiscalYearId == 4)
                     .Where(x => x.ProvinceId == provinceUser.ProvinceId)
                     .FirstOrDefault();
 

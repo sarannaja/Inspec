@@ -247,17 +247,19 @@ export class SubjecteventComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
   getCentralPolicy() {
-    this.centralpolicyservice.getcentralpolicydata()
-      .subscribe(result => {
-        this.resultcentralpolicy = result
-        this.selectcentralpolicy = this.resultcentralpolicy.map((item, index) => {
-          return { value: item.id, label: item.title }
-        })
-      })
+    // this.centralpolicyservice.getcentralpolicydata()
+    //   .subscribe(result => {
+    //     this.resultcentralpolicy = result
+    //     this.selectcentralpolicy = this.resultcentralpolicy.map((item, index) => {
+    //       return { value: item.id, label: item.title }
+    //     })
+    //   })
   }
 
   getSubjectevent() {
     this.subjectservice.getsubjectevent(this.userid).subscribe(result => {
+      console.log("SUBJECTEVENT ==> ", result);
+
       this.resultsubjectevent = result
       this.selectdatacentralpolicytype1 = this.resultsubjectevent.map((item, index) => {
         return { value: item.id, label: item.centralPolicy.title }

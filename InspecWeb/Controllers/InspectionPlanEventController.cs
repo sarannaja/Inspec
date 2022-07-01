@@ -44,9 +44,9 @@ namespace InspecWeb.Controllers
             {
                 var inspectionplans = _context.InspectionPlanEvents
                                     .Include(m => m.Province)
-                                    .Include(m => m.CentralPolicyEvents)
-                                    .ThenInclude(m => m.CentralPolicy)
-                                    .ThenInclude(m => m.CentralPolicyProvinces)
+                                    // .Include(m => m.CentralPolicyEvents)
+                                    // .ThenInclude(m => m.CentralPolicy)
+                                    // .ThenInclude(m => m.CentralPolicyProvinces)
                                     .Where(m => m.RoleCreatedBy == "3")
                                     //.Where(m => m.Status == "ใช้งานจริง")
                                     //.Where(m => m.CentralPolicyEvents.Any(i => i.InspectionPlanEventId == id));
@@ -68,9 +68,9 @@ namespace InspecWeb.Controllers
             {
                 var inspectionplans = _context.InspectionPlanEvents
                     .Include(m => m.Province)
-                    .Include(m => m.CentralPolicyEvents)
-                    .ThenInclude(m => m.CentralPolicy)
-                    .ThenInclude(m => m.CentralPolicyProvinces)
+                    // .Include(m => m.CentralPolicyEvents)
+                    // .ThenInclude(m => m.CentralPolicy)
+                    // .ThenInclude(m => m.CentralPolicyProvinces)
                     .Where(m => m.RoleCreatedBy == "6")
                     //.Where(m => m.Status == "ใช้งานจริง")
                     //.Where(m => m.CentralPolicyEvents.Any(i => i.InspectionPlanEventId == id));
@@ -92,9 +92,9 @@ namespace InspecWeb.Controllers
             {
                 var inspectionplans = _context.InspectionPlanEvents
                     .Include(m => m.Province)
-                    .Include(m => m.CentralPolicyEvents)
-                    .ThenInclude(m => m.CentralPolicy)
-                    .ThenInclude(m => m.CentralPolicyProvinces)
+                    // .Include(m => m.CentralPolicyEvents)
+                    // .ThenInclude(m => m.CentralPolicy)
+                    // .ThenInclude(m => m.CentralPolicyProvinces)
                     .Where(m => m.RoleCreatedBy == "10")
                     //.Where(m => m.Status == "ใช้งานจริง")
                     //.Where(m => m.CentralPolicyEvents.Any(i => i.InspectionPlanEventId == id));
@@ -116,9 +116,9 @@ namespace InspecWeb.Controllers
             {
                 var inspectionplans = _context.InspectionPlanEvents
                     .Include(m => m.Province)
-                    .Include(m => m.CentralPolicyEvents)
-                    .ThenInclude(m => m.CentralPolicy)
-                    .ThenInclude(m => m.CentralPolicyProvinces)
+                    // .Include(m => m.CentralPolicyEvents)
+                    // .ThenInclude(m => m.CentralPolicy)
+                    // .ThenInclude(m => m.CentralPolicyProvinces)
                     .Where(m => m.Status == "ใช้งานจริง")
                     //.Where(m => m.CentralPolicyEvents.Any(i => i.InspectionPlanEventId == id));
                     .ToList();
@@ -162,7 +162,15 @@ namespace InspecWeb.Controllers
                     .Include(m => m.Province)
                     .Include(m => m.CentralPolicyEvents)
                     .ThenInclude(m => m.CentralPolicy)
-                    .ThenInclude(m => m.CentralPolicyProvinces)
+                    // .ThenInclude(m => m.CentralPolicyProvinces)
+                    .Select(m => new {
+                        roleCreatedBy = m.RoleCreatedBy,
+                        id = m.Id,
+                        startDate = m.StartDate,
+                        endData = m.EndDate,
+                        provincename = m.Province.Name,
+                        provinceid = m.ProvinceId,
+                    })
                     .ToList();
 
                 return Ok(inspectionplans);
