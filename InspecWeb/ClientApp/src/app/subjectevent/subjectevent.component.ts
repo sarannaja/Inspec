@@ -594,7 +594,7 @@ export class SubjecteventComponent implements OnInit {
     this.FormReporttype2.patchValue({
       type: this.checkTypeRepor2,
     })
-    this.exportReportService.getImportReportFiscalYears().subscribe(res => {
+    this.exportReportService.getImportReportFiscalYears2().subscribe(res => {
       console.log("fiscalYear1: ", res);
       this.fiscalYearData = res.importFiscalYear.map((item, index) => {
         return {
@@ -738,7 +738,7 @@ export class SubjecteventComponent implements OnInit {
     this.FormReporttype4.patchValue({
       type: this.checkTypeRepor4,
     })
-    this.exportReportService.getImportReportFiscalYears().subscribe(res => {
+    this.exportReportService.getImportReportFiscalYears2().subscribe(res => {
       console.log("fiscalYear1: ", res);
       this.fiscalYearData = res.importFiscalYear.map((item, index) => {
         return {
