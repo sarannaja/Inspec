@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject, TemplateRef } from '@angular/core';
-import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl, Validators, FormArray } from '@angular/forms';
 
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { CentralpolicyService } from 'src/app/services/centralpolicy.service';
@@ -56,7 +56,14 @@ export class DetailElectronicBookComponent implements OnInit {
   ministryId: any;
   departmentId: any;
   userProvince: any[] = []
+  delId: any
+  fileStatus: any;
+  form: FormGroup;
+  fileData: any = [{ ebookFile: '', fileDescription: '', type: '' }];
+  listfiles: any = [];
 
+  get f() { return this.Form.controls }
+  get s() { return this.f.fileData as FormArray }
 
   constructor(
     private fb: FormBuilder,
@@ -108,6 +115,8 @@ export class DetailElectronicBookComponent implements OnInit {
       user: new FormControl("ร่างกำหนดการ", [Validators.required]),
       provinceDetail: new FormControl(null, [Validators.required]),
       provincialDepartment: new FormControl(null, [Validators.required]),
+
+      fileData: new FormArray([]),
     })
 
     this.Form2 = this.fb.group({
@@ -122,6 +131,10 @@ export class DetailElectronicBookComponent implements OnInit {
 
     this.suggestionForm = this.fb.group({
       suggestion: new FormControl(null, [Validators.required]),
+    })
+
+    this.form = this.fb.group({
+      files: [null]
     })
 
     await this.getElectronicBookDetail();
@@ -319,6 +332,7 @@ export class DetailElectronicBookComponent implements OnInit {
           });
         }
       }
+      this.form.reset();
       this.getElectronicBookDetail();
       this.modalRef.hide();
       this._NotofyService.onSuccess("แก้ไขข้อมูล",)
@@ -633,5 +647,39 @@ export class DetailElectronicBookComponent implements OnInit {
       window.open(this.url + "Uploads/" + res.data);
       console.log(res);
     })
+  }
+
+  uploadFile(event) {
+    var file = (event.target as HTMLInputElement).files;
+    for (let i = 0, numFiles = file.length; i < numFiles; i++) {
+      this.listfiles.push(file[i])
+      this.s.push(this.fb.group({
+        ebookFile: file[i],
+        fileDescription: '',
+        type: file[i].type,
+      }))
+    }
+    console.log("listfiles: ", this.Form.value);
+    console.log("eiei: ", this.s.controls);
+
+
+    this.form.patchValue({
+      files: this.listfiles
+    });
+  }
+
+  openDeleteFileModal(template: TemplateRef<any>, id) {
+    this.delId = id;
+    this.modalRef = this.modalService.show(template);
+  }
+
+  deleteFile() {
+    // alert("onDelete");
+    this.electronicBookService.deleteFile(this.delId)
+      .subscribe(response => {
+        console.log("res: ", response);
+        this.modalRef.hide();
+        this.getElectronicBookDetail();
+      })
   }
 }
