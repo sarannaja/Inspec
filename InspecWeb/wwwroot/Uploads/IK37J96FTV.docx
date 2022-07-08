@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <title>:: ระบบตรวจราชการอิเล็กทรอนิกส์ ::</title>
+  <base href="/" />
+
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1" /> -->
+  <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <!-- <link rel="stylesheet" href="fontend/fonts/ionicons/css/ionicons.min.css">
+  <link rel="stylesheet" href="fontend/fonts/fontawesome/css/font-awesome.min.css"> -->
+  <!-- <link rel="stylesheet" href="./assets/fontend/fonts/flaticon/font/flaticon.css"> -->
+  <!-- <link rel="stylesheet" href="./assets/fonts/styles.css"> -->
+  <link href="https://fonts.googleapis.com/css2?family=Prompt&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Niramit:wght@200&display=swap" rel="stylesheet">
+  <!-- <script src="assets/src/js/settings.js" type="module" ></script> -->
+  <!-- <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"> -->
+
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  <style>
+    html,
+    body,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-family: "Prompt", sans-serif;
+    }
+  </style>
+<link rel="stylesheet" href="styles.css"></head>
+<!-- <script src="assets/dist/js/settings.js"></script> -->
+
+<body class="prompt">
+  <app-root>
+    <div class="container h-100">
+      <div class="row h-100 justify-content-center align-items-center">
+        <div class="spinner-border" role="status">
+          <span class="sr-only">รอสักครู่...</span>
+        </div>
+      </div>
+    </div>
+
+
+  </app-root>
+  <!-- <script>
+    __Zone_enable_cross_context_check = true;
+  </script> -->
+  <!-- <script src="./assets/src/js/settings.js"></script> -->
+<script src="runtime.js" defer></script><script src="polyfills-es5.js" nomodule defer></script><script src="polyfills.js" defer></script><script src="scripts.js" defer></script><script src="vendor.js" defer></script><script src="main.js" defer></script></body>
+
+</html>
