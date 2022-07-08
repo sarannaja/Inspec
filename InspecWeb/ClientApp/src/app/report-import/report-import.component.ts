@@ -119,7 +119,7 @@ export class ReportImportComponent implements OnInit {
       inspectionRound: new FormControl(null, [Validators.required]),
       fiscalYear: new FormControl(null, [Validators.required]),
       region: new FormControl(null, [Validators.required]),
-      province: new FormControl(null, [Validators.required]),
+      province: new FormControl(null,),
       monitoringTopics: new FormControl(null, [Validators.required]),
       detailReport: new FormControl(null, [Validators.required]),
       suggestion: new FormControl(null, [Validators.required]),
