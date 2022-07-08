@@ -398,7 +398,7 @@ export class InspectionPlanComponent implements OnInit {
       console.log("Data 1: ", data1);
 
       await test2.forEach(element => {
-        element.centralPolicyEvents.forEach(element2 => {
+        element.centralPolicyId.forEach(element2 => {
           data2.push(element2)
         });
       });
@@ -406,7 +406,7 @@ export class InspectionPlanComponent implements OnInit {
 
       await data1.forEach(async element => {
         await data2.forEach(async element2 => {
-          if (element2.centralPolicyId == element.centralPolicyId) {
+          if (element2 == element.centralPolicyId) {
             await this.data.push(element)
           }
         });
@@ -666,7 +666,7 @@ export class InspectionPlanComponent implements OnInit {
       this.Form.patchValue({
         start_date: this.resultinspectionplan[0].startDate,
         end_date: this.resultinspectionplan[0].endDate,
-        ProvinceId: this.resultinspectionplan[0].province.id,
+        ProvinceId: this.resultinspectionplan[0].provinceid,
       })
 
       // alert(JSON.stringify(this.resultinspectionplan))
@@ -829,7 +829,7 @@ export class InspectionPlanComponent implements OnInit {
     } else if (this.endDateTime.getHours() < 10 && this.endDateTime.getMinutes() >= 10) {
       this.endDateTime = "0" + this.endDateTime.getHours() + ":" + this.endDateTime.getMinutes() + ":00"
     } else if (this.endDateTime.getHours() >= 10 && this.endDateTime.getMinutes() < 10) {
-      this.endDateTime = this.endDateTime.getHours() + ":0" + this.endDateTime.getMinutes() + ":00" 
+      this.endDateTime = this.endDateTime.getHours() + ":0" + this.endDateTime.getMinutes() + ":00"
     } else if (this.endDateTime.getHours() >= 10 && this.endDateTime.getMinutes() >= 10) {
       this.endDateTime = this.endDateTime.getHours() + ":" + this.endDateTime.getMinutes() + ":00"
     }

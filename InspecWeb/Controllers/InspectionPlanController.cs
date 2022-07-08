@@ -36,30 +36,48 @@ namespace InspecWeb.Controllers
         public IActionResult Get(long id, long provinceid)
         {
             var inspectionplandata = _context.InspectionPlanEvents
-                .Include(m => m.Province)
+                // .Include(m => m.Province)
                 .Include(m => m.CentralPolicyEvents)
-                .ThenInclude(m => m.CentralPolicy)
-                .ThenInclude(m => m.CentralPolicyDates)
+                // .ThenInclude(m => m.CentralPolicy)
+                // .ThenInclude(m => m.Typeexaminationplan)
+                // .ThenInclude(m => m.CentralPolicyDates)
                 .OrderByDescending(m => m.Id)
                 .Where(m => m.ProvinceId == provinceid)
-                .Where(m => m.Id == id).ToList();
+                .Where(m => m.Id == id).ToList()
+                .Select(m => new{
+                    startDate = m.StartDate,
+                    endDate = m.EndDate,
+                    provinceid = m.ProvinceId,
+                    centralPolicyId = m.CentralPolicyEvents.Select(m => m.CentralPolicyId),
+                    //centralPolicyClass = m.CentralPolicyEvents.Select(m => m.CentralPolicy.Class)
+                    // typeexaminationplan = m.CentralPolicyEvents.Select(m => m.CentralPolicy.Typeexaminationplan.Name),
+                    // centralPolicyname = m.CentralPolicyEvents.Select(m => m.CentralPolicy.Title),
+                });
             //.Where(m => m.CentralPolicyEvents.Any(i => i.InspectionPlanEventId == id));
 
             var test = _context.CentralPolicyEvents
-                .Include(m => m.CentralPolicy)
-                .ThenInclude(m => m.CentralPolicyDates)
+                // .Include(m => m.CentralPolicy)
+                // .ThenInclude(m => m.CentralPolicyDates)
                 .Include(m => m.InspectionPlanEvent)
                 .Include(m => m.CentralPolicy)
                 .ThenInclude(m => m.CentralPolicyProvinces)
-                .Include(x => x.CentralPolicy)
-                .ThenInclude(x => x.FiscalYearNew)
+                // .Include(x => x.CentralPolicy)
+                // .ThenInclude(x => x.FiscalYearNew)
                 .Include(m => m.CentralPolicy)
                 .ThenInclude(m => m.Typeexaminationplan)
                 .OrderByDescending(m => m.Id)
                 .Where(m => m.InspectionPlanEvent.Id == id)
                 .Where(m => m.InspectionPlanEvent.ProvinceId == provinceid)
-                .Where(m => m.CentralPolicy.CentralPolicyProvinces.Any(m => m.ProvinceId == provinceid))
-                .ToList();
+                .Where(m => m.CentralPolicy.CentralPolicyProvinces.Any(m => m.ProvinceId == provinceid)).ToList()
+                .Select(m => new { 
+                    centralPolicyId = m.CentralPolicyId,
+                    typeexaminationplan = m.CentralPolicy.Typeexaminationplan.Name,
+                    centralPolicyname = m.CentralPolicy.Title,
+                    startDate = m.StartDate,
+                    endDate = m.EndDate,
+                    centralPolicyClass = m.CentralPolicy.Class,
+                    id = m.Id,
+                });
 
             return Ok(new { test, inspectionplandata });
         }
@@ -512,7 +530,7 @@ namespace InspecWeb.Controllers
                 //     _context.SaveChanges();
                 // }
             }
-            
+
             var CalendarFiledata = _context.CalendarFiles
             .Where(m => m.InspectionPlanEventId == planid).ToList();
             _context.CalendarFiles.RemoveRange(CalendarFiledata);
