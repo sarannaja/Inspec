@@ -230,8 +230,8 @@
               </tr> -->
             <tr *ngFor="let item of data; let i = index">
               <td>{{ i + 1 }}</td>
-              <td>{{ item.centralPolicy.typeexaminationplan.name }}</td>
-              <td width="40%">{{ item.centralPolicy.title }}</td>
+              <td>{{ item.typeexaminationplan }}</td>
+              <td width="40%">{{ item.centralPolicyname }}</td>
               <!-- <td>{{item.centralPolicy.fiscalYear.year}}</td> -->
               <!-- <td>
                 <div *ngFor="let item2 of item.centralPolicy.centralPolicyDates;">
@@ -255,18 +255,18 @@
                 <i *ngIf="watch == 1" class="align-middle mr-2 fas fa-fw fa-search pointer" title="ดูรายละเอียด"
                   (click)="DetailCentralPolicy(item.centralPolicyId, 1)"></i>
 
-                <i *ngIf="role_id == 3 && item.centralPolicy.class == 'แผนการตรวจประจำปี' && timelineData.status == 'ร่างกำหนดการ' && watch == 0"
+                <i *ngIf="role_id == 3 && item.centralPolicyClass == 'แผนการตรวจประจำปี' && timelineData.status == 'ร่างกำหนดการ' && watch == 0"
                   class="align-middle mr-2 fas fa-fw fa-trash pointer" title="ลบแผนการตรวจ"
                   (click)="openModal2(ModalDeleteCentralPolicyEvent, item.id)"></i>
 
-                <i *ngIf="role_id == 3 && item.centralPolicy.class == 'แผนการตรวจ' && timelineData.status == 'ร่างกำหนดการ' && watch == 0"
+                <i *ngIf="role_id == 3 && item.centralPolicyClass == 'แผนการตรวจ' && timelineData.status == 'ร่างกำหนดการ' && watch == 0"
                   class="align-middle mr-2 fas fa-fw fa-pen pointer" title="แก้ไขแผนการตรวจ"
                   (click)="openModaledit(ModalEditCentralPolicy,item.id)"></i>
-                <i *ngIf="role_id == 3 && item.centralPolicy.class == 'แผนการตรวจ' && timelineData.status == 'ร่างกำหนดการ' && watch == 0"
+                <i *ngIf="role_id == 3 && item.centralPolicyClass == 'แผนการตรวจ' && timelineData.status == 'ร่างกำหนดการ' && watch == 0"
                   class="align-middle mr-2 fas fa-fw fa-trash pointer" title="ลบแผนการตรวจ"
                   (click)="openModal2(ModalDeleteCentralPolicy,item.centralPolicyId)"></i>
 
-                <i *ngIf="role_id == 3 && item.centralPolicy.class == 'ประเด็นการตรวจติดตาม' && timelineData.status == 'ร่างกำหนดการ' && watch == 0"
+                <i *ngIf="role_id == 3 && item.centralPolicyClass == 'ประเด็นการตรวจติดตาม' && timelineData.status == 'ร่างกำหนดการ' && watch == 0"
                   class="align-middle mr-2 fas fa-fw fa-trash pointer" title="ลบแผนการตรวจ"
                   (click)="openModal2(ModalDeleteCentralPolicy,item.centralPolicyId)"></i>
 
