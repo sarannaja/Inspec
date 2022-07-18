@@ -63,6 +63,13 @@ namespace InspecWeb.Controllers
                 .ThenInclude(x => x.InspectionPlanEvent)
                 .Where(x => x.CreatedBy == userId)
                 .OrderByDescending(x => x.Id)
+                 .Select(x => new { 
+                    centralPolicy = x.CentralPolicy,
+                    startDate = x.StartDate,
+                    status = x.Status,
+                    id = x.Id,
+                    electronicBookGroups = x.ElectronicBookGroups.Select(x => x.CentralPolicyEvent.CentralPolicy.Title)
+                })
                 .ToList();
 
             //var ebook = _context.CentralPolicyEvents

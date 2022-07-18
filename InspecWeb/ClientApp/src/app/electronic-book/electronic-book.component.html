@@ -52,7 +52,7 @@
               <td>{{ i + 1 }}</td>
               <td *ngIf="item.centralPolicy == null" class="pointer" (click)="gotoDetail(item.id)">
                 <div *ngFor="let items of item.electronicBookGroups; let i2 = index">
-                  {{i2 + 1}}) {{items.centralPolicyEvent.centralPolicy.title}}
+                  {{i2 + 1}}) {{items}}
                 </div>
               </td>
               <td *ngIf="item.centralPolicy != null" class="pointer" (click)="gotoDetail(item.id)">
