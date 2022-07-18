@@ -167,7 +167,7 @@ namespace InspecWeb.Controllers
                         roleCreatedBy = m.RoleCreatedBy,
                         id = m.Id,
                         startDate = m.StartDate,
-                        endData = m.EndDate,
+                        endDate = m.EndDate,
                         provincename = m.Province.Name,
                         provinceid = m.ProvinceId,
                     })
