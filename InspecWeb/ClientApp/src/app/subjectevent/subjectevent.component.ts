@@ -139,6 +139,7 @@ export class SubjecteventComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.spinner.show();
     this.authorize.getUser()
       .subscribe(result => {
         this.userid = result.sub
@@ -262,9 +263,10 @@ export class SubjecteventComponent implements OnInit {
 
       this.resultsubjectevent = result
       this.selectdatacentralpolicytype1 = this.resultsubjectevent.map((item, index) => {
-        return { value: item.id, label: item.centralPolicy.title }
+        return { value: item.id, label: item.centralPolicyTitle }
       })
       this.loading = true;
+      this.spinner.hide();
     })
   }
 
@@ -368,7 +370,7 @@ export class SubjecteventComponent implements OnInit {
     // }
   }
   storeCentralPolicy(value) {
-
+    this.spinner.show();
     // alert(JSON.stringify(this.Form.value.startdate))
     // alert(JSON.stringify(this.Form.value.enddate))
 

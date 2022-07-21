@@ -82,8 +82,8 @@
           <tr *ngFor="let item of resultsubjectevent; let i = index">
             <td>{{ i + 1 }}</td>
             <!-- <td>{{item.centralPolicy.type}}</td> -->
-            <td>{{ item.centralPolicy.title }}</td>
-            <td>{{item.province.name}}</td>
+            <td>{{ item.centralPolicyTitle }}</td>
+            <td>{{item.provincName}}</td>
             <!-- <td>{{item.land}}</td> -->
 
             <td *ngIf="item.land == 'ลงพื้นที่'">{{item.startDate | thaidate: 'short' }} -
@@ -103,27 +103,27 @@
                 class="align-middle mr-2 fas fa-fw fa-search pointer"
                 (click)="Subjectevent(item.id,item.centralPolicyId,item.provinceId)"></i>
 
-              <i *ngIf="item.status == 'ร่างกำหนดการ' && item.land == 'ไม่ลงพื้นที่' && item.centralPolicy.class == 'แผนการตรวจประจำปี'"
-                (click)="openModal(modaldeleteProvince, item.id,'ไม่ลงพื้นที่',item.centralPolicy.class)"
+              <i *ngIf="item.status == 'ร่างกำหนดการ' && item.land == 'ไม่ลงพื้นที่' && item.centralPolicyClass == 'แผนการตรวจประจำปี'"
+                (click)="openModal(modaldeleteProvince, item.id,'ไม่ลงพื้นที่',item.centralPolicyClass)"
                 class="align-middle mr-2 fas fa-fw fa-trash pointer"></i>
-              <i *ngIf="item.status == 'ร่างกำหนดการ' && item.land == 'ไม่ลงพื้นที่' && item.centralPolicy.class == 'แผนการตรวจ'"
-                (click)="openModal(modaldeleteProvince, item.centralPolicyId,'ไม่ลงพื้นที่',item.centralPolicy.class)"
-                class="align-middle mr-2 fas fa-fw fa-trash pointer"></i>
-
-              <i *ngIf="item.status == 'ร่างกำหนดการ' && item.land == 'ไม่ลงพื้นที่' && item.centralPolicy.class == 'ประเด็นการตรวจติดตาม'"
-                (click)="openModal(modaldeleteProvince, item.centralPolicyId,'ไม่ลงพื้นที่',item.centralPolicy.class)"
+              <i *ngIf="item.status == 'ร่างกำหนดการ' && item.land == 'ไม่ลงพื้นที่' && item.centralPolicyClass == 'แผนการตรวจ'"
+                (click)="openModal(modaldeleteProvince, item.centralPolicyId,'ไม่ลงพื้นที่',item.centralPolicyClass)"
                 class="align-middle mr-2 fas fa-fw fa-trash pointer"></i>
 
-
-              <i *ngIf="item.status == 'ร่างกำหนดการ' && item.land == 'ลงพื้นที่' && item.centralPolicy.class == 'แผนการตรวจประจำปี'"
-                (click)="openModal(modaldeleteProvince, item.id,'ลงพื้นที่',item.centralPolicy.class)"
+              <i *ngIf="item.status == 'ร่างกำหนดการ' && item.land == 'ไม่ลงพื้นที่' && item.centralPolicyClass == 'ประเด็นการตรวจติดตาม'"
+                (click)="openModal(modaldeleteProvince, item.centralPolicyId,'ไม่ลงพื้นที่',item.centralPolicyClass)"
                 class="align-middle mr-2 fas fa-fw fa-trash pointer"></i>
 
-              <i *ngIf="item.status == 'ร่างกำหนดการ' && item.land == 'ลงพื้นที่' && item.centralPolicy.class == 'แผนการตรวจ'"
-                (click)="openModal(modaldeleteProvince, item.centralPolicyId,'ลงพื้นที่',item.centralPolicy.class)"
+
+              <i *ngIf="item.status == 'ร่างกำหนดการ' && item.land == 'ลงพื้นที่' && item.centralPolicyClass == 'แผนการตรวจประจำปี'"
+                (click)="openModal(modaldeleteProvince, item.id,'ลงพื้นที่',item.centralPolicyClass)"
                 class="align-middle mr-2 fas fa-fw fa-trash pointer"></i>
-              <i *ngIf="item.status == 'ร่างกำหนดการ' && item.land == 'ลงพื้นที่' && item.centralPolicy.class == 'ประเด็นการตรวจติดตาม'"
-                (click)="openModal(modaldeleteProvince, item.centralPolicyId,'ลงพื้นที่',item.centralPolicy.class)"
+
+              <i *ngIf="item.status == 'ร่างกำหนดการ' && item.land == 'ลงพื้นที่' && item.centralPolicyClass == 'แผนการตรวจ'"
+                (click)="openModal(modaldeleteProvince, item.centralPolicyId,'ลงพื้นที่',item.centralPolicyClass)"
+                class="align-middle mr-2 fas fa-fw fa-trash pointer"></i>
+              <i *ngIf="item.status == 'ร่างกำหนดการ' && item.land == 'ลงพื้นที่' && item.centralPolicyClass == 'ประเด็นการตรวจติดตาม'"
+                (click)="openModal(modaldeleteProvince, item.centralPolicyId,'ลงพื้นที่',item.centralPolicyClass)"
                 class="align-middle mr-2 fas fa-fw fa-trash pointer"></i>
 
             </td>
@@ -718,3 +718,6 @@
 <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">
   <p style="font-size: 20px; color: white">Loading...</p>
 </ngx-spinner> -->
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">
+  <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>

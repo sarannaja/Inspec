@@ -1529,6 +1529,19 @@ namespace InspecWeb.Controllers
                         //.Where(m => m.SubjectCentralPolicyProvinces.Any(m => m.Type != "Master"))
                         .Where(p => p.RoleCreatedBy == 3)
                         .Where(m => m.Type == "NoMaster")
+                        .Select(m => new
+                        {
+                            provinceId = m.ProvinceId,
+                            centralPolicyTitle = m.CentralPolicy.Title,
+                            provinceName = m.Province.Name,
+                            land = m.Land,
+                            startDate = m.StartDate,
+                            endDate = m.EndDate,
+                            status = m.Status,
+                            id = m.Id,
+                            centralPolicyId = m.CentralPolicyId,
+                            centralPolicyClass = m.CentralPolicy.Class,
+                        })
                         // .Select(m => m.CentralPolicy.Id)
                         // .SelectMany(m => m.CentralPolicy.Id)
                         .ToList();
@@ -1538,7 +1551,7 @@ namespace InspecWeb.Controllers
                 {
                     for (int i = 0; i < userprovince.Count(); i++)
                     {
-                        if (inspectionplan.ProvinceId == userprovince[i].ProvinceId)
+                        if (inspectionplan.provinceId == userprovince[i].ProvinceId)
                             termsList.Add(inspectionplan);
                     }
                 }
