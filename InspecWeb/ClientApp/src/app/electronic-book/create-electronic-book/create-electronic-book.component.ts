@@ -186,6 +186,7 @@ export class CreateElectronicBookComponent implements OnInit {
   storeElectronicBook(value) {
     // console.log("File with desctiption: ", value);
     // console.log("checkType: ", this.checkTypeCreate);
+    this.spinner.show();
     this.submitted = true;
     if (this.EbookForm.invalid) {
       console.log("validated.");
@@ -211,7 +212,7 @@ export class CreateElectronicBookComponent implements OnInit {
           //     })
           //   }
           // }
-
+          this.spinner.hide();
           window.history.back();
 
         })
@@ -221,6 +222,7 @@ export class CreateElectronicBookComponent implements OnInit {
           .subscribe(res => {
             console.log("eBookRes: ", res);
             this._NotofyService.onSuccess("เพื่มข้อมูล",);
+            this.spinner.hide();
             window.history.back();
           })
       }
@@ -228,6 +230,7 @@ export class CreateElectronicBookComponent implements OnInit {
   }
 
   storeElectronicBook2(value) {
+    this.spinner.show();
     // console.log("File with desctiption: ", value);
     // console.log("checkType: ", this.checkTypeCreate);
     this.submitted2 = true;
@@ -255,7 +258,7 @@ export class CreateElectronicBookComponent implements OnInit {
           //     })
           //   }
           // }
-
+          this.spinner.hide();
           window.history.back();
 
         })
@@ -265,6 +268,7 @@ export class CreateElectronicBookComponent implements OnInit {
           .subscribe(res => {
             console.log("eBookRes: ", res);
             this._NotofyService.onSuccess("เพื่มข้อมูล",);
+            this.spinner.hide();
             window.history.back();
           })
       }

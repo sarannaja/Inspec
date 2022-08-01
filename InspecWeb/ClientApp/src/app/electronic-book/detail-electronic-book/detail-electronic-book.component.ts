@@ -1,12 +1,11 @@
 import { Component, OnInit, Inject, TemplateRef } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators, FormArray } from '@angular/forms';
-
+import { NgxSpinnerService } from 'ngx-spinner';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { CentralpolicyService } from 'src/app/services/centralpolicy.service';
 import { UserService } from 'src/app/services/user.service';
 import { SubjectService } from 'src/app/services/subject.service';
 import { ActivatedRoute } from '@angular/router';
-import { NgxSpinnerService } from "ngx-spinner";
 import { ElectronicbookService } from 'src/app/services/electronicbook.service';
 import { AuthorizeService } from 'src/api-authorization-new/authorize.service';
 import { NotificationService } from 'src/app/services/notification.service';
@@ -66,13 +65,13 @@ export class DetailElectronicBookComponent implements OnInit {
   get s() { return this.f.fileData as FormArray }
 
   constructor(
+    private spinner: NgxSpinnerService,
     private fb: FormBuilder,
     private modalService: BsModalService,
     private centralpolicyservice: CentralpolicyService,
     private userservice: UserService,
     private subjectservice: SubjectService,
     private activatedRoute: ActivatedRoute,
-    private spinner: NgxSpinnerService,
     private electronicBookService: ElectronicbookService,
     private authorize: AuthorizeService,
     private notificationService: NotificationService,

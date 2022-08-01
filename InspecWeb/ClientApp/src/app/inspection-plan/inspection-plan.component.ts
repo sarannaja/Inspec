@@ -282,7 +282,7 @@ export class InspectionPlanComponent implements OnInit {
     // this.getProvincialDepartmentPeople();
 
     this.checkInspec = null;
-    this.modalRef = this.modalService.show(template);
+    this.modalRef = this.modalService.show(template, {class: 'modal-lg'});
   }
 
   async openModalAddCentralPolicy(template: TemplateRef<any>) {
@@ -294,7 +294,7 @@ export class InspectionPlanComponent implements OnInit {
     // this.getProvincialDepartmentPeople();
 
     this.checkInspec = null;
-    this.modalRef = this.modalService.show(template);
+    this.modalRef = this.modalService.show(template, {class: 'modal-lg'});
   }
 
   openModal2(template: TemplateRef<any>, delid) {
@@ -312,7 +312,7 @@ export class InspectionPlanComponent implements OnInit {
     this.getDetailCentralpolicy();
     this.getinspectionplanservice2();
     this.getFiscalyearservice();
-    this.modalRef = this.modalService.show(template);
+    this.modalRef = this.modalService.show(template, {class: 'modal-lg'});
   }
 
   Subject(id) {

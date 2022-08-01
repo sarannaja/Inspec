@@ -37,6 +37,7 @@ export class ElectronicBookComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.spinner.show();
     this.authorize.getUser()
       .subscribe(result => {
         this.userid = result.sub
@@ -90,6 +91,7 @@ export class ElectronicBookComponent implements OnInit {
       console.log("ELECTDATA: ", this.electronicBookData);
 
       this.loading = true;
+      this.spinner.hide();
     })
   }
 
@@ -98,6 +100,7 @@ export class ElectronicBookComponent implements OnInit {
   }
 
   deleteElectronicBook() {
+    this.spinner.show();
     this.electronicBookService.deleteElectronicBook(this.delid).subscribe(result => {
       console.log('Delete Res: ', result);
       this.loading = false;

@@ -241,7 +241,7 @@ export class SubjecteventComponent implements OnInit {
 
     this.checkInspec = null;
     this.checkType = 0;
-    this.modalRef = this.modalService.show(template);
+    this.modalRef = this.modalService.show(template, {class: 'modal-lg'});
   }
   reportModalReport(template: TemplateRef<any>) {
     this.checkTypeReport = 0;
