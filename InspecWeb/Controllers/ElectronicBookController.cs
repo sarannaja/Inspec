@@ -1331,6 +1331,11 @@ namespace InspecWeb.Controllers
             .Include(x => x.InspectionPlanEvent)
             .ThenInclude(x => x.Province)
             .Where(x => x.InspectionPlanEvent.Status == "ใช้งานจริง" && x.InspectionPlanEvent.CreatedBy == userId)
+            .Select(x => new {
+                id = x.Id,
+                centralPolicyTitle = x.CentralPolicy.Title,
+                inspectionPlanEventProvinceName = x.InspectionPlanEvent.Province.Name
+            })
             .ToList();
 
             // var centralPolicyEbookData = _context.CentralPolicies

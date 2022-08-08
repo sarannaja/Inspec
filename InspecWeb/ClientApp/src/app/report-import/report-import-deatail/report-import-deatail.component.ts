@@ -165,8 +165,8 @@ export class ReportImportDeatailComponent implements OnInit {
       console.log("cenData: ", res);
       this.centralPolicyEvent = res.map((item, index) => {
         return {
-          value: item.centralPolicyId,
-          label: item.centralPolicy.title + "  -  " + "จังหวัด: " + item.inspectionPlanEvent.province.name
+          value: item.id,
+          label: item.centralPolicyTitle + "  -  " + "จังหวัด: " + item.inspectionPlanEventProvinceName
         }
       })
     })

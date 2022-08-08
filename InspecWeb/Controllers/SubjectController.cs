@@ -1493,7 +1493,21 @@ namespace InspecWeb.Controllers
                                       .ThenInclude(m => m.FiscalYearNew)
                                       .OrderByDescending(m => m.Id)
                                       .Where(m => m.Status == "ใช้งานจริง" || m.Status == "รายงานแล้ว")
-                                      .Where(m => m.Type == "NoMaster").ToList();
+                                      .Where(m => m.Type == "NoMaster")
+                                                .Select(m => new
+                        {
+                            provinceId = m.ProvinceId,
+                            centralPolicyTitle = m.CentralPolicy.Title,
+                            provinceName = m.Province.Name,
+                            land = m.Land,
+                            startDate = m.StartDate,
+                            endDate = m.EndDate,
+                            status = m.Status,
+                            id = m.Id,
+                            centralPolicyId = m.CentralPolicyId,
+                            centralPolicyClass = m.CentralPolicy.Class,
+                        })
+                                      .ToList();
                 return Ok(subjectgroupsdatas);
             }
 
@@ -1505,7 +1519,21 @@ namespace InspecWeb.Controllers
                                       .ThenInclude(m => m.FiscalYearNew)
                                       .OrderByDescending(m => m.Id)
                                       .Where(m => m.Status == "ใช้งานจริง" || m.Status == "รายงานแล้ว")
-                                      .Where(m => m.Type == "NoMaster").ToList();
+                                      .Where(m => m.Type == "NoMaster")
+                                      .Select(m => new
+                                        {
+                                           provinceId = m.ProvinceId,
+                            centralPolicyTitle = m.CentralPolicy.Title,
+                            provinceName = m.Province.Name,
+                            land = m.Land,
+                            startDate = m.StartDate,
+                            endDate = m.EndDate,
+                            status = m.Status,
+                            id = m.Id,
+                            centralPolicyId = m.CentralPolicyId,
+                            centralPolicyClass = m.CentralPolicy.Class,
+                        })
+                                      .ToList();
                 return Ok(subjectgroupsdatas);
             }
 
@@ -1575,14 +1603,28 @@ namespace InspecWeb.Controllers
                         //.Include(m => m.SubjectCentralPolicyProvinces)
                         //.Where(m => m.SubjectCentralPolicyProvinces.Any(m => m.Type != "Master"))
                         .Where(p => p.RoleCreatedBy == 6)
-                        .Where(m => m.Type == "NoMaster").ToList();
+                        .Where(m => m.Type == "NoMaster")
+                                  .Select(m => new
+                        {
+                            provinceId = m.ProvinceId,
+                            centralPolicyTitle = m.CentralPolicy.Title,
+                            provinceName = m.Province.Name,
+                            land = m.Land,
+                            startDate = m.StartDate,
+                            endDate = m.EndDate,
+                            status = m.Status,
+                            id = m.Id,
+                            centralPolicyId = m.CentralPolicyId,
+                            centralPolicyClass = m.CentralPolicy.Class,
+                        })
+                        .ToList();
 
                 List<object> termsList = new List<object>();
                 foreach (var inspectionplan in subjectgroupsdatas)
                 {
                     for (int i = 0; i < userprovince.Count(); i++)
                     {
-                        if (inspectionplan.ProvinceId == userprovince[i].ProvinceId)
+                        if (inspectionplan.provinceId == userprovince[i].ProvinceId)
                             termsList.Add(inspectionplan);
                     }
                 }
@@ -1606,14 +1648,28 @@ namespace InspecWeb.Controllers
                         //.Include(m => m.SubjectCentralPolicyProvinces)
                         //.Where(m => m.SubjectCentralPolicyProvinces.Any(m => m.Type != "Master"))
                         .Where(p => p.RoleCreatedBy == 10)
-                        .Where(m => m.Type == "NoMaster").ToList();
+                        .Where(m => m.Type == "NoMaster")
+                                  .Select(m => new
+                        {
+                            provinceId = m.ProvinceId,
+                            centralPolicyTitle = m.CentralPolicy.Title,
+                            provinceName = m.Province.Name,
+                            land = m.Land,
+                            startDate = m.StartDate,
+                            endDate = m.EndDate,
+                            status = m.Status,
+                            id = m.Id,
+                            centralPolicyId = m.CentralPolicyId,
+                            centralPolicyClass = m.CentralPolicy.Class,
+                        })
+                        .ToList();
 
                 List<object> termsList = new List<object>();
                 foreach (var inspectionplan in subjectgroupsdatas)
                 {
                     for (int i = 0; i < userprovince.Count(); i++)
                     {
-                        if (inspectionplan.ProvinceId == userprovince[i].ProvinceId)
+                        if (inspectionplan.provinceId == userprovince[i].ProvinceId)
                             termsList.Add(inspectionplan);
                     }
                 }

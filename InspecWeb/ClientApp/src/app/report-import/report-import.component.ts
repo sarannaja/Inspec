@@ -230,12 +230,16 @@ export class ReportImportComponent implements OnInit {
   }
 
   getCentralPolicyEvent() {
+    // console.log("in getttt");
+
     this.electronicBookService.getCentralPolicyEbook(this.userid).subscribe(res => {
-      console.log("cenData: ", res);
+      // console.log("cenDatasssss: ");
+      // console.log("cenData: ", res);
+
       this.centralPolicyEvent = res.map((item, index) => {
         return {
           value: item.id,
-          label: item.centralPolicy.title + "  -  " + "จังหวัด: " + item.inspectionPlanEvent.province.name
+          label: item.centralPolicyTitle + "  -  " + "จังหวัด: " + item.inspectionPlanEventProvinceName
         }
       })
     })

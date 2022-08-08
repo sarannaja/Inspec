@@ -177,7 +177,7 @@ export class CreateElectronicBookComponent implements OnInit {
       this.centralPolicyEbook = res.map((item, index) => {
         return {
           value: item.id,
-          label: item.centralPolicy.title + "  -  " + "จังหวัด: " + item.inspectionPlanEvent.province.name
+          label: item.centralPolicyTitle + "  -  " + "จังหวัด: " + item.inspectionPlanEventProvinceName
         }
       })
     })
