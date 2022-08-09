@@ -48,7 +48,7 @@
                   {{items.centralPolicyEvent.centralPolicy.title}}
                 </div>
               </td>
-              <td width=20%>{{item.centralPolicyType.name}}</td>
+              <td width=20%>{{item.centralPolicyTypeName}}</td>
               <td width=15%>{{item.reportType}}</td>
               <td width=10%>{{item.createAt | thaidate: 'year'}}</td>
               <td width=10%>{{item.status}}</td>
@@ -87,7 +87,7 @@
             <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกแผนการตรวจราชการประจำปี"
               [multiple]="true" [items]="centralPolicyEvent" name="centralPolicyEvent"
               formControlName="centralPolicyEvent"
-              [ngClass]="{ 'is-invalid': submitted && reportForm.controls.centralPolicyEvent.errors }">
+              [ngClass]="{ 'is-invalid' : submitted && reportForm.controls.centralPolicyEvent.errors }">
             </ng-select>
             <div *ngIf="submitted && reportForm.controls.centralPolicyEvent.errors" class="invalid-feedback">
               <div *ngIf="reportForm.controls.centralPolicyEvent.errors.required">กรุณาเลือกแผนการตรวจราชการประจำปี

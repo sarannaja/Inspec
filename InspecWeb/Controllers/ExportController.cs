@@ -1396,6 +1396,15 @@ namespace InspecWeb.Controllers
                 .ThenInclude(x => x.CentralPolicy)
                 .Where(x => x.CreatedBy == userId)
                 .OrderByDescending(x => x.Id)
+                .Select(x => new
+                {
+                    importReportGroups = x.ImportReportGroups,
+                    centralPolicyTypeName = x.CentralPolicyType.Name,
+                    reportType = x.ReportType,
+                    createAt = x.CreateAt,
+                    status = x.Status,
+                    id = x.Id
+                })
                 .ToList();
 
             //var importData = _context.ImportReportGroups
