@@ -17,3 +17,6 @@ table.dataTable tbody td {
 table.dataTable thead th {
   vertical-align: top;
 }
+::ng-deep .ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
+  white-space: normal!important;
+}
