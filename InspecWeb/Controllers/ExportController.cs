@@ -1394,6 +1394,11 @@ namespace InspecWeb.Controllers
                 .Include(x => x.ImportReportGroups)
                 .ThenInclude(x => x.CentralPolicyEvent)
                 .ThenInclude(x => x.CentralPolicy)
+
+                .Include(x => x.ImportReportGroups)
+                .ThenInclude(x => x.CentralPolicyEvent)
+                .ThenInclude(x => x.InspectionPlanEvent)
+                .ThenInclude(x => x.Province)
                 .Where(x => x.CreatedBy == userId)
                 .OrderByDescending(x => x.Id)
                 .Select(x => new

@@ -43,16 +43,16 @@
           <tbody>
             <tr *ngFor="let item of importedReport.importData; let i = index">
               <td width=5%>{{ i + 1 }}</td>
-              <td width=25%>
+              <td width=35%>
                 <div *ngFor="let items of item.importReportGroups">
-                  {{items.centralPolicyEvent.centralPolicy.title}}
+                  - {{items.centralPolicyEvent.centralPolicy.title}} จังหวัด: {{items.centralPolicyEvent.inspectionPlanEvent.province.name}} ({{items.centralPolicyEvent.inspectionPlanEvent.startDate | thaidate: 'short'}} - {{items.centralPolicyEvent.inspectionPlanEvent.endDate | thaidate: 'short'}})
                 </div>
               </td>
-              <td width=20%>{{item.centralPolicyTypeName}}</td>
+              <td width=15%>{{item.centralPolicyTypeName}}</td>
               <td width=15%>{{item.reportType}}</td>
               <td width=10%>{{item.createAt | thaidate: 'year'}}</td>
               <td width=10%>{{item.status}}</td>
-              <td width=15%>
+              <td width=10%>
                 <i class="align-middle mr-2 fas fa-fw fa-search pointer" (click)="gotoDetail(item.id)"></i>
                 <!-- <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
                   (click)="openEditModal(editReportModal, item.id)"></i> -->
@@ -462,6 +462,6 @@
   </div>
 </ng-template>
 
-<!-- <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">
   <p style="font-size: 20px; color: white">Loading...</p>
-</ngx-spinner> -->
+</ngx-spinner>

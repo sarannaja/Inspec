@@ -1334,7 +1334,11 @@ namespace InspecWeb.Controllers
             .Select(x => new {
                 id = x.Id,
                 centralPolicyTitle = x.CentralPolicy.Title,
-                inspectionPlanEventProvinceName = x.InspectionPlanEvent.Province.Name
+                inspectionPlanEventProvinceName = x.InspectionPlanEvent.Province.Name,
+                date = new {
+                    startDate = x.InspectionPlanEvent.StartDate,
+                    endDate = x.InspectionPlanEvent.EndDate
+                    }
             })
             .ToList();
 

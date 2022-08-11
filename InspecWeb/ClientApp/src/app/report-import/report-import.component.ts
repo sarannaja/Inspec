@@ -11,7 +11,7 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { NotificationService } from '../services/notification.service';
 import { NotofyService } from '../services/notofy.service';
 import { TypeexamibationplanService } from '../services/typeexamibationplan.service';
-
+import * as moment from 'moment';
 @Component({
   selector: 'app-report-import',
   templateUrl: './report-import.component.html',
@@ -67,6 +67,7 @@ export class ReportImportComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.spinner.show();
     this.authorize.getUser()
       .subscribe(result => {
         console.log("res user: ", result);
@@ -136,6 +137,7 @@ export class ReportImportComponent implements OnInit {
       console.log("importReport: ", res);
       this.importedReport = res;
       this.loading = true;
+      this.spinner.hide();
     })
   }
 
@@ -181,6 +183,7 @@ export class ReportImportComponent implements OnInit {
       return;
     } else {
       console.log("Report Value: ", value);
+      this.spinner.show();
       this.exportReportService.postImportReport(value, this.userid, this.form.value.files, this.departmentId).subscribe(res => {
         this.reportForm.reset();
         this.loading = false;
@@ -208,6 +211,7 @@ export class ReportImportComponent implements OnInit {
 
   deleteReport() {
     // alert(this.delid);
+    this.spinner.show();
     this.exportReportService.deleteReport(this.delid).subscribe(res => {
       console.log("Delete Data: ", res);
       this.loading = false;
@@ -234,12 +238,12 @@ export class ReportImportComponent implements OnInit {
 
     this.electronicBookService.getCentralPolicyEbook(this.userid).subscribe(res => {
       // console.log("cenDatasssss: ");
-      // console.log("cenData: ", res);
-
+      moment.locale('th');
+      console.log("cenData: ", res);
       this.centralPolicyEvent = res.map((item, index) => {
         return {
           value: item.id,
-          label: item.centralPolicyTitle + "  -  " + "จังหวัด: " + item.inspectionPlanEventProvinceName
+          label: item.centralPolicyTitle + "  -  " + "จังหวัด: " + item.inspectionPlanEventProvinceName + " (" + moment(item.date.startDate).format('ll') + " - " + moment(item.date.endDate).format('ll') + ")"
         }
       })
     })
@@ -290,6 +294,7 @@ export class ReportImportComponent implements OnInit {
   }
 
   exportReport() {
+    this.spinner.show();
     this.exportReportService.getImportedReportById(this.reportId).subscribe(res => {
       console.log("reportById: ", res);
       // var data: any = [];
@@ -316,6 +321,7 @@ export class ReportImportComponent implements OnInit {
       this.exportReportService.createReport2(res, this.reportId).subscribe(res => {
         console.log("export: ", res);
         window.open(this.url + "Uploads/" + res.data);
+        this.spinner.hide();
         this.modalRef.hide();
       })
     })

@@ -61,8 +61,8 @@
               <td>{{item.startDate | thaidate: 'short'}}</td>
               <td>{{item.user.prefix}} {{item.user.name}}</td>
               <td>{{item.user.ministries.name}}</td>
-              <td *ngIf="item.user.role_id != 3">{{item.user.departments.name}}</td>
-              <td *ngIf="item.user.role_id == 3"> - </td>
+              <td>{{item.user.role_id == 3 ? " - ": item.user.departments.name}}</td>
+              <!-- <td *ngIf="item.user.role_id == 3"> - </td> -->
               <td>{{item.createdAt | thaidate: 'short'}}</td>
               <td>
                 <i class="align-middle mr-2 fas fa-search" (click)="gotoDetail(item.id)"
