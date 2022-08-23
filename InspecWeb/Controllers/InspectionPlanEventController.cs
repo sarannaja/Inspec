@@ -379,6 +379,13 @@ namespace InspecWeb.Controllers
                 .Include(p => p.CentralPolicy)
                 .Include(p => p.InspectionPlanEvent)
                 .ThenInclude(p => p.Province)
+                .Select(x => new
+                {
+                    centralpolicyTitle = x.CentralPolicy.Title,
+                    provinceName = x.InspectionPlanEvent.Province.Name,
+                    startDate = x.StartDate,
+                    endDate = x.EndDate
+                })
                 .ToList();
 
             //var userprovince = _context.UserProvinces

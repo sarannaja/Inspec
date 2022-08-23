@@ -52,8 +52,8 @@
         <tbody>
           <tr *ngFor="let item of resultschedule; let i = index">
             <td>{{ i + 1 }}</td>
-            <td>{{ item.centralPolicy.title }}</td>
-            <td>{{ item.inspectionPlanEvent.province.name }}</td>
+            <td>{{ item.centralpolicyTitle }}</td>
+            <td>{{ item.provinceName }}</td>
             <td> {{ item.startDate | thaidate: 'short' }} -
               {{ item.endDate | thaidate: 'short' }}</td>
           </tr>
