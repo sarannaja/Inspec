@@ -207,6 +207,12 @@ export class ExportReportService {
     return this.http.get<any>(this.url + "/getImportedReportById/" + reportId);
   }
 
+  getImportedReportById2(reportId) {
+    console.log("reportId: ", reportId);
+
+    return this.http.get<any>(this.url + "/getImportedReportById2/" + reportId);
+  }
+
   getCommanderReport() {
     return this.http.get<any>(this.url + "/getCommanderReport");
   }

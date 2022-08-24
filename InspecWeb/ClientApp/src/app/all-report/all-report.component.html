@@ -43,12 +43,12 @@
           <tbody>
             <tr *ngFor="let item of importedReport.importData; let i = index">
               <td width=5%>{{ i + 1 }}</td>
-              <td width=20%>
+              <td width=35%>
                 <div *ngFor="let items of item.importReportGroups">
-                  {{items.centralPolicyEvent.centralPolicy.title}}
+                  - {{items.centralPolicyTitle}} จังหวัด: {{items.inspectionPlanEventProvinceName}} ({{items.startDate | thaidate: 'short'}} - {{items.endDate | thaidate: 'short'}})
                 </div>
               </td>
-              <td width=20%>{{item.centralPolicyType.name}}</td>
+              <td width=15%>{{item.centralPolicyTypeName}}</td>
               <td width=15%>{{item.reportType}}</td>
               <td width=10%>{{item.createAt | thaidate: 'year'}}</td>
               <td width=10%>{{item.status}}</td>
@@ -324,3 +324,7 @@
     </p>
   </div>
 </ng-template>
+
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">
+  <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>

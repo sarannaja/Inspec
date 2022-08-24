@@ -83,6 +83,7 @@ export class AllReportComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.spinner.show();
     this.authorize.getUser()
       .subscribe(result => {
         this.userid = result.sub
@@ -162,6 +163,7 @@ export class AllReportComponent implements OnInit {
       console.log("AllimportReport: ", res);
       this.importedReport = res;
       this.loading = true;
+      this.spinner.hide();
     })
   }
 
@@ -200,12 +202,14 @@ export class AllReportComponent implements OnInit {
   }
 
   exportReport() {
+    this.spinner.show();
     this.exportReportService.getImportedReportById(this.reportId).subscribe(res => {
       console.log("reportById: ", res);
 
       this.exportReportService.createReport2(res, this.reportId).subscribe(res => {
         console.log("export: ", res);
         window.open(this.url + "Uploads/" + res.data);
+        this.spinner.hide();
         this.modalRef.hide();
       })
     })

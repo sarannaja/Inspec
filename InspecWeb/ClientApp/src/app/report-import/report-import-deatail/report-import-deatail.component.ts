@@ -56,6 +56,7 @@ export class ReportImportDeatailComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.spinner.show();
     this.authorize.getUser()
       .subscribe(result => {
         this.userid = result.sub
@@ -87,9 +88,10 @@ export class ReportImportDeatailComponent implements OnInit {
   }
 
   getReportImportById() {
-    this.exportReportService.getImportedReportById(this.reportId).subscribe(res => {
+    this.exportReportService.getImportedReportById2(this.reportId).subscribe(res => {
       console.log("detail: ", res);
       this.reportData = res;
+      this.spinner.hide();
     })
   }
 
@@ -98,7 +100,7 @@ export class ReportImportDeatailComponent implements OnInit {
   }
 
   openEditModal(template: TemplateRef<any>) {
-    this.exportReportService.getImportedReportById(this.reportId).subscribe(res => {
+    this.exportReportService.getImportedReportById2(this.reportId).subscribe(res => {
       console.log("getImportById: ", res);
 
       this.fiscalYearId = res.importData.fiscalYearId;
@@ -106,9 +108,9 @@ export class ReportImportDeatailComponent implements OnInit {
 
       this.reportForm.patchValue({
         centralPolicyEvent: res.importData.importReportGroups.map((item, index) => {
-          return item.centralPolicyEvent.centralPolicyId
+          return item.centralPolicyId
         }),
-        centralPolicyType: res.importData.centralPolicyType.id,
+        centralPolicyType: res.importData.centralPolicyTypeId,
         reportType: res.importData.reportType,
         inspectionRound: res.importData.inspectionRound,
         fiscalYear: res.importData.fiscalYearId.toString(),
@@ -152,6 +154,7 @@ export class ReportImportDeatailComponent implements OnInit {
   }
 
   editReport(value) {
+    this.spinner.show();
     this.exportReportService.editImportReport(value, this.reportId).subscribe(res => {
       this.reportForm.reset();
       this.getReportImportById();

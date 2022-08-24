@@ -1403,7 +1403,14 @@ namespace InspecWeb.Controllers
                 .OrderByDescending(x => x.Id)
                 .Select(x => new
                 {
-                    importReportGroups = x.ImportReportGroups,
+                    importReportGroups = x.ImportReportGroups.Select(x => new
+                    {
+                        centralPolicyTitle = x.CentralPolicyEvent.CentralPolicy.Title,
+                        inspectionPlanEventProvinceName = x.CentralPolicyEvent.InspectionPlanEvent.Province.Name,
+                        startDate = x.CentralPolicyEvent.InspectionPlanEvent.StartDate,
+                        endDate = x.CentralPolicyEvent.InspectionPlanEvent.EndDate,
+                        centralPolicyId = x.CentralPolicyEvent.CentralPolicyId
+                    }),
                     centralPolicyTypeName = x.CentralPolicyType.Name,
                     reportType = x.ReportType,
                     createAt = x.CreateAt,
@@ -1454,6 +1461,11 @@ namespace InspecWeb.Controllers
 
                 .Include(x => x.ImportReportFiles)
 
+                .Include(x => x.ImportReportGroups)
+                .ThenInclude(x => x.CentralPolicyEvent)
+                .ThenInclude(x => x.InspectionPlanEvent)
+                .ThenInclude(x => x.Province)
+
                 .Where(x => x.Id == reportId)
                 .FirstOrDefault();
 
@@ -1461,6 +1473,80 @@ namespace InspecWeb.Controllers
             //  .Include(x => x.ImportReport)
             //  .Where(x => x.ImportReport.CreatedBy == userId)
             //  .ToList();
+
+            return Ok(new { importData });
+        }
+
+        [HttpGet("getImportedReportById2/{reportId}")]
+        public IActionResult GetImportedReportById2(long reportId)
+        {
+            var importData = _context.ImportReports
+                .Include(x => x.ReportCommanders)
+                .Include(x => x.CentralPolicyType)
+                .Include(x => x.User)
+                .ThenInclude(x => x.Departments)
+                .Include(x => x.FiscalYear)
+                .Include(x => x.Region)
+                .Include(x => x.Province)
+                .Include(x => x.ImportReportGroups)
+                .ThenInclude(x => x.CentralPolicyEvent)
+                .ThenInclude(x => x.InspectionPlanEvent)
+                .ThenInclude(x => x.CentralPolicies)
+                .ThenInclude(x => x.CentralPolicyProvinces)
+                .ThenInclude(x => x.SubjectCentralPolicyProvinces)
+
+                .Include(x => x.ImportReportGroups)
+                .ThenInclude(x => x.CentralPolicyEvent)
+                .ThenInclude(x => x.CentralPolicy)
+                .ThenInclude(x => x.CentralPolicyProvinces)
+                .ThenInclude(x => x.SubjectCentralPolicyProvinces)
+                .ThenInclude(x => x.SubquestionCentralPolicyProvinces)
+                .ThenInclude(x => x.SubjectCentralPolicyProvinceGroups)
+                .ThenInclude(x => x.ProvincialDepartment)
+                .ThenInclude(x => x.Department)
+
+                .Include(x => x.ReportCommanders)
+                .ThenInclude(x => x.User)
+                .ThenInclude(x => x.Departments)
+
+                .Include(x => x.ImportReportFiles)
+
+                .Include(x => x.ImportReportGroups)
+                .ThenInclude(x => x.CentralPolicyEvent)
+                .ThenInclude(x => x.InspectionPlanEvent)
+                .ThenInclude(x => x.Province)
+
+                .Where(x => x.Id == reportId)
+                .Select(x => new
+                {
+                    importReportGroups = x.ImportReportGroups.Select(x => new
+                    {
+                        centralPolicyTitle = x.CentralPolicyEvent.CentralPolicy.Title,
+                        inspectionPlanEventProvinceName = x.CentralPolicyEvent.InspectionPlanEvent.Province.Name,
+                        startDate = x.CentralPolicyEvent.InspectionPlanEvent.StartDate,
+                        endDate = x.CentralPolicyEvent.InspectionPlanEvent.EndDate,
+                        centralPolicyId = x.CentralPolicyEvent.CentralPolicyId
+                    }),
+                    centralPolicyTypeName = x.CentralPolicyType.Name,
+                    reportType = x.ReportType,
+                    inspectionRound = x.InspectionRound,
+                    fiscalYear = x.FiscalYear.Year,
+                    regionName = x.Region.Name,
+                    provinceName = x.Province.Name,
+                    reportCommanders = x.ReportCommanders,
+                    monitoringTopics = x.MonitoringTopics,
+                    detailReport = x.DetailReport,
+                    suggestion = x.Suggestion,
+                    command = x.Command,
+                    importReportFiles = x.ImportReportFiles,
+                    status = x.Status,
+
+                    centralPolicyTypeId = x.CentralPolicyTypeId,
+                    fiscalYearId = x.FiscalYearId,
+                    regionId = x.RegionId,
+                    provinceId = x.ProvinceId
+                })
+                .FirstOrDefault();
 
             return Ok(new { importData });
         }
@@ -1877,6 +1963,23 @@ namespace InspecWeb.Controllers
                 .ThenInclude(x => x.CentralPolicyEvent)
                 .ThenInclude(x => x.CentralPolicy)
                 //.Where(x => x.Status == "ส่งแล้ว")
+                .Select(x => new
+                {
+                    importReportGroups = x.ImportReportGroups.Select(x => new
+                    {
+                        centralPolicyTitle = x.CentralPolicyEvent.CentralPolicy.Title,
+                        inspectionPlanEventProvinceName = x.CentralPolicyEvent.InspectionPlanEvent.Province.Name,
+                        startDate = x.CentralPolicyEvent.InspectionPlanEvent.StartDate,
+                        endDate = x.CentralPolicyEvent.InspectionPlanEvent.EndDate,
+                        centralPolicyId = x.CentralPolicyEvent.CentralPolicyId
+                    }),
+                    centralPolicyTypeName = x.CentralPolicyType.Name,
+                    reportType = x.ReportType,
+                    createAt = x.CreateAt,
+                    status = x.Status,
+                    id = x.Id,
+                    active = x.Active
+                })
                 .ToList();
 
             //var importData = _context.ImportReportGroups
@@ -3738,6 +3841,23 @@ namespace InspecWeb.Controllers
                 .ThenInclude(x => x.CentralPolicyEvent)
                 .ThenInclude(x => x.CentralPolicy)
                 .Where(x => x.Status == "ส่งแล้ว" && x.Active == 1)
+                .Select(x => new
+                {
+                    importReportGroups = x.ImportReportGroups.Select(x => new
+                    {
+                        centralPolicyTitle = x.CentralPolicyEvent.CentralPolicy.Title,
+                        inspectionPlanEventProvinceName = x.CentralPolicyEvent.InspectionPlanEvent.Province.Name,
+                        startDate = x.CentralPolicyEvent.InspectionPlanEvent.StartDate,
+                        endDate = x.CentralPolicyEvent.InspectionPlanEvent.EndDate,
+                        centralPolicyId = x.CentralPolicyEvent.CentralPolicyId
+                    }),
+                    centralPolicyTypeName = x.CentralPolicyType.Name,
+                    reportType = x.ReportType,
+                    createAt = x.CreateAt,
+                    status = x.Status,
+                    id = x.Id,
+                    active = x.Active
+                })
                 .ToList();
 
             return Ok(new { importData });

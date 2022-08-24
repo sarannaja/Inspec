@@ -45,7 +45,7 @@
               <td width=5%>{{ i + 1 }}</td>
               <td width=35%>
                 <div *ngFor="let items of item.importReportGroups">
-                  - {{items.centralPolicyEvent.centralPolicy.title}} จังหวัด: {{items.centralPolicyEvent.inspectionPlanEvent.province.name}} ({{items.centralPolicyEvent.inspectionPlanEvent.startDate | thaidate: 'short'}} - {{items.centralPolicyEvent.inspectionPlanEvent.endDate | thaidate: 'short'}})
+                  - {{items.centralPolicyTitle}} จังหวัด: {{items.inspectionPlanEventProvinceName}} ({{items.startDate | thaidate: 'short'}} - {{items.endDate | thaidate: 'short'}})
                 </div>
               </td>
               <td width=15%>{{item.centralPolicyTypeName}}</td>

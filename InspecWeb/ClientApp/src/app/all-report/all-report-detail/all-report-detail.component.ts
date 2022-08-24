@@ -45,12 +45,12 @@ export class AllReportDetailComponent implements OnInit {
     @Inject('BASE_URL') baseUrl: string,
     private fb: FormBuilder,
   ) {
-    this.reportId = activatedRoute.snapshot.paramMap.get('id')
-    this.url = baseUrl,
-      this.downloadUrl = baseUrl + '/Uploads';
+    this.reportId = activatedRoute.snapshot.paramMap.get("id");
+    (this.url = baseUrl), (this.downloadUrl = baseUrl + "/Uploads");
   }
 
   ngOnInit() {
+    this.spinner.show();
     this.authorize.getUser()
       .subscribe(result => {
         this.userid = result.sub
@@ -81,9 +81,10 @@ export class AllReportDetailComponent implements OnInit {
   }
 
   getReportImportById() {
-    this.exportReportService.getImportedReportById(this.reportId).subscribe(res => {
+    this.exportReportService.getImportedReportById2(this.reportId).subscribe(res => {
       console.log("detail: ", res);
       this.reportData = res;
+      this.spinner.hide();
     })
   }
 
