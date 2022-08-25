@@ -196,11 +196,11 @@
           <div class="form-group">
             <label class="form-label">จังหวัด</label>
             <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกจังหวัด" [multiple]="false"
-              [items]="provinceData" name="province" formControlName="province">
+              [items]="provinceData" name="province" formControlName="province" [ngClass]="{ 'is-invalid': submitted && reportForm.controls.monitoringTopics.errors }">
             </ng-select>
-            <!-- <div *ngIf="submitted && reportForm.controls.province.errors" class="invalid-feedback">
+            <div *ngIf="submitted && reportForm.controls.province.errors" class="invalid-feedback">
               <div *ngIf="reportForm.controls.province.errors.required">กรุณาเลือกจังหวัด</div>
-            </div> -->
+            </div>
           </div>
         </div>
 
