@@ -51,8 +51,6 @@
           </div>
 
 
-          
-
 
           <div class="row" style="margin-top: 10px;">
             <div class="col-12">
@@ -75,8 +73,7 @@
                         </div>
 
                         <div *ngIf="i == 0">
-                        <div class="row" style="margin-top: 10px;" *ngIf="subjectgroup.subjectNotificationDate == null">
-                          <!-- null -->
+                        <!-- <div class="row" style="margin-top: 10px;" *ngIf="subjectgroup.subjectNotificationDate == null">
                           <div class="col-12 col-md-6">
                             <label>วันที่แจ้งเตือน</label>
                             <my-date-picker-th formControlName="notificationsubjectdate" [options]="myDatePickerOptions" required>
@@ -87,21 +84,37 @@
                             <my-date-picker-th formControlName="deadlinesubjectdate" [options]="myDatePickerOptions" required>
                             </my-date-picker-th>
                           </div>
-                        </div>
-              
+                        </div> -->
+
                         <div class="row" style="margin-top: 10px;" *ngIf="subjectgroup.subjectNotificationDate != null">
                           <!-- not null -->
                           <div class="col-12 col-md-6">
                             <label>วันที่แจ้งเตือน</label>
-                            <my-date-picker-th [selDate]="notificationsubjectDate" [options]="myDatePickerOptions" required
+                            <!-- <my-date-picker-th [selDate]="notificationsubjectDate" [options]="myDatePickerOptions" required
                               (dateChanged)="onStartDateChanged($event)">
-                            </my-date-picker-th>
+                            </my-date-picker-th> -->
+
+                            <my-date-picker-th *ngIf="subjectgroup.subjectNotificationDate != '2001-01-01T00:00:00' && subjectgroup.subjectNotificationDate != null && subjectgroup.subjectNotificationDate != '1970-01-01T00:00:00'" [selDate]="notificationsubjectDate" [options]="myDatePickerOptions" required
+                            (dateChanged)="onStartDateChanged($event)">
+                          </my-date-picker-th>
+                          <my-date-picker-th *ngIf="subjectgroup.subjectNotificationDate == '2001-01-01T00:00:00' || subjectgroup.subjectNotificationDate == null || subjectgroup.subjectNotificationDate == '1970-01-01T00:00:00'" formControlName="notificationsubjectDate" [options]="myDatePickerOptions" required
+                            (dateChanged)="onStartDateChanged($event)">
+                          </my-date-picker-th>
+
                           </div>
                           <div class="col-12 col-md-6">
                             <label>วันกำหนดส่ง</label>
-                            <my-date-picker-th [selDate]="deadlinesubjectDate" [options]="myDatePickerOptions" required
+                            <!-- <my-date-picker-th [selDate]="deadlinesubjectDate" [options]="myDatePickerOptions" required
                               (dateChanged)="onEndDateChanged($event)">
-                            </my-date-picker-th>
+                            </my-date-picker-th> -->
+
+                            <my-date-picker-th *ngIf="subjectgroup.subjectDeadlineDate != '2001-01-01T00:00:00' && subjectgroup.subjectDeadlineDate != null && subjectgroup.subjectDeadlineDate != '1970-01-01T00:00:00'" [selDate]="deadlinesubjectDate" [options]="myDatePickerOptions" required
+                            (dateChanged)="onEndDateChanged($event)">
+                          </my-date-picker-th>
+                          <my-date-picker-th *ngIf="subjectgroup.subjectDeadlineDate == '2001-01-01T00:00:00' || subjectgroup.subjectDeadlineDate == null || subjectgroup.subjectDeadlineDate == '1970-01-01T00:00:00'" formControlName="deadlinesubjectDate" [options]="myDatePickerOptions" required
+                            (dateChanged)="onEndDateChanged($event)">
+                          </my-date-picker-th>
+
                           </div>
                         </div>
                       </div>
@@ -404,9 +417,8 @@
                   (click)="reportModalComment(modalreportcomment)">รายงานความคิดเห็น</button> -->
               </div>
               <br>
-              <div class="row col-12" style="margin-top: 10px;"
+              <!-- <div class="row col-12" style="margin-top: 10px;"
                 *ngIf="subjectgroup.peopleQuestionNotificationDate == null">
-                <!-- null -->
                 <div class="col-12 col-md-6">
                   <label>วันที่แจ้งเตือน</label>
                   <my-date-picker-th formControlName="notificationpeoplequestiondate" [options]="myDatePickerOptions"
@@ -419,21 +431,30 @@
                     required>
                   </my-date-picker-th>
                 </div>
-              </div>
+              </div> -->
 
-              <div class="row" style="margin-top: 10px;" *ngIf="subjectgroup.peopleQuestionDeadlineDate != null">
+              <div class="row" style="margin-top: 10px;">
                 <!-- not null -->
                 <div class="col-12 col-md-6">
                   <label>วันที่แจ้งเตือน</label>
-                  <my-date-picker-th [selDate]="notificationpeoplequestionDate" [options]="myDatePickerOptions" required
+                  <my-date-picker-th *ngIf="subjectgroup.peopleQuestionNotificationDate != '2001-01-01T00:00:00' && subjectgroup.peopleQuestionNotificationDate != null && subjectgroup.peopleQuestionNotificationDate != '1970-01-01T00:00:00'" [selDate]="notificationpeoplequestionDate" [options]="myDatePickerOptions" required
                     (dateChanged)="onStartDateChanged2($event)">
                   </my-date-picker-th>
+                  <my-date-picker-th *ngIf="subjectgroup.peopleQuestionNotificationDate == '2001-01-01T00:00:00' || subjectgroup.peopleQuestionNotificationDate == null || subjectgroup.peopleQuestionNotificationDate == '1970-01-01T00:00:00'" formControlName="notificationpeoplequestiondate" [options]="myDatePickerOptions" required
+                    (dateChanged)="onStartDateChanged2($event)">
+                  </my-date-picker-th>
+
                 </div>
                 <div class="col-12 col-md-6">
                   <label>วันกำหนดส่ง</label>
-                  <my-date-picker-th [selDate]="deadlinepeoplequestionDate" [options]="myDatePickerOptions" required
+                  <my-date-picker-th *ngIf="subjectgroup.peopleQuestionDeadlineDate != '2001-01-01T00:00:00' && subjectgroup.peopleQuestionDeadlineDate != null && subjectgroup.peopleQuestionDeadlineDate != '1970-01-01T00:00:00'" [selDate]="deadlinepeoplequestionDate" [options]="myDatePickerOptions" required
                     (dateChanged)="onEndDateChanged2($event)">
                   </my-date-picker-th>
+
+                  <my-date-picker-th *ngIf="subjectgroup.peopleQuestionDeadlineDate == '2001-01-01T00:00:00' || subjectgroup.peopleQuestionDeadlineDate == null || subjectgroup.peopleQuestionDeadlineDate == '1970-01-01T00:00:00'" formControlName="deadlinepeoplequestionDate" [options]="myDatePickerOptions" required
+                    (dateChanged)="onEndDateChanged2($event)">
+                  </my-date-picker-th>
+
                 </div>
               </div>
               <br>

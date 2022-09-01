@@ -630,11 +630,21 @@ export class DetailSubjecteventComponent implements OnInit {
         this.subjectgroup = result.subjectgroup
 
         //console.log("this.subjectgroup", this.subjectgroup);
+        // alert(JSON.stringify(this.subjectgroup.peopleQuestionNotificationDate))
+
 
         this.notificationsubjectDate = this.time(this.subjectgroup.subjectNotificationDate)
+
+
         this.deadlinesubjectDate = this.time(this.subjectgroup.subjectDeadlineDate)
+
+
+
         this.notificationpeoplequestionDate = this.time(this.subjectgroup.peopleQuestionNotificationDate)
+
+
         this.deadlinepeoplequestionDate = this.time(this.subjectgroup.peopleQuestionDeadlineDate)
+
 
         this.resultdate = result.centralPolicyEventdata.inspectionPlanEvent
         // alert(JSON.stringify(this.resultdate))
@@ -681,23 +691,25 @@ export class DetailSubjecteventComponent implements OnInit {
   storeFiles(value) {
     // alert(this.notificationsubjectDate.year)
     // return;
-    if (this.subjectgroupland == 'ลงพื้นที่') {
-      if (this.notificationpeoplequestionDate.year == 1970 || this.deadlinepeoplequestionDate.year == 1970) {
-        if (this.form.value.notificationpeoplequestiondate == null || this.form.value.deadlinepeoplequestiondate == null) {
-          this.submitted = true;
-          return;
-        }
-      }
-    }
+///////////////////////
+    // if (this.subjectgroupland == 'ลงพื้นที่') {
+    //   if (this.notificationpeoplequestionDate.year == 1970 || this.deadlinepeoplequestionDate.year == 1970) {
+    //     if (this.form.value.notificationpeoplequestiondate == null || this.form.value.deadlinepeoplequestiondate == null) {
+    //       this.submitted = true;
+    //       return;
+    //     }
+    //   }
+    // }
 
 
-    if (this.notificationsubjectDate.year == 1970 || this.deadlinesubjectDate.year == 1970) {
-      if (this.form.value.notificationsubjectdate == null || this.form.value.deadlinesubjectdate == null) {
-        // alert("2")
-        this.submitted = true;
-        return;
-      }
-    }
+    // if (this.notificationsubjectDate.year == 1970 || this.deadlinesubjectDate.year == 1970) {
+    //   if (this.form.value.notificationsubjectdate == null || this.form.value.deadlinesubjectdate == null) {
+    //     // alert("2")
+    //     this.submitted = true;
+    //     return;
+    //   }
+    // }
+    //////////////////
     // if (this.form.value.notificationsubjectdate == null) {
     //   alert("if")
     //   this.form.value.notificationsubjectdate = this.notificationsubjectDate
@@ -727,6 +739,30 @@ export class DetailSubjecteventComponent implements OnInit {
     } else {
       this.form.value.deadlinepeoplequestiondate = this.form.value.deadlinepeoplequestiondate.date.year + "-" + this.form.value.deadlinepeoplequestiondate.date.month + "-" + this.form.value.deadlinepeoplequestiondate.date.day
     }
+    // alert(JSON.stringify(this.form.value.notificationsubjectdate))
+    // return;
+    // if(this.form.value.notificationsubjectdate == '1970-1-1' || this.form.value.notificationsubjectdate == null){
+    //   this.form.value.notificationsubjectdate = null
+    // } else {
+    //   this.form.value.notificationsubjectdate = this.form.value.notificationsubjectdate.date.year + "-" + this.form.value.notificationsubjectdate.date.month + "-" + this.form.value.notificationsubjectdate.date.day
+    // }
+    // if(this.form.value.deadlinesubjectdate == '1970-1-1' || this.form.value.deadlinesubjectdate == null){
+    //   this.form.value.deadlinesubjectdate = null
+    // }else {
+    //      this.form.value.deadlinesubjectdate = this.form.value.deadlinesubjectdate.date.year + "-" + this.form.value.deadlinesubjectdate.date.month + "-" + this.form.value.deadlinesubjectdate.date.day
+    //    }
+
+    // if(this.form.value.notificationpeoplequestiondate == '1970-1-1' || this.form.value.notificationpeoplequestiondate == null){
+    //   this.form.value.notificationpeoplequestiondate = null
+    // }else {
+    //  this.form.value.notificationpeoplequestiondate = this.form.value.notificationpeoplequestiondate.date.year + "-" + this.form.value.notificationpeoplequestiondate.date.month + "-" + this.form.value.notificationpeoplequestiondate.date.day
+    //    }
+    // if(this.form.value.deadlinepeoplequestiondate == '1970-1-1' || this.form.value.deadlinepeoplequestiondate == null){
+    //   this.form.value.deadlinepeoplequestiondate = null
+    // }else {
+    //     this.form.value.deadlinepeoplequestiondate = this.form.value.deadlinepeoplequestiondate.date.year + "-" + this.form.value.deadlinepeoplequestiondate.date.month + "-" + this.form.value.deadlinepeoplequestiondate.date.day
+    //    }
+
 
     // alert(this.form.value.notificationsubjectdate)
     // alert("123")
