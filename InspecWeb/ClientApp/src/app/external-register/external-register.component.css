@@ -1,4 +1,12 @@
 
+body{
+    font-family: "Prompt", sans-serif !IMPORTANT;
+  }
+  
+  .f{
+    font-family: "Prompt", sans-serif !IMPORTANT;
+  }
+
 .btnMargin {
     margin: 10px;
     width: 90px;

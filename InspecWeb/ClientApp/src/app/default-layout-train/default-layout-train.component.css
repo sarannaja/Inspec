@@ -2,6 +2,16 @@
   /* @import "../../assets/fontend/css/style.css";
   @import "../../assets/fontend/fonts/fontawesome/css/font-awesome.min.css"; */
 
+  body{
+    font-family: "Prompt", sans-serif !important;
+  }
+  
+  .f{
+    font-family: "Prompt", sans-serif !important;
+  }
+
+
+
 .btnMargin {
     margin: 10px;
     width: 90px;

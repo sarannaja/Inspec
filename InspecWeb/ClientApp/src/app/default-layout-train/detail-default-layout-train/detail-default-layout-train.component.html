@@ -49,7 +49,7 @@
                     <!-- <a class="sidebar-brand" href="index1.html"> -->
                     <a (click)="gotoMain()" class="pointer"><img src="assets/fontend/images/logo.png" class="img-fluid rounded-circle mb-2" height="70"
                         width="100" /></a>
-                    <h3>หลักสูตรการอบรม</h3>
+                    <h3 class="f">หลักสูตรการอบรม</h3>
                     <!-- </a> -->
                 </div>
             </div>
@@ -114,32 +114,32 @@
         <div class="col-8">
             <div>
                 <!-- <label *ngFor="let item of resulttraining; let i = index">{{ item.name }}</label> -->
-                <h1><label >{{ name }}</label></h1>
+                <h1><label class="f">{{ name }}</label></h1>
                 <br>
                 <div class="text-center">
                     <img src="{{ downloadUrl }}/{{ urlimg }}" width="600px">
                 </div>
-                <label style="font-size: x-small;">ประกาศ : {{ createdAt | thaidate:'short'}}</label>
+                <label style="font-size: x-small;" class="f">ประกาศ : {{ createdAt | thaidate:'short'}}</label>
                 <br>
-                รายละเอียดหลักสูตร :
+                <label class="f">รายละเอียดหลักสูตร : </label>
                 <br>
-                <label >{{ detail }}</label>
+                <label class="f">{{ detail }}</label>
                 <br>
                 <br>
                 
-                สถานะ : <label class="badge badge-danger mr-1" *ngIf="reg_check == 0;" style="font-size: x-large; font-weight: 600;">ปิดการรับสมัคร</label>
-                <label class="badge badge-success mr-1" *ngIf="reg_check == 1;" style="font-size: x-large; font-weight: 600;">เปิดการรับสมัคร</label>
+                สถานะ : <label class="badge badge-danger mr-1 f" *ngIf="reg_check == 0;" style="font-size: medium; font-weight: 600;">ปิดการรับสมัคร</label>
+                <label class="badge badge-success mr-1 f" *ngIf="reg_check == 1;" style="font-size: medium; font-weight: 600;">เปิดการรับสมัคร</label>
 
                 <!-- <h5>กำหนดระยะรับสมัครเข้าอบรม : <label >{{ regisstartdate | thaidate:'year'}} - {{ regisenddate | thaidate:'year'}}</label></h5> -->
                 <!-- <h5>กำหนดระยะเวลาอบรม : <label >{{ startdate | thaidate:'year'}} - {{ enddate | thaidate:'year'}}</label></h5> -->
-                <h5>คุณสมบัติที่รับสมัคร <label (click)="gotoConditionRegisterTraining()" class="text-primary pointer">>> คลิก << </label></h5>
-                <h5>กำหนดระยะรับสมัครเข้าอบรม : <label >{{ regisstartdate | thaidate:'short'}} - {{ regisenddate | thaidate:'short'}}</label></h5>
-                <h5>กำหนดระยะเวลาอบรม : <label >{{ startdate | thaidate:'short'}} - {{ enddate | thaidate:'short'}}</label></h5>
+                <h5 class="f">คุณสมบัติที่รับสมัคร <label (click)="gotoConditionRegisterTraining()" class="text-primary pointer f">>> คลิก << </label></h5>
+                <h5 class="f">กำหนดระยะรับสมัครเข้าอบรม : <label class="f">{{ regisstartdate | thaidate:'short'}} - {{ regisenddate | thaidate:'short'}}</label></h5>
+                <h5 class="f">กำหนดระยะเวลาอบรม : <label class="f">{{ startdate | thaidate:'short'}} - {{ enddate | thaidate:'short'}}</label></h5>
 
                 <table *ngIf="loading" class="">
                     <tbody>
                         <tr *ngFor="let item of resulttrainingphase; let i = index">
-                            <td><h5>
+                            <td><h5 class="f">
                                 <label (click)="gotoDetailRegisterTraining(item.id)" class="text-primary pointer">กำหนดการ ช่วงที่ {{ item.phaseNo }} : {{ item.detail }}</label>
                                 <!-- <a href="{{ mainUrl }}train/detail/phase/{{ item.id }}">กำหนดการ ช่วงที่ {{ item.phaseNo }} : {{ item.detail }}</a> -->
                             </h5></td>
@@ -147,15 +147,15 @@
                     </tbody>
                 </table>
                 <!-- <h5><a href="train/list/{{ trainingid }}">ประกาศรายชื่อผู้เข้ารับการฝึกอบรม</a></h5> -->
-                <h5><label (click)="gotoApproveRegisterTraining()" class="text-primary pointer">ประกาศรายชื่อผู้เข้ารับการฝึกอบรม</label></h5>
+                <h5><label class="f" (click)="gotoApproveRegisterTraining()" class="text-primary pointer">ประกาศรายชื่อผู้เข้ารับการฝึกอบรม</label></h5>
                 เอกสารเพิ่มเติม
-                <table *ngIf="loading" class="">
+                <table *ngIf="loading" class="f">
                   <tbody>
                       <tr *ngFor="let item of resulttraining3; let i = index">
                         <td class="">
                         <ng-container *ngIf="item.name != '';">
 
-                            <a href="{{ downloadUrl }}/{{ item.name }}" target="_blank"> - {{ item.detail }}</a>
+                            <a class="f" href="{{ downloadUrl }}/{{ item.name }}" target="_blank"> - {{ item.detail }}</a>
 
                         </ng-container>
                        
@@ -181,7 +181,7 @@
                 <br>
             </div>
         </div>
-        <div class="col-4">
+        <div class="col-12 col-xl-4">
             <!-- <div class="row">
                 <div class="col-12">
                     <div class="text-center">
@@ -201,13 +201,13 @@
                     <table *ngIf="loading" class="table table-hover">
                     <thead>
                         <tr>
-                            <th colspan="2" class="text-center"><h5>หลักสูตรอบรมแนะนำ</h5></th>
+                            <th colspan="2" class="text-center"><h5 class="f">หลักสูตรอบรมแนะนำ</h5></th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let item of resulttraining2; let i = index" class="pointer">
                             <td width="30%"><a href="train/detail/{{item.id}}"><img src="{{ downloadUrl }}/{{item.image}}" width="120" height="90"></a></td>
-                            <td width="70%" class=""><a href="train/detail/{{item.id}}" style="font-size: 14px;">{{ item.name }}</a></td>
+                            <td width="70%" class=""><a href="train/detail/{{item.id}}" style="font-size: 14px;" class="f">{{ item.name }}</a></td>
                         </tr>
                     </tbody>
                 </table>
