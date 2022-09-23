@@ -1835,7 +1835,9 @@ namespace InspecWeb.Controllers {
             // path ที่เก็บไฟล์
             var filePath = _environment.WebRootPath + "//Uploads//";
 
-            foreach (var formFile in model.ImageProfile.Select ((value, index) => new { Value = value, Index = index }))
+
+            if(model.ProfileUploads != null){
+                foreach (var formFile in model.ImageProfile.Select ((value, index) => new { Value = value, Index = index }))
             //foreach (var formFile in data.files)
             {
                 System.Console.WriteLine ("Start Uplond3");
@@ -1850,28 +1852,180 @@ namespace InspecWeb.Controllers {
                     using (var stream = System.IO.File.Create (filePath + random + filename)) {
                         await formFile.Value.CopyToAsync (stream);
                     }
-                    System.Console.WriteLine ("Start Uplond4.1");
-                    var Trainingdata = new TrainingLecturer {
-                        LecturerType = model.LecturerType,
-                        LecturerName = model.LecturerName,
-                        Phone = model.Phone,
-                        Email = model.Email,
-                        Education = model.Education,
-                        WorkHistory = model.WorkHistory,
-                        Experience = model.Experience,
-                        DetailPlus = model.DetailPlus,
-                        CreatedAt = date,
-                        ImageProfile = random + filename
-                    };
-                    System.Console.WriteLine("Start Uplond4.2");
-                    _context.TrainingLecturers.Add(Trainingdata);
-                    _context.SaveChanges();
-                    System.Console.WriteLine("Start Uplond4.2");
+                    
+                    if(model.ProfileUploads != null){
+                        foreach (var formFile2 in model.ProfileUploads.Select ((value, index) => new { Value = value, Index = index }))
+                        {
+                            System.Console.WriteLine ("Start ProfileUploads 5");
+                        //foreach (var formFile in data.files)
+                            if (formFile2.Value.Length > 0) 
+                            {
+                                System.Console.WriteLine ("Start ProfileUploads 4.1");
+                                var random2 = RandomString (10);
+                                string filePath4 = formFile2.Value.FileName;
+                                string filename2 = Path.GetFileName (filePath4);
+                                string ext2 = Path.GetExtension (filename2);
 
-                    //return Ok(new { status = true });
-                    return Ok(Trainingdata);
+                                
+                                    System.Console.WriteLine ("Start ProfileUploads 4.1");
+                                    // using (var stream = System.IO.File.Create(filePath + formFile.Value.FileName))
+                                    using (var stream = System.IO.File.Create (filePath4 + random2 + filename2)) {
+                                        await formFile2.Value.CopyToAsync (stream);
+                                    }
+                                    System.Console.WriteLine ("Start Uplond4.1");
+                                    var Trainingdata = new TrainingLecturer {
+                                        LecturerType = model.LecturerType,
+                                        LecturerName = model.LecturerName,
+                                        Phone = model.Phone,
+                                        Email = model.Email,
+                                        Education = model.Education,
+                                        WorkHistory = model.WorkHistory,
+                                        Experience = model.Experience,
+                                        DetailPlus = model.DetailPlus,
+                                        CreatedAt = date,
+                                        Address = model.Address,
+                                        ImageProfile = random + filename,
+                                        ProfileUploads = random2 + filename2
+                                    };
+                                    System.Console.WriteLine("Start Uplond4.1");
+                                    _context.TrainingLecturers.Add(Trainingdata);
+                                    _context.SaveChanges();
+                                    System.Console.WriteLine("Start Uplond4.1");
+
+                                    //return Ok(new { status = true });
+                                    return Ok(Trainingdata);
+                                    
+                                    // System.Console.WriteLine ("Start ProfileUploads.1");
+                                    // var Trainingdata = new TrainingLecturer {
+                                        
+                                    //     ProfileUploads = random + filename
+                                    // };
+                                    // System.Console.WriteLine("Start ProfileUploads.2");
+                                    // _context.TrainingLecturers.Add(Trainingdata);
+                                    // _context.SaveChanges();
+                                    // System.Console.WriteLine("Start ProfileUploads.2");
+
+                                    // //return Ok(new { status = true });
+                                    // return Ok(Trainingdata);
+                            }
+                            
+                            
+                        }
+                    }
+                    else{
+                                System.Console.WriteLine ("Start Uplond4.2");
+                                var Trainingdata = new TrainingLecturer {
+                                    LecturerType = model.LecturerType,
+                                    LecturerName = model.LecturerName,
+                                    Phone = model.Phone,
+                                    Email = model.Email,
+                                    Education = model.Education,
+                                    WorkHistory = model.WorkHistory,
+                                    Experience = model.Experience,
+                                    DetailPlus = model.DetailPlus,
+                                    CreatedAt = date,
+                                    Address = model.Address,
+                                    ImageProfile = random + filename,
+                                };
+                                System.Console.WriteLine("Start Uplond4.2");
+                                _context.TrainingLecturers.Add(Trainingdata);
+                                _context.SaveChanges();
+                                System.Console.WriteLine("Start Uplond4.2");
+
+                                //return Ok(new { status = true });
+                                return Ok(Trainingdata);
+                                
+                    }
+                    
                 }
             }
+            }
+            else{
+                if(model.ProfileUploads != null){
+                        foreach (var formFile2 in model.ProfileUploads.Select ((value, index) => new { Value = value, Index = index }))
+                        {
+                            System.Console.WriteLine ("Start ProfileUploads 5");
+                        //foreach (var formFile in data.files)
+                            if (formFile2.Value.Length > 0) 
+                            {
+                                System.Console.WriteLine ("Start ProfileUploads 4.1");
+                                var random2 = RandomString (10);
+                                string filePath4 = formFile2.Value.FileName;
+                                string filename2 = Path.GetFileName (filePath4);
+                                string ext2 = Path.GetExtension (filename2);
+
+                                
+                                    System.Console.WriteLine ("Start ProfileUploads 4.1");
+                                    // using (var stream = System.IO.File.Create(filePath + formFile.Value.FileName))
+                                    using (var stream = System.IO.File.Create (filePath4 + random2 + filename2)) {
+                                        await formFile2.Value.CopyToAsync (stream);
+                                    }
+                                    System.Console.WriteLine ("Start Uplond4.1");
+                                    var Trainingdata = new TrainingLecturer {
+                                        LecturerType = model.LecturerType,
+                                        LecturerName = model.LecturerName,
+                                        Phone = model.Phone,
+                                        Email = model.Email,
+                                        Education = model.Education,
+                                        WorkHistory = model.WorkHistory,
+                                        Experience = model.Experience,
+                                        DetailPlus = model.DetailPlus,
+                                        CreatedAt = date,
+                                        Address = model.Address,
+                                        ProfileUploads = random2 + filename2
+                                    };
+                                    System.Console.WriteLine("Start Uplond4.1");
+                                    _context.TrainingLecturers.Add(Trainingdata);
+                                    _context.SaveChanges();
+                                    System.Console.WriteLine("Start Uplond4.1");
+
+                                    //return Ok(new { status = true });
+                                    return Ok(Trainingdata);
+                                    
+                                    // System.Console.WriteLine ("Start ProfileUploads.1");
+                                    // var Trainingdata = new TrainingLecturer {
+                                        
+                                    //     ProfileUploads = random + filename
+                                    // };
+                                    // System.Console.WriteLine("Start ProfileUploads.2");
+                                    // _context.TrainingLecturers.Add(Trainingdata);
+                                    // _context.SaveChanges();
+                                    // System.Console.WriteLine("Start ProfileUploads.2");
+
+                                    // //return Ok(new { status = true });
+                                    // return Ok(Trainingdata);
+                            }
+                            
+                            
+                        }
+                    }
+                    else{
+                                System.Console.WriteLine ("Start Uplond4.2");
+                                var Trainingdata = new TrainingLecturer {
+                                    LecturerType = model.LecturerType,
+                                    LecturerName = model.LecturerName,
+                                    Phone = model.Phone,
+                                    Email = model.Email,
+                                    Education = model.Education,
+                                    WorkHistory = model.WorkHistory,
+                                    Experience = model.Experience,
+                                    DetailPlus = model.DetailPlus,
+                                    CreatedAt = date,
+                                    Address = model.Address,
+                                };
+                                System.Console.WriteLine("Start Uplond4.2");
+                                _context.TrainingLecturers.Add(Trainingdata);
+                                _context.SaveChanges();
+                                System.Console.WriteLine("Start Uplond4.2");
+
+                                //return Ok(new { status = true });
+                                return Ok(Trainingdata);
+                                
+                    }
+                
+
+            }
+            
             return Ok (new { status = true });
 
         }
@@ -1954,6 +2108,67 @@ namespace InspecWeb.Controllers {
                         //training.DetailPlus = model.DetailPlus;
                         //training.CreatedAt = date;
                         training.ImageProfile = random + filename;
+
+                        _context.Entry(training).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                        _context.SaveChanges();
+                        System.Console.WriteLine("Start Uplond4.3");
+
+                        return Ok(training);
+                    }
+
+                }
+
+                
+
+
+            }
+
+            if (model.ProfileUploads != null)
+            {
+                foreach (var formFile in model.ProfileUploads.Select((value, index) => new { Value = value, Index = index }))
+                //foreach (var formFile in data.files)
+                {
+                    System.Console.WriteLine("Start Uplond3");
+                    var random = RandomString(10);
+                    string filePath2 = formFile.Value.FileName;
+                    string filename = Path.GetFileName(filePath2);
+                    string ext = Path.GetExtension(filename);
+
+                    if (formFile.Value.Length > 0)
+                    {
+                        System.Console.WriteLine("Start Uplond4");
+                        // using (var stream = System.IO.File.Create(filePath + formFile.Value.FileName))
+                        using (var stream = System.IO.File.Create(filePath + random + filename))
+                        {
+                            await formFile.Value.CopyToAsync(stream);
+                        }
+                        System.Console.WriteLine("Start Uplond4.1");
+                        //var Trainingdata = new TrainingLecturer
+                        //{
+                        //    LecturerType = model.LecturerType,
+                        //    LecturerName = model.LecturerName,
+                        //    Phone = model.Phone,
+                        //    Email = model.Email,
+                        //    Education = model.Education,
+                        //    WorkHistory = model.WorkHistory,
+                        //    Experience = model.Experience,
+                        //    DetailPlus = model.DetailPlus,
+                        //    CreatedAt = date,
+                        //    ImageProfile = random + filename
+                        //};
+                        System.Console.WriteLine("Start Uplond4.2");
+                        //_context.TrainingLecturers.Add(Trainingdata);
+                        
+                        //training.LecturerType = model.LecturerType;
+                        //training.LecturerName = model.LecturerName;
+                        //training.Phone = model.Phone;
+                        //training.Email = model.Email;
+                        //training.Education = model.Education;
+                        //training.WorkHistory = model.WorkHistory;
+                        //training.Experience = model.Experience;
+                        //training.DetailPlus = model.DetailPlus;
+                        //training.CreatedAt = date;
+                        training.ProfileUploads = random + filename;
 
                         _context.Entry(training).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                         _context.SaveChanges();
@@ -2783,6 +2998,19 @@ namespace InspecWeb.Controllers {
             return Ok (data);
         }
 
+        //ประเภทวิทยากร Id
+        //GET api/Training/programtype/get/Id
+        [HttpGet ("lecturertypeById/get/{id}")]
+        public IActionResult GetTrainingLecturerTypeById (long id) {
+            var result = new List<object> ();
+
+            var data = _context.TrainingLecturerTypes
+                        .Where (x => x.Id == id)
+                        .ToList ();
+
+            return Ok (data);
+        }
+
         // POST api/training/programtype/add
         [HttpPost ("lecturertype/add")]
         public TrainingLecturerType TrainingLecturerType_Add (string name) {
@@ -3114,6 +3342,10 @@ public class Traningregisterid {
     public long status { get; set; }
     public long trainingId { get; set; }
 
+
 }
+
+
+
 
 //   long[] traningregisterid, long status, long trainingId

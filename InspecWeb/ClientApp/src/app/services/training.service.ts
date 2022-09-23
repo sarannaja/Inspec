@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { TrainingRegisterlist } from './toeymodel/trainingregisterlist';
 import { Ngong } from '../training/plan-training/plan-training.component';
+import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 
 @Injectable({
   providedIn: 'root'
@@ -500,7 +501,8 @@ export class TrainingService {
     return this.http.put(this.url + 'lecturerjoinsurvey/edit/' + id, formData);
   }
 
-  addTraininglecturer(trainingData, picFiles: FileList) {
+  addTraininglecturer(trainingData, picFiles: FileList, profileFiles: FileList) {
+    console.log('profileFiles: ' + profileFiles);
     //alert(JSON.stringify(trainingData))
     const formData = new FormData();
     formData.append('LecturerType', trainingData.LecturerType);
@@ -511,10 +513,23 @@ export class TrainingService {
     formData.append('WorkHistory', trainingData.workhistory);
     formData.append('Experience', trainingData.experience);
     formData.append('DetailPlus', trainingData.detailplus);
+    formData.append('Address', trainingData.address);
     if (picFiles != null) {
       for (var index = 0; index < picFiles.length; index++) {
         formData.append("ImageProfile", picFiles[index]);
       }
+    }
+    else{
+      formData.append("ImageProfile", null);
+    }
+
+    if (profileFiles != null) {
+      for (var index = 0; index < profileFiles.length; index++) {
+        formData.append("ProfileUploads", profileFiles[index]);
+      }
+    }
+    else{
+      formData.append("ProfileUploads", null);
     }
 
     console.log('FORMDATA: ' + formData);
@@ -522,7 +537,7 @@ export class TrainingService {
   }
 
 
-  editTraininglecturer(trainingData, id, picFiles: FileList) {
+  editTraininglecturer(trainingData, id, picFiles: FileList, profileFiles: FileList) {
     console.log(trainingData);
 
     const formData = new FormData();
@@ -539,6 +554,20 @@ export class TrainingService {
         formData.append("ImageProfile", picFiles[index]);
       }
     }
+    else{
+      formData.append("ImageProfile", null);
+    }
+
+
+    if (profileFiles != null) {
+      for (var index = 0; index < profileFiles.length; index++) {
+        formData.append("ProfileUploads", profileFiles[index]);
+      }
+    }
+    else{
+      formData.append("ProfileUploads", "");
+    }
+
 
     console.log('FORMDATA: ' + JSON.stringify(formData));
     return this.http.put<any>(this.url + 'lecturer/edit/' + id, formData);
@@ -846,6 +875,11 @@ export class TrainingService {
   //ดึงข้อมูลประเภทวิทยากร
   getTrainingLecturerType(): Observable<any[]> {
     return this.http.get<any[]>(this.url + 'lecturertype/get')
+  }
+
+  //ดึงข้อมูลประเภทวิทยากร
+  getTrainingLecturerTypeById(Id): Observable<any[]> {
+    return this.http.get<any[]>(this.url + 'lecturertypeById/get/' + Id)
   }
 
   //เพิ่มข้อมูลประเภทวิทยากร

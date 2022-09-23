@@ -49,6 +49,12 @@ namespace InspecWeb.Models
 
         [Description("ข้อมูลเพิ่มเติม")]
         public string DetailPlus { get; set; }
+
+        [Description("ที่อยู่")]
+        public string Address { get; set; }
+
+        [Description("ProfileUploads")]
+        public string ProfileUploads { get; set; }
         
 
         [Description("วันที่เพิ่ม")]

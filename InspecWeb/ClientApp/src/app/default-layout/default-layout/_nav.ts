@@ -425,7 +425,7 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
   {
     IDchildren: 'training',
     icon: 'fa-shekel-sign',
-    name: "ข้อมูลจัดอบรมหลักสูตร",
+    name: "ข้อมูลหลักสูตรฝึกอบรม",
     menuname: "m14",
     orderby: 32 ,
     children: [
@@ -433,7 +433,7 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
         ex_link: '0',
         icon: 'fa-file',
         url: '/training',
-        name: 'จัดการอบรมหลักสูตร'
+        name: 'จัดการหลักสูตรฝึกอบรม'
       },
       {
         ex_link: '0',

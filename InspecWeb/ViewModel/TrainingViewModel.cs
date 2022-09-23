@@ -129,6 +129,10 @@ namespace InspecWeb.ViewModel
 
         public string DetailPlus { get; set; }
 
+        public string Address { get; set; }
+
         public List<IFormFile> ImageProfile { get; set; }
+
+        public List<IFormFile>  ProfileUploads { get; set; }
     }
 }

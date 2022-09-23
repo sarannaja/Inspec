@@ -16,13 +16,14 @@ import { ɵNullViewportScroller } from '@angular/common';
   styleUrls: ['./lecturer-training.component.css']
 })
 export class LecturerTrainingComponent implements OnInit {
-
+  
   resulttraining: any[] = []
   modalRef: BsModalRef;
   delid: any
   loading = false;
   dtOptions: any = {};
   downloadUrl: any;
+  imgProfileUrl: any;
   mainUrl: string;
   Form: FormGroup;
   EditForm: FormGroup;
@@ -30,9 +31,11 @@ export class LecturerTrainingComponent implements OnInit {
   ViewForm: FormGroup;
   selectdatalecturer: Array<any>;
   resultdatalecturer: any[];
+  viewresultdatalecturer: any[];
   userid: string;
   resulttraininglecturerById: any[];
   ImgProfile: any;
+  profileFiles: any;
   lecturerName: any;
 
 
@@ -47,6 +50,8 @@ export class LecturerTrainingComponent implements OnInit {
     private router: Router,
     @Inject('BASE_URL') baseUrl: string) {
       this.downloadUrl = baseUrl + 'Uploads/'
+      this.imgProfileUrl = baseUrl + 'imgprofile/user.png'
+
       this.mainUrl = baseUrl
     }
 
@@ -81,11 +86,17 @@ export class LecturerTrainingComponent implements OnInit {
       lecturername: new FormControl(null, [Validators.required]),
       lecturerphone: new FormControl(null, [Validators.required]),
       lectureremail: new FormControl(null, [Validators.required]),
-      education: new FormControl(null, [Validators.required]),
-      workhistory: new FormControl(null, [Validators.required]),
-      experience: new FormControl(null, [Validators.required]),
-      detailplus: new FormControl(null, [Validators.required]),
+      education: new FormControl(""),
+      workhistory: new FormControl(""),
+      experience: new FormControl(""),
+      detailplus: new FormControl(""),
+      // education: new FormControl(null, [Validators.required]),
+      // workhistory: new FormControl(null, [Validators.required]),
+      // experience: new FormControl(null, [Validators.required]),
+      // detailplus: new FormControl(null, [Validators.required]),
+      address: new FormControl(null, [Validators.required]),
       picFiles: [null],
+      profileFiles: [null],
 
     })
 
@@ -160,17 +171,19 @@ export class LecturerTrainingComponent implements OnInit {
 
   storeTraining(value) {
     console.log("storeTraining =>", value);
-    
+    console.log("profileFiles =>",this.Form.value.profileFiles);
     if (this.Form.invalid) {
       console.log("in1");
       this.submitted = true;
       return;
-    } else {
-
-
+    } 
+    else {
+      
       //alert(JSON.stringify(value))
-      this.trainingservice.addTraininglecturer(value, this.Form.value.picFiles).subscribe(response => {
+      this.trainingservice.addTraininglecturer(value, this.Form.value.picFiles, this.Form.value.profileFiles).subscribe(response => {
         //alert(JSON.stringify(response))
+
+        
         console.log("addTraininglecturer =>", response);
         this.modalRef.hide()
         this.Form.reset()
@@ -187,10 +200,26 @@ export class LecturerTrainingComponent implements OnInit {
     }
   }
 
-  ViewModal(template: TemplateRef<any>, id, lecturerType, lecturerName, phone, email, education, workHistory, experience, detailplus, imgProfile) {
+  ViewModal(template: TemplateRef<any>, id, lecturerType, lecturerName, phone, email, education, workHistory, experience, detailplus, imgProfile, address, profileFiles) {
     this.delid = id;
-    this.ImgProfile = imgProfile;
+    if (imgProfile == null) {
+      this.ImgProfile = this.imgProfileUrl
+    }
+    else{
+      this.ImgProfile = this.downloadUrl + imgProfile
+    }
+    // this.ImgProfile = imgProfile;
+    this.profileFiles = profileFiles;
     console.log(detailplus);
+
+
+    this.trainingservice.getTrainingLecturerTypeById(lecturerType)
+    .subscribe(result => {
+
+      this.viewresultdatalecturer = result[0].name
+      console.log("viewresultdatalecturer =>", this.viewresultdatalecturer);
+    })
+
 
     this.modalRef = this.modalService.show(template);
     this.ViewForm = this.fb.group({
@@ -202,7 +231,12 @@ export class LecturerTrainingComponent implements OnInit {
       "workhistory": new FormControl(null, [Validators.required]),
       "experience": new FormControl(null, [Validators.required]),
       "detailplus": new FormControl(null, [Validators.required]),
+      "address": new FormControl(null, [Validators.required]),
       picFiles: [null],
+      profileFiles: [null],
+
+
+
     })
 
 
@@ -215,13 +249,22 @@ export class LecturerTrainingComponent implements OnInit {
       "workhistory": workHistory,
       "experience": experience,
       "detailplus": detailplus,
-
+      "address": address,
     })
   }
 
-  editModal(template: TemplateRef<any>, id, lecturerType, lecturerName, phone, email, education, workHistory, experience, detailplus, imgProfile) {
+  editModal(template: TemplateRef<any>, id, lecturerType, lecturerName, phone, email, education, workHistory, experience, detailplus, imgProfile, address) {
     this.delid = id;
-    this.ImgProfile = imgProfile;
+
+    if (imgProfile == null) {
+      this.ImgProfile = this.imgProfileUrl
+    }
+    else{
+      this.ImgProfile = this.downloadUrl + imgProfile
+    }
+    
+    // this.ImgProfile = imgProfile;
+
     console.log("ImgProfile =>", this.ImgProfile);
     console.log("lecturerType =>", lecturerType);
 
@@ -233,11 +276,19 @@ export class LecturerTrainingComponent implements OnInit {
       "lecturername": new FormControl(null, [Validators.required]),
       "lecturerphone": new FormControl(null, [Validators.required]),
       "lectureremail": new FormControl(null, [Validators.required]),
-      "education": new FormControl(null, [Validators.required]),
-      "workhistory": new FormControl(null, [Validators.required]),
-      "experience": new FormControl(null, [Validators.required]),
-      "detailplus": new FormControl(null, [Validators.required]),
+      "education": new FormControl(""),
+      "workhistory": new FormControl(""),
+      "experience": new FormControl(""),
+      "detailplus": new FormControl(""),
+      // "education": new FormControl(null, [Validators.required]),
+      // "workhistory": new FormControl(null, [Validators.required]),
+      // "experience": new FormControl(null, [Validators.required]),
+      // "detailplus": new FormControl(null, [Validators.required]),
+      "address": new FormControl(null, [Validators.required]),
       picFiles: [null],
+      profileFiles: [null],
+  
+
     })
 
 
@@ -250,6 +301,7 @@ export class LecturerTrainingComponent implements OnInit {
       "workhistory": workHistory,
       "experience": experience,
       "detailplus": detailplus,
+      "address": address,
     })
 
     // this.trainingservice.gettraininglecturerById(this.delid)
@@ -270,7 +322,7 @@ export class LecturerTrainingComponent implements OnInit {
     // alert(JSON.stringify(value));
     // console.clear();
     // console.log("kkkk" + JSON.stringify(value));
-    this.trainingservice.editTraininglecturer(value, this.delid, this.EditForm.value.picFiles).subscribe(response => {
+    this.trainingservice.editTraininglecturer(value, this.delid, this.EditForm.value.picFiles, this.EditForm.value.profileFiles).subscribe(response => {
       this.EditForm.reset()
       this.modalRef.hide()
       this.loading = false
@@ -321,6 +373,22 @@ export class LecturerTrainingComponent implements OnInit {
     const file = (event.target as HTMLInputElement).files;
     this.EditForm.patchValue({
       picFiles: file
+    });
+    //this.EditForm.get('files').updateValueAndValidity()
+  }
+
+  uploadProfile(event) {
+    const file = (event.target as HTMLInputElement).files;
+    this.Form.patchValue({
+      profileFiles: file
+    });
+    //this.Form.get('files').updateValueAndValidity()
+  }
+
+  uploadProfileEdit(event) {
+    const file = (event.target as HTMLInputElement).files;
+    this.EditForm.patchValue({
+      profileFiles: file
     });
     //this.EditForm.get('files').updateValueAndValidity()
   }
