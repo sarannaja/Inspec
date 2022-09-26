@@ -337,6 +337,55 @@ export class ExportReportService {
     formData.append('command', value.command);
     formData.append('reportId', reportId);
 
+    // function getFileExtension2(filename) {
+    //   return filename.split('.').pop();
+    // }
+    // if (value.fileData != null) {
+    //   for (var iii = 0; iii < value.fileData.length; iii++) {
+    //     var filename: string = value.fileData[iii].reportFile.name;
+    //     formData.append("files", value.fileData[iii].reportFile, `${value.fileData[iii].fileDescription}.${getFileExtension2(filename)}`);
+    //   }
+    // }
+
+    return this.http.post<any>(this.url + "/editImportReport", formData);
+  }
+
+  editImportReport2(value, reportId, file: FileList) {
+    console.log("EditValue: ", value);
+    console.log("Edit ID: ", reportId);
+
+    const formData = new FormData();
+    // for (var i = 0; i < value.centralPolicyEvent.length; i++) {
+    //   formData.append("centralPolicyEventId", value.centralPolicyEvent[i]);
+    // }
+    formData.append('centralPolicyTypeId', value.centralPolicyType);
+    formData.append('reportType', value.reportType);
+    formData.append('inspectionRound', value.inspectionRound);
+    formData.append('fiscalYearId', value.fiscalYear);
+    formData.append('regionId', value.region);
+    formData.append('provinceId', value.province);
+    formData.append('monitoringTopics', value.monitoringTopics);
+    formData.append('detailReport', value.detailReport);
+    formData.append('suggestion', value.suggestion);
+    formData.append('command', value.command);
+    formData.append('reportId', reportId);
+
+    function getFileExtension2(filename) {
+      return filename.split('.').pop();
+    }
+    // if (value.fileData != null) {
+    //   for (var iii = 0; iii < value.fileData.length; iii++) {
+    //     var filename: string = value.fileData[iii].reportFile.name;
+    //     formData.append("files", value.fileData[iii].reportFile, `${value.fileData[iii].fileDescription}.${getFileExtension2(filename)}`);
+    //   }
+    // }
+
+    if (file != null) {
+      for (var i = 0; i < file.length; i++) {
+        formData.append("files", file[i]);
+      }
+    }
+
     return this.http.post<any>(this.url + "/editImportReport", formData);
   }
 
@@ -928,5 +977,9 @@ export class ExportReportService {
 
   sortDateDESC(userId) {
     return this.http.get(this.url + "/sortDateDESC/" + userId)
+  }
+
+  deleteFile(delId) {
+    return this.http.delete(this.url + "/deletefile/" + delId)
   }
 }

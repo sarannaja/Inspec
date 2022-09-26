@@ -285,6 +285,41 @@
           </div>
         </div>
 
+        <div class="form-group">
+          <label *ngIf="reportData.importData.importReportFiles.length > 0">ไฟล์แนบสมุดตรวจอิเล็กทรอนิกส์</label>
+
+          <div class="col-12 mb-3">
+            <!-- <label class="form-label w-100" style="margin-top: 30px;">แนบไฟล์เอกสารสมุดตรวจอิเล็กทรอนิกส์</label> -->
+            <input type="file" multiple (change)="uploadFile($event)" style="margin-bottom: 10px;"
+              accept="application/pdf, application/vnd.openxmlformats-officedocument.wordprocessingml.document,
+                              application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/msword, application/docx, application/xlsx, application/doc, image/png, image/jpeg, image/jpg">
+          </div>
+
+          <!-- <div class="form-group row" *ngFor="let itemFile of s.controls; let i = index">
+            <form class="form-group row col-12" [formGroup]="itemFile">
+              <div class="col-12">
+                <label>ไฟล์ที่ {{i + 1}})
+                  {{itemFile.controls.reportFile.value.name}}</label>
+              </div>
+              <div class="col-8">
+                <input formControlName="fileDescription" class="form-control" type="text" placeholder="ใส่คำอธิบาย">
+              </div>
+            </form>
+          </div> -->
+
+          <div class="row" *ngFor="let item of reportData.importData.importReportFiles; let i = index"
+            style="margin-top: 5px; margin-left: 5px;">
+            <a download href="{{downloadUrl}}/{{item.name}}" class="col-9">
+              <span>ไฟล์ที่
+                {{i+1}})
+                {{ item.name }}<br>
+              </span>
+            </a>
+            <!-- <input type="text" value="{{item.description}}" style="width: 80%;" class="form-control ml-4" readonly> -->
+            <i class="fas fa-trash-alt ml-3 mt-2" (click)="openDeleteFileModal(modalDeleteFile, item.id)"></i>
+          </div>
+        </div>
+
       </div>
 
       <div class="modal-footer">
@@ -294,6 +329,24 @@
     </div>
   </form>
   <!-- </div> -->
+</ng-template>
+
+<ng-template #modalDeleteFile class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-body text-center" style="background-color: white; border-radius: 5px;">
+    <i class="fa fa-info-circle delete-icon"></i>
+    <p style="font-size: xx-large; color: #565656; margin-top: 20px;">
+      ลบข้อมูล
+    </p>
+    <p style="font-size: medium; color: #545454;">
+      คุณต้องการลบข้อมูลนี้ใช่หรือไม่ ?
+    </p>
+    <button type="button" class="btn btn-primary btnMargin" (click)="deleteFile()">
+      ใช่
+    </button>
+    <button type="button" class="btn btn-danger btnMargin" (click)="modalRef.hide()">
+      ไม่ใช่
+    </button>
+  </div>
 </ng-template>
 
 <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">

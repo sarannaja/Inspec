@@ -1836,7 +1836,7 @@ namespace InspecWeb.Controllers
         }
 
         [HttpPost("editImportReport")]
-        public IActionResult EditImportReport(ImportReportViewModel model)
+        public async Task<IActionResult> EditImportReport([FromForm] ImportReportViewModel model)
         {
             System.Console.WriteLine("ReportId: " + model.reportId);
 
@@ -1863,6 +1863,55 @@ namespace InspecWeb.Controllers
             _context.SaveChanges();
 
             System.Console.WriteLine("Edit 1");
+
+            System.Console.WriteLine("Start Upload");
+
+            if (!Directory.Exists(_environment.WebRootPath + "//Uploads//"))
+            {
+                Directory.CreateDirectory(_environment.WebRootPath + "//Uploads//"); //สร้าง Folder Upload ใน wwwroot
+            }
+
+            //var BaseUrl = url.ActionContext.HttpContext.Request.Scheme;
+            // path ที่เก็บไฟล์
+            var filePath = _environment.WebRootPath + "//Uploads//";
+
+            if (model.files != null)
+            {
+                System.Console.WriteLine("Start Upload 2");
+                foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
+                //foreach (var formFile in data.files)
+                {
+                    System.Console.WriteLine("Start Upload 3");
+                    var random = RandomString(10);
+                    string filePath2 = formFile.Value.FileName;
+                    string filename = Path.GetFileName(filePath2);
+                    Console.WriteLine("filenameJa => " + filename);
+                    string ext = Path.GetExtension(filename);
+
+                    if (formFile.Value.Length > 0)
+                    {
+                        System.Console.WriteLine("Start Upload 4");
+                        // using (var stream = System.IO.File.Create(filePath + formFile.Value.FileName))
+                        using (var stream = System.IO.File.Create(filePath + random + filename))
+                        {
+                            await formFile.Value.CopyToAsync(stream);
+                        }
+                        System.Console.WriteLine("Start Upload 4.1");
+                        var ImportReportFileData = new ImportReportFile
+                        {
+                            ImportReportId = importReport.Id,
+                            Name = random + filename,
+                            // Description = model.Description,
+                            // Type = model.Type
+                        };
+                        System.Console.WriteLine("Start Upload 4.2");
+                        _context.ImportReportFiles.Add(ImportReportFileData);
+                        _context.SaveChanges();
+                        System.Console.WriteLine("Start Upload 4.3");
+                    }
+                    System.Console.WriteLine("Start Upload 5");
+                }
+            }
 
             //var removeReportGroup = _context.ImportReportGroups
             //    .Where(x => x.ImportReportId == model.reportId)
@@ -4235,6 +4284,15 @@ namespace InspecWeb.Controllers
                  .ToList();
 
             return Ok(new { importData });
+        }
+
+        [HttpDelete("deletefile/{id}")]
+        public void DeleteFile(long id)
+        {
+            var importReportFileData = _context.ImportReportFiles.Find(id);
+
+            _context.ImportReportFiles.Remove(importReportFileData);
+            _context.SaveChanges();
         }
 
     }
