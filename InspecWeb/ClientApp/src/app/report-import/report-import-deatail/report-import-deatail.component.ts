@@ -8,7 +8,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { UserService } from 'src/app/services/user.service';
 import { ExportReportService } from 'src/app/services/export-report.service';
 import { NotificationService } from 'src/app/services/notification.service';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { NotofyService } from 'src/app/services/notofy.service';
 import { TypeexamibationplanService } from 'src/app/services/typeexamibationplan.service';
 
@@ -33,6 +33,12 @@ export class ReportImportDeatailComponent implements OnInit {
   role_id;
   commanderData: any = [];
   resulttypeexamibationplan: any[];
+  listfiles: any = [];
+  form: FormGroup;
+  delId: any;
+
+  get f() { return this.reportForm.controls }
+  get s() { return this.f.fileData as FormArray }
 
   constructor(
     private router: Router,
@@ -84,6 +90,12 @@ export class ReportImportDeatailComponent implements OnInit {
       suggestion: new FormControl(null, [Validators.required]),
       command: new FormControl(null, [Validators.required]),
       commander: new FormControl(null, [Validators.required]),
+
+      fileData: new FormArray([]),
+    })
+
+    this.form = this.fb.group({
+      files: [null]
     })
   }
 
@@ -155,8 +167,9 @@ export class ReportImportDeatailComponent implements OnInit {
 
   editReport(value) {
     this.spinner.show();
-    this.exportReportService.editImportReport(value, this.reportId).subscribe(res => {
+    this.exportReportService.editImportReport2(value, this.reportId, this.listfiles).subscribe(res => {
       this.reportForm.reset();
+      this.listfiles = [];
       this.getReportImportById();
       this.modalRef.hide();
       this._NotofyService.onSuccess("แก้ไขข้อมูล",)
@@ -237,6 +250,39 @@ export class ReportImportDeatailComponent implements OnInit {
     this.typeexamibationplanservice.getdata().subscribe(result => {
       this.resulttypeexamibationplan = result
     })
+  }
+
+  uploadFile(event) {
+    var file = (event.target as HTMLInputElement).files;
+    for (let i = 0, numFiles = file.length; i < numFiles; i++) {
+      this.listfiles.push(file[i])
+      this.s.push(this.fb.group({
+        reportFile: file[i],
+        fileDescription: '',
+        type: file[i].type,
+      }))
+    }
+    console.log("listfiles: ", this.reportForm.value);
+    console.log("eiei: ", this.s.controls);
+
+
+    this.form.patchValue({
+      files: this.listfiles
+    });
+  }
+
+  openDeleteFileModal(template: TemplateRef<any>, id) {
+    this.delId = id;
+    this.modalRef = this.modalService.show(template);
+  }
+
+  deleteFile() {
+    this.exportReportService.deleteFile(this.delId)
+      .subscribe(response => {
+        console.log("res: ", response);
+        this.modalRef.hide();
+        this.getReportImportById();
+      })
   }
 
 }
