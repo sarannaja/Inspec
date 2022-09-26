@@ -150,7 +150,7 @@
 
                         <label for="test" class="form-label">ที่อยู่</label><label class="text-danger">*</label>
                         <textarea formControlName="address" class="form-control"
-                            placeholder="กรุณากรอกประสบการณ์บรรยาย" [ngClass]="{ 'is-invalid': submitted && f.address.errors }"></textarea>
+                            placeholder="กรุณากรอกที่อยู่" [ngClass]="{ 'is-invalid': submitted && f.address.errors }"></textarea>
                             <div *ngIf="submitted && f.address.errors" class="invalid-feedback">
                                 <div *ngIf="f.address.errors.required">กรุณากรอกที่อยู่</div>
                             </div>
