@@ -257,8 +257,10 @@ export class InspectionPlanComponent implements OnInit {
       let end_date = new Date(result.endDate)
 
       // alert(JSON.stringify(result))
+      let startDate = current_date.toISOString().substring(0,10)
+      let endDate = end_date.toISOString().substring(0,10)
 
-      this.currentyear = ((current_date.toISOString() > end_date.toISOString())) ? result.year + 1 : result.year
+      this.currentyear = ((startDate <= endDate)) ? result.year : result.year + 1
 
       // alert(JSON.stringify(this.currentyear))
       this.getScheduleData();
