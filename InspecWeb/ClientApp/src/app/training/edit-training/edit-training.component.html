@@ -2,9 +2,9 @@
     
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="test02.html">จัดการหลักสูตรการอบรม</a></li>
+            <li class="breadcrumb-item"><a href="test02.html">จัดการหลักสูตรฝึกอบรม</a></li>
             <!-- <li class="breadcrumb-item"><a href="javascript:void(0)">Tables</a></li> -->
-            <li class="breadcrumb-item active" aria-current="page">เพิ่มหลักสูตรการอบรม</li>
+            <li class="breadcrumb-item active" aria-current="page">แก้ไขหลักสูตรฝึกอบรม</li>
         </ol>
     </nav>
 </div>
@@ -12,7 +12,7 @@
     <div class="col-12">
         <div class="card card-eiei">
             <div class="card-header" style="margin-bottom: -40px;">
-                <h5 class="card-title">แก้ไขหลักสูตรการอบรม</h5>
+                <h5 class="card-title">แก้ไขหลักสูตรฝึกอบรม</h5>
             </div>
             <div class="card-body">
                 <form [formGroup]="Form" (ngSubmit)="editTraining(Form.value)">
@@ -41,11 +41,11 @@
                             </div>
                             <div class="input-group col-12" style="margin-left: -25px;">
                                 <div class="form-group col-8">
-                                    <label>ชื่อหลักสูตรการอบรม</label>
+                                    <label>ชื่อหลักสูตรฝึกอบรม</label>
                                     <input type="text" formControlName="name" class="form-control"
-                                        placeholder="กรุณากรอกชื่อหลักสูตรการอบรม" [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+                                        placeholder="กรุณากรอกชื่อหลักสูตรฝึกอบรม" [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
                                         <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
-                                            <div *ngIf="f.name.errors.required">กรุณากรอกรหัสหลักสูตร</div>
+                                            <div *ngIf="f.name.errors.required">กรุณากรอกชื่อหลักสูตรฝึกอบรม</div>
                                         </div>
                                     <!-- <span class="font-13 text-muted">e.g "DD/MM/YYYY"</span> -->
                                 </div>
@@ -60,12 +60,12 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label>คำอธิบายหลักสูตรการอบรม</label>
+                                <label>คำอธิบายหลักสูตรฝึกอบรม</label>
                                 <textarea type="text" formControlName="detail" class="form-control"
-                                    placeholder="กรุณากรอคำอธิบายหลักสูตรการอบรม"
+                                    placeholder="กรุณากรอกคำอธิบายหลักสูตรฝึกอบรม"
                                     style="width: 100%; height:200px;" [ngClass]="{ 'is-invalid': submitted && f.detail.errors }"></textarea>
                                     <div *ngIf="submitted && f.detail.errors" class="invalid-feedback">
-                                        <div *ngIf="f.detail.errors.required">กรุณากรอกรหัสหลักสูตร</div>
+                                        <div *ngIf="f.detail.errors.required">กรุณากรอกคำอธิบายหลักสูตรฝึกอบรม</div>
                                     </div>
                                 <!-- <span class="font-13 text-muted">e.g "DD/MM/YYYY"</span> -->
                             </div>
@@ -77,7 +77,7 @@
 
 
                         <div class="col-12 col-xl-12">
-                            <label>กำหนดระยะรับสมัครเข้าอบรม</label>
+                            <label>กำหนดระยะเวลารับสมัครฝึกอบรม</label>
                         </div>
                         <div class="col-12 col-xl-3">
                             <div class="form-group">
@@ -111,7 +111,7 @@
                         </div>
 
                         <div class="col-12 col-xl-12">
-                            <label>กำหนดระยะเวลาอบรม</label>
+                            <label>กำหนดระยะเวลาเข้าอบรม</label>
                         </div>
                         <div class="col-12 col-xl-3">
                             <div class="form-group">
