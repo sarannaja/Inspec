@@ -132,6 +132,17 @@ export class CentralPolicyComponent implements OnInit {
       var current_year = new Date().getFullYear() + 543;
       var current_date = new Date();
       let d3: any
+      this.resultfiscalyear.sort((a, b) => {
+        if (a.year > b.year) {
+          return 1;
+        } else if (a.year < b.year) {
+          return -1;
+        } else {
+          return 0;
+        }
+      });
+      console.log("resultfiscalyear", this.resultfiscalyear);
+
       // this.currentyear = result.filter(result => {
       //   let start_date = new Date(result.startDate).toISOString()
       //   console.log(current_date, start_date);
