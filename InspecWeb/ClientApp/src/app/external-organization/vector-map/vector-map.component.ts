@@ -78,6 +78,8 @@ export class VectorMapComponent implements OnInit {
 
     this.show = 1;
     this.provinceName = province.name;
+    console.log(this.provinceName);
+    
 
     // this.userService.getuserinspectorformapdata(province.name).subscribe(result=>{
     //   this.resultInspector = result
@@ -104,9 +106,15 @@ export class VectorMapComponent implements OnInit {
         //console.log(result, 'result');
         this.ministryGroup = _.chain(result)
           .groupBy("ministryId")
-          .map((value, key) => ({ ministrie: value[0].ministries, ministries: value }))
+          .map((value, key) => ({
+            ministrie: value[0].ministries,
+            ministries: value.map((value, index) => ({
+              ...value,
+              phoneNumber_split: [value.phoneNumber.slice(0, 2), " ", value.phoneNumber.slice(2,6), " ", value.phoneNumber.slice(6)].join('')
+            }))
+          }))
           .value()
-        console.log('ministryGroup',this.ministryGroup);
+        console.log('ministryGroup', this.ministryGroup);
 
       })
 
@@ -144,13 +152,13 @@ export class VectorMapComponent implements OnInit {
                 }
               },
               offsets: function (code, region) {
-                console.log(code,'code ');
-                
+                console.log(code, 'code ');
+
                 // return region
                 return {
                   'TH-50': [10, -70],
                   'TH-63': [20, -50],
-                
+
                 }
                 [code];
               }

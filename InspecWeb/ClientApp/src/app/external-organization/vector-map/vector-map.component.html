@@ -37,7 +37,7 @@
     <div class="col-12">
       <div class="card">
         <div class="card-header" style="margin-bottom: -30px;">
-          <h3 class="card-title">ข้อมูลติดต่อบุคลากร</h3>
+          <h3 class="card-title">ข้อมูลติดต่อบุคลากร รับผิดชอบการตรวจราชการจังหวัด {{provinceName}}</h3>
         </div>
         <div class="card-body">
 
@@ -46,9 +46,10 @@
               <summary><span style="font-size: 16px;margin-bottom: 50px;">{{item.ministrie.name}}</span></summary>
               <ul *ngFor="let item2 of item.ministries;let x = index;">
                 <li>
-                  {{x+1}}.{{item2.prefix}}{{item2.name}} 
-                  ตำแหน่ง{{item2.position}} 
-                  <span *ngIf="item2.phoneNumber != null || item2.phoneNumber != 'null' ">เบอร์โทร {{item2.phoneNumber}}</span>
+                  {{x+1}}. {{item2.prefix}} {{item2.name}}
+                  {{item2.position}}
+                  <span *ngIf="item2.phoneNumber != null || item2.phoneNumber != 'null' ">หมายเลขโทรศัพท์
+                    {{item2.phoneNumber_split}}</span>
                 </li>
               </ul>
               <hr>
