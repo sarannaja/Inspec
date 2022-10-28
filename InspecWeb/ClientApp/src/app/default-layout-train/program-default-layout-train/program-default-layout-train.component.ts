@@ -16,6 +16,7 @@ import * as _ from 'lodash';
 export class ProgramDefaultLayoutTrainComponent implements OnInit {
 
   trainingid: string;
+  newtrainingid: string;
   resulttraining: any[] = [];
   resulttraining2: any[] = [];
   resulttraining3: any[] = [];
@@ -50,6 +51,7 @@ export class ProgramDefaultLayoutTrainComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     @Inject('BASE_URL') baseUrl: string) {
       this.trainingphaseid = activatedRoute.snapshot.paramMap.get('id')
+      this.newtrainingid = activatedRoute.snapshot.paramMap.get('trainingid')
       this.downloadUrl = baseUrl + 'Uploads'
       this.mainUrl = baseUrl
     }
@@ -77,20 +79,37 @@ export class ProgramDefaultLayoutTrainComponent implements OnInit {
 
     };
 
+    this.phaseno = this.trainingphaseid
 
     this.trainingservice.getprogramtraining(this.trainingphaseid)
       .subscribe(result => {
-        this.trainingid = result[0].trainingPhase.trainingId
-        this.programstartdate = result[0].programDate
-        this.resulttrainingprogram = result
-        this.loading = true
-        this.phaseno = result[0].trainingPhase.phaseNo
-        this.detail = result[0].trainingPhase.detail
-        //console.log(this.resulttraining);
+        console.log("getprogramtraining", result);
 
+        if (result.length != 0){
+          //this.trainingid = result[0].trainingPhase.trainingId
+          this.programstartdate = result[0].programDate
+          this.resulttrainingprogram = result
+          this.loading = true
+          //this.phaseno = result[0].trainingPhase.phaseNo
+          if (result[0].trainingPhase.detail == null) {
+            this.detail = result[0].trainingPhase.detail
+
+          }
+          else{
+            this.detail = "-"
+          }
+          
+          //console.log(this.resulttraining);
+        }
+
+        console.log(this.newtrainingid);
+
+        
         //center training
-        this.trainingservice.getdetailtraining(this.trainingid)
+        this.trainingservice.getdetailtraining(this.newtrainingid)
         .subscribe(result => {
+          console.log("getdetailtraining", result);
+
           if (result.length != 0){
             
             this.name = result[0].name
@@ -107,6 +126,8 @@ export class ProgramDefaultLayoutTrainComponent implements OnInit {
           //console.log(this.resulttraining);
         })
     })
+
+    
     this.trainingservice.getTrainingPlantable(this.trainingphaseid).subscribe(result => {
 
       this.chars = result.map(result2 => { return { ...result2, programDate: result2.programDate } })
@@ -120,7 +141,7 @@ export class ProgramDefaultLayoutTrainComponent implements OnInit {
       // this.setState({ characters: chars })
       console.log('chars', this.chars);
 
-
+      
       this.loading = true
       // this.dtOptions = {
       //   // pagingType: 'full_numbers',
@@ -132,7 +153,11 @@ export class ProgramDefaultLayoutTrainComponent implements OnInit {
       //   ordering: false,
       // };
     })
+
+    
   }
+
+  
 
   gotoBack() {
     window.history.back();

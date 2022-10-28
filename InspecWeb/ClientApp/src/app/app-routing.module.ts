@@ -457,7 +457,7 @@ const routes: Routes = [
     ]
   },
   { path: 'train/detail/:id', component: DetailDefaultLayoutTrainComponent },
-  { path: 'train/detail/phase/:id', component: ProgramDefaultLayoutTrainComponent },
+  { path: 'train/detail/phase/:id/:trainingid', component: ProgramDefaultLayoutTrainComponent },
   { path: 'train/detail/condition/:id', component: ConditionDefaultLayoutTrainComponent },
   { path: 'train/register/:id', component: RegisterDefaultLayoutTrainComponent, canActivate: [AuthorizeGuard] },
   { path: 'train/register-external/:id', component: RegisterDefaultLayoutTrainComponent },

@@ -207,25 +207,56 @@ export class ExternalRegisterComponent implements OnInit {
   }
   //เพิ่ม user
   adduser(value) {
-    console.log(value);
-    // alert(JSON.stringify(value.Startdate))
-    //alert(1);
     this.submitted = true;
     if (this.addForm.invalid) {
-      console.log("in1");
-      return;
-    } else {
-      this.spinner.show();
-      this.userService.addUser(value, this.addForm.value.files, 11).subscribe(response => {
-        //alert(3);
-        this.spinner.hide();
-        this.addForm.reset()
-        // this.modalRef.hide()
-        // this.loading = false
-        this._NotofyService.onSuccess("สมัครสมาชิก")
-        this.router.navigate(['/train/']);
-      })
+        console.log("in1");
+        return;
+      
+    } 
+    else {
+        if(this.addForm.value.ProvincialDepartmentId == "" || this.addForm.value.ProvincialDepartmentId == null){
+          this.addForm.value.ProvincialDepartmentId = null
+          console.log(this.addForm.value.ProvincialDepartmentId)
+        }
+        else{
+          console.log("text test ", this.addForm.value.ProvincialDepartmentId)
+        }
+        this.spinner.show();
+          this.userService.addUser(value, this.addForm.value.files, 11).subscribe(response => {
+            //alert(3);
+            this.spinner.hide();
+            this.addForm.reset()
+            // this.modalRef.hide()
+            // this.loading = false
+            this._NotofyService.onSuccess("สมัครสมาชิก")
+            this.router.navigate(['/train/']);
+          })
+
     }
+
+
+
+    // console.log(value);
+    // // alert(JSON.stringify(value.Startdate))
+    // //alert(1);
+    // this.submitted = true;
+    // if (this.addForm.invalid) {
+    //   console.log("in1");
+    //   return;
+    // } else {
+      
+
+    //   this.spinner.show();
+    //   this.userService.addUser(value, this.addForm.value.files, 11).subscribe(response => {
+    //     //alert(3);
+    //     this.spinner.hide();
+    //     this.addForm.reset()
+    //     // this.modalRef.hide()
+    //     // this.loading = false
+    //     this._NotofyService.onSuccess("สมัครสมาชิก")
+    //     this.router.navigate(['/train/']);
+    //   })
+    // }
   }
 
   userform() {
@@ -240,7 +271,8 @@ export class ExternalRegisterComponent implements OnInit {
       ProvinceId: new FormControl(null),
       MinistryId: new FormControl(null, [Validators.required]),
       DepartmentId: new FormControl(null, [Validators.required]),
-      ProvincialDepartmentId: new FormControl(null, [Validators.required]),
+      ProvincialDepartmentId: new FormControl(null),
+      // ProvincialDepartmentId: new FormControl(null, [Validators.required]),
       UserRegion: new FormControl(null),
       UserProvince: new FormControl(null, [Validators.required]),
       SubdistrictId: new FormControl(null),

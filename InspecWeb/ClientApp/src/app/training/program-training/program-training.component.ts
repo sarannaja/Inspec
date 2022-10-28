@@ -112,6 +112,8 @@ export class ProgramTrainingComponent implements OnInit {
     };
 
     this.getprogramtraining()
+    this.getphasetraining()
+
 
     this.trainingservice.getTrainingProgramType()
     .subscribe(result => {
@@ -241,12 +243,34 @@ export class ProgramTrainingComponent implements OnInit {
 
         console.log(result);
         
-        if (result.length > 0){
-          this.phasestartdate = result[0].trainingPhase.startDate;
-          this.phaseenddate = result[0].trainingPhase.endDate;
+        // if (result.length > 0){
+        //   this.phasestartdate = result[0].trainingPhase.startDate;
+        //   this.phaseenddate = result[0].trainingPhase.endDate;
 
-          console.log("startDate =>", result[0].trainingPhase.startDate);
-          console.log("endDate =>", result[0].trainingPhase.endDate);
+        //   console.log("startDate =>", result[0].trainingPhase.startDate);
+        //   console.log("endDate =>", result[0].trainingPhase.endDate);
+
+        //   this.dateOptionF(this.startdate, this.enddate)
+        // }
+        
+        // this.loading = true;
+        // this.spinner.hide();
+        // //console.log(this.resulttraining);
+      })
+  }
+
+  getphasetraining(){
+
+    this.trainingservice.getTrainingPhaseDetail(this.trainingid)
+    .subscribe(result => {
+
+      console.log("getphasetraining ", result);
+      if (result.length > 0){
+          this.phasestartdate = result[0].startDate;
+          this.phaseenddate = result[0].endDate;
+
+          console.log("startDate =>", result[0].startDate);
+          console.log("endDate =>", result[0].endDate);
 
           this.dateOptionF(this.startdate, this.enddate)
         }
@@ -254,8 +278,9 @@ export class ProgramTrainingComponent implements OnInit {
         this.loading = true;
         this.spinner.hide();
         //console.log(this.resulttraining);
-      })
+    })
   }
+
 
 
   dateOptionF(start, end) {

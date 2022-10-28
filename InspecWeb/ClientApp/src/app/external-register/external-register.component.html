@@ -94,14 +94,14 @@
             </div>
 
             <div class="form-group">
-              <label>หน่วยงานภูมิภาค*</label>
+              <label>หน่วยงานภูมิภาค</label>
               <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกหน่วยงานภูมิภาค"
                          formControlName="ProvincialDepartmentId" [items]="selectdataprovincialdepartment"
                          [ngClass]="{ 'is-invalid': submitted && f.ProvincialDepartmentId.errors }">
               </ng-select>
-              <div *ngIf="submitted && f.ProvincialDepartmentId.errors" class="invalid-feedback">
+              <!-- <div *ngIf="submitted && f.ProvincialDepartmentId.errors" class="invalid-feedback">
                 <div *ngIf="f.ProvincialDepartmentId.errors.required">กรุณาเลือกหน่วยงานภูมิภาค</div>
-              </div>
+              </div> -->
             </div>
 
             <div class="form-group">

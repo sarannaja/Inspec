@@ -1,5 +1,14 @@
 @import "../../../assets/fontend/css/style.css";
 
+body{
+    font-family: "Prompt", sans-serif !important;
+  }
+  
+  .f{
+    font-family: "Prompt", sans-serif !important;
+  }
+
+
 .btnMargin {
     margin: 10px;
     width: 90px;

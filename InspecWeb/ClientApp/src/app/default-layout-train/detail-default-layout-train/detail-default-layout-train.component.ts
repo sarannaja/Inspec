@@ -212,7 +212,7 @@ export class DetailDefaultLayoutTrainComponent implements OnInit {
 
  gotoDetailRegisterTraining(phaseid) {
    //console.log(phaseid);
-  this.router.navigate(['/train/detail/phase/',phaseid])
+  this.router.navigate(['/train/detail/phase/'+ phaseid +'/'+ this.trainingid])
  }
 
  gotoApproveRegisterTraining() {
