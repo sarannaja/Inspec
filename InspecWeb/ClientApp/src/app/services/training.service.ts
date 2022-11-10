@@ -244,6 +244,25 @@ export class TrainingService {
     formData.append('name', trainingData.name);
     formData.append('cardid', trainingData.cardid);
     formData.append('position', trainingData.position);
+
+    formData.append('positionbefore', trainingData.positionbefore);
+    formData.append('passportstatus', trainingData.passportstatus);
+    if (trainingData.passportexpire != null) {
+      formData.append('passportexpire', trainingData.passportexpire.date.year + '-' + trainingData.passportexpire.date.month + '-' + trainingData.passportexpire.date.day);
+    }
+    else{
+      formData.append('passportexpire', null);
+    }
+    
+    formData.append('address', trainingData.address);
+    formData.append('officephone', trainingData.officephone);
+    formData.append('religion', trainingData.religion);
+    formData.append('Food', trainingData.Food);
+    formData.append('foodallergy', trainingData.foodallergy);
+    formData.append('blood', trainingData.blood);
+    formData.append('congenitaldisease', trainingData.congenitaldisease);
+    formData.append('collaboratorposition', trainingData.collaboratorposition);
+
     formData.append('department', trainingData.department);
     formData.append('phone', trainingData.phone);
     formData.append('email', trainingData.email);
@@ -251,7 +270,13 @@ export class TrainingService {
     formData.append('type', trainingData.type);
     formData.append('nickname', trainingData.nickname);
 
-    formData.append('retireddate', trainingData.retireddate.date.year + '-' + trainingData.retireddate.date.month + '-' + trainingData.retireddate.date.day);
+    if(trainingData.retireddate != null){
+      formData.append('retireddate', trainingData.retireddate.date.year + '-' + trainingData.retireddate.date.month + '-' + trainingData.retireddate.date.day);
+    }
+    else{
+      formData.append('retireddate', null)
+    }
+    
     formData.append('birthdate', trainingData.birthdate.date.year + '-' + trainingData.birthdate.date.month + '-' + trainingData.birthdate.date.day);
 
     formData.append('officeaddress', trainingData.officeaddress);

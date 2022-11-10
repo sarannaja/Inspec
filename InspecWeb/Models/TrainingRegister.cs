@@ -45,6 +45,9 @@ namespace InspecWeb.Models
         [Description("ตำแหน่ง")]
         public string Position { get; set; }
 
+        [Description("ตำแหน่งสุดท้ายก่อนดำรงตำแหน่งปัจจุบัน")]
+        public string PositionBefore { get; set; }
+
         [Description("หน่วยงาน/สังกัด")]
         public string Department { get; set; }
 
@@ -60,6 +63,37 @@ namespace InspecWeb.Models
         [Description("สถานะ")]
         public long Status { get; set; }
 
+        [Description("สถานะ")]
+        public string PassportStatus { get; set; }
+
+        [Description("พาสปอร์ตหมดอายุ")]
+        public DateTime? PassportExpire { get; set; }
+
+        [Description("ที่อยู่ปัจจุบัน")]
+        public string Address { get; set; }
+
+        [Description("หมายเลขโทรศัพท์ที่ทำงาน")]
+        public string OfficePhone { get; set; }
+
+        [Description("ศาสนา")]
+        public string Religion { get; set; }
+        
+        [Description("อาหาร")]
+        public string Food { get; set; }
+
+        [Description("อาหารที่แพ้")]
+        public string Foodallergy { get; set; }
+
+        [Description("หมู่โลหิต")]
+        public string Blood { get; set; }
+
+        [Description("โรคประจำตัว")]
+        public string CongenitalDisease { get; set; }
+
+         [Description("ตำแหน่งผู้ประสาน")]
+        public string CollaboratorPosition { get; set; }
+
+      
         [Description("ช่วง 1")]
         public long Group1 { get; set; }
 

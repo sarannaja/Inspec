@@ -19,8 +19,11 @@ import { NotofyService } from '../services/notofy.service';
   templateUrl: './external-register.component.html',
   styleUrls: ['./external-register.component.css']
 })
-export class ExternalRegisterComponent implements OnInit {
 
+
+export class ExternalRegisterComponent implements OnInit {
+  checkbox1 = false; // bind first checkbox
+  checkbox2 = false; // another checkbox
   private myDatePickerOptions: IMyOptions = {
     // other options...
     dateFormat: 'dd/mm/yyyy',

@@ -8,6 +8,10 @@ body{
     font-family: "Prompt", sans-serif !important;
   }
 
+  .m label{
+    margin-top: 15px;
+  }
+
 .btnMargin {
     margin: 10px;
     width: 90px;

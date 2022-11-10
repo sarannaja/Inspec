@@ -109,62 +109,231 @@
 
   <!-- <router-outlet></router-outlet> -->
 
-  <div class="container">
+  <div class="m container">
     <div class="row">
       <div class="col-12">
         <form [formGroup]="Form" (ngSubmit)="storeTraining(Form.value)">
           <div class="">
             <!-- <label *ngFor="let item of resulttraining; let i = index">{{ item.name }}</label> -->
-            <h3><label>ใบสมัครหลักสูตร{{ name }}</label></h3>
-            <label>{{ createdAt | thaidate:'year'}}</label>
-            <h3 class="text-center">สมัครฝึกอบรม</h3>
+            <h3><label class="f">หลักสูตร {{ name }}</label></h3>
+            <label style="font-size: x-small;">วันที่ประกาศหลักสูตร : {{ createdAt | thaidate:'year'}}</label>
+            <h3 class="text-center f">สมัครฝึกอบรม</h3>
             <div class="container col-10">
 
             </div>
 
-            <div class="container col-10 rounded-lg border">
+            <div class="m container col-10 rounded-lg border">
               <br>
-              <h3>ข้อมูลพื้นฐาน<span class="star">(*จำเป็นต้องกรอก)</span></h3>
+              <h5 class="f">ข้อมูลผู้สมัครและเอกสารรับรอง</h5>
+              <label>ชื่อ-นามสกุล</label><span class="star">*</span>
+              <input type="text" value="{{ Name }}" formControlName="name" class="form-control"
+                placeholder="กรุณากรอกชื่อ-นามสกุล" readonly>
 
-              <br>
-              <label>รูปถ่าย</label><small class="text-muted">(หน้าตรง ถ่ายไว้ไม่เกิน 6 เดือน)รูปแบบไฟล์ .JPG .PNG
-                *รูปชุดขาวถ้ามี</small><span class="star">*</span>
-              <br>
-              <input type="file" (change)="uploadFile($event)"
-                [ngClass]="{ 'is-invalid': submitted && f.files.errors }">
-              <div *ngIf="submitted && f.files.errors" class="invalid-feedback">
-                <div *ngIf="f.files.errors.required">กรุณาแนบรูปถ่าย</div>
+              <label>ตำแหน่งในปัจจุบัน</label><span class="star">*</span>
+              <input type="text" value="{{ Position }}" formControlName="position" class="form-control"
+                placeholder="กรุณากรอกตำแหน่ง" [ngClass]="{ 'is-invalid': submitted && f.position.errors }">
+              <div *ngIf="submitted && f.position.errors" class="invalid-feedback">
+                <div *ngIf="f.position.errors.required">กรุณากรอกตำแหน่ง</div>
               </div>
-              <br><br>
+              
+              <label>ตำแหน่งสุดท้ายก่อนดำรงตำแหน่งปัจจุบัน</label>
+              <input type="text" value="" class="form-control" formControlName="positionbefore"
+                placeholder="กรุณากรอกตำแหน่งสุดท้ายก่อนดำรงตำแหน่งปัจจุบัน">
+              
+              <label>หน่วยงานที่สังกัดระดับกระทรวง</label><span class="star">*</span>
+              <input type="text" value="" formControlName="department" class="form-control"
+                placeholder="กรุณากรอกหน่วยงานที่สังกัดระดับกระทรวง" readonly>
+              
 
+              <label>หน่วยงานที่สังกัดระดับกรม</label><span class="star">*</span>
+              <input type="text" value="" formControlName="departmentnew" class="form-control"
+                placeholder="กรุณากรอกหน่วยงานที่สังกัดระดับกรม" readonly>
 
+              <label>ที่อยู่หน่วยงาน</label><span class="star">*</span>
+              <input type="text" value="" formControlName="officeaddress" class="form-control"
+                placeholder="กรุณากรอกที่อยู่หน่วยงาน"
+                [ngClass]="{ 'is-invalid': submitted && f.officeaddress.errors }">
+              <div *ngIf="submitted && f.officeaddress.errors" class="invalid-feedback">
+                <div *ngIf="f.officeaddress.errors.required">กรุณากรอกที่อยู่หน่วยงาน</div>
+              </div>
+              
+
+              
               <label class="form-text">เอกสาารการรับรองของผู้บังคับบัญชาฯ<span class="star">*</span></label>
-              <input type="file" multiple="true" (change)="uploadFile2($event)"
+              <input type="file" class="btn" multiple="true" (change)="uploadFile2($event)"
                 [ngClass]="{ 'is-invalid': submitted && f.CertificationFiles.errors }">
               <div *ngIf="submitted && f.CertificationFiles.errors" class="invalid-feedback">
                 <div *ngIf="f.CertificationFiles.errors.required">กรุณาแนบเอกสาารการรับรองของผู้บังคับบัญชาฯ</div>
               </div>
-              <br><br>
+              <br>
 
-              <label class="form-text">สำเนาบัตรประชาชน<span class="star">*</span></label>
-              <input type="file" multiple="true" (change)="uploadFile3($event)"
-                [ngClass]="{ 'is-invalid': submitted && f.idcardFiles.errors }">
-              <small class="form-text text-muted">(เพื่อใช้ในการจองบัตรโดยสารเครื่องบิน)</small>
+              <label>รูปถ่าย</label><small class="text-muted">(หน้าตรง ถ่ายไว้ไม่เกิน 6 เดือน)รูปแบบไฟล์ .JPG .PNG
+                *รูปชุดขาวถ้ามี</small><span class="star">*</span>
+              <br>
+              <input type="file" class="btn" (change)="uploadFile($event)"
+                [ngClass]="{ 'is-invalid': submitted && f.files.errors }" accept=".jpg, .png">
+              <div *ngIf="submitted && f.files.errors" class="invalid-feedback">
+                <div *ngIf="f.files.errors.required">กรุณาแนบรูปถ่าย</div>
+              </div>
+
+              <label class="form-text">รูปบัตรประชาชน ใช้เพื่อการจองตั๋วโดยสารเครื่องบินเดินทางในหลักสูตรการฝึกอบรม<span class="star">*</span></label>
+              <input type="file" class="btn" multiple="true" (change)="uploadFile3($event)"
+                [ngClass]="{ 'is-invalid': submitted && f.idcardFiles.errors }" accept=".jpg, .png">
+              <!-- <small class="form-text text-muted">(เพื่อใช้ในการจองบัตรโดยสารเครื่องบิน)</small> -->
               <div *ngIf="submitted && f.idcardFiles.errors" class="invalid-feedback">
-                <div *ngIf="f.idcardFiles.errors.required">กรุณาแนบสำเนาบัตรประชาชน</div>
+                <div *ngIf="f.idcardFiles.errors.required">กรุณาแนบรูปบัตรประชาชน</div>
               </div>
-              <br>
 
-              <label class="form-text">สำเนาหนังสือเดินทางราชการ<span class="star">*</span></label>
-              <input type="file" multiple="true" (change)="uploadFile4($event)"
+              <label class="form-text">รูปหนังสือเดินทางราชการ<span class="star">*</span></label>
+                <input type="file" class="btn" multiple="true" (change)="uploadFile4($event)"
                 [ngClass]="{ 'is-invalid': submitted && f.GovernmentpassportFiles.errors }">
-              <small class="form-text text-muted">(เพื่อใช้ในการจองบัตรโดยสารเครื่องบิน)</small>
-              <div *ngIf="submitted && f.GovernmentpassportFiles.errors" class="invalid-feedback">
-                <div *ngIf="f.GovernmentpassportFiles.errors.required">กรุณาแนบสำเนาหนังสือเดินทางราชการ</div>
+                <!-- <small class="form-text text-muted">(เพื่อใช้ในการจองบัตรโดยสารเครื่องบิน)</small> -->
+                <div *ngIf="submitted && f.GovernmentpassportFiles.errors" class="invalid-feedback">
+                  <div *ngIf="f.GovernmentpassportFiles.errors.required">กรุณาแนบรูปหนังสือเดินทางราชการ</div>
+                </div>
+              <label class="form-text">หนังสือเดินทางราชการมีหมดอายุหรือไม่<span class="star">*</span></label>
+              <select class="form-control" #Passport formControlName="passportstatus" [ngClass]="{ 'is-invalid': submitted && f.passportstatus.errors }">       
+                <option value="null">--กรุณาเลือกหนังสือเดินทางราชการหมดอายุ--</option>
+                <option value="1">มี </option>
+                <option value="2">ไม่มี</option>
+              </select>
+              <div *ngIf="submitted && f.passportstatus.errors" class="invalid-feedback">
+                <div *ngIf="f.passportstatus.errors.required">กรุณาเลือกหนังสือเดินทางราชการหมดอายุ</div>
               </div>
-              <br>
+              <div *ngIf="Passport.value == 1">
+                <label>หมดอายุเมื่อ</label><span class="star"></span>
+                <my-date-picker-th formControlName="passportexpire" [options]="">
+                <!-- <my-date-picker-th formControlName="passportexpire" [options]="" [ngClass]="{ 'is-invalid': submitted && f.passportexpire.errors && f.passportstatus.value == 0 }"> -->
+                </my-date-picker-th>
+                <!-- <div *ngIf="submitted && f.passportexpire.errors && f.passportstatus.value == 0" class="invalid-feedback">
+                  <div *ngIf="f.passportexpire.errors.required">กรุณาลงวันที่หมดอายุเมื่อ</div>
+                </div> -->
+                <!-- <div *ngIf="submitted && f.birthdate.errors" class="invalid-feedback">
+                  <div *ngIf="f.birthdate.errors.required">กรุณาระบุวันเกิด</div>
+                </div> -->
+                
+              </div>
 
-              <label class="form-text">ท่านเป็นผู้มีอายุราชการเหลือไม่น้อยกว่า 1 ปี ใช่หรือไม่<span
+              <br>             
+              <hr>
+              
+              <h5 class="f">ข้อมูลส่วนบุคคลผู้สมัคร</h5>
+              <label>ชื่อเล่น</label><span class="star">*</span>
+              <input type="text" value="" formControlName="nickname" class="form-control"
+                placeholder="กรุณากรอกชื่อเล่น" [ngClass]="{ 'is-invalid': submitted && f.nickname.errors }">
+              <div *ngIf="submitted && f.nickname.errors" class="invalid-feedback">
+                <div *ngIf="f.nickname.errors.required">กรุณากรอกชื่อเล่น</div>
+              </div>
+              
+              <label>วันเกิด</label><span class="star">*</span>
+              <my-date-picker-th formControlName="birthdate" [options]="" [ngClass]="{ 'is-invalid': submitted && f.birthdate.errors }">
+              </my-date-picker-th>
+              <div *ngIf="submitted && f.birthdate.errors" class="invalid-feedback">
+                <div *ngIf="f.birthdate.errors.required">กรุณาลงวันที่วันเกิด</div>
+              </div>
+
+              <label>ที่อยู่ปัจจุบัน</label>
+              <input type="text" value="" class="form-control" formControlName="address"
+                placeholder="กรุณากรอกที่อยู่ปัจจุบัน">
+
+              <label>หมายเลขโทรศัพท์พื้นฐาน(สำนักงาน)</label>
+              <input type="text" value="" class="form-control" formControlName="officephone"
+                placeholder="กรุณากรอกหมายเลขโทรศัพท์พื้นฐาน(สำนักงาน)">
+
+              <label>หมายเลขโทรศัพท์เคลื่อนที่</label><span class="star">*</span>
+              <input type="text" value="{{ PhoneNumber }}" formControlName="phone" class="form-control"
+                placeholder="กรุณากรอกหมายเลขโทรศัพท์เคลื่อนที่" maxlength="10" numbersOnly [ngClass]="{ 'is-invalid': submitted && f.phone.errors }">
+              <div *ngIf="submitted && f.phone.errors" class="invalid-feedback">
+                <div *ngIf="f.phone.errors.required">กรุณากรอกหมายเลขโทรศัพท์เคลื่อนที่</div>
+              </div>
+
+              <label>อีเมล์ผู้สมัคร</label><span class="star">*</span>
+              <input type="text" value="{{ Email }}" formControlName="email" class="form-control"
+                placeholder="กรุณากรอกอีเมล์ผู้สมัคร" [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
+              <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                <div *ngIf="f.email.errors.required">กรุณากรอกอีเมล์ผู้สมัคร</div>
+              </div>
+
+              <label>ศาสนา</label>
+              <select class="form-control" formControlName="religion" [ngClass]="{ 'is-invalid': submitted && f.religion.errors }">
+                <option value="null">--กรุณาเลือกศาสนา--</option>
+                <option value="พุทธ">พุทธ</option>
+                <option value="คริสต์">คริสต์</option>
+                <option value="อิสลาม">อิสลาม</option>
+                <option value="ศาสนาอื่น">ศาสนาอื่น</option>
+              </select>
+              <div *ngIf="submitted && f.religion.errors" class="invalid-feedback">
+                <div *ngIf="f.religion.errors.required">กรุณาเลือกศาสนา</div>
+              </div>
+
+              <label>การรับประทานอาหาร</label>
+              <select class="form-control" formControlName="Food" [ngClass]="{ 'is-invalid': submitted && f.Food.errors }">
+                <option value="null">--กรุณาเลือกการรับประทานอาหาร--</option>
+                <option value="ปกติ">ปกติ</option>
+                <option value="ฮาลาล">ฮาลาล</option>
+                <option value="มังสวิรัติ">มังสวิรัติ</option>      
+              </select>
+              <div *ngIf="submitted && f.Food.errors" class="invalid-feedback">
+                <div *ngIf="f.Food.errors.required">กรุณาเลือกศาสนา</div>
+              </div>
+
+              <label>อาหารที่แพ้</label>
+              <input type="text" value="" class="form-control" formControlName="foodallergy"
+                placeholder="กรุณากรอกอาหารที่แพ้">
+
+                <label>หมู่โลหิต</label>
+                <select class="form-control" formControlName="blood" [ngClass]="{ 'is-invalid': submitted && f.blood.errors }">
+                  <option value="null">--กรุณาเลือกหมู่โลหิต--</option>
+                  <option value="A">A</option>
+                  <option value="B">B</option>
+                  <option value="AB">AB</option>  
+                  <option value="O">O</option>
+                  <option value="ไม่ทราบ">ไม่ทราบ</option>    
+                </select>
+                <div *ngIf="submitted && f.blood.errors" class="invalid-feedback">
+                  <div *ngIf="f.blood.errors.required">กรุณาเลือกศาสนา</div>
+                </div>
+              
+                <label>โรคประจำตัว</label>
+                <input type="text" value="" class="form-control" formControlName="congenitaldisease"
+                  placeholder="กรุณากรอกโรคประจำตัว">
+
+              <br>
+              <hr>
+              
+              <h5 class="f">ข้อมูลผู้ประสานงาน (ชื่อ-นามสกุลผู้ประสานงาน เลขานุการ ผู้ช่วยผู้ตรวจราชการ หรือผู้ติดต่อได้ในกรณีเร่งด่วน</h5>
+              <label>ชื่อ-นามสกุล</label><span class="star">*</span>
+              <input type="text" value="" formControlName="collaboratorname" class="form-control"
+                placeholder="กรุณากรอก ชื่อ-นามสกุลผู้ประสานงาน"
+                [ngClass]="{ 'is-invalid': submitted && f.collaboratorname.errors }">
+              <div *ngIf="submitted && f.collaboratorname.errors" class="invalid-feedback">
+                <div *ngIf="f.collaboratorname.errors.required">กรุณากรอก ชื่อ-นามสกุลผู้ประสานงาน</div>
+              </div>
+
+              <label>ตำแหน่ง</label>
+              <input type="text" value="" class="form-control" formControlName="collaboratorposition"
+                placeholder="กรุณากรอกตำแหน่ง">
+
+              <label>หมายเลขโทรศัพท์พื้นฐาน</label><span class="star">*</span>
+              <input type="text" value="" formControlName="collaboratorphoneoffice" class="form-control"
+                placeholder="กรุณากรอกหมายเลขโทรศัพท์พื้นฐาน"
+                [ngClass]="{ 'is-invalid': submitted && f.collaboratorphoneoffice.errors }">
+              <div *ngIf="submitted && f.collaboratorphoneoffice.errors" class="invalid-feedback">
+                <div *ngIf="f.collaboratorphoneoffice.errors.required">กรุณากรอกหมายเลขโทรศัพท์พื้นฐาน</div>
+              </div>
+
+              <label>หมายเลขโทรศัพท์เคลื่อนที่</label><span class="star">*</span>
+              <input type="text" value="" formControlName="collaboratorphone" class="form-control"
+                placeholder="กรุณากรอกหมายเลขโทรศัพท์เคลื่อนที่"
+                [ngClass]="{ 'is-invalid': submitted && f.collaboratorphone.errors }">
+              <div *ngIf="submitted && f.collaboratorphone.errors" class="invalid-feedback">
+                <div *ngIf="f.collaboratorphone.errors.required">กรุณากรอกหมายเลขโทรศัพท์เคลื่อนที่</div>
+              </div>
+              
+              
+
+
+              <!-- <label class="form-text">ท่านเป็นผู้มีอายุราชการเหลือไม่น้อยกว่า 1 ปี ใช่หรือไม่<span
                   class="star">*</span></label>
               <input type="radio" formControlName="type" name="type" value="in"
                 [ngClass]="{ 'is-invalid': submitted && f.type.errors }">
@@ -175,51 +344,22 @@
               <div *ngIf="submitted && f.type.errors" class="invalid-feedback">
                 <div *ngIf="f.type.errors.required">กรุณาเลือก</div>
               </div>
-              <br>
+              <br> -->
 
-              <label>วันที่ท่านเกษียณอายุราชการ</label><span class="star">*</span>
+              
               <!-- <input type="text" value="" formControlName="retireddate" class="form-control"
                 placeholder="กรุณากรอกปี พ.ศ."> -->
+
+              <!-- <label>วันที่ท่านเกษียณอายุราชการ</label><span class="star">*</span>
               <my-date-picker-th formControlName="retireddate" [options]="">
               </my-date-picker-th>
               <div *ngIf="submitted && f.retireddate.errors" class="invalid-feedback">
                 <div *ngIf="f.retireddate.errors.required">กรุณาระบุวันที่ท่านเกษียณอายุราชการ</div>
               </div>
-              <br><br>
+              <br><br> -->
 
-              <label>ชื่อ-นามสกุล</label><span class="star">*</span>
-              <input type="text" value="{{ Name }}" formControlName="name" class="form-control"
-                placeholder="กรุณากรอกชื่อ-นามสกุล" readonly>
 
-              <br>
-
-              <label>ชื่อเล่น</label><span class="star">*</span>
-              <input type="text" value="" formControlName="nickname" class="form-control"
-                placeholder="กรุณากรอกชื่อเล่น" [ngClass]="{ 'is-invalid': submitted && f.nickname.errors }">
-              <div *ngIf="submitted && f.nickname.errors" class="invalid-feedback">
-                <div *ngIf="f.nickname.errors.required">กรุณากรอกชื่อเล่น</div>
-              </div>
-              <br>
-
-              <label>วันเกิด</label><span class="star">*</span>
-              <my-date-picker-th formControlName="birthdate" [options]="">
-              </my-date-picker-th>
-              <div *ngIf="submitted && f.birthdate.errors" class="invalid-feedback">
-                <div *ngIf="f.birthdate.errors.required">กรุณาระบุวันเกิด</div>
-              </div>
-              <br><br>
-
-              <label>กระทรวง</label><span class="star">*</span>
-              <input type="text" value="" formControlName="department" class="form-control"
-                placeholder="กรุณากรอกหน่วยงาน/สังกัด" readonly>
-              <br>
-
-              <label>หน่วยงาน/กรม</label><span class="star">*</span>
-              <input type="text" value="" formControlName="departmentnew" class="form-control"
-                placeholder="กรุณากรอกกระทรวง/กรม" readonly>
-              <br>
-
-              <label>เลขประจำตัวประชาชน</label><span class="star">*</span>
+              <!-- <label>เลขประจำตัวประชาชน</label><span class="star">*</span>
               <input type="text" value="" formControlName="cardid" class="form-control"
                 placeholder="กรุณากรอกบัตรประชาชน" maxlength="13" numbersOnly
                 [ngClass]="{ 'is-invalid': submitted && f.cardid.errors }">
@@ -228,30 +368,7 @@
               </div>
               <br>
 
-              <label>ตำแหน่งในปัจจุบัน</label><span class="star">*</span>
-              <input type="text" value="{{ Position }}" formControlName="position" class="form-control"
-                placeholder="กรุณากรอกตำแหน่ง" [ngClass]="{ 'is-invalid': submitted && f.position.errors }">
-              <div *ngIf="submitted && f.position.errors" class="invalid-feedback">
-                <div *ngIf="f.position.errors.required">กรุณากรอกตำแหน่ง</div>
-              </div>
-              <br>
-
-              <label>ที่อยู่ที่ทำงาน</label><span class="star">*</span>
-              <input type="text" value="" formControlName="officeaddress" class="form-control"
-                placeholder="กรุณากรอกที่อยู่ที่ทำงาน"
-                [ngClass]="{ 'is-invalid': submitted && f.officeaddress.errors }">
-              <div *ngIf="submitted && f.officeaddress.errors" class="invalid-feedback">
-                <div *ngIf="f.officeaddress.errors.required">กรุณากรอกที่อยู่ที่ทำงาน</div>
-              </div>
-              <br>
-
-              <label>เบอร์โทรศัพท์มือถือ</label><span class="star">*</span>
-              <input type="text" value="{{ PhoneNumber }}" formControlName="phone" class="form-control"
-                placeholder="กรุณากรอกเบอร์โทรศัพท์" maxlength="10" numbersOnly [ngClass]="{ 'is-invalid': submitted && f.phone.errors }">
-              <div *ngIf="submitted && f.phone.errors" class="invalid-feedback">
-                <div *ngIf="f.phone.errors.required">กรุณากรอกเบอร์โทรศัพท์</div>
-              </div>
-              <br>
+              
 
               <label>เบอร์โทรสาร</label><span class="star">*(ถ้าไม่มีให้ใส่-)</span>
               <input type="text" value="" formControlName="fax" class="form-control" placeholder="กรุณากรอกเบอร์โทรสาร"
@@ -259,17 +376,11 @@
               <div *ngIf="submitted && f.fax.errors" class="invalid-feedback">
                 <div *ngIf="f.fax.errors.required">กรุณากรอกเบอร์โทรสาร</div>
               </div>
-              <br>
+              <br> -->
 
-              <label>E-mail</label><span class="star">*</span>
-              <input type="text" value="{{ Email }}" formControlName="email" class="form-control"
-                placeholder="กรุณากรอก E-mail" [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
-              <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
-                <div *ngIf="f.email.errors.required">กรุณากรอก E-mail</div>
-              </div>
-              <br>
+              
             </div>
-            <br>
+            <!-- <br>
 
             <div class="container col-10 rounded-lg border">
               <br>
@@ -277,32 +388,6 @@
               <small class="form-text text-muted">ผู้ช่วยผู้ตรวจราชการ หรือผู้ที่สามารถติดต่อได้ในกรณีเร่งด่วน</small>
               <br>
 
-              <label>ชื่อ-นามสกุล</label><span class="star">*</span>
-              <input type="text" value="" formControlName="collaboratorname" class="form-control"
-                placeholder="กรุณากรอก ชื่อ-นามสกุลผู้ประสานงาน"
-                [ngClass]="{ 'is-invalid': submitted && f.collaboratorname.errors }">
-              <div *ngIf="submitted && f.collaboratorname.errors" class="invalid-feedback">
-                <div *ngIf="f.collaboratorname.errors.required">กรุณากรอก ชื่อ-นามสกุลผู้ประสานงาน</div>
-              </div>
-              <br>
-
-              <label>เบอร์โทรศัพท์มือถือผู้ประสานงาน</label><span class="star">*</span>
-              <input type="text" value="" formControlName="collaboratorphone" class="form-control"
-                placeholder="กรุณากรอกเบอร์โทรศัพท์"
-                [ngClass]="{ 'is-invalid': submitted && f.collaboratorphone.errors }">
-              <div *ngIf="submitted && f.collaboratorphone.errors" class="invalid-feedback">
-                <div *ngIf="f.collaboratorphone.errors.required">กรุณากรอก ชื่อ-นามสกุลผู้ประสานงาน</div>
-              </div>
-              <br>
-
-              <label>เบอร์โทรศัพท์ที่ทำงานผู้ประสานงาน</label><span class="star">*</span>
-              <input type="text" value="" formControlName="collaboratorphoneoffice" class="form-control"
-                placeholder="กรุณากรอกเบอร์โทรศัพท์"
-                [ngClass]="{ 'is-invalid': submitted && f.collaboratorphoneoffice.errors }">
-              <div *ngIf="submitted && f.collaboratorphoneoffice.errors" class="invalid-feedback">
-                <div *ngIf="f.collaboratorphoneoffice.errors.required">กรุณากรอก ชื่อ-นามสกุลผู้ประสานงาน</div>
-              </div>
-              <br>
 
               <label>E-mail ผู้ประสานงาน</label><span class="star">*</span>
               <input type="text" value="" formControlName="collaboratoremail" class="form-control"
@@ -312,7 +397,7 @@
               </div>
               <br>
 
-            </div>
+            </div> -->
             <br>
             <div class="text-center">
               <button class="btn btn-secondary" (click)="gotoBack()">ย้อนกลับ</button>

@@ -41,7 +41,7 @@
   </nav>
 </header>
 
-<div class="container">
+<div class="m container">
   <div class="row">
     <div class="col-12">
       <form [formGroup]="addForm" (ngSubmit)="adduser(addForm.value)">
@@ -62,69 +62,6 @@
               </ng-select>
             </div> -->
             <br>
-            <div class="form-group">
-              <label>กระทรวง*</label>
-              <!-- <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกกระทรวง"
-                formControlName="MinistryId" [items]="selectdataministry">
-              </ng-select> -->
-              <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกหน่วยงาน/กระทรวง"
-                         formControlName="MinistryId" [items]="selectdataministry" (change)="getDataDepartments($event)"
-                         [ngClass]="{ 'is-invalid': submitted && f.MinistryId.errors }">
-              </ng-select>
-              <div *ngIf="submitted && f.MinistryId.errors" class="invalid-feedback">
-                <div *ngIf="f.MinistryId.errors.required">กรุณาเลือกหน่วยงาน/กระทรวง</div>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label>หน่วยงาน/กรม*</label>
-              <!-- <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกหน่วยงาน/กรม"
-                formControlName="DepartmentId" [items]="selectdatadeparment">
-              </ng-select> -->
-
-
-
-              <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกหน่วยงาน/กรม"
-                         formControlName="DepartmentId" [items]="selectdatadeparment" (change)="getProvincialDepartments($event)"
-                         [ngClass]="{ 'is-invalid': submitted && f.DepartmentId.errors }">
-              </ng-select>
-              <div *ngIf="submitted && f.DepartmentId.errors" class="invalid-feedback">
-                <div *ngIf="f.DepartmentId.errors.required">กรุณาเลือกหน่วยงาน/กรม</div>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label>หน่วยงานภูมิภาค</label>
-              <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกหน่วยงานภูมิภาค"
-                         formControlName="ProvincialDepartmentId" [items]="selectdataprovincialdepartment"
-                         [ngClass]="{ 'is-invalid': submitted && f.ProvincialDepartmentId.errors }">
-              </ng-select>
-              <!-- <div *ngIf="submitted && f.ProvincialDepartmentId.errors" class="invalid-feedback">
-                <div *ngIf="f.ProvincialDepartmentId.errors.required">กรุณาเลือกหน่วยงานภูมิภาค</div>
-              </div> -->
-            </div>
-
-            <div class="form-group">
-              <!-- จังหวัดหลายอัน -->
-              <label>จังหวัด*</label>
-              <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกจังหวัด"
-                         formControlName="UserProvince" [items]="selectdataprovince"
-                         [ngClass]="{ 'is-invalid': submitted && f.UserProvince.errors }">
-              </ng-select>
-              <div *ngIf="submitted && f.UserProvince.errors" class="invalid-feedback">
-                <div *ngIf="f.UserProvince.errors.required">กรุณาเลือกจังหวัด</div>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label class="form-label">อีเมล*</label>
-              <input type="email" formControlName="Email" class="form-control" placeholder="กรุณากรอกอีเมล"
-                     [ngClass]="{ 'is-invalid': submitted && f.Email.errors }">
-              <div *ngIf="submitted && f.Email.errors" class="invalid-feedback">
-                <div *ngIf="f.Email.errors.required">กรุณากรอกอีเมล</div>
-              </div>
-            </div>
-
             <div class="form-group">
               <label class="form-label">คำนำหน้า*</label>
               <input type="text" formControlName="Prefix" class="form-control" placeholder="กรุณากรอกคำนำหน้า"
@@ -161,14 +98,104 @@
               </div>
             </div>
 
+
             <div class="form-group">
-              <label class="form-label">เบอร์โทร*</label>
+              <label>หน่วยงานที่สังกัดระดับกระทรวง*</label>
+              <!-- <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกกระทรวง"
+                formControlName="MinistryId" [items]="selectdataministry">
+              </ng-select> -->
+              <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกหน่วยงานที่สังกัดระดับกระทรวง"
+                         formControlName="MinistryId" [items]="selectdataministry" (change)="getDataDepartments($event)"
+                         [ngClass]="{ 'is-invalid': submitted && f.MinistryId.errors }">
+              </ng-select>
+              <div *ngIf="submitted && f.MinistryId.errors" class="invalid-feedback">
+                <div *ngIf="f.MinistryId.errors.required">กรุณาเลือกหน่วยงานที่สังกัดระดับกระทรวง</div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>หน่วยงานที่สังกัดระดับกรม*</label>
+              <!-- <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกหน่วยงาน/กรม"
+                formControlName="DepartmentId" [items]="selectdatadeparment">
+              </ng-select> -->
+
+
+
+              <ng-select bindLabel="label" bindValue="value" placeholder="หน่วยงานที่สังกัดระดับกรม"
+                         formControlName="DepartmentId" [items]="selectdatadeparment" (change)="getProvincialDepartments($event)"
+                         [ngClass]="{ 'is-invalid': submitted && f.DepartmentId.errors }">
+              </ng-select>
+              <div *ngIf="submitted && f.DepartmentId.errors" class="invalid-feedback">
+                <div *ngIf="f.DepartmentId.errors.required">กรุณาเลือกหน่วยงานที่สังกัดระดับกรม</div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>หน่วยงานที่สังกัดในระดับภูมิภาค</label>
+              <ng-select bindLabel="label" bindValue="value" placeholder="หน่วยงานที่สังกัดในระดับภูมิภาค"
+                         formControlName="ProvincialDepartmentId" [items]="selectdataprovincialdepartment"
+                         [ngClass]="{ 'is-invalid': submitted && f.ProvincialDepartmentId.errors }">
+              </ng-select>
+              <!-- <div *ngIf="submitted && f.ProvincialDepartmentId.errors" class="invalid-feedback">
+                <div *ngIf="f.ProvincialDepartmentId.errors.required">กรุณาเลือกหน่วยงานภูมิภาค</div>
+              </div> -->
+            </div>
+
+            <div class="form-group">
+              <!-- จังหวัดหลายอัน -->
+              <label>จังหวัด*</label>
+              <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกจังหวัด"
+                         formControlName="UserProvince" [items]="selectdataprovince"
+                         [ngClass]="{ 'is-invalid': submitted && f.UserProvince.errors }">
+              </ng-select>
+              <div *ngIf="submitted && f.UserProvince.errors" class="invalid-feedback">
+                <div *ngIf="f.UserProvince.errors.required">กรุณาเลือกจังหวัด</div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">อีเมล*</label>
+              <input type="email" formControlName="Email" class="form-control" placeholder="กรุณากรอกอีเมล"
+                     [ngClass]="{ 'is-invalid': submitted && f.Email.errors }">
+              <div *ngIf="submitted && f.Email.errors" class="invalid-feedback">
+                <div *ngIf="f.Email.errors.required">กรุณากรอกอีเมล</div>
+              </div>
+            </div>
+
+            
+
+            <div class="form-group">
+              <label class="form-label">หมายเลขโทรศัพท์*</label>
               <input type="tel" formControlName="PhoneNumber" class="form-control" placeholder="กรุณากรอกเบอร์โทร"
                      [ngClass]="{ 'is-invalid': submitted && f.PhoneNumber.errors }">
               <div *ngIf="submitted && f.PhoneNumber.errors" class="invalid-feedback">
                 <div *ngIf="f.PhoneNumber.errors.required">กรุณากรอกเบอร์โทร</div>
               </div>
             </div>
+
+            <div class="form-group">
+              <label class="form-label">ยืนยันการรับรอง*</label><br>
+            <div style="font-weight: bold;">
+              <input type="checkbox" [checked]="checkbox1" (change)="checkbox1 = !checkbox1">
+                    <!-- [ngClass]="{ 'is-invalid': submitted && f.PhoneNumber.errors }"> -->
+                     รับทราบนโยบายการคุ้มครองข้อมูลส่วนบุคคล(Privacy Policy) ของสำนักงานปลัดสำนักนายกรัฐมนตรี
+                     <a href="ClientApp/dist/assets/doc_traning/นโยบายคุ้มครองข้อมู,ส่วนบุคคล.pdf" target="_blank">นโยบายคุ้มครองข้อมูลส่วนบุคคล</a>
+                     ได้อ่านเอกสารเรียบร้อยแล้ว
+            </div>
+              <div *ngIf="submitted && f.PhoneNumber.errors" class="invalid-feedback">
+                <div *ngIf="f.PhoneNumber.errors.required">กรุณายืนยันการรับรอง</div>
+              </div>
+            </div>
+
+            <!-- or use (change)="methodName()" -->
+          <!-- <input type="checkbox" [checked]="checkbox1" (change)="checkbox1 = !checkbox1"/> -->
+          <!-- <input type="checkbox" [checked]="checkbox2" (change)="checkbox2 = !checkbox2"/> -->
+
+          <!-- <button [disabled]="!checkbox1">Bar</button> -->
+
+          <!-- or this -->
+          <!-- <button [attr.disabled]="!checkbox2 || !checkbox2">Bar</button> -->
+
 
             <!-- <div class="form-group">
               <label class="form-label">วันที่เริ่มต้น*</label>
@@ -193,9 +220,9 @@
 
         <br>
         <div class="text-center">
-          <button type="button" (click)="back()" class="btn btn-secondary" style="color:white">ย้อนกลับ</button>
+          <button type="button" (click)="back()" class="btn btn-light">ย้อนกลับ</button>
           &nbsp;&nbsp;
-          <button type="submit" class="btn btn-primary">ยืนยันการสมัคร</button>
+          <button type="submit" [disabled]="!checkbox1" class="btn btn-primary">ยืนยันการสมัคร</button>
         </div>
         <br>
         <br>
@@ -205,6 +232,38 @@
     </div>
   </div>
 </div>
+
+ <!-- BEGIN primary modal -->
+ <ng-template #modalregister class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <form [formGroup]="Form" (ngSubmit)="storeTraining(Form.value)">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"></h5>
+                <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()"
+                    aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body m-3">
+
+                <div class="form-group">
+                    <label>รับทราบนโยบายการคุ้มครองข้อมูลส่วนบุคคล(Privacy Policy) ของสำนักงานปลัดสำนักนายกรัฐมนตรี” 
+                      พร้อมลิงค์ คลิกแสดงไฟล์ เพื่ออ่านเอกสาร 
+                      และมีปุ่มคลิก “ได้อ่านเอกสารเรียบร้อยแล้ว และยืนยันการสมัคร
+                    </label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">ต่อไป</button>
+                <button type="button" class="btn btn-danger" (click)="modalRef.hide()"
+                    data-dismiss="modal">ปิด</button>
+            </div>
+        </div>
+    </form>
+  </div>
+
+
 <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">
   <p style="font-size: 20px; color: white">Loading...</p>
 </ngx-spinner>
