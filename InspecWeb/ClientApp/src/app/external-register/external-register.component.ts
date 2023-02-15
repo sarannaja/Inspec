@@ -113,7 +113,7 @@ export class ExternalRegisterComponent implements OnInit {
   //   },
   // ]
   submitted = false;
-
+  filepdf :any;
   constructor(
     private modalService: BsModalService,
     private router: Router,
@@ -134,7 +134,7 @@ export class ExternalRegisterComponent implements OnInit {
 
         });
 
-
+        this.filepdf = baseUrl + '/DocumentReport_Training/นโยบายคุ้มครองข้อมู,ส่วนบุคคล.pdf';
     //เลขที่ส่งมาจาก url
   }
   ngOnDestroy() {

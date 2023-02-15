@@ -179,7 +179,8 @@
               <input type="checkbox" [checked]="checkbox1" (change)="checkbox1 = !checkbox1">
                     <!-- [ngClass]="{ 'is-invalid': submitted && f.PhoneNumber.errors }"> -->
                      รับทราบนโยบายการคุ้มครองข้อมูลส่วนบุคคล(Privacy Policy) ของสำนักงานปลัดสำนักนายกรัฐมนตรี
-                     <a href="ClientApp/dist/assets/doc_traning/นโยบายคุ้มครองข้อมู,ส่วนบุคคล.pdf" target="_blank">นโยบายคุ้มครองข้อมูลส่วนบุคคล</a>
+                     <!-- <a href="ClientApp/dist/assets/doc_traning/นโยบายคุ้มครองข้อมู,ส่วนบุคคล.pdf" target="_blank">นโยบายคุ้มครองข้อมูลส่วนบุคคล</a> -->
+                     <a href="{{filepdf}}" target="_blank">นโยบายคุ้มครองข้อมูลส่วนบุคคล</a>
                      ได้อ่านเอกสารเรียบร้อยแล้ว
             </div>
               <div *ngIf="submitted && f.PhoneNumber.errors" class="invalid-feedback">
