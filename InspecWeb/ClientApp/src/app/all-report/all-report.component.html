@@ -25,13 +25,16 @@
         </button>
       </div> -->
 
-      <div class="card-body">
-        <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable
-          [dtOptions]="dtOptions">
+      <div class="card-body ">
+        <table *ngIf="loading" class="table table-striped table-hover " datatable
+          [dtOptions]="dtOptions" width="150%">
           <thead>
-            <tr style="width: 100%;">
-              <th>#</th>
+            <tr>
+              <!-- <th>#</th> -->
+              <th>ปีงบประมาณ</th>
               <th>ประเด็นนโยบาย</th>
+              <th>เขตตรวจราชการ</th>
+              <th>จังหวัด</th>
               <th>ประเภทรายงาน</th>
               <th>ประเภทการออกรายงาน</th>
               <th>วันที่สร้าง</th>
@@ -42,26 +45,25 @@
           </thead>
           <tbody>
             <tr *ngFor="let item of importedReport.importData; let i = index">
-              <td width=5%>{{ i + 1 }}</td>
-              <td width=35%>
+              <!-- <td>{{ i + 1 }}</td> -->
+              <td width="8%" class="text-center">{{item.fiscalYear}}</td>
+              <td class="breakWord" width="30%">
                 <div *ngFor="let items of item.importReportGroups">
                   - {{items.centralPolicyTitle}} จังหวัด: {{items.inspectionPlanEventProvinceName}} ({{items.startDate | thaidate: 'short'}} - {{items.endDate | thaidate: 'short'}})
                 </div>
               </td>
-              <td width=15%>{{item.centralPolicyTypeName}}</td>
-              <td width=15%>{{item.reportType}}</td>
-              <td width=10%>{{item.createAt | thaidate: 'year'}}</td>
-              <td width=10%>{{item.status}}</td>
-              <td width=10%>
+              <td width="10%">{{item.regionName}}</td>
+              <td>{{item.provinceName}}</td>
+              <td width="10%">{{item.centralPolicyTypeName}}</td>
+              <td>{{item.reportType}}</td>
+              <td>{{item.createAt | thaidate: 'year'}}</td>
+              <td>{{item.status}}</td>
+              <td>
                 <i class="align-middle mr-2 fas fa-fw fa-search pointer" (click)="gotoDetail(item.id)"></i>
-                <!-- <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
-                  (click)="openEditModal(editReportModal, item.id)"></i> -->
                 <i class="align-middle mr-2 fas fa-file-word pointer"
                   (click)="openExportModal(exportModal, item.id)"></i>
-                <!-- <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
-                  (click)="openDeleteModal(deleteModal, item.id)"></i> -->
               </td>
-              <td width=10%>
+              <td>
                 <button *ngIf="item.active == 1" style="cursor: default;" class="btn btn-success btn-pill btn-sm"
                   title="active" (click)="changeActive(item.id)">
                   Active
