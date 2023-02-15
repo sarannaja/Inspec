@@ -95,12 +95,12 @@ export class AllReportComponent implements OnInit {
       })
     this.dtOptions = {
       pagingType: 'full_numbers',
-      columnDefs: [
-        {
-          targets: [5],
-          orderable: false
-        }
-      ],
+      // columnDefs: [
+      //   {
+      //     targets: [1],
+      //     orderable: false
+      //   }
+      // ],
       "language": {
         "lengthMenu": "แสดง  _MENU_  รายการ",
         "search": "ค้นหา:",
@@ -116,7 +116,22 @@ export class AllReportComponent implements OnInit {
           "next": "ต่อไป",
           "previous": "ย้อนกลับ"
         },
-      }
+      },
+      scrollX: true,
+      responsive: false,
+      // "columns": [
+      //   { "width": "10%" },
+      //   { "width": "10%" },
+      //   { "width": "30%" },
+      //   { "width": "10%" },
+      //   { "width": "10%" },
+      //   { "width": "10%" },
+      //   { "width": "10%" },
+      //   { "width": "10%" },
+      //   { "width": "10%" },
+      //   { "width": "10%" },
+      //   { "width": "10%" },
+      // ],
     };
 
     this.getImportFiscalYears();

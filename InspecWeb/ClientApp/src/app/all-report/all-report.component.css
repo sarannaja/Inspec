@@ -17,3 +17,8 @@ table.dataTable tbody td {
 table.dataTable thead th {
   vertical-align: top;
 }
+
+
+.breakWord {
+  word-break: break-all !important;
+}

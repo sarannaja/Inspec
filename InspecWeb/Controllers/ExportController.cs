@@ -2027,7 +2027,10 @@ namespace InspecWeb.Controllers
                     createAt = x.CreateAt,
                     status = x.Status,
                     id = x.Id,
-                    active = x.Active
+                    active = x.Active,
+                    fiscalYear = x.FiscalYear.Year,
+                    regionName = x.Region.Name,
+                    provinceName = x.Province.Name
                 })
                 .ToList();
 
