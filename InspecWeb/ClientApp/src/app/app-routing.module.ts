@@ -203,6 +203,7 @@ import { BeforeSubjectComponent } from './subject/before-subject/before-subject.
 import { GovernmentinspectionplaniframeComponent } from './governmentinspectionplaniframe/governmentinspectionplaniframe.component'; //แผนการตรวจราชการประจำปี iframe
 import { InformationinspectioniframeComponent } from './informationinspectioniframe/informationinspectioniframe.component';
 import { MaincabinetComponent } from './main-cabinet/main-cabinet.component';
+import { RetrospectiveReportComponent } from './retrospective-report/retrospective-report.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/', pathMatch: 'full' },
@@ -300,7 +301,7 @@ const routes: Routes = [
       { path: 'training/manage/:id', component: TrainingManageComponent, canActivate: [AuthorizeGuard] },
       {
         path: 'training/programlogin/:id', loadChildren: () => import('./training-programlogin/training-programlogin.module')
-          .then(m => m.TrainingProgramloginModule), 
+          .then(m => m.TrainingProgramloginModule),
           //canActivate: [AuthorizeGuard]
       },
       // { path: 'training/programlogin/:id', component: TrainingProgramLoginComponent, canActivate: [AuthorizeGuard] },
@@ -451,6 +452,7 @@ const routes: Routes = [
       { path: 'electronicbookall/detail/:id', component: ElectronicBookAllDetailComponent, canActivate: [AuthorizeGuard] },
       { path: 'iframe', loadChildren: () => import('./iframe/iframe.module').then(m => m.IframeModule), canActivate: [AuthorizeGuard] },
       { path: 'menu', component: MenuComponent, canActivate: [AuthorizeGuard] },
+      { path: 'retrospective-report', component: RetrospectiveReportComponent, canActivate: [AuthorizeGuard] },
       { path: 'supportgovernment/governmentinspectionarea', component: GovernmentinspectionareaComponent, canActivate: [AuthorizeGuard] },
       { path: 'supportgovernment/governmentinspectionarea/detail/:id', component: DetailGovernmentinspectionareaComponent, canActivate: [AuthorizeGuard] },
       { path: 'maincabinet', component: MaincabinetComponent,canActivate: [AuthorizeGuard] }, //yochigang20220525

@@ -1,0 +1,267 @@
+<div class="header">
+
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/main">หน้าหลัก</a></li>
+      <li class="breadcrumb-item"><a href="javascript:void(0)">รายงานผลการตรวจราชการ</a></li>
+    </ol>
+  </nav>
+</div>
+<div class="row">
+  <div class="col-12">
+    <div class="card card-eiei">
+      <div class="card-header">
+        <div class="float-right">
+          <!-- <button class="btn btn-primary mr-2" title="เรียงข้อมูลตามวัน" (click)="sortDate()"> <i
+              class="fas fa-calendar-week"></i>
+          </button> -->
+          <button class="btn btn-primary" (click)="openModal(importOldReportModal)">นำเข้ารายงาน</button>
+        </div>
+        <h5 class="card-title">รายงานผลการตรวจราชการ</h5>
+      </div>
+      <!-- <div class="card-header col-12">
+        <button class="btn btn-success" (click)="exportReport()">Export <i
+            class="align-middle mr-2 fas fa-fw fa-file-export pointer"></i>
+        </button>
+      </div> -->
+
+      <div class="card-body ">
+        <table *ngIf="loading" class="table table-striped table-hover table-responsive-sm" datatable
+          [dtOptions]="dtOptions" width="100%">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>เรื่อง</th>
+              <th>ปีงบประมาณ</th>
+              <th>แผนการตรวจ</th>
+              <th>ประเภทรายงาน</th>
+              <th>วันที่นำเข้า</th>
+              <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of oldReports; let i = index">
+              <td width="5%">{{ i + 1 }}</td>
+              <td width="20%">{{item.name}}</td>
+              <td width="7%">{{item.year}}</td>
+              <td width="15%">{{item.centralPolicyType}}</td>
+              <td width="17%">{{item.reportType}}</td>
+              <td width="10%">{{item.createdAt | thaidate: 'short'}}</td>
+              <td width="10%">
+                <i class="align-middle mr-2 fas fa-file-alt pointer" (click)="openFile(item.oldReportFiles)" style="cursor: pointer;"></i>
+                <i class="align-middle fas mr-2 fa-fw fa-pen pointer" (click)="openEditModal(editOldReportModal, item.id)" style="cursor: pointer;"></i>
+                <i class="align-middle fas fa-fw fa-trash pointer" (click)="openDeleteModal(confirmDeleteModal, item.id)" style="cursor: pointer;"></i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #importOldReportModal class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <form [formGroup]="reportForm" (ngSubmit)="submitReport(reportForm.value)">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title card-title">นำเข้ารายงาน</h5>
+        <button type="button" class="close" data-dismiss="modal" (click)="closeModal()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body m-3">
+
+        <div class="col-12 col-xl-12">
+          <div class="form-group">
+            <label class="form-label">ปีงบประมาณ*</label>
+            <input class="form-control" type="number" placeholder="กรุณากรอกปีงบประมาณ" formControlName="year"
+              [ngClass]="{ 'is-invalid': submitted && reportForm.controls.year.errors }">
+            <div *ngIf="submitted && reportForm.controls.year.errors" class="invalid-feedback">
+              <div *ngIf="reportForm.controls.year.errors.required">กรุณากรอกปีงบประมาณ</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-xl-12">
+          <div class="form-group">
+            <label>ประเภทแผนการตรวจ*</label>
+            <div class="form-group col-md-12">
+              <div class="mb-12">
+                <select class="form-control select2" data-toggle="select2" formControlName="centralPolicyType"
+                  [ngClass]="{ 'is-invalid': submitted && reportForm.controls.centralPolicyType.errors }">
+                  <option value=null>กรุณาเลือกประเภทแผนการตรวจ</option>
+                  <option value="การตรวจราชการแบบบูรณาการ">การตรวจราชการแบบบูรณาการ</option>
+                  <option value="การตรวจราชการกรณีปกติ">การตรวจราชการกรณีปกติ</option>
+                  <option value="การตรวจราชการกรณีพิเศษ">การตรวจราชการกรณีพิเศษ</option>
+                  <option value="การตรวจราชการตามข้อสั่งการ">การตรวจราชการตามข้อสั่งการ</option>
+                </select>
+                <div *ngIf="submitted && reportForm.controls.centralPolicyType.errors" class="invalid-feedback">
+                  <div *ngIf="reportForm.controls.centralPolicyType.errors.required">กรุณาเลือกประเภทแผนการตรวจ</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-xl-12">
+          <div class="form-group">
+            <label class="form-label">เรื่อง*</label>
+            <input class="form-control" type="text" placeholder="กรุณากรอกเรื่อง" formControlName="name"
+              [ngClass]="{ 'is-invalid': submitted && reportForm.controls.name.errors }">
+            <div *ngIf="submitted && reportForm.controls.name.errors" class="invalid-feedback">
+              <div *ngIf="reportForm.controls.name.errors.required">กรุณากรอกเรื่อง</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-xl-12">
+          <div class="form-group">
+            <label>ประเภทรายงาน*</label>
+            <div class="form-group col-md-12">
+              <div class="mb-12">
+                <select class="form-control select2" data-toggle="select2" formControlName="reportType"
+                  [ngClass]="{ 'is-invalid': submitted && reportForm.controls.reportType.errors }">
+                  <option value=null>กรุณาเลือกประเภทรายงาน</option>
+                  <option value="รายงานผลการตรวจราชการรายเขต">รายงานผลการตรวจราชการรายเขต</option>
+                  <option value="รายงานภาพรวมผลการตรวจราชการ">รายงานภาพรวมผลการตรวจราชการ</option>
+                </select>
+                <div *ngIf="submitted && reportForm.controls.reportType.errors" class="invalid-feedback">
+                  <div *ngIf="reportForm.controls.reportType.errors.required">กรุณาเลือกประเภทรายงาน</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <label class="form-label w-100" style="margin-top: 30px;">แนบไฟล์เอกสาร</label>
+          <input type="file" (change)="uploadFile($event)" style="margin-bottom: 10px;" accept="application/msword, application/vnd.ms-excel, text/plain, application/pdf, .doc, .docx">
+        </div>
+        <div *ngIf="submitted && fileForm.controls.files.errors">
+          <div *ngIf="fileForm.controls.files.errors.required" style="color: #DC3544; size: 1cm; margin-left: 20px;">
+            กรุณาเลือกไฟล์รายงาน</div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">บันทึก</button>
+        <button type="button" class="btn btn-danger" (click)="closeModal()" data-dismiss="modal">ปิด</button>
+      </div>
+    </div>
+  </form>
+</ng-template>
+
+<ng-template #editOldReportModal class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <form [formGroup]="editForm" (ngSubmit)="editOldReport(editForm.value)">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title card-title">แก้ไขข้อมูล</h5>
+        <button type="button" class="close" data-dismiss="modal" (click)="closeModal()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body m-3">
+
+        <div class="col-12 col-xl-12">
+          <div class="form-group">
+            <label class="form-label">ปีงบประมาณ*</label>
+            <input class="form-control" type="number" placeholder="กรุณากรอกปีงบประมาณ" formControlName="year"
+              [ngClass]="{ 'is-invalid': submitted && editForm.controls.year.errors }">
+            <div *ngIf="submitted && editForm.controls.year.errors" class="invalid-feedback">
+              <div *ngIf="editForm.controls.year.errors.required">กรุณากรอกปีงบประมาณ</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-xl-12">
+          <div class="form-group">
+            <label>ประเภทแผนการตรวจ*</label>
+            <div class="form-group col-md-12">
+              <div class="mb-12">
+                <select class="form-control select2" data-toggle="select2" formControlName="centralPolicyType"
+                  [ngClass]="{ 'is-invalid': submitted && editForm.controls.centralPolicyType.errors }">
+                  <option value=null>กรุณาเลือกประเภทแผนการตรวจ</option>
+                  <option value="การตรวจราชการแบบบูรณาการ">การตรวจราชการแบบบูรณาการ</option>
+                  <option value="การตรวจราชการกรณีปกติ">การตรวจราชการกรณีปกติ</option>
+                  <option value="การตรวจราชการกรณีพิเศษ">การตรวจราชการกรณีพิเศษ</option>
+                  <option value="การตรวจราชการตามข้อสั่งการ">การตรวจราชการตามข้อสั่งการ</option>
+                </select>
+                <div *ngIf="submitted && editForm.controls.centralPolicyType.errors" class="invalid-feedback">
+                  <div *ngIf="editForm.controls.centralPolicyType.errors.required">กรุณาเลือกประเภทแผนการตรวจ</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-xl-12">
+          <div class="form-group">
+            <label class="form-label">เรื่อง*</label>
+            <input class="form-control" type="text" placeholder="กรุณากรอกเรื่อง" formControlName="name"
+              [ngClass]="{ 'is-invalid': submitted && editForm.controls.name.errors }">
+            <div *ngIf="submitted && editForm.controls.name.errors" class="invalid-feedback">
+              <div *ngIf="editForm.controls.name.errors.required">กรุณากรอกเรื่อง</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-xl-12">
+          <div class="form-group">
+            <label>ประเภทรายงาน*</label>
+            <div class="form-group col-md-12">
+              <div class="mb-12">
+                <select class="form-control select2" data-toggle="select2" formControlName="reportType"
+                  [ngClass]="{ 'is-invalid': submitted && editForm.controls.reportType.errors }">
+                  <option value=null>กรุณาเลือกประเภทรายงาน</option>
+                  <option value="รายงานผลการตรวจราชการรายเขต">รายงานผลการตรวจราชการรายเขต</option>
+                  <option value="รายงานภาพรวมผลการตรวจราชการ">รายงานภาพรวมผลการตรวจราชการ</option>
+                </select>
+                <div *ngIf="submitted && editForm.controls.reportType.errors" class="invalid-feedback">
+                  <div *ngIf="editForm.controls.reportType.errors.required">กรุณาเลือกประเภทรายงาน</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <label class="form-label w-100" style="margin-top: 30px;">แนบไฟล์เอกสาร</label>
+          <label class="form-label w-100"><i class="fa fa-file"></i>
+            {{fileName}}</label>
+          <input type="file" (change)="uploadFile($event)" style="margin-bottom: 10px;" accept="application/msword, application/vnd.ms-excel, text/plain, application/pdf, .doc, .docx">
+        </div>
+        <div *ngIf="submitted && fileForm.controls.files.errors">
+          <div *ngIf="fileForm.controls.files.errors.required" style="color: #DC3544; size: 1cm; margin-left: 20px;">
+            กรุณาเลือกไฟล์รายงาน</div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">บันทึก</button>
+        <button type="button" class="btn btn-danger" (click)="closeModal()" data-dismiss="modal">ปิด</button>
+      </div>
+    </div>
+  </form>
+</ng-template>
+
+<ng-template #confirmDeleteModal class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-body text-center" style="background-color: white; border-radius: 5px;">
+    <i class="fa fa-info-circle delete-icon"></i>
+    <p style="font-size: xx-large; color: #565656; margin-top: 20px;">
+      ลบข้อมูล
+    </p>
+    <p style="font-size: medium; color: #545454;">
+      คุณต้องการลบข้อมูลนี้ใช่หรือไม่ ?
+    </p>
+    <button type="button" class="btn btn-primary btnMargin" (click)="deleteOldReport()">
+      ใช่
+    </button>
+    <button type="button" class="btn btn-danger btnMargin" (click)="modalRef.hide()">
+      ไม่ใช่
+    </button>
+  </div>
+</ng-template>
+
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">
+  <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>

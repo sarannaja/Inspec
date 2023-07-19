@@ -149,6 +149,8 @@ namespace InspecWeb.Data
         public DbSet<ImportReport> ImportReports { get; set; }
         public DbSet<ImportReportGroup> ImportReportGroups { get; set; }
         public DbSet<ImportReportFile> ImportReportFiles { get; set; }
+        public DbSet<OldReport> OldReports { get; set; } //<!-- รายงานย้อนหลัง -->
+        public DbSet<OldReportFile> OldReportFiles { get; set; } //<!-- รายงานย้อนหลัง -->
         public DbSet<ElectronicBookOtherAccept> ElectronicBookOtherAccepts { get; set; }
         public DbSet<TrainingRegisterCondition> TrainingRegisterConditions { get; set; }
         public DbSet<Sector> Sectors { get; set; }
@@ -490,6 +492,13 @@ namespace InspecWeb.Data
             .WithMany(b => b.CentralPolicyEventQuestions)
             .HasForeignKey(p => p.CentralPolicyEventId)
             .OnDelete(DeleteBehavior.Cascade);
+
+            //OldReport Cascade//
+            //builder.Entity<OldReportFile>()
+            //.HasOne(p => p.OldReport)
+            //.WithMany(b => b.OldReportFiles)
+            //.HasForeignKey(p => p.OldReportId)
+            //.OnDelete(DeleteBehavior.Cascade);
 
             base.OnModelCreating(builder);
             //seed data
