@@ -66,6 +66,7 @@ namespace InspecWeb.Controllers
                 ReportType = model.ReportType,
                 CreatedBy = model.userId,
                 CreatedAt = DateTime.Now,
+                Round = model.Round
             };
 
             System.Console.WriteLine("in3" + oldReportData);
@@ -164,6 +165,7 @@ namespace InspecWeb.Controllers
                 oldReport.CentralPolicyType = model.CentralPolicyType;
                 oldReport.Name = model.Name;
                 oldReport.ReportType = model.ReportType;
+                oldReport.Round = model.Round;
             }
             _context.Entry(oldReport).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();

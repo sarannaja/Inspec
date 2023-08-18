@@ -35,6 +35,7 @@
               <th>ปีงบประมาณ</th>
               <th>แผนการตรวจ</th>
               <th>ประเภทรายงาน</th>
+              <th>รอบที่</th>
               <th>วันที่นำเข้า</th>
               <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
             </tr>
@@ -46,11 +47,12 @@
               <td width="7%">{{item.year}}</td>
               <td width="15%">{{item.centralPolicyType}}</td>
               <td width="17%">{{item.reportType}}</td>
+              <td width="8%">{{item.round}}</td>
               <td width="10%">{{item.createdAt | thaidate: 'short'}}</td>
               <td width="10%">
-                <i class="align-middle mr-2 fas fa-file-alt pointer" (click)="openFile(item.oldReportFiles)" style="cursor: pointer;"></i>
-                <i class="align-middle fas mr-2 fa-fw fa-pen pointer" (click)="openEditModal(editOldReportModal, item.id)" style="cursor: pointer;"></i>
-                <i class="align-middle fas fa-fw fa-trash pointer" (click)="openDeleteModal(confirmDeleteModal, item.id)" style="cursor: pointer;"></i>
+                <i *ngIf="item.oldReportFiles.length > 0" class="align-middle mr-2 fas fa-file-alt pointer" (click)="openFile(item.oldReportFiles)" style="cursor: pointer;" title="ดูเอกสาร"></i>
+                <i class="align-middle fas mr-2 fa-fw fa-pen pointer" (click)="openEditModal(editOldReportModal, item.id)" style="cursor: pointer;" title="แก้ไขข้อมูล"></i>
+                <i class="align-middle fas fa-fw fa-trash pointer" (click)="openDeleteModal(confirmDeleteModal, item.id)" style="cursor: pointer;" title="ลบข้อมูล"></i>
               </td>
             </tr>
           </tbody>
@@ -127,6 +129,28 @@
                 </select>
                 <div *ngIf="submitted && reportForm.controls.reportType.errors" class="invalid-feedback">
                   <div *ngIf="reportForm.controls.reportType.errors.required">กรุณาเลือกประเภทรายงาน</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-xl-12">
+          <div class="form-group">
+            <label>รอบการตรวจ*</label>
+            <div class="form-group col-md-12">
+              <div class="mb-12">
+                <select class="form-control select2" data-toggle="select2" formControlName="round"
+                  [ngClass]="{ 'is-invalid': submitted && reportForm.controls.reportType.errors }">
+                  <option value=null>กรุณาเลือกรอบการตรวจ</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                </select>
+                <div *ngIf="submitted && reportForm.controls.round.errors" class="invalid-feedback">
+                  <div *ngIf="reportForm.controls.round.errors.required">กรุณาเลือกรอบการตรวจ</div>
                 </div>
               </div>
             </div>
@@ -218,6 +242,28 @@
                 </select>
                 <div *ngIf="submitted && editForm.controls.reportType.errors" class="invalid-feedback">
                   <div *ngIf="editForm.controls.reportType.errors.required">กรุณาเลือกประเภทรายงาน</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-xl-12">
+          <div class="form-group">
+            <label>รอบการตรวจ*</label>
+            <div class="form-group col-md-12">
+              <div class="mb-12">
+                <select class="form-control select2" data-toggle="select2" formControlName="round"
+                  [ngClass]="{ 'is-invalid': submitted && editForm.controls.round.errors }">
+                  <option value=null>กรุณาเลือกรอบการตรวจ</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                </select>
+                <div *ngIf="submitted && editForm.controls.round.errors" class="invalid-feedback">
+                  <div *ngIf="editForm.controls.round.errors.required">กรุณาเลือกรอบการตรวจ</div>
                 </div>
               </div>
             </div>

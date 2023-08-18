@@ -21,6 +21,9 @@ namespace InspecWeb.ViewModel
         [JsonProperty(PropertyName = "userId")]
         public string userId { get; set; }
 
+        [JsonProperty(PropertyName = "Round")]
+        public string Round { get; set; }
+
         public List<IFormFile> files { get; set; }
         
     }

@@ -32,6 +32,7 @@ export class RetrospectiveReportService {
     formData.append('Name', value.name);
     formData.append('ReportType', value.reportType);
     formData.append('userId', userId);
+    formData.append('Round', value.round);
 
     if (file != null) {
       for (var i = 0; i < file.length; i++) {
@@ -51,6 +52,7 @@ export class RetrospectiveReportService {
     formData.append('CentralPolicyType', value.centralPolicyType);
     formData.append('Name', value.name);
     formData.append('ReportType', value.reportType);
+    formData.append('Round', value.round);
 
     if (file != null) {
       for (var i = 0; i < file.length; i++) {

@@ -76,6 +76,7 @@ export class RetrospectiveReportComponent implements OnInit {
       centralPolicyType: new FormControl(null, [Validators.required]),
       name: new FormControl(null, [Validators.required]),
       reportType: new FormControl(null, [Validators.required]),
+      round: new FormControl(null, [Validators.required]),
     })
 
     this.editForm = this.fb.group({
@@ -83,6 +84,7 @@ export class RetrospectiveReportComponent implements OnInit {
       centralPolicyType: new FormControl(null, [Validators.required]),
       name: new FormControl(null, [Validators.required]),
       reportType: new FormControl(null, [Validators.required]),
+      round: new FormControl(null, [Validators.required]),
     })
 
     this.fileForm = this.fb.group({
@@ -163,7 +165,8 @@ export class RetrospectiveReportComponent implements OnInit {
         year: res.year,
         centralPolicyType: res.centralPolicyType,
         name: res.name,
-        reportType: res.reportType
+        reportType: res.reportType,
+        round: res.round,
       })
       this.fileName = res.oldReportFiles[0].description
     })

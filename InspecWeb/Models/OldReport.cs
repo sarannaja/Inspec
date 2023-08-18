@@ -41,5 +41,8 @@ namespace InspecWeb.Models
         [Description("วันที่สร้าง")]
         [DataType(DataType.Date)]
         public DateTime? CreatedAt { get; set; }
+
+        [Description("รอบการตรวจ")]
+        public string Round { get; set; }
     }
 }
