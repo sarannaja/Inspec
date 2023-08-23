@@ -204,6 +204,7 @@ import { GovernmentinspectionplaniframeComponent } from './governmentinspectionp
 import { InformationinspectioniframeComponent } from './informationinspectioniframe/informationinspectioniframe.component';
 import { MaincabinetComponent } from './main-cabinet/main-cabinet.component';
 import { RetrospectiveReportComponent } from './retrospective-report/retrospective-report.component';
+import { TrainingProjectReportComponent } from './training-project-report/training-project-report.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/', pathMatch: 'full' },
@@ -453,6 +454,7 @@ const routes: Routes = [
       { path: 'iframe', loadChildren: () => import('./iframe/iframe.module').then(m => m.IframeModule), canActivate: [AuthorizeGuard] },
       { path: 'menu', component: MenuComponent, canActivate: [AuthorizeGuard] },
       { path: 'retrospective-report', component: RetrospectiveReportComponent, canActivate: [AuthorizeGuard] },
+      { path: 'training-project-report', component: TrainingProjectReportComponent, canActivate: [AuthorizeGuard] },
       { path: 'supportgovernment/governmentinspectionarea', component: GovernmentinspectionareaComponent, canActivate: [AuthorizeGuard] },
       { path: 'supportgovernment/governmentinspectionarea/detail/:id', component: DetailGovernmentinspectionareaComponent, canActivate: [AuthorizeGuard] },
       { path: 'maincabinet', component: MaincabinetComponent,canActivate: [AuthorizeGuard] }, //yochigang20220525

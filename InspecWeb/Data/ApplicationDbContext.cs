@@ -182,6 +182,13 @@ namespace InspecWeb.Data
 
         public DbSet<TrainingSummaryReportPhase> TrainingSummaryReportPhases { get; set; }
 
+        public DbSet<TrainingProjectReport> TrainingProjectReports { get; set; } //<!-- รายงานโครงการฝึกอบรม -->
+        public DbSet<TrainingProjectReportFile> TrainingProjectReportFiles { get; set; } //<!-- ไฟล์รายงานผลการฝึกอบรม -->
+        public DbSet<TrainingProjectReportModelDirectoryFile> TrainingProjectReportModelDirectoryFiles { get; set; } //<!-- ไฟล์ทำเนียบรุ่น -->
+        public DbSet<TrainingProjectReportPracticeGuideFile> TrainingProjectReportPracticeGuideFiles { get; set; } //<!-- ไฟล์รายงานการฝึกปฏิบัติ -->
+        public DbSet<TrainingProjectReportProjectDocumentFile> TrainingProjectReportProjectDocumentFiles { get; set; } //<!-- ไฟล์เอกสารโครงการ -->
+        public DbSet<TrainingProjectReportTrainingDetailFile> TrainingProjectReportTrainingDetailFiles { get; set; } //<!-- ไฟล์รายละเอียดการฝึกอบรม -->
+
         //method 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -498,6 +505,41 @@ namespace InspecWeb.Data
             //.HasOne(p => p.OldReport)
             //.WithMany(b => b.OldReportFiles)
             //.HasForeignKey(p => p.OldReportId)
+            //.OnDelete(DeleteBehavior.Cascade);
+
+            //TrainingProjectReportFile Cascade//
+            //builder.Entity<TrainingProjectReportFile>()
+            //.HasOne(p => p.TrainingProjectReport)
+            //.WithMany(b => b.TrainingProjectReportFiles)
+            //.HasForeignKey(p => p.TrainingProjectReportId)
+            //.OnDelete(DeleteBehavior.Cascade);
+
+            //TrainingProjectReportModelDirectoryFile Cascade//
+            //builder.Entity<TrainingProjectReportModelDirectoryFile>()
+            //.HasOne(p => p.TrainingProjectReport)
+            //.WithMany(b => b.TrainingProjectReportModelDirectoryFiles)
+            //.HasForeignKey(p => p.TrainingProjectReportId)
+            //.OnDelete(DeleteBehavior.Cascade);
+
+            //TrainingProjectReportPracticeGuideFile Cascade//
+            //builder.Entity<TrainingProjectReportPracticeGuideFile>()
+            //.HasOne(p => p.TrainingProjectReport)
+            //.WithMany(b => b.TrainingProjectReportPracticeGuideFiles)
+            //.HasForeignKey(p => p.TrainingProjectReportId)
+            //.OnDelete(DeleteBehavior.Cascade);
+
+            //TrainingProjectReportTrainingDetailFile Cascade//
+            //builder.Entity<TrainingProjectReportTrainingDetailFile>()
+            //.HasOne(p => p.TrainingProjectReport)
+            //.WithMany(b => b.TrainingProjectReportTrainingDetailFiles)
+            //.HasForeignKey(p => p.TrainingProjectReportId)
+            //.OnDelete(DeleteBehavior.Cascade);
+
+            //TrainingProjectReportProjectDocumentFile Cascade//
+            //builder.Entity<TrainingProjectReportProjectDocumentFile>()
+            //.HasOne(p => p.TrainingProjectReport)
+            //.WithMany(b => b.TrainingProjectReportProjectDocumentFiles)
+            //.HasForeignKey(p => p.TrainingProjectReportId)
             //.OnDelete(DeleteBehavior.Cascade);
 
             base.OnModelCreating(builder);

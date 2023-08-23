@@ -157,7 +157,10 @@ namespace InspecWeb.Models
         public long M34 { get; set; }
 
         [Description("M")]
-        public long M35 { get; set; }
+        public long M35 { get; set; } // รายงานย้อนหลัง
+
+        [Description("M")]
+        public long M36 { get; set; } // รายงานโครงการฝึกอบรม
 
         [Description("วันที่สร้าง")]
         [DataType(DataType.Date)]

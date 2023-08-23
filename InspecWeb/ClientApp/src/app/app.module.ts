@@ -248,7 +248,7 @@ import { GovernmentinspectionplaniframeComponent } from './governmentinspectionp
 import { InformationinspectioniframeComponent } from './informationinspectioniframe/informationinspectioniframe.component';
 import { MaincabinetComponent } from './main-cabinet/main-cabinet.component';
 import { RetrospectiveReportComponent } from './retrospective-report/retrospective-report.component';
-
+import { TrainingProjectReportComponent } from './training-project-report/training-project-report.component';
 
 
 @NgModule({
@@ -467,6 +467,7 @@ import { RetrospectiveReportComponent } from './retrospective-report/retrospecti
     InformationinspectioniframeComponent, //ข้อมูลประกอบการตรวจราชการ
     MaincabinetComponent, //yochigang20220525
     RetrospectiveReportComponent,
+    TrainingProjectReportComponent,
   ],
 
   imports: [

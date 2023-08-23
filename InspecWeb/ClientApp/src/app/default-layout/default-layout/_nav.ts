@@ -497,6 +497,13 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
     menuname: "m35",
     orderby: 34 ,
   },
+  {
+    icon: 'fa-file-alt',
+    url: "/training-project-report",
+    name: "รายงานโครงการฝึกอบรม",
+    menuname: "m36",
+    orderby: 35 ,
+  },
 ]
 export const Centraladmin: NavBar[] = [ //แอดมินส่วนกลาง
   {
