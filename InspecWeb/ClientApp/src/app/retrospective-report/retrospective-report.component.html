@@ -47,7 +47,7 @@
               <td width="7%">{{item.year}}</td>
               <td width="15%">{{item.centralPolicyType}}</td>
               <td width="17%">{{item.reportType}}</td>
-              <td width="8%">{{item.round}}</td>
+              <td width="8%">{{item.round == 'null' ? ' - ' : item.round }}</td>
               <td width="10%">{{item.createdAt | thaidate: 'short'}}</td>
               <td width="10%">
                 <i *ngIf="item.oldReportFiles.length > 0" class="align-middle mr-2 fas fa-file-alt pointer" (click)="openFile(item.oldReportFiles)" style="cursor: pointer;" title="ดูเอกสาร"></i>
@@ -137,11 +137,10 @@
 
         <div class="col-12 col-xl-12">
           <div class="form-group">
-            <label>รอบการตรวจ*</label>
+            <label>รอบการตรวจ</label>
             <div class="form-group col-md-12">
               <div class="mb-12">
-                <select class="form-control select2" data-toggle="select2" formControlName="round"
-                  [ngClass]="{ 'is-invalid': submitted && reportForm.controls.reportType.errors }">
+                <select class="form-control select2" data-toggle="select2" formControlName="round">
                   <option value=null>กรุณาเลือกรอบการตรวจ</option>
                   <option value="1">1</option>
                   <option value="2">2</option>
@@ -149,9 +148,9 @@
                   <option value="4">4</option>
                   <option value="5">5</option>
                 </select>
-                <div *ngIf="submitted && reportForm.controls.round.errors" class="invalid-feedback">
+                <!-- <div *ngIf="submitted && reportForm.controls.round.errors" class="invalid-feedback">
                   <div *ngIf="reportForm.controls.round.errors.required">กรุณาเลือกรอบการตรวจ</div>
-                </div>
+                </div> -->
               </div>
             </div>
           </div>
@@ -250,11 +249,10 @@
 
         <div class="col-12 col-xl-12">
           <div class="form-group">
-            <label>รอบการตรวจ*</label>
+            <label>รอบการตรวจ</label>
             <div class="form-group col-md-12">
               <div class="mb-12">
-                <select class="form-control select2" data-toggle="select2" formControlName="round"
-                  [ngClass]="{ 'is-invalid': submitted && editForm.controls.round.errors }">
+                <select class="form-control select2" data-toggle="select2" formControlName="round">
                   <option value=null>กรุณาเลือกรอบการตรวจ</option>
                   <option value="1">1</option>
                   <option value="2">2</option>
@@ -262,9 +260,9 @@
                   <option value="4">4</option>
                   <option value="5">5</option>
                 </select>
-                <div *ngIf="submitted && editForm.controls.round.errors" class="invalid-feedback">
+                <!-- <div *ngIf="submitted && editForm.controls.round.errors" class="invalid-feedback">
                   <div *ngIf="editForm.controls.round.errors.required">กรุณาเลือกรอบการตรวจ</div>
-                </div>
+                </div> -->
               </div>
             </div>
           </div>

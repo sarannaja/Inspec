@@ -76,7 +76,7 @@ export class RetrospectiveReportComponent implements OnInit {
       centralPolicyType: new FormControl(null, [Validators.required]),
       name: new FormControl(null, [Validators.required]),
       reportType: new FormControl(null, [Validators.required]),
-      round: new FormControl(null, [Validators.required]),
+      round: new FormControl(null),
     })
 
     this.editForm = this.fb.group({
@@ -84,7 +84,7 @@ export class RetrospectiveReportComponent implements OnInit {
       centralPolicyType: new FormControl(null, [Validators.required]),
       name: new FormControl(null, [Validators.required]),
       reportType: new FormControl(null, [Validators.required]),
-      round: new FormControl(null, [Validators.required]),
+      round: new FormControl(null),
     })
 
     this.fileForm = this.fb.group({

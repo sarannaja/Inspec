@@ -55,6 +55,8 @@ export class MenuComponent implements OnInit {
   m32: any = 1;
   m33: any = 1;
   m34: any = 1;
+  m35: any = 1;
+  m36: any = 1;
   dtOptions: any = {};
   arraynav: NavBar[] = []
   check_value: any[] = []
@@ -174,7 +176,7 @@ export class MenuComponent implements OnInit {
     // .map(r=> )
     // .filter(j => { return Object.values(j)[0] == 1 })
     // .map(j => Object.values(j)[0])
-    //สำหรับฟิลเตอร์ nav 
+    //สำหรับฟิลเตอร์ nav
 
     this.check_value = mock_menu_disable.map((item) => {
       let obj = this.arraynav.find(x => x.menuname == item.menuname)
@@ -188,7 +190,7 @@ export class MenuComponent implements OnInit {
   }
   updateMenuActive() {
     // this.menuService.update(this.check_value,this.id)
-    // .subscribe(result => { 
+    // .subscribe(result => {
 
     // })
     this.menuService.update(this.check_value, this.id).subscribe(result => {
@@ -240,6 +242,8 @@ export class MenuComponent implements OnInit {
       m32: new FormControl(null, [Validators.required]),
       m33: new FormControl(null, [Validators.required]),
       m34: new FormControl(null, [Validators.required]),
+      m35: new FormControl(null, [Validators.required]),
+      m36: new FormControl(null, [Validators.required]),
 
     })
   }
