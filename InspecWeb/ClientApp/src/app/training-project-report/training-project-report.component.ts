@@ -112,8 +112,8 @@ export class TrainingProjectReportComponent implements OnInit {
   getTrainingProjectReportService() {
     this.trainingProjectReportService.getTrainingProjectReports().subscribe(res => {
       console.log('res get => ', res);
-
-      this.trainingProjectReports = res.reverse();
+      // this.trainingProjectReports = res.reverse();
+      this.trainingProjectReports = _.orderBy(res, ['year', 'createdAt'], ['desc', 'desc']);
       this.loading = true;
       this.spinner.hide();
     })
@@ -144,6 +144,7 @@ export class TrainingProjectReportComponent implements OnInit {
         this.filePracticeGuideForm.value.files,
       ).subscribe(res => {
         console.log('insert res => ', res);
+        this.submitted = false;
         this.trainingReportForm.reset();
         this.fileTrainingProjectReportForm.reset()
         this.fileModelDirectoryForm.reset()
@@ -230,7 +231,12 @@ export class TrainingProjectReportComponent implements OnInit {
   }
 
   editTrainingProjectReport(value) {
-    this.spinner.show();
+    if (this.editForm.invalid) {
+      this.submitted = true;
+      console.log("invalid");
+      return;
+    } else {
+      this.spinner.show();
     this.trainingProjectReportService.editTrainingProjectReport(value, this.userid,
       this.fileTrainingProjectReportForm.value.files,
       this.fileProjectDocumentForm.value.files,
@@ -239,6 +245,7 @@ export class TrainingProjectReportComponent implements OnInit {
       this.filePracticeGuideForm.value.files,
       this.trainingProjectReportId
     ).subscribe(res => {
+      this.submitted = false;
       this.editForm.reset();
       this.fileTrainingProjectReportForm.reset()
       this.fileModelDirectoryForm.reset()
@@ -251,6 +258,7 @@ export class TrainingProjectReportComponent implements OnInit {
       this._NotofyService.onSuccess("สำเร็จ", "แก้ไขข้อมูล")
       this.spinner.hide()
     })
+    }
   }
 
   openDeleteModal(template: TemplateRef<any>, trainingProjectReportId) {

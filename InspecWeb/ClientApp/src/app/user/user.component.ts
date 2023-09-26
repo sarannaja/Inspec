@@ -19,7 +19,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { LogService } from '../services/log.service';
 import { AuthorizeService } from 'src/api-authorization-new/authorize.service';
 // import { SecurityContext } from '@angular/compiler/src/core';
-
+import * as _ from 'lodash';
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
@@ -199,7 +199,7 @@ export class UserComponent implements OnInit {
             setTimeout(() => { this.getData() }, 200)
           }
         });
-    this.roleId = this.route.snapshot.paramMap.get('id') //เลขที่ส่งมาจาก url 
+    this.roleId = this.route.snapshot.paramMap.get('id') //เลขที่ส่งมาจาก url
     this.imgprofileUrl = baseUrl + '/imgprofile';
 
   }
@@ -293,7 +293,7 @@ export class UserComponent implements OnInit {
     //alert(position2);
     this.addForm.reset()
     this.submitted = false;
-   
+
     //<!-- ทำคำนำหน้าแบบใหม่ -->
     if(prefix == "อื่นๆ" || prefix == "นาย" ||prefix == "นาง" ||prefix == "นางสาว" ){
       this.othertext = false;
@@ -385,7 +385,14 @@ export class UserComponent implements OnInit {
     })
     this.userService.getuserdata(this.roleId)
       .subscribe(result => {
-        this.resultuser = result;
+        console.log('result user => ', result);
+
+        // this.resultuser = result;
+        const sortedData = _.orderBy(result, [
+          (item) => item.active === 1 ? 0 : 1, // Sort the specific keyword to appear first
+          'active', // Then, sort by the keyword in ascending order
+        ]);
+        this.resultuser = sortedData;
         this.loading = true
         this.spinner.hide();
         // console.log("userdata", this.resultuser);
@@ -438,7 +445,7 @@ export class UserComponent implements OnInit {
           label: item.region.name
         }
       });
-     
+
     })
   }
 
@@ -550,7 +557,7 @@ export class UserComponent implements OnInit {
     })
     this.userService.editprofile(this.addForm.value, this.addForm.value.files, null, this.id)
       .subscribe(response => {
-        this.logService.addLog(this.userid,'Users','แก้ไข',response.title,response.id).subscribe();    
+        this.logService.addLog(this.userid,'Users','แก้ไข',response.title,response.id).subscribe();
         this.addForm.reset()
         this.modalRef.hide()
         this.loading = false
@@ -683,9 +690,9 @@ export class UserComponent implements OnInit {
     var new_date = { date: { year: ssss.getFullYear(), month: ssss.getMonth() + 1, day: ssss.getDate() } }
     return new_date
   }
-  
+
   showtext(event){
-  
+
     if(event.value == "อื่นๆ"){
       this.othertext = true;
     }else{

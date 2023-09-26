@@ -50,7 +50,8 @@ namespace InspecWeb
             services.AddDefaultIdentity<ApplicationUser>(options =>
             {
                 options.Lockout.MaxFailedAccessAttempts = 5;
-                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromHours(3);
+                // options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromHours(3);
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
                 
                 // options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromHours(3);
                 options.SignIn.RequireConfirmedAccount = false;
@@ -78,7 +79,8 @@ namespace InspecWeb
                     // options.Cookie.Expiration = TimeSpan.FromHours(3);
                     // options.SlidingExpiration = true;
                     // options.Cookie.IsEssential = true;
-                    options.ExpireTimeSpan = TimeSpan.FromHours(3);
+                    // options.ExpireTimeSpan = TimeSpan.FromHours(3);
+                    options.ExpireTimeSpan = TimeSpan.FromMinutes(45);
                 })
                 .AddIdentityServerJwt();
             // services.AddHttpClient ("testlo", c => {

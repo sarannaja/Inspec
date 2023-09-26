@@ -6,6 +6,7 @@ import { NotofyService } from '../services/notofy.service';
 import { RetrospectiveReportService } from '../services/retrospective-report.service';
 import { AuthorizeService } from 'src/api-authorization-new/authorize.service';
 import { UserService } from '../services/user.service';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-retrospective-report',
@@ -97,7 +98,8 @@ export class RetrospectiveReportComponent implements OnInit {
   getOldReports() {
     this.retrospectiveReportService.getOldReports().subscribe(res => {
       console.log('res => ', res);
-      this.oldReports = res.reverse();
+      // this.oldReports = res.reverse();
+      this.oldReports = _.orderBy(res, ['year', 'createdAt'], ['desc', 'desc']);
       this.loading = true;
     })
   }
@@ -107,24 +109,26 @@ export class RetrospectiveReportComponent implements OnInit {
   }
 
   submitReport(value) {
-    console.log('value => ', value);
-    console.log('invalid => ', this.fileForm.controls.files.errors);
-    console.log('reportForm.controls.name.errors => ', this.reportForm.controls.name.errors);
-    if (this.reportForm.invalid) {
+    // console.log('value => ', value);
+    // console.log('invalid => ', this.fileForm.controls.files.errors);
+    // console.log('reportForm.controls.name.errors => ', this.reportForm.controls.name.errors);
+    if (this.reportForm.invalid || this.fileForm.invalid) {
       this.submitted = true;
-      console.log("invalid");
+      // console.log("invalid");
       return;
     } else {
-      console.log("Report Value: ", value);
+      // console.log("Report Value: ", value);
       this.spinner.show();
       this.retrospectiveReportService.importOldReport(value, this.userid, this.fileForm.value.files).subscribe(res => {
-        console.log('insert res => ', res);
-        this.reportForm.reset();
+        // console.log('insert res => ', res);
         this.loading = false;
         this.getOldReports()
         this.modalRef.hide();
         this._NotofyService.onSuccess("เพื่มข้อมูล",)
         this.spinner.hide()
+        this.submitted = false
+        this.reportForm.reset();
+        this.fileForm.reset();
 
         // this.notificationService.addNotification(1, 1, this.userid, 14, res.importId)
         //   .subscribe(response => {
@@ -157,10 +161,10 @@ export class RetrospectiveReportComponent implements OnInit {
   openEditModal(template: TemplateRef<any>, oldReportId) {
     this.modalRef = this.modalService.show(template, { class: 'modal-md' });
     this.oldReportId = oldReportId
-    console.log('id ja => ', this.oldReportId);
+    // console.log('id ja => ', this.oldReportId);
 
     this.retrospectiveReportService.getOldReportById(this.oldReportId).subscribe(res => {
-      console.log('res edit => ', res);
+      // console.log('res edit => ', res);
       this.editForm.patchValue({
         year: res.year,
         centralPolicyType: res.centralPolicyType,
@@ -175,14 +179,22 @@ export class RetrospectiveReportComponent implements OnInit {
   }
 
   editOldReport(value) {
-    this.retrospectiveReportService.editOldReport(value, this.fileForm.value.files, this.oldReportId).subscribe(res => {
-      this.editForm.reset();
-      this.loading = false;
-      this.getOldReports()
-      this.modalRef.hide();
-      this._NotofyService.onSuccess("แก้ไขข้อมูล",)
-      this.spinner.hide()
-    })
+    if (this.editForm.invalid) {
+      this.submitted = true;
+      // console.log("invalid");
+      return;
+    } else {
+      this.retrospectiveReportService.editOldReport(value, this.fileForm.value.files, this.oldReportId).subscribe(res => {
+        this.submitted = false
+        this.editForm.reset();
+        this.loading = false;
+        this.getOldReports()
+        this.modalRef.hide();
+        this._NotofyService.onSuccess("แก้ไขข้อมูล",)
+        this.spinner.hide()
+      })
+    }
+
   }
 
   openDeleteModal(template: TemplateRef<any>, oldReportId) {
@@ -192,7 +204,7 @@ export class RetrospectiveReportComponent implements OnInit {
 
   deleteOldReport() {
     this.retrospectiveReportService.deleteOldReport(this.oldReportId).subscribe(res => {
-      console.log('delete res => ', res);
+      // console.log('delete res => ', res);
 
       this.loading = false;
       this.getOldReports()

@@ -134,7 +134,7 @@ namespace InspecWeb.Areas.Identity.Pages.Account
                 }
                 if (result.IsLockedOut)
                 {
-                    ModelState.AddModelError("", "คุณทำการเข้าระบบผิดพลาดเกิน 5 ครั้ง กรุณาล็อคอินใหม่ในอีก 2 นาที");
+                    ModelState.AddModelError("", "คุณทำการเข้าระบบผิดพลาดเกิน 5 ครั้ง กรุณาล็อคอินใหม่ในอีก 5 นาที");
                     await _signInManager.SignOutAsync();
                     return Page();
                 }
