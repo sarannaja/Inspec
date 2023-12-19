@@ -305,19 +305,14 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
       {
         ex_link: '1',
         icon: 'fa-file',
-        url: 'http://nscr.nesdb.go.th/%E0%B9%81%E0%B8%9C%E0%B8%99%E0%B9%81%E0%B8%A1%E0%B9%88%E0%B8%9A%E0%B8%97%E0%B8%A0%E0%B8%B2%E0%B8%A2%E0%B9%83%E0%B8%95%E0%B9%89%E0%B8%A2%E0%B8%B8%E0%B8%97%E0%B8%98%E0%B8%A8%E0%B8%B2%E0%B8%AA%E0%B8%95/',
+        url: 'http://nscr.nesdc.go.th/master-plans/',
         name: 'แผนแม่บทภายใต้ยุทธศาสตร์ชาติ'
       },
+
       {
         ex_link: '1',
         icon: 'fa-file',
-        url: 'http://www.onwr.go.th/wp-content/uploads/2019/09/%E0%B9%81%E0%B8%9C%E0%B8%99%E0%B9%81%E0%B8%A1%E0%B9%88%E0%B8%9A%E0%B8%97%E0%B8%AF%E0%B8%99%E0%B9%89%E0%B8%B320-%E0%B8%9B%E0%B8%B5-A4-Final.pdf',
-        name: 'แผนแม่บทต่าง ๆ'
-      },
-      {
-        ex_link: '1',
-        icon: 'fa-file',
-        url: 'http://www.soc.go.th/bb_main01.htm',
+        url: 'https://www.soc.go.th/?p=22892',
         name: 'นโยบายรัฐบาล'
       },
     ]
@@ -563,19 +558,14 @@ export const Centraladmin: NavBar[] = [ //แอดมินส่วนกล�
       {
         ex_link: '1',
         icon: 'fa-file',
-        url: 'http://nscr.nesdb.go.th/%E0%B9%81%E0%B8%9C%E0%B8%99%E0%B9%81%E0%B8%A1%E0%B9%88%E0%B8%9A%E0%B8%97%E0%B8%A0%E0%B8%B2%E0%B8%A2%E0%B9%83%E0%B8%95%E0%B9%89%E0%B8%A2%E0%B8%B8%E0%B8%97%E0%B8%98%E0%B8%A8%E0%B8%B2%E0%B8%AA%E0%B8%95/',
+        url: 'http://nscr.nesdc.go.th/master-plans/',
         name: 'แผนแม่บทภายใต้ยุทธศาสตร์ชาติ'
       },
+
       {
         ex_link: '1',
         icon: 'fa-file',
-        url: 'http://www.onwr.go.th/wp-content/uploads/2019/09/%E0%B9%81%E0%B8%9C%E0%B8%99%E0%B9%81%E0%B8%A1%E0%B9%88%E0%B8%9A%E0%B8%97%E0%B8%AF%E0%B8%99%E0%B9%89%E0%B8%B320-%E0%B8%9B%E0%B8%B5-A4-Final.pdf',
-        name: 'แผนแม่บทต่าง ๆ'
-      },
-      {
-        ex_link: '1',
-        icon: 'fa-file',
-        url: 'http://www.soc.go.th/bb_main01.htm',
+        url: 'https://www.soc.go.th/?p=22892',
         name: 'นโยบายรัฐบาล'
       },
     ]
@@ -824,19 +814,14 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
       {
         ex_link: '1',
         icon: 'fa-file',
-        url: 'http://nscr.nesdb.go.th/%E0%B9%81%E0%B8%9C%E0%B8%99%E0%B9%81%E0%B8%A1%E0%B9%88%E0%B8%9A%E0%B8%97%E0%B8%A0%E0%B8%B2%E0%B8%A2%E0%B9%83%E0%B8%95%E0%B9%89%E0%B8%A2%E0%B8%B8%E0%B8%97%E0%B8%98%E0%B8%A8%E0%B8%B2%E0%B8%AA%E0%B8%95/',
+        url: 'http://nscr.nesdc.go.th/master-plans/',
         name: 'แผนแม่บทภายใต้ยุทธศาสตร์ชาติ'
       },
+
       {
         ex_link: '1',
         icon: 'fa-file',
-        url: 'http://www.onwr.go.th/wp-content/uploads/2019/09/%E0%B9%81%E0%B8%9C%E0%B8%99%E0%B9%81%E0%B8%A1%E0%B9%88%E0%B8%9A%E0%B8%97%E0%B8%AF%E0%B8%99%E0%B9%89%E0%B8%B320-%E0%B8%9B%E0%B8%B5-A4-Final.pdf',
-        name: 'แผนแม่บทต่าง ๆ'
-      },
-      {
-        ex_link: '1',
-        icon: 'fa-file',
-        url: 'http://www.soc.go.th/bb_main01.htm',
+        url: 'https://www.soc.go.th/?p=22892',
         name: 'นโยบายรัฐบาล'
       },
     ]
@@ -1007,19 +992,14 @@ export const Provincialgovernor: NavBar[] = [ //ผู้ว่าราชก�
       {
         ex_link: '1',
         icon: 'fa-file',
-        url: 'http://nscr.nesdb.go.th/%E0%B9%81%E0%B8%9C%E0%B8%99%E0%B9%81%E0%B8%A1%E0%B9%88%E0%B8%9A%E0%B8%97%E0%B8%A0%E0%B8%B2%E0%B8%A2%E0%B9%83%E0%B8%95%E0%B9%89%E0%B8%A2%E0%B8%B8%E0%B8%97%E0%B8%98%E0%B8%A8%E0%B8%B2%E0%B8%AA%E0%B8%95/',
+        url: 'http://nscr.nesdc.go.th/master-plans/',
         name: 'แผนแม่บทภายใต้ยุทธศาสตร์ชาติ'
       },
+
       {
         ex_link: '1',
         icon: 'fa-file',
-        url: 'http://www.onwr.go.th/wp-content/uploads/2019/09/%E0%B9%81%E0%B8%9C%E0%B8%99%E0%B9%81%E0%B8%A1%E0%B9%88%E0%B8%9A%E0%B8%97%E0%B8%AF%E0%B8%99%E0%B9%89%E0%B8%B320-%E0%B8%9B%E0%B8%B5-A4-Final.pdf',
-        name: 'แผนแม่บทต่าง ๆ'
-      },
-      {
-        ex_link: '1',
-        icon: 'fa-file',
-        url: 'http://www.soc.go.th/bb_main01.htm',
+        url: 'https://www.soc.go.th/?p=22892',
         name: 'นโยบายรัฐบาล'
       },
     ]
@@ -1233,19 +1213,14 @@ export const Adminprovince: NavBar[] = [ //หัวหน้าสำนัก�
       {
         ex_link: '1',
         icon: 'fa-file',
-        url: 'http://nscr.nesdb.go.th/%E0%B9%81%E0%B8%9C%E0%B8%99%E0%B9%81%E0%B8%A1%E0%B9%88%E0%B8%9A%E0%B8%97%E0%B8%A0%E0%B8%B2%E0%B8%A2%E0%B9%83%E0%B8%95%E0%B9%89%E0%B8%A2%E0%B8%B8%E0%B8%97%E0%B8%98%E0%B8%A8%E0%B8%B2%E0%B8%AA%E0%B8%95/',
+        url: 'http://nscr.nesdc.go.th/master-plans/',
         name: 'แผนแม่บทภายใต้ยุทธศาสตร์ชาติ'
       },
+
       {
         ex_link: '1',
         icon: 'fa-file',
-        url: 'http://www.onwr.go.th/wp-content/uploads/2019/09/%E0%B9%81%E0%B8%9C%E0%B8%99%E0%B9%81%E0%B8%A1%E0%B9%88%E0%B8%9A%E0%B8%97%E0%B8%AF%E0%B8%99%E0%B9%89%E0%B8%B320-%E0%B8%9B%E0%B8%B5-A4-Final.pdf',
-        name: 'แผนแม่บทต่าง ๆ'
-      },
-      {
-        ex_link: '1',
-        icon: 'fa-file',
-        url: 'http://www.soc.go.th/bb_main01.htm',
+        url: 'https://www.soc.go.th/?p=22892',
         name: 'นโยบายรัฐบาล'
       },
     ]
@@ -1457,19 +1432,14 @@ export const InspectorMinistry: NavBar[] = [ //ผู้ตรวจกระท
       {
         ex_link: '1',
         icon: 'fa-file',
-        url: 'http://nscr.nesdb.go.th/%E0%B9%81%E0%B8%9C%E0%B8%99%E0%B9%81%E0%B8%A1%E0%B9%88%E0%B8%9A%E0%B8%97%E0%B8%A0%E0%B8%B2%E0%B8%A2%E0%B9%83%E0%B8%95%E0%B9%89%E0%B8%A2%E0%B8%B8%E0%B8%97%E0%B8%98%E0%B8%A8%E0%B8%B2%E0%B8%AA%E0%B8%95/',
+        url: 'http://nscr.nesdc.go.th/master-plans/',
         name: 'แผนแม่บทภายใต้ยุทธศาสตร์ชาติ'
       },
+
       {
         ex_link: '1',
         icon: 'fa-file',
-        url: 'http://www.onwr.go.th/wp-content/uploads/2019/09/%E0%B9%81%E0%B8%9C%E0%B8%99%E0%B9%81%E0%B8%A1%E0%B9%88%E0%B8%9A%E0%B8%97%E0%B8%AF%E0%B8%99%E0%B9%89%E0%B8%B320-%E0%B8%9B%E0%B8%B5-A4-Final.pdf',
-        name: 'แผนแม่บทต่าง ๆ'
-      },
-      {
-        ex_link: '1',
-        icon: 'fa-file',
-        url: 'http://www.soc.go.th/bb_main01.htm',
+        url: 'https://www.soc.go.th/?p=22892',
         name: 'นโยบายรัฐบาล'
       },
     ]
@@ -1647,19 +1617,14 @@ export const publicsector: NavBar[] = [ //ภาคประชาชน
       {
         ex_link: '1',
         icon: 'fa-file',
-        url: 'http://nscr.nesdb.go.th/%E0%B9%81%E0%B8%9C%E0%B8%99%E0%B9%81%E0%B8%A1%E0%B9%88%E0%B8%9A%E0%B8%97%E0%B8%A0%E0%B8%B2%E0%B8%A2%E0%B9%83%E0%B8%95%E0%B9%89%E0%B8%A2%E0%B8%B8%E0%B8%97%E0%B8%98%E0%B8%A8%E0%B8%B2%E0%B8%AA%E0%B8%95/',
+        url: 'http://nscr.nesdc.go.th/master-plans/',
         name: 'แผนแม่บทภายใต้ยุทธศาสตร์ชาติ'
       },
+
       {
         ex_link: '1',
         icon: 'fa-file',
-        url: 'http://www.onwr.go.th/wp-content/uploads/2019/09/%E0%B9%81%E0%B8%9C%E0%B8%99%E0%B9%81%E0%B8%A1%E0%B9%88%E0%B8%9A%E0%B8%97%E0%B8%AF%E0%B8%99%E0%B9%89%E0%B8%B320-%E0%B8%9B%E0%B8%B5-A4-Final.pdf',
-        name: 'แผนแม่บทต่าง ๆ'
-      },
-      {
-        ex_link: '1',
-        icon: 'fa-file',
-        url: 'http://www.soc.go.th/bb_main01.htm',
+        url: 'https://www.soc.go.th/?p=22892',
         name: 'นโยบายรัฐบาล'
       },
     ]
@@ -1865,19 +1830,14 @@ export const president: NavBar[] = [ //ผู้บริหารหรือ�
       {
         ex_link: '1',
         icon: 'fa-file',
-        url: 'http://nscr.nesdb.go.th/%E0%B9%81%E0%B8%9C%E0%B8%99%E0%B9%81%E0%B8%A1%E0%B9%88%E0%B8%9A%E0%B8%97%E0%B8%A0%E0%B8%B2%E0%B8%A2%E0%B9%83%E0%B8%95%E0%B9%89%E0%B8%A2%E0%B8%B8%E0%B8%97%E0%B8%98%E0%B8%A8%E0%B8%B2%E0%B8%AA%E0%B8%95/',
+        url: 'http://nscr.nesdc.go.th/master-plans/',
         name: 'แผนแม่บทภายใต้ยุทธศาสตร์ชาติ'
       },
+
       {
         ex_link: '1',
         icon: 'fa-file',
-        url: 'http://www.onwr.go.th/wp-content/uploads/2019/09/%E0%B9%81%E0%B8%9C%E0%B8%99%E0%B9%81%E0%B8%A1%E0%B9%88%E0%B8%9A%E0%B8%97%E0%B8%AF%E0%B8%99%E0%B9%89%E0%B8%B320-%E0%B8%9B%E0%B8%B5-A4-Final.pdf',
-        name: 'แผนแม่บทต่าง ๆ'
-      },
-      {
-        ex_link: '1',
-        icon: 'fa-file',
-        url: 'http://www.soc.go.th/bb_main01.htm',
+        url: 'https://www.soc.go.th/?p=22892',
         name: 'นโยบายรัฐบาล'
       },
     ]
@@ -2097,19 +2057,14 @@ export const InspectorExamination: NavBar[] = [ //หน่วยรับตร
       {
         ex_link: '1',
         icon: 'fa-file',
-        url: 'http://nscr.nesdb.go.th/%E0%B9%81%E0%B8%9C%E0%B8%99%E0%B9%81%E0%B8%A1%E0%B9%88%E0%B8%9A%E0%B8%97%E0%B8%A0%E0%B8%B2%E0%B8%A2%E0%B9%83%E0%B8%95%E0%B9%89%E0%B8%A2%E0%B8%B8%E0%B8%97%E0%B8%98%E0%B8%A8%E0%B8%B2%E0%B8%AA%E0%B8%95/',
+        url: 'http://nscr.nesdc.go.th/master-plans/',
         name: 'แผนแม่บทภายใต้ยุทธศาสตร์ชาติ'
       },
+
       {
         ex_link: '1',
         icon: 'fa-file',
-        url: 'http://www.onwr.go.th/wp-content/uploads/2019/09/%E0%B9%81%E0%B8%9C%E0%B8%99%E0%B9%81%E0%B8%A1%E0%B9%88%E0%B8%9A%E0%B8%97%E0%B8%AF%E0%B8%99%E0%B9%89%E0%B8%B320-%E0%B8%9B%E0%B8%B5-A4-Final.pdf',
-        name: 'แผนแม่บทต่าง ๆ'
-      },
-      {
-        ex_link: '1',
-        icon: 'fa-file',
-        url: 'http://www.soc.go.th/bb_main01.htm',
+        url: 'https://www.soc.go.th/?p=22892',
         name: 'นโยบายรัฐบาล'
       },
     ]
@@ -2323,19 +2278,14 @@ export const InspectorDepartment: NavBar[] = [ //ผู้ตรวจกรม/
       {
         ex_link: '1',
         icon: 'fa-file',
-        url: 'http://nscr.nesdb.go.th/%E0%B9%81%E0%B8%9C%E0%B8%99%E0%B9%81%E0%B8%A1%E0%B9%88%E0%B8%9A%E0%B8%97%E0%B8%A0%E0%B8%B2%E0%B8%A2%E0%B9%83%E0%B8%95%E0%B9%89%E0%B8%A2%E0%B8%B8%E0%B8%97%E0%B8%98%E0%B8%A8%E0%B8%B2%E0%B8%AA%E0%B8%95/',
+        url: 'http://nscr.nesdc.go.th/master-plans/',
         name: 'แผนแม่บทภายใต้ยุทธศาสตร์ชาติ'
       },
+
       {
         ex_link: '1',
         icon: 'fa-file',
-        url: 'http://www.onwr.go.th/wp-content/uploads/2019/09/%E0%B9%81%E0%B8%9C%E0%B8%99%E0%B9%81%E0%B8%A1%E0%B9%88%E0%B8%9A%E0%B8%97%E0%B8%AF%E0%B8%99%E0%B9%89%E0%B8%B320-%E0%B8%9B%E0%B8%B5-A4-Final.pdf',
-        name: 'แผนแม่บทต่าง ๆ'
-      },
-      {
-        ex_link: '1',
-        icon: 'fa-file',
-        url: 'https://www.thaigov.go.th/uploads/document/66/2019/07/pdf/Doc_20190725085640000000.pdf',
+        url: 'https://www.soc.go.th/?p=22892',
         name: 'นโยบายรัฐบาล'
       },
     ]
