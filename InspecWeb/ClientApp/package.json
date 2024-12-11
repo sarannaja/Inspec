@@ -58,7 +58,7 @@
     "cross-env": "6.0.3",
     "css-loader": "3.2.0",
     "css-vars-ponyfill": "2.3.0",
-    "datatables.net": "^1.10.20",
+    "datatables.net": "^1.11.3",
     "datatables.net-bs4": "^1.10.20",
     "datatables.net-buttons": "^1.6.1",
     "datatables.net-buttons-bs4": "1.6.1",
