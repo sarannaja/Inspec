@@ -77,6 +77,10 @@ namespace InspecWeb.Controllers
                     endDate = m.EndDate,
                     centralPolicyClass = m.CentralPolicy.Class,
                     id = m.Id,
+                    inspectionPlanEvent = new
+                    {
+                        provinceId = m.InspectionPlanEvent.ProvinceId
+                    }
                 });
 
             return Ok(new { test, inspectionplandata });
