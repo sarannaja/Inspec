@@ -110,6 +110,41 @@ namespace InspecWeb.Controllers
             return users;
         }
 
+       [HttpGet("api/[controller]/[action]")]
+        public IActionResult getuserdatButSelect()
+        {
+            var users = _context.Users
+                .Include(u => u.UserRegion).ThenInclude(r => r.Region)
+                .Include(u => u.UserProvince).ThenInclude(p => p.Province)
+                .Include(u => u.Ministries)
+                .Include(u => u.Departments)
+                .Include(u => u.Sides)
+                .Include(u => u.ProvincialDepartments)
+                .Where(u => u.Email != "admin@inspec.go.th")
+                .Where(u => u.Active == 1)
+                .OrderByDescending(u => u.CreatedAt)
+                .Select(u => new
+                {
+                    u.Id,
+                    u.Name,
+                    u.Role_id,
+                    Ministries = u.Ministries != null ? new { u.Ministries.Name } : null,
+                    Departments = u.Departments != null ? new { u.Departments.Name } : null,
+                    Sides = u.Sides != null ? new { u.Sides.Name } : null,
+                    ProvincialDepartments = u.ProvincialDepartments != null ? new { u.ProvincialDepartments.Name } : null,
+                    UserProvince = u.UserProvince.Select(up => new {
+                        ProvinceId = up.ProvinceId,
+                        Province = new { up.Province.Name }
+                    }),
+                    UserRegion = u.UserRegion.Select(ur => new {
+                        Region = new { Name = ur.Region.Name }
+                    })
+                });
+
+            return Ok(users);
+        }
+
+
         [HttpGet("api/[controller]/[action]")]
         public IEnumerable<ApplicationUser> getuserselectforexecutiveorderandrequestorder()
         {
