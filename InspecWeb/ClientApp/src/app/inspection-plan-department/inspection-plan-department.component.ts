@@ -150,10 +150,10 @@ export class InspectionPlanDepartmentComponent implements OnInit {
     this.getTimeline();
     // this.getScheduleData();
 
-    this.getministryuser();
-    this.getdepartmentuser();
-    this.getpeopleuser();
-    this.getprovincialdepartmentuser();
+    // this.getministryuser();
+    // this.getdepartmentuser();
+    // this.getpeopleuser();
+    // this.getprovincialdepartmentuser();
 
     // await this.getMinistryPeople();
     // await this.getDepartmentPeople();
@@ -395,7 +395,23 @@ export class InspectionPlanDepartmentComponent implements OnInit {
       await this.inspectionplanservice.getcentralpolicydata(this.provinceid, this.currentyear)
       .subscribe(async (result:any) => {
         this.resultcentralpolicy = result.data //All
-          await this.getRecycled()
+
+        if (this.role_id == 10 && this.watch == 0 && this.data.length != 0) {
+          this.userService.getuserdatButSelect().subscribe(async users => {
+            // console.log("USER --->", users);
+            // this.allUserOptions = users;
+            // Filter by role
+            this.resultministrypeople = users.filter(u => u.role_id == 6);
+            this.resultdepartmentpeople = users.filter(u => u.role_id == 10);
+            this.resultpeople = users.filter(u => u.role_id == 7);
+            this.resultprovincialdepartmentpeople = users.filter(u => u.role_id == 9);
+
+            await this.getRecycled()
+
+          });
+        }
+
+          // await this.getRecycled()
           // alert(JSON.stringify(this.resultcentralpolicy))
         })
       this.loading = true;
