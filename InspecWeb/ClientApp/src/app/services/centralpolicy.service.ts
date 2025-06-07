@@ -474,4 +474,9 @@ export class CentralpolicyService {
     return this.http.get<any>(this.url + "getSubjectgroupidfromplanid/" + cenproid + "/" + planid)
   }
 
+  getReportSubjecteventdetaildata(id, subjectgroupid): Observable<any> {
+    // alert('hi')
+    return this.http.get<any>(this.url + "reportSubjectevent/" + id + "/" + subjectgroupid)
+  }
+
 }
