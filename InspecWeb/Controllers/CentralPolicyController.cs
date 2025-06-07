@@ -360,7 +360,8 @@ namespace InspecWeb.Controllers
                 centralpolicydata.CreatedBy = model.UserID;
                 centralpolicydata.Class = "แผนการตรวจประจำปี";
 
-            };
+            }
+            ;
 
             //_context.CentralPolicies.Add(centralpolicydata);
             _context.Entry(centralpolicydata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
@@ -399,7 +400,8 @@ namespace InspecWeb.Controllers
                     .FirstOrDefault();
                     {
                         removeData.Active = 0;
-                    };
+                    }
+                    ;
                     _context.Entry(removeData).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                     _context.SaveChanges();
                 }
@@ -439,7 +441,8 @@ namespace InspecWeb.Controllers
                         .FirstOrDefault();
                         {
                             sameData.Active = 1;
-                        };
+                        }
+                        ;
                         _context.Entry(sameData).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                         _context.SaveChanges();
                     }
@@ -1663,6 +1666,75 @@ namespace InspecWeb.Controllers
             //    .Where(m => m.UserId == id);
 
 
+        }
+
+        // GET api/values/5
+        [HttpGet("reportSubjectevent/{id}/{subjectgroupid}")]
+        public IActionResult GetReportSubjectEvent(long id, long subjectgroupid)
+        {
+            var subjectcentralpolicyprovincedata = _context.SubjectCentralPolicyProvinces
+                .Include(m => m.SubquestionCentralPolicyProvinces)
+                .ThenInclude(m => m.SubquestionChoiceCentralPolicyProvinces)
+
+                .Include(m => m.SubquestionCentralPolicyProvinces)
+                .ThenInclude(m => m.SubjectCentralPolicyProvinceUserGroups)
+                .ThenInclude(m => m.User)
+
+                .Include(m => m.SubquestionCentralPolicyProvinces)
+                .ThenInclude(m => m.SubjectCentralPolicyProvinceGroups)
+                .ThenInclude(m => m.ProvincialDepartment)
+                // .Include(x => x.ElectronicBookSuggestGroups)
+
+                .Include(m => m.SubquestionCentralPolicyProvinces)
+                .ThenInclude(x => x.AnswerSubquestions)
+                .ThenInclude(x => x.AnswerSubquestionStatus)
+                .ThenInclude(x => x.User)
+
+                .Include(m => m.SubquestionCentralPolicyProvinces)
+                .ThenInclude(x => x.AnswerSubquestionOutsiders)
+
+                .Include(m => m.AnswerSubquestionFiles)
+
+                .Where(m => m.Type == "NoMaster")
+                .Where(m => m.SubjectGroupId == subjectgroupid)
+                .Where(m => m.CentralPolicyProvinceId == id)
+                .OrderBy(p => p.Name)
+                .Select(m => new
+                   {
+                       name = m.Name,
+                       department = m.SubquestionCentralPolicyProvinces.Select(x => x.SubjectCentralPolicyProvinceGroups.Select(x => x.ProvincialDepartment.Name)),
+                       question = m.SubquestionCentralPolicyProvinces.Select(x => new
+                       {
+                           type = x.Type,
+                           question = x.Name,
+                           choice = x.SubquestionChoiceCentralPolicyProvinces.Select(x => x.Name),
+                           answer = x.AnswerSubquestions.Select(x => new
+                           {
+                               answer = x.Answer,
+                               description = x.Description,
+                               user = new
+                               {
+                                   firstname = x.User.Firstnameth,
+                                   lastname = x.User.Lastnameth,
+                                   email = x.User.Email
+                               }
+                           }),
+                           answerOutsider = x.AnswerSubquestionOutsiders.Select(x => new
+                           {
+                               answer = x.Answer,
+                               description = x.Description,
+                               user = new
+                               {
+                                   firstname = x.User.Firstnameth,
+                                   lastname = x.User.Lastnameth,
+                                   email = x.User.Email
+                               }
+                           })
+                       })
+                })
+                .ToList();
+
+                return Ok(new { subjectcentralpolicyprovincedata });
         }
     }
 }

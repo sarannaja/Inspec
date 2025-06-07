@@ -70,6 +70,11 @@
                             <i class="far fa-fw fa-plus-square" style="margin-left: 0px;"></i>
                           </button>
 
+                          <button *ngIf="resultdetailcentralpolicyprovince.length > 0 && i == 0" style="margin-top: -10px; margin-left: 10px;" type="button" class="btn btn-info"
+                            (click)="exportToExcel()">ออกรายงาน
+                            <i class="far fa-fw fa-plus-square" style="margin-left: 0px;"></i>
+                          </button>
+
                         </div>
 
                         <div *ngIf="i == 0">

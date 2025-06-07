@@ -20,6 +20,7 @@ import { ReportService } from 'src/app/services/report.service';
 import { AnyAaaaRecord } from 'dns';
 import { NotofyService } from 'src/app/services/notofy.service';
 import { ReturnStatement } from '@angular/compiler';
+import * as XLSX from 'xlsx';
 @Component({
   selector: 'app-detail-subjectevent',
   templateUrl: './detail-subjectevent.component.html',
@@ -113,6 +114,7 @@ export class DetailSubjecteventComponent implements OnInit {
   role7Count: any = 0;
   role6Count: any = 0;
   questionpeople: any = [];
+  reportData = [];
   barChartOptions: ChartOptions = {
     responsive: true,
     scales: {
@@ -173,6 +175,23 @@ export class DetailSubjecteventComponent implements OnInit {
   answerpeople: any = []
   answerRecommenDationInspectors: any = []
   checkname: any[] = []
+  excelData = [
+  {
+    department: 'กองบริหาร',
+    question: 'ข้อ 1',
+    choice: '1.1: เห็นด้วย'
+  },
+  {
+    department: 'กองบริหาร',
+    question: 'ข้อ 1',
+    choice: '1.2: ไม่เห็นด้วย'
+  },
+  {
+    department: 'กองยุทธศาสตร์',
+    question: 'ข้อ 1',
+    choice: '1.1: เห็นด้วย'
+  }
+]
   constructor(
     private fb: FormBuilder,
     private modalService: BsModalService,
@@ -1403,5 +1422,118 @@ export class DetailSubjecteventComponent implements OnInit {
     // this.deadlinesubjectDate = event.date;
     this.deadlinepeoplequestionDate = event.date;
     // //console.log("EE: ", this.endDate);
+  }
+
+  getReportData(): void {
+    this.centralpolicyservice.getReportSubjecteventdetaildata(this.id, this.subjectgroupid).subscribe((res: any) => {
+      console.log('report data => ', res);
+      const exportRows: any[] = [];
+
+      for (let i = 0; i < res.subjectcentralpolicyprovincedata.length; i++) {
+        const entry = res.subjectcentralpolicyprovincedata[i];
+        const topic = entry && entry.name ? entry.name.replace(/\n/g, ' ').trim() : '';
+        let department = 'ไม่ระบุหน่วยงาน';
+
+        if (
+          entry.department &&
+          entry.department.length > 0 &&
+          entry.department[0].length > 0
+        ) {
+          department = entry.department[0][0];
+        }
+
+        const questions = entry.question || [];
+        for (let j = 0; j < questions.length; j++) {
+          const q = questions[j];
+          const questionText = q.question ? q.question.replace(/\n/g, ' ').trim() : '';
+
+          const answers = q.answer || [];
+          for (let k = 0; k < answers.length; k++) {
+            const ans = answers[k];
+            const user = ans.user || {};
+            exportRows.push({
+              'หัวข้อ': topic,
+              'หน่วยงาน': department,
+              'คำถาม': questionText,
+              // 'ประเภท': 'ในระบบ',
+              'ตัวเลือกที่ตอบ': ans.answer || '',
+              'อธิบายคำตอบ': ans.description || '',
+              'ผู้ตอบ (ชื่อ)': ((user.firstname || '') + ' ' + (user.lastname || '')).trim(),
+              'Email': user.email || ''
+            });
+          }
+
+          // const outsiderAnswers = q.answerOutsider || [];
+          // for (let m = 0; m < outsiderAnswers.length; m++) {
+          //   const ans = outsiderAnswers[m];
+          //   const user = ans.user || {};
+          //   exportRows.push({
+          //     'หัวข้อ': topic,
+          //     'หน่วยงาน': department,
+          //     'คำถาม': questionText,
+          //     'ประเภท': 'คนนอก',
+          //     'ตัวเลือกที่ตอบ': ans.answer || '',
+          //     'อธิบายคำตอบ': ans.description || '',
+          //     'ผู้ตอบ (ชื่อ)': ((user.firstname || '') + ' ' + (user.lastname || '')).trim(),
+          //     'Email': user.email || ''
+          //   });
+          // }
+        }
+      }
+
+      const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(exportRows);
+      const workbook: XLSX.WorkBook = {
+        Sheets: { 'รายงาน': worksheet },
+        SheetNames: ['รายงาน']
+      };
+      const now = new Date();
+
+      // Convert to Thai date
+      const day = now.getDate().toString().padStart(2, '0');
+      const month = (now.getMonth() + 1).toString().padStart(2, '0');
+      const thaiYear = (now.getFullYear() + 543).toString(); // e.g. 2568
+
+      const thaiDateStr = `${day}-${month}-${thaiYear}`; // "04-06-2568"
+      const filename = `รายงานประเด็นการตรวจติดตาม_${thaiDateStr}.xlsx`;
+      XLSX.writeFile(workbook, filename);
+    });
+  }
+
+  exportToExcel(): void {
+    this.getReportData();
+    return;
+    const pivotMap = new Map<string, Map<string, Map<string, number>>>();
+
+    for (const res of this.excelData) {
+      const depMap = pivotMap.get(res.department) || new Map();
+      const qMap = depMap.get(res.question) || new Map();
+      const count = qMap.get(res.choice) || 0;
+      qMap.set(res.choice, count + 1);
+      depMap.set(res.question, qMap);
+      pivotMap.set(res.department, depMap);
+    }
+
+    const exportData: any[] = [];
+    pivotMap.forEach((qMap, department) => {
+      qMap.forEach((cMap, question) => {
+        cMap.forEach((count, choice) => {
+          exportData.push({
+            'หน่วยงาน': department,
+            'คำถาม': question,
+            'ตัวเลือก': choice,
+            'จำนวนที่เลือก': count
+          });
+        });
+      });
+    });
+
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(exportData);
+    const workbook: XLSX.WorkBook = {
+      Sheets: { 'รายงาน': worksheet },
+      SheetNames: ['รายงาน']
+    };
+
+    // ใช้ writeFile ตรงนี้
+    XLSX.writeFile(workbook, 'test.xlsx');
   }
 }
