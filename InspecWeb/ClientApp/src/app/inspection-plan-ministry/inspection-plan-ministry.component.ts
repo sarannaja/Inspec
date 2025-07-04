@@ -396,7 +396,7 @@ export class InspectionPlanMinistryComponent implements OnInit {
       .subscribe(async (result:any) => {
         this.resultcentralpolicy = result.data //All
 
-        if (this.role_id == 6 && this.watch == 0 && this.data.length != 0) {
+        if (this.role_id == 6 && this.watch == 0) {
           this.userService.getuserdatButSelect().subscribe(async users => {
             // console.log("USER --->", users);
             // this.allUserOptions = users;
