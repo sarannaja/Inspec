@@ -881,16 +881,19 @@ namespace InspecWeb.Controllers
             {
                 if (ElectSuggestionData.CentralPolicy == null)
                 {
-                    foreach (var item in model.userId)
+                    if (model.userId != null)
                     {
-                        var ElectronicBookInviteData = new ElectronicBookInvite
+                        foreach (var item in model.userId)
                         {
-                            ElectronicBookId = model.ElectID,
-                            UserId = item,
-                            Status = "รอลงความเห็น"
-                        };
-                        _context.ElectronicBookInvites.Add(ElectronicBookInviteData);
-                        _context.SaveChanges();
+                            var ElectronicBookInviteData = new ElectronicBookInvite
+                            {
+                                ElectronicBookId = model.ElectID,
+                                UserId = item,
+                                Status = "รอลงความเห็น"
+                            };
+                            _context.ElectronicBookInvites.Add(ElectronicBookInviteData);
+                            _context.SaveChanges();
+                        }
                     }
                     System.Console.WriteLine("Finish Invite People");
                 }

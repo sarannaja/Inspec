@@ -29,22 +29,41 @@ namespace InspecWeb.Controllers
         [HttpGet("api/[controller]/[action]/{id}")]
         public IActionResult getnotifications(string id)
         {
+            // var Notifications = _context.Notifications
+            //    .Include(m => m.User)
+            //    .Include(m => m.Notificationcreateby)
+            //    .ThenInclude(m => m.UserCreate)
+            //    .Include(m => m.CentralPolicy)
+            //    .Where(m => m.UserID == id).OrderByDescending(m => m.Id);
+
+            var oneMonthAgo = DateTime.Now.AddMonths(-6);
+
             var Notifications = _context.Notifications
-               .Include(m => m.User)
-               .Include(m => m.Notificationcreateby)
-               .ThenInclude(m => m.UserCreate)
-               .Include(m => m.CentralPolicy)
-               .Where(m => m.UserID == id).OrderByDescending(m => m.Id);
+                .Include(m => m.User)
+                .Include(m => m.Notificationcreateby)
+                    .ThenInclude(m => m.UserCreate)
+                .Include(m => m.CentralPolicy)
+                .Where(m => m.UserID == id)
+                .Where(m => m.CreatedAt != null && m.CreatedAt >= oneMonthAgo)
+                .OrderByDescending(m => m.Id);
+
             return Ok(Notifications);
         }
 
         [HttpGet("api/[controller]/[action]/{id}")]
         public IActionResult getnotificationscount(string id)
         {
+            // var Notifications = _context.Notifications
+            //    .Include(m => m.CentralPolicy)
+            //    .Where(m => m.UserID == id)
+            //    .Where(m => m.noti == 1);
+            var oneMonthAgo = DateTime.Now.AddMonths(-6);
+
             var Notifications = _context.Notifications
-               .Include(m => m.CentralPolicy)
-               .Where(m => m.UserID == id)
-               .Where(m => m.noti == 1);
+                .Include(m => m.CentralPolicy)
+                .Where(m => m.UserID == id)
+                .Where(m => m.noti == 1)
+                .Where(m => m.CreatedAt != null && m.CreatedAt >= oneMonthAgo);
             return Ok(Notifications);
         }
 
