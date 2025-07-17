@@ -1543,49 +1543,54 @@ namespace InspecWeb.Controllers
         [HttpPost("sendElectronicBookToProvince")]
         public IActionResult PostElectronicBookToProvince(ElectronicBookViewModel model)
         {
-            foreach (var provinceId in model.electProvinceId)
+            if (model.electProvinceId != null)
             {
-                System.Console.WriteLine("ProvinceId: " + provinceId);
-                var ElectronicBook = new ElectronicBookAccept
+                foreach (var provinceId in model.electProvinceId)
                 {
-                    ElectronicBookId = model.ElectID,
-                    ProvinceId = provinceId,
-                    Status = "รอลงนามเอกสาร",
-                    CreateBy = model.userCreate,
-                    CreatedAt = DateTime.Now
-                };
+                    System.Console.WriteLine("ProvinceId: " + provinceId);
+                    var ElectronicBook = new ElectronicBookAccept
+                    {
+                        ElectronicBookId = model.ElectID,
+                        ProvinceId = provinceId,
+                        Status = "รอลงนามเอกสาร",
+                        CreateBy = model.userCreate,
+                        CreatedAt = DateTime.Now
+                    };
 
-                _context.ElectronicBookAccepts.Add(ElectronicBook);
-                _context.SaveChanges();
+                    _context.ElectronicBookAccepts.Add(ElectronicBook);
+                    _context.SaveChanges();
+                }
             }
-
-            foreach (var provincialId in model.provincialDepartmentIdAr)
-            {
-                System.Console.WriteLine("ProvinceId: " + provincialId);
-                var ElectronicBookDepartment = new ElectronicBookProvincialDepartment
+            if (model.provincialDepartmentIdAr != null)
                 {
-                    ElectronicBookId = model.ElectID,
-                    ProvincialDepartmentId = provincialId,
-                    Status = "รอดำเนินการ",
-                    CreateDate = DateTime.Now,
-                    CreateBy = model.userCreate,
-                };
+                    foreach (var provincialId in model.provincialDepartmentIdAr)
+                    {
+                        System.Console.WriteLine("ProvinceId: " + provincialId);
+                        var ElectronicBookDepartment = new ElectronicBookProvincialDepartment
+                        {
+                            ElectronicBookId = model.ElectID,
+                            ProvincialDepartmentId = provincialId,
+                            Status = "รอดำเนินการ",
+                            CreateDate = DateTime.Now,
+                            CreateBy = model.userCreate,
+                        };
 
-                _context.ElectronicBookProvincialDepartments.Add(ElectronicBookDepartment);
-                _context.SaveChanges();
-            }
+                        _context.ElectronicBookProvincialDepartments.Add(ElectronicBookDepartment);
+                        _context.SaveChanges();
+                    }
+                }
 
             //var ElectronicBookStatus = _context.ElectronicBooks
-            //    .Where(x => x.Id == model.ElectID)
-            //    .FirstOrDefault();
-            //{
-            //    //ElectronicBookStatus.ProvinceStatus = "ส่งสมุดตรวจแล้ว";
-            //    ElectronicBookStatus.Status = "ส่งสมุดตรวจแล้ว";
-            //}
-            //_context.Entry(ElectronicBookStatus).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            //_context.SaveChanges();
+                //    .Where(x => x.Id == model.ElectID)
+                //    .FirstOrDefault();
+                //{
+                //    //ElectronicBookStatus.ProvinceStatus = "ส่งสมุดตรวจแล้ว";
+                //    ElectronicBookStatus.Status = "ส่งสมุดตรวจแล้ว";
+                //}
+                //_context.Entry(ElectronicBookStatus).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                //_context.SaveChanges();
 
-            return Ok(new { status = true });
+                return Ok(new { status = true });
         }
 
         [HttpPost("sendElectronicBookToOtherProvince")]
