@@ -240,12 +240,27 @@ export class ReportImportComponent implements OnInit {
       // console.log("cenDatasssss: ");
       moment.locale('th');
       console.log("cenData: ", res);
+      // this.centralPolicyEvent = res.map((item, index) => {
+      //   return {
+      //     value: item.id,
+      //     label: item.centralPolicyTitle + "  -  " + "จังหวัด: " + item.inspectionPlanEventProvinceName + " (" + moment(item.date.startDate).format('ll') + " - " + moment(item.date.endDate).format('ll') + ")"
+      //   }
+      // })
+
       this.centralPolicyEvent = res.map((item, index) => {
+        const start = moment(item.date.startDate);
+        const end = moment(item.date.endDate);
+
+        // เพิ่มปี พ.ศ. +543
+        const startText = `${start.format('D MMM')} ${start.year() + 543}`;
+        const endText = `${end.format('D MMM')} ${end.year() + 543}`;
+
         return {
           value: item.id,
-          label: item.centralPolicyTitle + "  -  " + "จังหวัด: " + item.inspectionPlanEventProvinceName + " (" + moment(item.date.startDate).format('ll') + " - " + moment(item.date.endDate).format('ll') + ")"
-        }
-      })
+          label: `${item.centralPolicyTitle} - จังหวัด: ${item.inspectionPlanEventProvinceName} (${startText} - ${endText})`
+        };
+      });
+
     })
   }
 
