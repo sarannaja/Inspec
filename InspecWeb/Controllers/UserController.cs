@@ -2414,12 +2414,11 @@ namespace InspecWeb.Controllers
             _context.SaveChanges();
             System.Console.WriteLine("testuser13.2 : " + userdata.UserName);
 
-
-            if (model.Formprofile != 1) // 1 คือแก้ไขจากตัวuser เอง
-            {
-                var tresult = await _userManager.RemovePasswordAsync(userdata);
-                await _userManager.AddPasswordAsync(userdata, passwordrandom);
-            }
+            // if (model.Formprofile != 1) // 1 คือแก้ไขจากตัวuser เอง
+            // {
+            //     var tresult = await _userManager.RemovePasswordAsync(userdata);
+            //     await _userManager.AddPasswordAsync(userdata, passwordrandom);
+            // }
 
             //<!-- ปามมาไหม่ -->
             //var change = _userManager.GenerateChangeEmailTokenAsync(userdata, model.Email).Result;
