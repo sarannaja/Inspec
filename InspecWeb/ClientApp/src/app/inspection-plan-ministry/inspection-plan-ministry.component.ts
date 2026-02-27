@@ -611,7 +611,8 @@ export class InspectionPlanMinistryComponent implements OnInit {
         for (var i = 0; i < this.resultprovincialdepartmentpeople.length; i++) {
           var checked = _.filter(this.resultprovincialdepartmentpeople[i].userProvince, (v) => _.includes(this.userProvince.map(result => { return result.provinceId }), v.provinceId)).length
           if (checked > 0) {
-            await this.selectdataprovincialdepartmentpeople.push({ value: this.resultprovincialdepartmentpeople[i].id, label: this.resultprovincialdepartmentpeople[i].provincialDepartments.name + " - " + this.resultprovincialdepartmentpeople[i].name })
+            await this.selectdataprovincialdepartmentpeople.push({ value: this.resultprovincialdepartmentpeople[i].id, label: this.resultprovincialdepartmentpeople[i].provincialDepartments.name + this.resultprovincialdepartmentpeople[i].province.name + " - " + this.resultprovincialdepartmentpeople[i].name })
+            // await this.selectdataprovincialdepartmentpeople.push({ value: this.resultprovincialdepartmentpeople[i].id, label: this.resultprovincialdepartmentpeople[i].provincialDepartments.name + " - " + this.resultprovincialdepartmentpeople[i].name })
           }
         }
       // }

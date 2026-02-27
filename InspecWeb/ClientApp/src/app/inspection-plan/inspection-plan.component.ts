@@ -425,18 +425,18 @@ export class InspectionPlanComponent implements OnInit {
         .subscribe(async (result: any) => {
           this.resultcentralpolicy = result.data //All
           if (this.role_id == 3 && this.watch == 0) {
-            this.userService.getuserdatButSelect().subscribe(async users => {
-              // console.log("USER --->", users);
-              // this.allUserOptions = users;
-              // Filter by role
-              this.resultministrypeople = users.filter(u => u.role_id == 6);
-              this.resultdepartmentpeople = users.filter(u => u.role_id == 10);
-              this.resultpeople = users.filter(u => u.role_id == 7);
-              this.resultprovincialdepartmentpeople = users.filter(u => u.role_id == 9);
+          this.userService.getuserdatButSelect().subscribe(async users => {
+            // console.log("USER --->", users);
+            // this.allUserOptions = users;
+            // Filter by role
+            this.resultministrypeople = users.filter(u => u.role_id == 6);
+            this.resultdepartmentpeople = users.filter(u => u.role_id == 10);
+            this.resultpeople = users.filter(u => u.role_id == 7);
+            this.resultprovincialdepartmentpeople = users.filter(u => u.role_id == 9);
 
-              await this.getRecycled()
+            await this.getRecycled()
 
-            });
+          });
           }
 
           // alert(JSON.stringify(this.resultcentralpolicy))
@@ -654,7 +654,7 @@ export class InspectionPlanComponent implements OnInit {
     for (var i = 0; i < this.resultprovincialdepartmentpeople.length; i++) {
       var checked = _.filter(this.resultprovincialdepartmentpeople[i].userProvince, (v) => _.includes(this.userProvince.map(result => { return result.provinceId }), v.provinceId)).length
       if (checked > 0) {
-        await this.selectdataprovincialdepartmentpeople.push({ value: this.resultprovincialdepartmentpeople[i].id, label: this.resultprovincialdepartmentpeople[i].provincialDepartments.name + " - " + this.resultprovincialdepartmentpeople[i].name })
+        await this.selectdataprovincialdepartmentpeople.push({ value: this.resultprovincialdepartmentpeople[i].id, label: this.resultprovincialdepartmentpeople[i].provincialDepartments.name + this.resultprovincialdepartmentpeople[i].province.name + " - " + this.resultprovincialdepartmentpeople[i].name })
       }
     }
     // }

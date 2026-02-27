@@ -119,6 +119,7 @@ namespace InspecWeb.Controllers
                 .Include(u => u.Ministries)
                 .Include(u => u.Departments)
                 .Include(u => u.Sides)
+                .Include(u => u.Province)
                 .Include(u => u.ProvincialDepartments)
                 .Where(u => u.Email != "admin@inspec.go.th")
                 .Where(u => u.Active == 1)
@@ -130,6 +131,7 @@ namespace InspecWeb.Controllers
                     u.Role_id,
                     Ministries = u.Ministries != null ? new { u.Ministries.Name } : null,
                     Departments = u.Departments != null ? new { u.Departments.Name } : null,
+                    Province = u.Province != null ? new { u.Province.Name } : null,
                     Sides = u.Sides != null ? new { u.Sides.Name } : null,
                     ProvincialDepartments = u.ProvincialDepartments != null ? new { u.ProvincialDepartments.Name } : null,
                     UserProvince = u.UserProvince.Select(up => new {
