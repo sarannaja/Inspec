@@ -47,6 +47,8 @@ namespace InspecWeb
                options.UseSqlServer(
                    Configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddCors();
+
             //<!-- เช็ทพาสเวิร์ด -->
             services.AddDefaultIdentity<ApplicationUser>(options =>
             {
@@ -196,10 +198,10 @@ namespace InspecWeb
                 {
                     context.Response.Headers["Content-Security-Policy"] =
                         "default-src 'self'; " +
-                        "script-src 'self'; " +
+                        "script-src 'self' 'unsafe-inline' 'unsafe-eval'; " +
                         "style-src 'self' https://fonts.googleapis.com https://cdnjs.cloudflare.com; " +
                         "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; " +
-                        "img-src 'self'; " +
+                        "img-src 'self' data: blob:; " +
                         "connect-src 'self'; " +
                         "frame-ancestors 'self'; " +
                         "object-src 'none'; " +
