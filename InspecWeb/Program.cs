@@ -16,11 +16,25 @@ namespace InspecWeb
             CreateHostBuilder(args).Build().Run();
         }
 
-         public static IHostBuilder CreateHostBuilder(string[] args) =>
-           Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
+        //  public static IHostBuilder CreateHostBuilder(string[] args) =>
+        //    Host.CreateDefaultBuilder(args)
+        //         .ConfigureWebHostDefaults(webBuilder =>
+        //         {
+        //             webBuilder.UseStartup<Startup>();
+        //         });
+
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+    Host.CreateDefaultBuilder(args)
+        .ConfigureWebHostDefaults(webBuilder =>
+        {
+            webBuilder.UseKestrel(options =>
+            {
+                options.AddServerHeader = false; // ปิด Server: Kestrel
+            });
+
+            webBuilder.UseStartup<Startup>();
+        });
+
+
     }
 }

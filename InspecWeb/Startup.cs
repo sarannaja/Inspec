@@ -21,6 +21,7 @@ using Microsoft.Extensions.Hosting;
 using Quartz;
 using Quartz.Impl;
 using Quartz.Spi;
+using Microsoft.AspNetCore.Http;
 
 namespace InspecWeb
 {
@@ -81,6 +82,9 @@ namespace InspecWeb
                     // options.Cookie.IsEssential = true;
                     // options.ExpireTimeSpan = TimeSpan.FromHours(3);
                     options.ExpireTimeSpan = TimeSpan.FromMinutes(45);
+                    options.Cookie.HttpOnly = true;
+                    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+                    options.Cookie.SameSite = SameSiteMode.Lax; // หรือ Strict
                 })
                 .AddIdentityServerJwt();
             // services.AddHttpClient ("testlo", c => {
@@ -134,6 +138,14 @@ namespace InspecWeb
                 options.KnownProxies.Add(IPAddress.Parse("127.0.10.1"));
                 options.ForwardedForHeaderName = "X-Forwarded-For-My-Custom-Header-Name";
             });
+
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.HttpOnly = Microsoft.AspNetCore.CookiePolicy.HttpOnlyPolicy.Always;
+                options.Secure = CookieSecurePolicy.Always;
+                options.MinimumSameSitePolicy = SameSiteMode.Lax;
+            });
+
             services.AddSingleton<BackgroundService, MyTestHostedService>();
             services.AddHostedService<MyTestHostedService>();
             services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
@@ -156,67 +168,98 @@ namespace InspecWeb
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            // ✅ Forwarded headers (reverse proxy / IIS / nginx)
             app.UseForwardedHeaders(new ForwardedHeadersOptions
             {
                 ForwardedHeaders = ForwardedHeaders.XForwardedProto
             });
 
-            // app.UseCors ("DefaultCorsPolicy");
-            app.UseCors(x => x
-               .AllowAnyOrigin()
-               .AllowAnyMethod()
-               .AllowAnyHeader()
+            // ✅ Global Security Headers
+            app.Use(async (context, next) =>
+            {
+                context.Response.Headers["X-Content-Type-Options"] = "nosniff";
+                // context.Response.Headers["X-Frame-Options"] = "DENY";
+                context.Response.Headers["Referrer-Policy"] = "strict-origin-when-cross-origin";
+                context.Response.Headers["X-XSS-Protection"] = "0";
+
+                if (env.IsDevelopment())
+                {
+                    context.Response.Headers["Content-Security-Policy"] =
+                        "default-src 'self'; " +
+                        "script-src 'self' 'unsafe-eval'; " +
+                        "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; " +
+                        "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com data:; " +
+                        "img-src 'self' data: blob:; " +
+                        "connect-src 'self' ws: https:;";
+                }
+                else
+                {
+                    context.Response.Headers["Content-Security-Policy"] =
+                        "default-src 'self'; " +
+                        "script-src 'self'; " +
+                        "style-src 'self' https://fonts.googleapis.com https://cdnjs.cloudflare.com; " +
+                        "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; " +
+                        "img-src 'self'; " +
+                        "connect-src 'self'; " +
+                        "frame-ancestors 'self'; " +
+                        "object-src 'none'; " +
+                        "base-uri 'self';";
+                }
+
+                context.Response.Headers.Remove("X-Powered-By");
+                await next();
+            });
+
+            // ❗ แนะนำ: จำกัด CORS แทน AllowAnyOrigin
+            app.UseCors(policy =>
+                policy.WithOrigins("https://inspection.opm.go.th")
+                      .AllowAnyMethod()
+                      .AllowAnyHeader()
             );
 
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
-                app.UseForwardedHeaders();
             }
             else
             {
                 app.UseExceptionHandler("/Error");
-                app.UseForwardedHeaders();
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
+                app.UseHsts(); // ✅ เปิด HSTS production
             }
+
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
 
             if (!env.IsDevelopment())
             {
                 app.UseSpaStaticFiles();
             }
 
-
-            app.UseIdentityServer();
-
-            //new 
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
-
             app.UseRouting();
 
+            app.UseCookiePolicy();
+
+            app.UseIdentityServer();   // OK ตรงนี้
             app.UseAuthentication();
             app.UseAuthorization();
-            //end
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
+
                 endpoints.MapRazorPages();
             });
 
             app.UseSpa(spa =>
             {
-                // To learn more about options for serving an Angular SPA from ASP.NET Core,
-                // see https://go.microsoft.com/fwlink/?linkid=864501
-
                 spa.Options.SourcePath = "ClientApp";
+
                 if (env.IsDevelopment())
                 {
                     spa.UseAngularCliServer(npmScript: "start");
-                    // spa.UseProxyToSpaDevelopmentServer("http://127.0.0.1:4200");
                 }
             });
         }
