@@ -32,6 +32,8 @@ namespace InspecWeb
                 options.AddServerHeader = false; // ปิด Server: Kestrel
             });
 
+            webBuilder.UseIIS();
+
             webBuilder.UseStartup<Startup>();
         });
 

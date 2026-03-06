@@ -141,12 +141,12 @@ namespace InspecWeb
                 options.ForwardedForHeaderName = "X-Forwarded-For-My-Custom-Header-Name";
             });
 
-            // services.Configure<CookiePolicyOptions>(options =>
-            // {
-            //     options.HttpOnly = Microsoft.AspNetCore.CookiePolicy.HttpOnlyPolicy.Always;
-            //     options.Secure = CookieSecurePolicy.Always;
-            //     options.MinimumSameSitePolicy = SameSiteMode.Lax;
-            // });
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.HttpOnly = Microsoft.AspNetCore.CookiePolicy.HttpOnlyPolicy.Always;
+                options.Secure = CookieSecurePolicy.Always;
+                options.MinimumSameSitePolicy = SameSiteMode.Lax;
+            });
 
             services.AddSingleton<BackgroundService, MyTestHostedService>();
             services.AddHostedService<MyTestHostedService>();
@@ -240,7 +240,7 @@ namespace InspecWeb
                       .AllowAnyHeader()
             );
 
-            // app.UseCookiePolicy();
+            app.UseCookiePolicy();
 
             app.UseIdentityServer();   // OK ตรงนี้
             app.UseAuthentication();
