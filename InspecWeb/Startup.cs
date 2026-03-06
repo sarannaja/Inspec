@@ -202,7 +202,7 @@ namespace InspecWeb
                         "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; " +
                         "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; " +
                         "img-src 'self' data: blob:; " +
-                        "connect-src 'self' https: wss:;" +
+                        "connect-src 'self' https: ws: wss:;" +
                         "frame-src 'self' https:; " +
                         "object-src 'none'; " +
                         "base-uri 'self';";
