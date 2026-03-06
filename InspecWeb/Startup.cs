@@ -204,7 +204,6 @@ namespace InspecWeb
                         "img-src 'self' data: blob:; " +
                         "connect-src 'self' https: wss:;" +
                         "frame-src 'self' https:; " +
-                        "frame-ancestors 'self'; " +
                         "object-src 'none'; " +
                         "base-uri 'self';";
                 }
