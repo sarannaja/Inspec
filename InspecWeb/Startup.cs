@@ -202,8 +202,7 @@ namespace InspecWeb
                         "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; " +
                         "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; " +
                         "img-src 'self' data: blob:; " +
-                        "connect-src 'self' https: ws: wss:;" +
-                        "frame-src 'self' https:; " +
+                        "connect-src 'self' https://inspection.opm.go.th https: ws: wss:;" +
                         "object-src 'none'; " +
                         "base-uri 'self';";
                 }
