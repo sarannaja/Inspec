@@ -85,8 +85,8 @@ namespace InspecWeb
                     // options.ExpireTimeSpan = TimeSpan.FromHours(3);
                     options.ExpireTimeSpan = TimeSpan.FromMinutes(45);
                     options.Cookie.HttpOnly = true;
+                    options.Cookie.SameSite = SameSiteMode.None;
                     options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-                    options.Cookie.SameSite = SameSiteMode.Lax; // หรือ Strict
                 })
                 .AddIdentityServerJwt();
             // services.AddHttpClient ("testlo", c => {
@@ -145,7 +145,7 @@ namespace InspecWeb
             {
                 options.HttpOnly = Microsoft.AspNetCore.CookiePolicy.HttpOnlyPolicy.Always;
                 options.Secure = CookieSecurePolicy.Always;
-                options.MinimumSameSitePolicy = SameSiteMode.Lax;
+                options.MinimumSameSitePolicy = SameSiteMode.Unspecified;
             });
 
             services.AddSingleton<BackgroundService, MyTestHostedService>();
