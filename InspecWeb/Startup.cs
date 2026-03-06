@@ -198,13 +198,13 @@ namespace InspecWeb
                 {
                     context.Response.Headers["Content-Security-Policy"] =
                         "default-src 'self'; " +
-                        "script-src 'self' 'unsafe-inline' 'unsafe-eval'; " +
+                        "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://ajax.aspnetcdn.com;; " +
                         "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; " +
                         "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; " +
                         "img-src 'self' data: blob:; " +
                         "connect-src 'self' https://inspection.opm.go.th https: ws: wss:;" +
-                        "object-src 'none'; " +
-                        "base-uri 'self';";
+                        // "object-src 'none'; " +
+                        // "base-uri 'self';";
                 }
 
                 context.Response.Headers.Remove("X-Powered-By");
