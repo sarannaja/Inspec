@@ -202,9 +202,9 @@ namespace InspecWeb
                         "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; " +
                         "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; " +
                         "img-src 'self' data: blob:; " +
-                        "connect-src 'self' https://inspection.opm.go.th https: ws: wss:;";
-                        // "object-src 'none'; " +
-                        // "base-uri 'self';";
+                        "connect-src 'self' https://inspection.opm.go.th https: ws: wss:;" +
+                        "object-src 'none'; " +
+                        "base-uri 'self';";
                 }
 
                 context.Response.Headers.Remove("X-Powered-By");
@@ -215,15 +215,16 @@ namespace InspecWeb
             {
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
+                app.UseForwardedHeaders();
             }
             else
             {
                 app.UseExceptionHandler("/Error");
+                app.UseForwardedHeaders();
                 app.UseHsts(); // ✅ เปิด HSTS production
             }
 
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
+            
 
             if (!env.IsDevelopment())
             {
@@ -242,6 +243,10 @@ namespace InspecWeb
             app.UseCookiePolicy();
 
             app.UseIdentityServer();   // OK ตรงนี้
+
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
+
             app.UseAuthentication();
             app.UseAuthorization();
 
