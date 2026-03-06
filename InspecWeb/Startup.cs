@@ -212,13 +212,6 @@ namespace InspecWeb
                 await next();
             });
 
-            // ❗ แนะนำ: จำกัด CORS แทน AllowAnyOrigin
-            app.UseCors(policy =>
-                policy.WithOrigins("https://inspection.opm.go.th")
-                      .AllowAnyMethod()
-                      .AllowAnyHeader()
-            );
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -239,6 +232,13 @@ namespace InspecWeb
             }
 
             app.UseRouting();
+
+            // ❗ แนะนำ: จำกัด CORS แทน AllowAnyOrigin
+            app.UseCors(policy =>
+                policy.WithOrigins("https://inspection.opm.go.th")
+                      .AllowAnyMethod()
+                      .AllowAnyHeader()
+            );
 
             app.UseCookiePolicy();
 
