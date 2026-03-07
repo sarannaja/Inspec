@@ -22,7 +22,6 @@ using Quartz;
 using Quartz.Impl;
 using Quartz.Spi;
 using Microsoft.AspNetCore.Http;
-using IdentityServer4.Models;
 
 namespace InspecWeb
 {
@@ -68,14 +67,8 @@ namespace InspecWeb
                 .AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
 
             //<!-- เช็ทพาสเวิร์ด
-            // services.AddIdentityServer()
-            //     .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
-
-                services.AddIdentityServer()
-                    .AddApiAuthorization<ApplicationUser, ApplicationDbContext>(options =>
-                {
-                     options.IdentityResources.Add(new IdentityResources.Profile());
-                });
+            services.AddIdentityServer()
+                .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
 
             // services.AddIdentity<ApplicationUser, IdentityRole>()
             //.AddEntityFrameworkStores<ApplicationDbContext>()
@@ -102,7 +95,7 @@ namespace InspecWeb
                     {
                         options.ExpireTimeSpan = TimeSpan.FromMinutes(45);
                         options.Cookie.HttpOnly = true;
-                        options.Cookie.SameSite = SameSiteMode.Lax;
+                        options.Cookie.SameSite = SameSiteMode.None;
                         options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
                 })
                 .AddIdentityServerJwt();
@@ -216,7 +209,7 @@ namespace InspecWeb
                 {
                     context.Response.Headers["Content-Security-Policy"] =
                         "default-src 'self'; " +
-                        "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://ajax.aspnetcdn.com;; " +
+                        "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://ajax.aspnetcdn.com; " +
                         "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com data:; " +
                         "font-src 'self' data: https://fonts.gstatic.com https://cdnjs.cloudflare.com; " +
                         "img-src 'self' data: blob:; " +
@@ -252,8 +245,6 @@ namespace InspecWeb
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
-            app.UseRouting();
-
             // ❗ แนะนำ: จำกัด CORS แทน AllowAnyOrigin
             app.UseCors(policy =>
                 policy.WithOrigins("https://inspection.opm.go.th")
@@ -263,9 +254,9 @@ namespace InspecWeb
 
             app.UseCookiePolicy();
 
-            app.UseIdentityServer();   // OK ตรงนี้
+            app.UseRouting();
 
-           
+            app.UseIdentityServer();   // OK ตรงนี้
 
             app.UseAuthentication();
             app.UseAuthorization();
