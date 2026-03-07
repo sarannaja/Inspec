@@ -90,11 +90,11 @@ export class AuthorizeService {
 
       this.role(user.profile)
       // this._CookieService.set('UserIdMobile', user.profile.sub)
-      if (user?.profile) {
+      if (user && user.profile) {
         this._CookieService.set('UserIdMobile', user.profile.sub);
       }
       // this.userSubject.next(Object.assign(user.profile, JSON.parse(localStorage.getItem('data'))));
-      if (user?.profile) {
+      if (user && user.profile) {
         const extra = JSON.parse(localStorage.getItem('data') || '{}');
         this.userSubject.next(Object.assign(user.profile, extra));
       }
@@ -111,7 +111,7 @@ export class AuthorizeService {
         user = await this.userManager.signinPopup(this.createArguments());
         await this.role(user.profile)
         // this.userSubject.next(Object.assign(user.profile, JSON.parse(localStorage.getItem('data'))));
-        if (user?.profile) {
+        if (user && user.profile) {
           const extra = JSON.parse(localStorage.getItem('data') || '{}');
           this.userSubject.next(Object.assign(user.profile, extra));
         }
