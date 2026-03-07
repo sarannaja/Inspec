@@ -195,28 +195,28 @@ namespace InspecWeb
                 context.Response.Headers["Referrer-Policy"] = "strict-origin-when-cross-origin";
                 context.Response.Headers["X-XSS-Protection"] = "0";
 
-                if (env.IsDevelopment())
-                {
-                    context.Response.Headers["Content-Security-Policy"] =
-                        "default-src 'self'; " +
-                        "script-src 'self' 'unsafe-eval'; " +
-                        "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; " +
-                        "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com data:; " +
-                        "img-src 'self' data: blob:; " +
-                        "connect-src 'self' ws: https:;";
-                }
-                else
-                {
-                    context.Response.Headers["Content-Security-Policy"] =
-                        "default-src 'self'; " +
-                        "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://ajax.aspnetcdn.com;; " +
-                        "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com data:; " +
-                        "font-src 'self' data: https://fonts.gstatic.com https://cdnjs.cloudflare.com; " +
-                        "img-src 'self' data: blob:; " +
-                        "connect-src 'self' https: ws: wss:;" +
-                        "object-src 'none'; " +
-                        "base-uri 'self';";
-                }
+                // if (env.IsDevelopment())
+                // {
+                //     context.Response.Headers["Content-Security-Policy"] =
+                //         "default-src 'self'; " +
+                //         "script-src 'self' 'unsafe-eval'; " +
+                //         "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; " +
+                //         "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com data:; " +
+                //         "img-src 'self' data: blob:; " +
+                //         "connect-src 'self' ws: https:;";
+                // }
+                // else
+                // {
+                //     context.Response.Headers["Content-Security-Policy"] =
+                //         "default-src 'self'; " +
+                //         "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://ajax.aspnetcdn.com;; " +
+                //         "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com data:; " +
+                //         "font-src 'self' data: https://fonts.gstatic.com https://cdnjs.cloudflare.com; " +
+                //         "img-src 'self' data: blob:; " +
+                //         "connect-src 'self' https: ws: wss:;" +
+                //         "object-src 'none'; " +
+                //         "base-uri 'self';";
+                // }
 
                 context.Response.Headers.Remove("X-Powered-By");
                 await next();
