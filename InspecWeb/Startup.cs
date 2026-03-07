@@ -76,19 +76,30 @@ namespace InspecWeb
 
             // services.AddAuthentication ()
             //     .AddIdentityServerJwt ();
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
-                {
-                    // options.Cookie.Expiration = TimeSpan.FromHours(3);
-                    // options.SlidingExpiration = true;
-                    // options.Cookie.IsEssential = true;
-                    // options.ExpireTimeSpan = TimeSpan.FromHours(3);
-                    options.ExpireTimeSpan = TimeSpan.FromMinutes(45);
-                    options.Cookie.HttpOnly = true;
-                    options.Cookie.SameSite = SameSiteMode.None;
-                    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+            // services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            //     .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
+            //     {
+            //         // options.Cookie.Expiration = TimeSpan.FromHours(3);
+            //         // options.SlidingExpiration = true;
+            //         // options.Cookie.IsEssential = true;
+            //         // options.ExpireTimeSpan = TimeSpan.FromHours(3);
+            //         options.ExpireTimeSpan = TimeSpan.FromMinutes(45);
+            //         options.Cookie.HttpOnly = true;
+            //         options.Cookie.SameSite = SameSiteMode.None;
+            //         options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+            //     })
+            //     .AddIdentityServerJwt();
+
+            services.AddAuthentication()
+                .AddCookie(options =>
+                    {
+                        options.ExpireTimeSpan = TimeSpan.FromMinutes(45);
+                        options.Cookie.HttpOnly = true;
+                        options.Cookie.SameSite = SameSiteMode.None;
+                        options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
                 })
                 .AddIdentityServerJwt();
+
             // services.AddHttpClient ("testlo", c => {
             //     c.BaseAddress = new Uri ("http://127.0.0.1:3000/");
             //     // Github API versioning
@@ -199,7 +210,7 @@ namespace InspecWeb
                     context.Response.Headers["Content-Security-Policy"] =
                         "default-src 'self'; " +
                         "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://ajax.aspnetcdn.com;; " +
-                        "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; " +
+                        "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com data:; " +
                         "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; " +
                         "img-src 'self' data: blob:; " +
                         "connect-src 'self' https://inspection.opm.go.th https: ws: wss:;" +
@@ -231,6 +242,9 @@ namespace InspecWeb
                 app.UseSpaStaticFiles();
             }
 
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
+
             app.UseRouting();
 
             // ❗ แนะนำ: จำกัด CORS แทน AllowAnyOrigin
@@ -244,8 +258,7 @@ namespace InspecWeb
 
             app.UseIdentityServer();   // OK ตรงนี้
 
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
+           
 
             app.UseAuthentication();
             app.UseAuthorization();
