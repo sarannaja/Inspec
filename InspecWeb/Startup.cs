@@ -211,9 +211,10 @@ namespace InspecWeb
                         "default-src 'self'; " +
                         "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://ajax.aspnetcdn.com;; " +
                         "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com data:; " +
-                        "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; " +
+                        "font-src 'self' data: https://fonts.gstatic.com https://cdnjs.cloudflare.com; " +
                         "img-src 'self' data: blob:; " +
-                        "connect-src 'self' https://inspection.opm.go.th https: ws: wss:;" +
+                        // "connect-src 'self' https://inspection.opm.go.th https: ws: wss:;" +
+                        "connect-src *;" +
                         "object-src 'none'; " +
                         "base-uri 'self';";
                 }
