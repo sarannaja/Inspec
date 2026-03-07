@@ -22,6 +22,7 @@ using Quartz;
 using Quartz.Impl;
 using Quartz.Spi;
 using Microsoft.AspNetCore.Http;
+using IdentityServer4.Models;
 
 namespace InspecWeb
 {
