@@ -95,7 +95,7 @@ namespace InspecWeb
                     {
                         options.ExpireTimeSpan = TimeSpan.FromMinutes(45);
                         options.Cookie.HttpOnly = true;
-                        options.Cookie.SameSite = SameSiteMode.None;
+                        options.Cookie.SameSite = SameSiteMode.Lax;
                         options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
                 })
                 .AddIdentityServerJwt();
@@ -213,8 +213,7 @@ namespace InspecWeb
                         "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com data:; " +
                         "font-src 'self' data: https://fonts.gstatic.com https://cdnjs.cloudflare.com; " +
                         "img-src 'self' data: blob:; " +
-                        // "connect-src 'self' https://inspection.opm.go.th https: ws: wss:;" +
-                        "connect-src *;" +
+                        "connect-src 'self' https: ws: wss:;" +
                         "object-src 'none'; " +
                         "base-uri 'self';";
                 }
