@@ -231,17 +231,17 @@ namespace InspecWeb
                         "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; " +
                         "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com data:; " +
                         "img-src 'self' data: blob:; " +
-                        "connect-src 'self' https://inspection.opm.go.th ws: https:;";
+                        "connect-src 'self' https://inspection.opm.go.th ws:;";
                 }
                 else
                 {
                     context.Response.Headers["Content-Security-Policy"] =
                         "default-src 'self'; " +
-                        "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://ajax.aspnetcdn.com; " +
+                        "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://ajax.aspnetcdn.com;" +
                         "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com data:; " +
-                        "font-src 'self' data: https://fonts.gstatic.com https://cdnjs.cloudflare.com; " +
+                        "font-src 'self' data: https://fonts.gstatic.com https://cdnjs.cloudflare.com;" +
                         "img-src 'self' data: blob:; " +
-                        "connect-src 'self' https://inspection.opm.go.th ws: wss: https:;" +
+                        "connect-src 'self' https://inspection.opm.go.th ws: wss:;" +
                         "object-src 'none'; " +
                         "frame-ancestors 'self';" +
                         "base-uri 'self';";
@@ -277,7 +277,7 @@ namespace InspecWeb
 
             app.UseRouting();
 
-            app.UseCookiePolicy();
+            // app.UseCookiePolicy();
 
             app.UseAuthentication();
             app.UseAuthorization();
