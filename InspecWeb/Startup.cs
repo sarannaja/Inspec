@@ -43,11 +43,20 @@ namespace InspecWeb
             //         builder => builder.AllowAnyOrigin ().AllowAnyHeader ().AllowAnyMethod ());
             // });
             // services.AddHostedService<CronJobService>();
+            services.AddCors(options =>
+                {
+                    options.AddPolicy("AngularClient", builder =>
+                    {
+                        builder.WithOrigins("https://inspection.opm.go.th")
+                            .AllowAnyMethod()
+                            .AllowAnyHeader();
+                    });
+                });
             services.AddDbContext<ApplicationDbContext>(options =>
                options.UseSqlServer(
                    Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddCors();
+            
 
             //<!-- เช็ทพาสเวิร์ด -->
             services.AddDefaultIdentity<ApplicationUser>(options =>
@@ -95,7 +104,9 @@ namespace InspecWeb
                     {
                         options.ExpireTimeSpan = TimeSpan.FromMinutes(45);
                         options.Cookie.HttpOnly = true;
-                        options.Cookie.SameSite = SameSiteMode.None;
+                        // 6. Cookie with SameSite Attribute None
+                        options.Cookie.SameSite = SameSiteMode.Lax;
+
                         options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
                 })
                 .AddIdentityServerJwt();
@@ -187,14 +198,31 @@ namespace InspecWeb
                 ForwardedHeaders = ForwardedHeaders.XForwardedProto
             });
 
+            // ❗ แนะนำ: จำกัด CORS แทน AllowAnyOrigin
+            app.UseCors("AngularClient");
+            // app.UseCors(policy =>
+            //     policy.WithOrigins("https://inspection.opm.go.th")
+            //           .AllowAnyMethod()
+            //           .AllowAnyHeader()
+            // );
+
             // ✅ Global Security Headers
             app.Use(async (context, next) =>
             {
+                // 7. X-Content-Type-Options Header Missing
                 context.Response.Headers["X-Content-Type-Options"] = "nosniff";
-                // context.Response.Headers["X-Frame-Options"] = "DENY";
-                context.Response.Headers["Referrer-Policy"] = "strict-origin-when-cross-origin";
-                context.Response.Headers["X-XSS-Protection"] = "0";
 
+                // 3. Missing Anti-clickjacking Header (ระดับกลาง)
+                // context.Response.Headers["X-Frame-Options"] = "DENY";
+                // context.Response.Headers["X-XSS-Protection"] = "0";
+                context.Response.Headers["X-XSS-Protection"] = "1; mode=block";
+                context.Response.Headers["Referrer-Policy"] = "strict-origin-when-cross-origin";
+                
+
+                // 8. X-Powered-By Header
+                context.Response.Headers.Remove("X-Powered-By");
+
+                // 2. Content Security Policy (CSP) Header Not Set (ระดับกลาง)
                 if (env.IsDevelopment())
                 {
                     context.Response.Headers["Content-Security-Policy"] =
@@ -203,7 +231,7 @@ namespace InspecWeb
                         "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; " +
                         "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com data:; " +
                         "img-src 'self' data: blob:; " +
-                        "connect-src 'self' ws: https:;";
+                        "connect-src 'self' https://inspection.opm.go.th ws: https:;";
                 }
                 else
                 {
@@ -213,12 +241,12 @@ namespace InspecWeb
                         "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com data:; " +
                         "font-src 'self' data: https://fonts.gstatic.com https://cdnjs.cloudflare.com; " +
                         "img-src 'self' data: blob:; " +
-                        "connect-src 'self' https: ws: wss:;" +
+                        "connect-src 'self' https://inspection.opm.go.th ws: wss: https:;" +
                         "object-src 'none'; " +
+                        "frame-ancestors 'self';" +
                         "base-uri 'self';";
+                        
                 }
-
-                context.Response.Headers.Remove("X-Powered-By");
                 await next();
             });
 
@@ -237,26 +265,19 @@ namespace InspecWeb
 
             
 
-            if (!env.IsDevelopment())
+            if (!env.IsDevelopment()) 
             {
                 app.UseSpaStaticFiles();
             }
 
+            app.UseIdentityServer();   // OK ตรงนี้
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
-            // ❗ แนะนำ: จำกัด CORS แทน AllowAnyOrigin
-            app.UseCors(policy =>
-                policy.WithOrigins("https://inspection.opm.go.th")
-                      .AllowAnyMethod()
-                      .AllowAnyHeader()
-            );
-
-            app.UseCookiePolicy();
-
             app.UseRouting();
 
-            app.UseIdentityServer();   // OK ตรงนี้
+            app.UseCookiePolicy();
 
             app.UseAuthentication();
             app.UseAuthorization();
