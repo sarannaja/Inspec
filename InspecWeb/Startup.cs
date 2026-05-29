@@ -165,9 +165,11 @@ namespace InspecWeb
 
             services.Configure<CookiePolicyOptions>(options =>
             {
+                // 6. Cookie No HttpOnly Flag — force HttpOnly on all cookies
                 options.HttpOnly = Microsoft.AspNetCore.CookiePolicy.HttpOnlyPolicy.Always;
                 options.Secure = CookieSecurePolicy.Always;
-                options.MinimumSameSitePolicy = SameSiteMode.Unspecified;
+                // 7. Cookie with SameSite None — upgrade any SameSite=None to Lax
+                options.MinimumSameSitePolicy = SameSiteMode.Lax;
             });
 
             services.AddSingleton<BackgroundService, MyTestHostedService>();
@@ -206,46 +208,60 @@ namespace InspecWeb
             //           .AllowAnyHeader()
             // );
 
-            // ✅ Global Security Headers
+            // ✅ Global Security Headers (OWASP ZAP mitigations)
             app.Use(async (context, next) =>
             {
-                // 7. X-Content-Type-Options Header Missing
+                // Prevent MIME-type sniffing
                 context.Response.Headers["X-Content-Type-Options"] = "nosniff";
 
-                // 3. Missing Anti-clickjacking Header (ระดับกลาง)
-                // context.Response.Headers["X-Frame-Options"] = "DENY";
-                // context.Response.Headers["X-XSS-Protection"] = "0";
-                context.Response.Headers["X-XSS-Protection"] = "1; mode=block";
+                // Clickjacking protection
+                context.Response.Headers["X-Frame-Options"] = "DENY";
+
+                // Disable legacy XSS auditor (modern browsers ignore it; set to 0 per OWASP)
+                context.Response.Headers["X-XSS-Protection"] = "0";
+
+                // Referrer leakage reduction
                 context.Response.Headers["Referrer-Policy"] = "strict-origin-when-cross-origin";
-                
 
-                // 8. X-Powered-By Header
+                // Remove server-identifying headers
                 context.Response.Headers.Remove("X-Powered-By");
+                context.Response.Headers.Remove("Server");
 
-                // 2. Content Security Policy (CSP) Header Not Set (ระดับกลาง)
+                // Content Security Policy
                 if (env.IsDevelopment())
                 {
+                    // Development: allow unsafe-eval for Angular CLI hot-reload
                     context.Response.Headers["Content-Security-Policy"] =
                         "default-src 'self'; " +
                         "script-src 'self' 'unsafe-eval'; " +
                         "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; " +
-                        "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com data:; " +
+                        // data: required — flaticon/ionicons load icon fonts as base64 data URIs
+                        "font-src 'self' data: https://fonts.gstatic.com https://cdnjs.cloudflare.com; " +
                         "img-src 'self' data: blob:; " +
-                        "connect-src 'self' https://inspection.opm.go.th ws:;";
+                        "connect-src 'self' https://inspection.opm.go.th ws://localhost:*; " +
+                        "object-src 'none'; " +
+                        "base-uri 'self'; " +
+                        // 'self' allows IdentityServer login/consent pages to be framed by the same origin
+                        "frame-ancestors 'self';";
                 }
                 else
                 {
+                    // Production: strict CSP — no unsafe-inline/eval in script-src
+                    // Note: 'unsafe-inline' in style-src is required by Angular Material
+                    //       which injects component styles at runtime via <style> tags.
                     context.Response.Headers["Content-Security-Policy"] =
                         "default-src 'self'; " +
-                        "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://ajax.aspnetcdn.com;" +
-                        "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com data:; " +
-                        "font-src 'self' data: https://fonts.gstatic.com https://cdnjs.cloudflare.com;" +
+                        "script-src 'self' https://ajax.aspnetcdn.com; " +
+                        "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; " +
+                        // data: required — flaticon/ionicons load icon fonts as base64 data URIs
+                        "font-src 'self' data: https://fonts.gstatic.com https://cdnjs.cloudflare.com; " +
                         "img-src 'self' data: blob:; " +
-                        "connect-src 'self' https://inspection.opm.go.th ws: wss:;" +
+                        "connect-src 'self' https://inspection.opm.go.th wss://inspection.opm.go.th; " +
                         "object-src 'none'; " +
-                        "frame-ancestors 'self';" +
-                        "base-uri 'self';";
-                        
+                        // 'self' allows IdentityServer login/consent pages to be framed by the same origin
+                        "frame-ancestors 'self'; " +
+                        "base-uri 'self'; " +
+                        "form-action 'self';";
                 }
                 await next();
             });
