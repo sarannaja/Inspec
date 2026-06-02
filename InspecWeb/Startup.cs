@@ -238,7 +238,7 @@ namespace InspecWeb
                         // data: required — flaticon/ionicons load icon fonts as base64 data URIs
                         "font-src 'self' data: https://fonts.gstatic.com https://cdnjs.cloudflare.com; " +
                         "img-src 'self' data: blob:; " +
-                        "connect-src 'self' https://inspection.opm.go.th ws://localhost:*; " +
+                        "connect-src 'self' https://inspection.opm.go.th ws://localhost:4200; " +
                         "object-src 'none'; " +
                         "base-uri 'self'; " +
                         // 'self' allows IdentityServer login/consent pages to be framed by the same origin
@@ -293,7 +293,7 @@ namespace InspecWeb
 
             app.UseRouting();
 
-            // app.UseCookiePolicy();
+            app.UseCookiePolicy();
 
             app.UseAuthentication();
             app.UseAuthorization();
