@@ -49,7 +49,7 @@
                                             placeholder="กรอกรหัสผ่าน"
                                             id="passwordInput" />
                                         <div class="input-group-append">
-                                            <span class="input-group-text" style="cursor: pointer;" onclick="togglePassword()">
+                                            <span id="togglePasswordBtn" class="input-group-text" style="cursor: pointer;">
                                                 <i id="eyeIcon" class="fa fa-eye"></i>
                                             </span>
                                         </div>
@@ -89,14 +89,5 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
-    <script>
-        function togglePassword() {
-            const passwordInput = document.getElementById('passwordInput');
-            const eyeIcon = document.getElementById('eyeIcon');
-            const isHidden = passwordInput.type === 'password';
-
-            passwordInput.type = isHidden ? 'text' : 'password';
-            eyeIcon.className = isHidden ? 'fa fa-eye-slash' : 'fa fa-eye';
-        }
-    </script>
+    <script src="~/js/login.js"></script>
 }

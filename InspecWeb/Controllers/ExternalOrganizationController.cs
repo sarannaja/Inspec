@@ -106,19 +106,27 @@ namespace InspecWeb.Controllers
         [HttpGet("otps/provinces")]
         public IActionResult OnGetOtpsProvinces()
         {
-            List<OtpsProvinces> model = null;
-            var client = new HttpClient();
-            var task = client.GetAsync("https://old-api.otps.go.th/api/Provinces")
-                .ContinueWith((taskwithresponse) =>
-                {
-                    var response = taskwithresponse.Result;
-                    var jsonString = response.Content.ReadAsStringAsync();
-                    jsonString.Wait();
-                    model = JsonConvert.DeserializeObject<List<OtpsProvinces>>(jsonString.Result);
-                });
-            task.Wait();
-            return Ok(model);
-
+            try
+            {
+                List<OtpsProvinces> model = null;
+                var client = new HttpClient();
+                client.Timeout = TimeSpan.FromSeconds(10);
+                var task = client.GetAsync("https://old-api.otps.go.th/api/Provinces")
+                    .ContinueWith((taskwithresponse) =>
+                    {
+                        if (taskwithresponse.IsFaulted || taskwithresponse.IsCanceled) return;
+                        var response = taskwithresponse.Result;
+                        var jsonString = response.Content.ReadAsStringAsync();
+                        jsonString.Wait();
+                        model = JsonConvert.DeserializeObject<List<OtpsProvinces>>(jsonString.Result);
+                    });
+                task.Wait();
+                return Ok(model);
+            }
+            catch
+            {
+                return Ok(new List<OtpsProvinces>());
+            }
         }
 
         [HttpGet("otps/provinces/{Id}")]

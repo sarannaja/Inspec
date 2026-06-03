@@ -206,21 +206,28 @@ namespace InspecWeb.Controllers
         }
 
         [HttpGet("api/[controller]/[action]/{id}")]
-        public IEnumerable<ApplicationUser> getuserfirst(string id)
+        public IActionResult getuserfirst(string id)
         {
-            var users = _context.Users
-                .Include(s => s.UserRegion)
-                .ThenInclude(r => r.Region)
-                .Include(s => s.UserProvince)
-                .ThenInclude(r => r.Province)
-                .Include(s => s.Province)
-                .Include(s => s.Ministries)
-                .Include(x => x.Departments)
-                .Include(s => s.ProvincialDepartments)
-                .Where(m => m.Id == id)
-                .Where(m => m.Active == 1).FirstOrDefault();
-
-            yield return users;
+            try
+            {
+                var user = _context.Users
+                    .Include(s => s.UserRegion)
+                    .ThenInclude(r => r.Region)
+                    .Include(s => s.UserProvince)
+                    .ThenInclude(r => r.Province)
+                    .Include(s => s.Province)
+                    .Include(s => s.Ministries)
+                    .Include(x => x.Departments)
+                    .Include(s => s.ProvincialDepartments)
+                    .Where(m => m.Id == id)
+                    .Where(m => m.Active == 1)
+                    .FirstOrDefault();
+                return Ok(new[] { user });
+            }
+            catch
+            {
+                return Ok(Array.Empty<ApplicationUser>());
+            }
         }
 
         //สำหรับใช้ตรง user
