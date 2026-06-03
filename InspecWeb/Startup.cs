@@ -246,12 +246,12 @@ namespace InspecWeb
                 }
                 else
                 {
-                    // Production: strict CSP — no unsafe-inline/eval in script-src
-                    // Note: 'unsafe-inline' in style-src is required by Angular Material
-                    //       which injects component styles at runtime via <style> tags.
+                    // Production CSP.
+                    // 'unsafe-eval' is required by FusionCharts (uses new Function() internally).
+                    // 'unsafe-inline' in style-src is required by Angular Material (injects <style> at runtime).
                     context.Response.Headers["Content-Security-Policy"] =
                         "default-src 'self'; " +
-                        "script-src 'self' https://ajax.aspnetcdn.com; " +
+                        "script-src 'self' https://ajax.aspnetcdn.com 'unsafe-eval'; " +
                         "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; " +
                         // data: required — flaticon/ionicons load icon fonts as base64 data URIs
                         "font-src 'self' data: https://fonts.gstatic.com https://cdnjs.cloudflare.com; " +
