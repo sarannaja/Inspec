@@ -150,10 +150,10 @@ export class InspectionPlanDepartmentComponent implements OnInit {
     this.getTimeline();
     // this.getScheduleData();
 
-    // this.getministryuser();
-    // this.getdepartmentuser();
-    // this.getpeopleuser();
-    // this.getprovincialdepartmentuser();
+    this.getministryuser();
+    this.getdepartmentuser();
+    this.getpeopleuser();
+    this.getprovincialdepartmentuser();
 
     // await this.getMinistryPeople();
     // await this.getDepartmentPeople();
