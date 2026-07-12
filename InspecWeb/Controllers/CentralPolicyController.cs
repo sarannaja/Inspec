@@ -768,6 +768,8 @@ namespace InspecWeb.Controllers
                 .ThenInclude(m => m.UserProvince)
                 .Include(p => p.User)
                 .ThenInclude(p => p.Sides)
+                .Include(m => m.User)
+                .ThenInclude(a => a.Province)
                 .OrderBy(m => m.User.Ministries.Name)
                 .OrderBy(m => m.User.Departments.Name)
                 .OrderBy(m => m.User.ProvincialDepartments.Name)

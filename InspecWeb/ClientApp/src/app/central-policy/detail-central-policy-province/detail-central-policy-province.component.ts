@@ -730,7 +730,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
   getCentralPolicyProvinceUser() {
     this.centralpolicyservice.getcentralpolicyprovinceuserdata(this.id, this.planId)
       .subscribe(result => {
-        console.log();
+        console.log("result ==>" , result);
 
         this.resultcentralpolicyuser = result
         this.resultcentralpolicyuser.forEach(element => {
