@@ -36,10 +36,14 @@
             <td>{{ i + 1 }}</td>
             <td>{{item.centralPolicy.typeexaminationplan.name}}</td>
             <td>{{ item.centralPolicy.title }}</td>
-            <td>
+            <!-- <td>
               <div>{{ item.startDate | thaidate: 'short' }} -
                 {{ item.endDate | thaidate: 'short' }}</div>
-            </td>
+            </td> -->
+            <td *ngIf="item.land == 'ลงพื้นที่'">{{item.startDate | thaidate: 'short' }} -
+              {{item.endDate | thaidate: 'short' }}</td>
+            <td *ngIf="item.land == 'ไม่ลงพื้นที่'">ไม่ลงพื้นที่</td>
+            
             <td>{{ item.user.name }} {{item.user.position}}</td>
             <td>
               <i title="รายละเอียด" class="align-middle mr-2 fas fa-file-medical pointer"

@@ -766,6 +766,7 @@ namespace InspecWeb.Controllers
                 .ThenInclude(x => x.ProvincialDepartments)
                 .Include(m => m.User)
                 .ThenInclude(m => m.UserProvince)
+                .ThenInclude(a => a.Province)
                 .Include(p => p.User)
                 .ThenInclude(p => p.Sides)
                 .Include(m => m.User)

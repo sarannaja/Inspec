@@ -330,6 +330,7 @@ namespace InspecWeb.Controllers
                         var users = _context.Users
                        .Where(m => m.ProvincialDepartmentId == SubjectCentralPolicyProvinceGroupdata.ProvincialDepartmentId)
                        .Where(m => m.Role_id == 9)
+                       .Where(u => u.UserProvince.Any(up => up.ProvinceId == ProvinceId))
                        .ToList();
 
                         foreach (var item in users)

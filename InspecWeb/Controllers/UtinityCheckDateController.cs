@@ -243,6 +243,7 @@ namespace InspecWeb.Controllers
                                 var users = dbContext.Users
                                .Where(m => m.ProvincialDepartmentId == SubjectCentralPolicyProvinceGroupdata.ProvincialDepartmentId)
                                .Where(m => m.Role_id == 9)
+                               .Where(u => u.UserProvince.Any(up => up.ProvinceId == subjectgroup.ProvinceId))
                                .ToList();
 
                                 var CentralPolicyData = dbContext.CentralPolicies.Where(m => m.Id == subjectgroup.CentralPolicyId).FirstOrDefault();
@@ -325,6 +326,7 @@ namespace InspecWeb.Controllers
                                 var users = dbContext.Users
                                .Where(m => m.ProvincialDepartmentId == SubjectCentralPolicyProvinceGroupdata.ProvincialDepartmentId)
                                .Where(m => m.Role_id == 9)
+                               .Where(u => u.UserProvince.Any(up => up.ProvinceId == subjectgroup.ProvinceId))
                                .ToList();
                                 var CentralPolicyData = dbContext.CentralPolicies.Where(m => m.Id == subjectgroup.CentralPolicyId).FirstOrDefault();
                                 foreach (var item in users)
