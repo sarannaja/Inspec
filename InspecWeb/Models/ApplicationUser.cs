@@ -157,6 +157,7 @@ namespace InspecWeb.Models
         [Description("ผู้ตรวจหรือผู้ช่วย")]
         public string Position2 { get; set; }
 
+        public string Pin { get; set; }
     }
 
     public class UserArray

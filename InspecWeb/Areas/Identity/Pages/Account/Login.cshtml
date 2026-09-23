@@ -5,8 +5,6 @@
     ViewData["Title"] = "Log in";
 }
 
-
-
     <div class="h-100 mt-5">
         <div class="col-sm-10 col-md-8 col-lg-6 mx-auto d-table h-100">
             <div class="d-table-cell align-middle">
@@ -69,7 +67,7 @@
                                 </div>
 
                                 <div class="text-center mt-3">
-                                    <button type="submit" class="btn btn-lg btn-primary" style="color: white;">เข้าสู่ระบบ</button>
+                                    <button id="loginBtn" type="submit" class="btn btn-lg btn-primary" style="color: white;">เข้าสู่ระบบ</button>
                                     @*<button type="submit" class="btn btn-lg btn-primary">Sign in</button>*@
 
                                 </div>
@@ -86,6 +84,98 @@
             </div>
         </div>
     </div>
+
+<div class="modal fade"
+     id="pinModal"
+     tabindex="-1"
+     aria-labelledby="pinModalLabel"
+     aria-hidden="true"
+     data-show-pin="@(TempData["ShowPinModal"] ?? "false")">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content">
+
+            <!-- Header -->
+            <div class="modal-header">
+                <h5 class="modal-title" id="pinModalLabel">
+                    ยืนยันตัวตน
+                </h5>
+            </div>
+
+
+            <!-- Body -->
+            <div class="modal-body text-center">
+
+                <p>
+                    กรุณากรอก PIN 6 หลัก
+                </p>
+
+
+                <!-- PIN Input -->
+                <div class="input-group input-group-lg">
+
+                    <input type="password"
+                           id="pinInput"
+                           class="form-control text-center"
+                           maxlength="6"
+                           inputmode="numeric"
+                           autocomplete="off"
+                           placeholder="กรอก PIN 6 หลัก" />
+
+
+                    <!-- Eye Button -->
+                    <button type="button"
+                            class="btn btn-outline-secondary"
+                            id="togglePinBtn"
+                            tabindex="-1">
+
+                        <i class="fa fa-eye"
+                           id="pinEyeIcon"></i>
+
+                    </button>
+
+                </div>
+
+
+                <!-- PIN Error -->
+                <div id="pinError"
+                     class="text-danger mt-2"
+                     style="display:none;">
+                </div>
+
+            </div>
+
+
+            <!-- Footer -->
+            <div class="modal-footer">
+
+                <!-- Close -->
+                <button type="button"
+                        class="btn btn-danger"
+                        id="closePinModalBtn">
+
+                    ปิดกล่อง PIN
+
+                </button>
+
+
+                <!-- Confirm -->
+                <button type="button"
+                        class="btn btn-primary"
+                        id="confirmPinBtn">
+
+                    ยืนยัน
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
