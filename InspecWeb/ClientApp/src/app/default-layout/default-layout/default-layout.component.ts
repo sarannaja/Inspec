@@ -1,7 +1,7 @@
 
 
 import { Router } from '@angular/router';
-import { Component, OnInit, Inject, TemplateRef, HostListener } from '@angular/core';
+import { Component, OnInit, Inject, TemplateRef, HostListener, ViewChild } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { superAdmin, Centraladmin, Inspector, Provincialgovernor, Adminprovince, InspectorMinistry, publicsector, president, InspectorDepartment, InspectorExamination, External, allNav, NavBar } from './_nav';
 import { AuthorizeService } from 'src/api-authorization-new/authorize.service';
@@ -14,6 +14,7 @@ import * as _ from 'lodash';
 import { MenuService } from 'src/app/services/menu.service';
 import { User } from 'oidc-client';
 import { PasswordStrengthValidator } from 'src/api-authorization-sss/new-login/password-strength.validators';
+import { NotofyService } from 'src/app/services/notofy.service';
 @Component({
   selector: 'app-default-layout',
   templateUrl: './default-layout.component.html',
@@ -43,6 +44,7 @@ export class DefaultLayoutComponent implements OnInit {
   resultuser: any[];
   resultfirstuser: any[] = [];
   modalRef: BsModalRef;
+  pinModalRef: BsModalRef;
   Form: FormGroup;
   Prefix: any;
   Name: any;
@@ -68,6 +70,13 @@ export class DefaultLayoutComponent implements OnInit {
   lockNav: boolean = true
   submitted = false;
   arraynav: NavBar[] = []
+
+  pinForm!: FormGroup;
+  savingPin = false;
+
+  @ViewChild('modalPin', { static: false })
+modalPin: TemplateRef<any>;
+
   constructor(
     private authorize: AuthorizeService,
     private userService: UserService,
@@ -78,6 +87,7 @@ export class DefaultLayoutComponent implements OnInit {
     private fb: FormBuilder,
     private _ExecutiveorderService: ExecutiveorderService,
     private locationx: Location,
+    private _NotofyService: NotofyService,
     @Inject('BASE_URL') baseUrl: string
   ) {
     this.urlActive = location.pathname;
@@ -119,12 +129,36 @@ export class DefaultLayoutComponent implements OnInit {
     this.getuserinfo();
     this.getnotifications();
     this.moNav()
- 
+
     // this.urlActive = this.router.url;
     // this.getplancount();
     // this.checkactive(this.nav[0].url);
     this.isMobile = this.width < this.mobileWidth;
     // this.urlActive = this.nav[0].url
+
+    this.pinForm = this.fb.group(
+    {
+      pin: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(/^[0-9]{6}$/)
+        ]
+      ],
+
+      confirmPin: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(/^[0-9]{6}$/)
+        ]
+      ]
+    },
+    {
+      validators: this.pinMatchValidator
+    }
+  );
+
   }
   onWindowResize(event) {
     this.width = event.target.innerWidth;
@@ -145,9 +179,9 @@ export class DefaultLayoutComponent implements OnInit {
     // send message to subscribers via observable subject
     this.userService.sendNav(id);
   }
-  
+
   Logout() {
-    
+
     this.authorize.signOut({ local: true })
   }
 
@@ -368,7 +402,11 @@ export class DefaultLayoutComponent implements OnInit {
             .subscribe(result => {
 
               this.resultuser = result;
-              //console.log('dataxx', result);
+              console.log('dataxx', result);
+
+              if (result[0].pin == null || result[0].pin == '') {
+                this.openPinModal();
+              }
 
               this.role_id = result[0].role_id
               this.Prefix = result[0].prefix
@@ -551,6 +589,104 @@ export class DefaultLayoutComponent implements OnInit {
     })[0]
   }
   get f() { return this.Form.controls; }
+
+  pinMatchValidator(form: FormGroup) {
+
+    const pinControl = form.get('pin');
+    const confirmPinControl = form.get('confirmPin');
+
+    const pin = pinControl ? pinControl.value : '';
+    const confirmPin = confirmPinControl ? confirmPinControl.value : '';
+
+    if (!pin || !confirmPin) {
+      return null;
+    }
+
+    return pin === confirmPin
+      ? null
+      : { pinMismatch: true };
+  }
+
+  onPinInput(event: any): void {
+
+    const input = event.target;
+
+    const value = input.value
+      .replace(/\D/g, '')
+      .substring(0, 6);
+
+    input.value = value;
+
+    if (input.formControlName === 'pin') {
+
+      const pinControl = this.pinForm.get('pin');
+
+      if (pinControl) {
+        pinControl.setValue(value);
+      }
+    }
+
+    if (input.formControlName === 'confirmPin') {
+
+      const confirmPinControl = this.pinForm.get('confirmPin');
+
+      if (confirmPinControl) {
+        confirmPinControl.setValue(value);
+      }
+    }
+
+    this.pinForm.updateValueAndValidity();
+  }
+
+  setPin(): void {
+
+  if (this.pinForm.invalid) {
+    this.pinForm.markAsTouched();
+    return;
+  }
+
+  const pinControl = this.pinForm.get('pin');
+
+  if (!pinControl) {
+    return;
+  }
+
+  const pin = pinControl.value;
+
+  this.savingPin = true;
+
+  this.userService.setPin(pin, this.userid).subscribe(
+    (res) => {
+
+      this.savingPin = false;
+      this._NotofyService.onSuccess("ตั้งรหัส PIN",);
+
+      this.pinModalRef.hide();
+    },
+    (err) => {
+
+      this.savingPin = false;
+
+      console.error(err);
+    }
+  );
+}
+
+  openPinModal(): void {
+
+    this.pinForm.reset();
+    this.savingPin = false;
+
+    this.pinModalRef = this.modalService.show(
+      this.modalPin,
+      {
+        class: 'modal-dialog-centered modal-sm',
+        backdrop: 'static',
+        keyboard: false
+      }
+    );
+  }
+
 }
 
 

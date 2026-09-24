@@ -553,3 +553,101 @@
     </form>
 </ng-template>
 <!-- END primary modal -->
+
+<!-- BEGIN primary modal -->
+<ng-template #modalPin class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+  <form [formGroup]="pinForm" (ngSubmit)="password(Form.value)">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="setPinModalLabel">
+          ตั้ง PIN
+        </h5>
+      </div>
+
+      <div class="modal-body">
+
+        <div class="text-center mb-4">
+          <i class="fa fa-lock fa-3x text-primary mb-3"></i>
+
+          <h5>กรุณาตั้ง PIN 6 หลัก</h5>
+
+          <p class="text-muted mb-0">
+            PIN นี้จะใช้สำหรับยืนยันตัวตนของคุณ
+          </p>
+        </div>
+
+        <!-- PIN -->
+        <div class="form-group">
+          <label>PIN ใหม่</label>
+
+          <input type="password" class="form-control text-center" formControlName="pin" maxlength="6"
+            inputmode="numeric" autocomplete="new-password" placeholder="กรอก PIN 6 หลัก" (input)="onPinInput($event)"
+            [class.is-invalid]="
+                pinForm.get('pin')?.invalid &&
+                pinForm.get('pin')?.touched
+              ">
+
+          <div class="invalid-feedback" *ngIf="pinForm.get('pin')?.hasError('required') &&
+                     pinForm.get('pin')?.touched">
+
+            กรุณากรอก PIN
+          </div>
+
+          <div class="invalid-feedback" *ngIf="pinForm.get('pin')?.hasError('pattern') &&
+                     pinForm.get('pin')?.touched">
+
+            PIN ต้องเป็นตัวเลข 6 หลัก
+          </div>
+        </div>
+
+
+        <!-- Confirm PIN -->
+        <div class="form-group">
+          <label>ยืนยัน PIN</label>
+
+          <input type="password" class="form-control text-center" formControlName="confirmPin" maxlength="6"
+            inputmode="numeric" autocomplete="new-password" placeholder="กรอก PIN อีกครั้ง" (input)="onPinInput($event)"
+            [class.is-invalid]="
+                (pinForm.get('confirmPin')?.invalid &&
+                 pinForm.get('confirmPin')?.touched) ||
+                (pinForm.hasError('pinMismatch') &&
+                 pinForm.get('confirmPin')?.touched)
+              ">
+
+          <div class="invalid-feedback" *ngIf="pinForm.get('confirmPin')?.hasError('required') &&
+                     pinForm.get('confirmPin')?.touched">
+
+            กรุณายืนยัน PIN
+          </div>
+
+          <div class="invalid-feedback" *ngIf="pinForm.hasError('pinMismatch') &&
+                     pinForm.get('confirmPin')?.touched">
+
+            PIN ไม่ตรงกัน
+          </div>
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary btn-block" [disabled]="pinForm.invalid || savingPin"
+          (click)="setPin()">
+
+          <span *ngIf="!savingPin">
+            ตั้ง PIN
+          </span>
+
+          <span *ngIf="savingPin">
+            กำลังบันทึก...
+          </span>
+
+        </button>
+      </div>
+    </div>
+    <!-- </div> -->
+  </form>
+</ng-template>
+<!-- END primary modal -->
+
+

@@ -2753,6 +2753,17 @@ namespace InspecWeb.Controllers
         }
         // <!-- END test excel -->
 
+        [HttpPut("api/[controller]/setPin")]
+        public async Task<IActionResult> setPin([FromForm] UserViewModel model)
+        {
+            var userdata = _context.Users.Find(model.Id);
+            userdata.Pin = model.Pin;
+            _context.Entry(userdata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+
+            return Ok(new { Id = model.Id });
+        }
+
     }
 
     internal class Momo

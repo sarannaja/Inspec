@@ -261,37 +261,57 @@ public async Task<IActionResult> OnPostAsync(
         );
 
 
-        // ==========================================
-        // Check Active
-        // ==========================================
+                // ==========================================
+                // Check Active
+                // ==========================================
 
-        if (user.Active == 1)
-        {
+                if (user.Active == 1)
+                {
+                    // ==========================================
+                    // Check PIN
+                    // ==========================================
 
-            Console.WriteLine(
-                "===== SHOW PIN MODAL ====="
-            );
+                    if (string.IsNullOrWhiteSpace(user.Pin))
+                    {
+                        Console.WriteLine(
+                            "===== NO PIN - LOGIN DIRECTLY ====="
+                        );
+
+                        await _signInManager.SignInAsync(
+                            identityUser,
+                            isPersistent: Input.RememberMe
+                        );
+
+                        return LocalRedirect(returnUrl);
+                    }
 
 
-            TempData["ShowPinModal"] =
-                "true";
+                    // ==========================================
+                    // Has PIN - Show PIN Modal
+                    // ==========================================
 
-            TempData["ReturnUrl"] =
-                returnUrl;
+                    Console.WriteLine(
+                        "===== HAS PIN - SHOW PIN MODAL ====="
+                    );
 
-            TempData["PinUsername"] =
-                user.UserName;
+                    TempData["ShowPinModal"] =
+                        "true";
+
+                    TempData["ReturnUrl"] =
+                        returnUrl;
+
+                    TempData["PinUsername"] =
+                        user.UserName;
+
+                    return Page();
+                }
 
 
-            return Page();
-        }
+                // ==========================================
+                // Not Active
+                // ==========================================
 
-
-        // ==========================================
-        // Not Active
-        // ==========================================
-
-        Console.WriteLine(
+                Console.WriteLine(
             "USER NOT ACTIVE"
         );
 

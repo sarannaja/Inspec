@@ -63,6 +63,8 @@ namespace InspecWeb.ViewModel
 
         public string Password { get; set; }
         public string Position2 { get; set; }
+
+        public string Pin { get; set; }
     }
 
     public class UserArray

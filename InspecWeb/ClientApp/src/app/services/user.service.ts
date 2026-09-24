@@ -67,13 +67,13 @@ export class UserService {
   addUser(userData, file: FileList, roleId) {
     console.log("servicelog: ", userData);
     const formData = new FormData();
-    formData.append('Email', userData.Email); //email   
+    formData.append('Email', userData.Email); //email
     formData.append('Role_id', roleId); //role
 
-    if(userData.Prefix == "อื่นๆ"){     
+    if(userData.Prefix == "อื่นๆ"){
     formData.append('Prefix', userData.Othertext);
     }else{
-      formData.append('Prefix', userData.Prefix); 
+      formData.append('Prefix', userData.Prefix);
     }
 
     formData.append('Firstnameth', userData.FName); //ชื่อ
@@ -215,10 +215,10 @@ export class UserService {
     //console.log("servicelog: ", userData);
     const formData = new FormData();
     formData.append('Role_id', userData.Role_id); //role
-    if(userData.Prefix == "อื่นๆ"){     
+    if(userData.Prefix == "อื่นๆ"){
       formData.append('Prefix', userData.Othertext);
       }else{
-        formData.append('Prefix', userData.Prefix); 
+        formData.append('Prefix', userData.Prefix);
       }
     formData.append('Firstnameth', userData.FName); //ชื่อ
     formData.append('Lastnameth', userData.LName); //นามสกุล
@@ -230,7 +230,7 @@ export class UserService {
       }
     formData.append('PhoneNumber', userData.PhoneNumber);
     formData.append('Formprofile', userData.Formprofile);// สำหรับเช็ค user หรือแอดมิน เป็นคนเพิ่ม
-    formData.append('Email', userData.Email); //email  
+    formData.append('Email', userData.Email); //email
     formData.append('Educational', '');
     formData.append('Officephonenumber', '');
     formData.append('Telegraphnumber', '');
@@ -432,7 +432,7 @@ export class UserService {
   resetpassword(id) {
     const formData = new FormData();
     formData.append('id', id);
-    
+
     return this.http.put(`${this.base}resetpassword`, formData);
 
   }
@@ -441,8 +441,17 @@ export class UserService {
     const formData = new FormData();
     formData.append('id', id);
     formData.append('Password', userData.Password);
-    
+
     return this.http.put(`${this.base}changepassword`, formData);
+
+  }
+
+  setPin(pin , userId) {
+    const formData = new FormData();
+    formData.append('id', userId);
+    formData.append('pin', pin);
+
+    return this.http.put(`${this.base}setPin`, formData);
 
   }
 }
