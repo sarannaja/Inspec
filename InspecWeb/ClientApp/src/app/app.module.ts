@@ -249,6 +249,7 @@ import { InformationinspectioniframeComponent } from './informationinspectionifr
 import { MaincabinetComponent } from './main-cabinet/main-cabinet.component';
 import { RetrospectiveReportComponent } from './retrospective-report/retrospective-report.component';
 import { TrainingProjectReportComponent } from './training-project-report/training-project-report.component';
+import { SummaryCentralPolicyComponent } from './summary-central-policy/summary-central-policy';
 
 
 @NgModule({
@@ -468,6 +469,7 @@ import { TrainingProjectReportComponent } from './training-project-report/traini
     MaincabinetComponent, //yochigang20220525
     RetrospectiveReportComponent,
     TrainingProjectReportComponent,
+    SummaryCentralPolicyComponent
   ],
 
   imports: [

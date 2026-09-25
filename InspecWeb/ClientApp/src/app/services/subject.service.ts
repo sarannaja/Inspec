@@ -433,6 +433,10 @@ export class SubjectService {
     return this.http.get<any[]>(this.url + "getevent/" + id)
   }
 
+ centralPolicySummary(id) {
+    return this.http.get<any[]>(this.url + "centralPolicySummary/" + id)
+  }
+
   geteventdaterange(id, start_date, end_date) {
     return this.http.get<any[]>(this.url + "geteventdaterange/" + id + "/" + start_date + "/" + end_date)
   }

@@ -20,6 +20,13 @@ export interface Children {
   id?: string;
 }
 export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิน
+    {
+    icon: 'fa-desktop',
+    url: "/summarycentralpolicy",
+    name: "สรุปแผนการตรวจราชการ",
+    menuname: "m1",
+    orderby: 1 ,
+  },
   {
     icon: 'fa-home',
     url: "/main",

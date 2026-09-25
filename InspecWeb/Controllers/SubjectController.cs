@@ -1694,6 +1694,83 @@ namespace InspecWeb.Controllers
             //return Ok(subjectgroupsdata);
         }
 
+[HttpGet("centralPolicySummary/{id}")]
+public IActionResult GetCentralPolicySummary(string id)
+{
+    // var id = User.FindFirst("sub")?.Value;
+
+    var userProvinceIds = _context.UserProvinces
+        .Where(x => x.UserID == id)
+        .Select(x => x.ProvinceId)
+        .ToList();
+
+    var data = _context.SubjectGroups
+    .Where(s =>
+        s.RoleCreatedBy == 3 &&
+        s.Type == "NoMaster" &&
+        userProvinceIds.Contains(s.ProvinceId)
+    )
+    .Join(
+        _context.CentralPolicies,
+        sg => sg.CentralPolicyId,
+        cp => cp.Id,
+        (sg, cp) => new
+        {
+            Id = sg.Id, // <-- Id จาก SubjectGroups
+            CentralPolicyId = sg.CentralPolicyId,
+            Title = cp.Title,
+            ProvinceId = sg.ProvinceId
+        }
+    )
+    .Join(
+        _context.Provinces,
+        x => x.ProvinceId,
+        p => p.Id,
+        (x, p) => new
+        {
+            Id = x.Id,
+            CentralPolicyId = x.CentralPolicyId,
+            Title = x.Title,
+            ProvinceId = p.Id,
+            ProvinceName = p.Name
+        }
+    )
+    .AsNoTracking()
+    .ToList();
+
+var result = data
+    .GroupBy(x => new
+    {
+        x.CentralPolicyId,
+        x.Title
+    })
+    .Select(g => new
+    {
+        CentralPolicyId = g.Key.CentralPolicyId,
+        Title = g.Key.Title,
+
+        // ใช้ Id ของ SubjectGroup
+        Id = g.Min(x => x.Id),
+
+        Provinces = g
+            .GroupBy(x => new
+            {
+                x.ProvinceId,
+                x.ProvinceName
+            })
+            .Select(p => new
+            {
+                Id = p.Key.ProvinceId,
+                Name = p.Key.ProvinceName
+            })
+            .ToList()
+    })
+    .OrderByDescending(x => x.Id)
+    .ToList();
+
+    return Ok(result);
+}
+
         // GET api/values/5
         [HttpGet("geteventdaterange/{id}/{start_date}/{end_date}")]
         public IActionResult Get8(string id, DateTime start_date, DateTime end_date)
