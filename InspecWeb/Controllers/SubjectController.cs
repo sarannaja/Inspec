@@ -1698,6 +1698,9 @@ namespace InspecWeb.Controllers
 public IActionResult GetCentralPolicySummary(string id)
 {
     // var id = User.FindFirst("sub")?.Value;
+    // var test = _context.CentralPolicySummary.ToList();
+    // return Ok(test);
+
 
     var userProvinceIds = _context.UserProvinces
         .Where(x => x.UserID == id)
