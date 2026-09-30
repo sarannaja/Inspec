@@ -189,6 +189,7 @@ namespace InspecWeb.Data
         public DbSet<TrainingProjectReportProjectDocumentFile> TrainingProjectReportProjectDocumentFiles { get; set; } //<!-- ไฟล์เอกสารโครงการ -->
         public DbSet<TrainingProjectReportTrainingDetailFile> TrainingProjectReportTrainingDetailFiles { get; set; } //<!-- ไฟล์รายละเอียดการฝึกอบรม -->
 
+        public DbSet<CentralPolicySummary> CentralPolicySummary { get; set; }
         //method 
         protected override void OnModelCreating(ModelBuilder builder)
         {
