@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -8,6 +8,9 @@ import { AuthorizeService } from 'src/api-authorization-new/authorize.service';
 import { InspectionplanService } from '../services/inspectionplan.service';
 import { RegionService } from '../services/region.service';
 import { UserService } from 'src/app/services/user.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { after } from 'lodash';
 
 @Component({
   selector: 'app-summary-central-policy',
@@ -53,6 +56,10 @@ export class SummaryCentralPolicyComponent implements OnInit {
   userid: string;
   resultuser: any[];
 
+  summaryForm!: FormGroup;
+  modalRef: BsModalRef;
+  savingSummary: Boolean = false;
+
   // ==========================================
   // Constructor
   // ==========================================
@@ -66,6 +73,8 @@ export class SummaryCentralPolicyComponent implements OnInit {
     private router: Router,
     private regionService: RegionService,
     private userService: UserService,
+    private modalService: BsModalService,
+    private fb: FormBuilder,
   ) { }
 
 
@@ -137,6 +146,12 @@ export class SummaryCentralPolicyComponent implements OnInit {
 
     this.getRegionData();
     this.getSubjectevent();
+
+    this.summaryForm = this.fb.group({
+      detail: ['', Validators.required]
+    });
+
+    this.savingSummary = false;
   }
   region: any[] = [];
 
@@ -271,6 +286,21 @@ export class SummaryCentralPolicyComponent implements OnInit {
       this.loading = true;
     }, 1000);
     console.log('filteredSubjectevent =>', this.filteredSubjectevent);
+  }
+
+  closeSummaryModal() {
+    this.modalRef.hide();
+  }
+
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
+  }
+
+  saveSummary() {
+    this.savingSummary = true
+
+    this.closeSummaryModal()
+    this.savingSummary = false;
   }
 
 }

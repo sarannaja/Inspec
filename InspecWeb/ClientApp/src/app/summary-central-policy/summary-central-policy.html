@@ -92,6 +92,9 @@
             <td>
               <i class="align-middle mr-2 fas fa-fw fa-search pointer"
                 (click)="Subjectevent(item.id,item.centralPolicyId,item.provinceId)"></i>
+
+                <i class="align-middle mr-2 fas fa-fw fa-clipboard-list pointer"
+                (click)="openModal(modalSummary)"></i>
             </td>
           </tr>
         </tbody>
@@ -99,6 +102,85 @@
     </div>
   </div>
 </div>
+
+<ng-template #modalSummary>
+
+  <form [formGroup]="summaryForm" (ngSubmit)="saveSummary()">
+
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title">
+          เพิ่มสรุปรายละเอียด
+        </h5>
+      </div>
+
+      <div class="modal-body">
+
+        <div class="form-group">
+          <label>
+            สรุปรายละเอียด
+            <span class="text-danger">*</span>
+          </label>
+
+          <textarea
+            class="form-control"
+            rows="8"
+            formControlName="detail"
+            maxlength="2000"
+            placeholder="กรอกรายละเอียดสรุป..."
+            [class.is-invalid]="
+              summaryForm.get('detail')?.invalid &&
+              summaryForm.get('detail')?.touched
+            "
+          ></textarea>
+
+          <div class="d-flex justify-content-between mt-1">
+
+            <div
+              class="invalid-feedback d-block"
+              *ngIf="
+                summaryForm.get('detail')?.hasError('required') &&
+                summaryForm.get('detail')?.touched
+              "
+            >
+              กรุณากรอกรายละเอียด
+            </div>
+
+            <small class="text-muted ml-auto">
+              {{ summaryForm.get('detail')?.value?.length || 0 }}/2000
+            </small>
+
+          </div>
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+
+        <button
+          type="button"
+          class="btn btn-outline-danger"
+          (click)="closeSummaryModal()"
+        >
+          ยกเลิก
+        </button>
+
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="summaryForm.invalid || savingSummary"
+        >
+          {{ savingSummary ? 'กำลังบันทึก...' : 'บันทึก' }}
+        </button>
+
+      </div>
+
+    </div>
+
+  </form>
+
+</ng-template>
 
 <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">
   <p style="font-size: 20px; color: white">Loading...</p>

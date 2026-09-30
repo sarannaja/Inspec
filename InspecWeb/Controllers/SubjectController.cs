@@ -3190,5 +3190,28 @@ var result = data
             return Ok("nothing");
         }
 
+        [HttpPost("postcentralpolicysummary")]
+        public IActionResult PostCentralPolicySummary([FromBody] CentralPolicySummary model)
+        {
+            var date = DateTime.Now;
+
+            var summary = new CentralPolicySummary
+            {
+                CentralPolicyId = model.CentralPolicyId,
+                Detail = model.Detail,
+                CreatedBy = model.CreatedBy,
+                CreatedAt = date
+            };
+
+            _context.CentralPolicySummaries.Add(summary);
+            _context.SaveChanges();
+
+            return Ok(new
+            {
+                Status = true,
+                Id = summary.Id
+            });
+        }
+
     }
 }
