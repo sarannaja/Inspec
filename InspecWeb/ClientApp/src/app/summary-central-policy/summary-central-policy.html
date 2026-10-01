@@ -90,11 +90,20 @@
       {{ item.provinceName }}
     </td>
             <td>
-              <i class="align-middle mr-2 fas fa-fw fa-search pointer"
-                (click)="Subjectevent(item.id,item.centralPolicyId,item.provinceId)"></i>
+              <div class="row">
+                <div>
+                  <i class="align-middle mr-2 fas fa-fw fa-search pointer"
+                    (click)="Subjectevent(item.id,item.centralPolicyId,item.provinceId)"></i>
+                </div>
+                <div>
+                  <i *ngIf="item?.detail == null" class="align-middle mr-2 fas fa-fw fa-clipboard-list pointer"
+                    (click)="openModal(modalSummary, item?.centralPolicyId)"></i>
 
-                <i class="align-middle mr-2 fas fa-fw fa-clipboard-list pointer"
-                (click)="openModal(modalSummary)"></i>
+                  <i *ngIf="item?.detail != null" class="align-middle mr-2 fas fa-fw fa-pen pointer"
+                    (click)="openEditModal(modalSummaryEdit, item?.summaryId, item?.detail)"></i>
+                </div>
+              </div>
+
             </td>
           </tr>
         </tbody>
@@ -170,6 +179,85 @@
           type="submit"
           class="btn btn-primary"
           [disabled]="summaryForm.invalid || savingSummary"
+        >
+          {{ savingSummary ? 'กำลังบันทึก...' : 'บันทึก' }}
+        </button>
+
+      </div>
+
+    </div>
+
+  </form>
+
+</ng-template>
+
+<ng-template #modalSummaryEdit>
+
+  <form [formGroup]="summaryEditForm" (ngSubmit)="editSummary()">
+
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title">
+          แก้ไขสรุปรายละเอียด
+        </h5>
+      </div>
+
+      <div class="modal-body">
+
+        <div class="form-group">
+          <label>
+            แก้ไขสรุปรายละเอียด
+            <span class="text-danger">*</span>
+          </label>
+
+          <textarea
+            class="form-control"
+            rows="8"
+            formControlName="detail"
+            maxlength="2000"
+            placeholder="กรอกรายละเอียดสรุป..."
+            [class.is-invalid]="
+              summaryEditForm.get('detail')?.invalid &&
+              summaryEditForm.get('detail')?.touched
+            "
+          ></textarea>
+
+          <div class="d-flex justify-content-between mt-1">
+
+            <div
+              class="invalid-feedback d-block"
+              *ngIf="
+                summaryEditForm.get('detail')?.hasError('required') &&
+                summaryEditForm.get('detail')?.touched
+              "
+            >
+              กรุณากรอกรายละเอียด
+            </div>
+
+            <small class="text-muted ml-auto">
+              {{ summaryEditForm.get('detail')?.value?.length || 0 }}/2000
+            </small>
+
+          </div>
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+
+        <button
+          type="button"
+          class="btn btn-outline-danger"
+          (click)="closeSummaryModal()"
+        >
+          ยกเลิก
+        </button>
+
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="summaryEditForm.invalid || savingSummary"
         >
           {{ savingSummary ? 'กำลังบันทึก...' : 'บันทึก' }}
         </button>

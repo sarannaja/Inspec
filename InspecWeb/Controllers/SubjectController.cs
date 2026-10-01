@@ -1694,85 +1694,130 @@ namespace InspecWeb.Controllers
             //return Ok(subjectgroupsdata);
         }
 
-[HttpGet("centralPolicySummary/{id}")]
-public IActionResult GetCentralPolicySummary(string id)
-{
-    // var id = User.FindFirst("sub")?.Value;
-    // var test = _context.CentralPolicySummary.ToList();
-    // return Ok(test);
-
-
-    var userProvinceIds = _context.UserProvinces
-        .Where(x => x.UserID == id)
-        .Select(x => x.ProvinceId)
-        .ToList();
-
-    var data = _context.SubjectGroups
-    .Where(s =>
-        s.RoleCreatedBy == 3 &&
-        s.Type == "NoMaster" &&
-        userProvinceIds.Contains(s.ProvinceId)
-    )
-    .Join(
-        _context.CentralPolicies,
-        sg => sg.CentralPolicyId,
-        cp => cp.Id,
-        (sg, cp) => new
+        [HttpGet("centralPolicySummary/{id}")]
+        public IActionResult GetCentralPolicySummary(string id)
         {
-            Id = sg.Id, // <-- Id จาก SubjectGroups
-            CentralPolicyId = sg.CentralPolicyId,
-            Title = cp.Title,
-            ProvinceId = sg.ProvinceId
+            // หา Province ที่ User คนนี้มีสิทธิ์
+            var userProvinceIds = _context.UserProvinces
+                .Where(x => x.UserID == id)
+                .Select(x => x.ProvinceId)
+                .ToList();
+
+
+            // ดึง SubjectGroups ที่เข้าเงื่อนไข
+            var data = _context.SubjectGroups
+                .Where(s =>
+                    s.RoleCreatedBy == 3 &&
+                    s.Type == "NoMaster" &&
+                    userProvinceIds.Contains(s.ProvinceId)
+                )
+                .Join(
+                    _context.CentralPolicies,
+                    sg => sg.CentralPolicyId,
+                    cp => cp.Id,
+                    (sg, cp) => new
+                    {
+                        Id = sg.Id,
+                        CentralPolicyId = sg.CentralPolicyId,
+                        Title = cp.Title,
+                        ProvinceId = sg.ProvinceId
+                    }
+                )
+                .Join(
+                    _context.Provinces,
+                    x => x.ProvinceId,
+                    p => p.Id,
+                    (x, p) => new
+                    {
+                        Id = x.Id,
+                        CentralPolicyId = x.CentralPolicyId,
+                        Title = x.Title,
+                        ProvinceId = p.Id,
+                        ProvinceName = p.Name
+                    }
+                )
+                .AsNoTracking()
+                .ToList();
+
+
+            // Group SubjectGroups ตาม CentralPolicyId
+            var result = data
+                .GroupBy(x => new
+                {
+                    x.CentralPolicyId,
+                    x.Title
+                })
+                .Select(g => new
+                {
+                    CentralPolicyId = g.Key.CentralPolicyId,
+                    Title = g.Key.Title,
+
+                    // Id ของ SubjectGroup
+                    Id = g.Min(x => x.Id),
+
+                    Provinces = g
+                        .GroupBy(x => new
+                        {
+                            x.ProvinceId,
+                            x.ProvinceName
+                        })
+                        .Select(p => new
+                        {
+                            Id = p.Key.ProvinceId,
+                            Name = p.Key.ProvinceName
+                        })
+                        .ToList()
+                })
+                .OrderByDescending(x => x.Id)
+                .ToList();
+
+
+            // =========================================================
+            // CentralPolicySummary
+            // =========================================================
+            // CentralPolicyId สามารถซ้ำได้
+            // จึงกรองด้วย CreatedBy ของ User
+            var summaryData = _context.CentralPolicySummary
+                .Where(x => x.CreatedBy == id)
+                .AsNoTracking()
+                .ToList();
+
+
+            // =========================================================
+            // เอาข้อมูล CentralPolicySummary มาใส่
+            // =========================================================
+            var finalResult = result
+                .Select(x =>
+                {
+                    var summary = summaryData
+                        .Where(s =>
+                            s.CentralPolicyId == x.CentralPolicyId
+                        )
+                        .OrderByDescending(s => s.Id)
+                        .FirstOrDefault();
+
+                    return new
+                    {
+                        x.Id,
+
+                        x.CentralPolicyId,
+
+                        x.Title,
+
+                        // Id ของ CentralPolicySummary
+                        SummaryId = summary?.Id,
+
+                        // Detail จาก CentralPolicySummary
+                        Detail = summary?.Detail,
+
+                        x.Provinces
+                    };
+                })
+                .ToList();
+
+
+            return Ok(finalResult);
         }
-    )
-    .Join(
-        _context.Provinces,
-        x => x.ProvinceId,
-        p => p.Id,
-        (x, p) => new
-        {
-            Id = x.Id,
-            CentralPolicyId = x.CentralPolicyId,
-            Title = x.Title,
-            ProvinceId = p.Id,
-            ProvinceName = p.Name
-        }
-    )
-    .AsNoTracking()
-    .ToList();
-
-var result = data
-    .GroupBy(x => new
-    {
-        x.CentralPolicyId,
-        x.Title
-    })
-    .Select(g => new
-    {
-        CentralPolicyId = g.Key.CentralPolicyId,
-        Title = g.Key.Title,
-
-        // ใช้ Id ของ SubjectGroup
-        Id = g.Min(x => x.Id),
-
-        Provinces = g
-            .GroupBy(x => new
-            {
-                x.ProvinceId,
-                x.ProvinceName
-            })
-            .Select(p => new
-            {
-                Id = p.Key.ProvinceId,
-                Name = p.Key.ProvinceName
-            })
-            .ToList()
-    })
-    .OrderByDescending(x => x.Id)
-    .ToList();
-
-    return Ok(result);
-}
 
         // GET api/values/5
         [HttpGet("geteventdaterange/{id}/{start_date}/{end_date}")]
@@ -3194,8 +3239,13 @@ var result = data
         }
 
         [HttpPost("postcentralpolicysummary")]
-        public IActionResult PostCentralPolicySummary([FromBody] CentralPolicySummary model)
+        public IActionResult PostCentralPolicySummary([FromBody] CentralPolicySummaryModel model)
         {
+            System.Console.WriteLine("in sum");
+            System.Console.WriteLine("1 : " + model.CentralPolicyId);
+            System.Console.WriteLine("2 : " + model.Detail);
+            System.Console.WriteLine("3 : " + model.CreatedBy);
+
             var date = DateTime.Now;
 
             var summary = new CentralPolicySummary
@@ -3206,14 +3256,47 @@ var result = data
                 CreatedAt = date
             };
 
-            _context.CentralPolicySummaries.Add(summary);
+            _context.CentralPolicySummary.Add(summary);
+
+            System.Console.WriteLine("beforer");
+
             _context.SaveChanges();
 
-            return Ok(new
+            System.Console.WriteLine("after");
+
+            return Ok(summary);
+        }
+
+        [HttpPut("putcentralpolicysummary")]
+        public IActionResult PutCentralPolicySummary([FromBody] CentralPolicySummaryModel model)
+        {
+            System.Console.WriteLine("in edit summary");
+
+            System.Console.WriteLine("1 : " + model.CentralPolicySummaryId);
+            System.Console.WriteLine("2 : " + model.Detail);
+            System.Console.WriteLine("3 : " + model.UpdatedBy);
+
+            var summary = _context.CentralPolicySummary
+                .FirstOrDefault(x => x.Id == model.CentralPolicySummaryId);
+
+            if (summary == null)
             {
-                Status = true,
-                Id = summary.Id
-            });
+                return NotFound(new
+                {
+                    message = "ไม่พบ CentralPolicySummary"
+                });
+            }
+
+            // แก้ข้อมูล
+            summary.Detail = model.Detail;
+
+            // ข้อมูลการแก้ไข
+            summary.UpdatedBy = model.UpdatedBy;
+            summary.UpdatedAt = DateTime.Now;
+
+            _context.SaveChanges();
+
+            return Ok(summary);
         }
 
     }

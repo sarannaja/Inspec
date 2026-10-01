@@ -11,6 +11,7 @@ import { UserService } from 'src/app/services/user.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { after } from 'lodash';
+import { NotofyService } from '../services/notofy.service';
 
 @Component({
   selector: 'app-summary-central-policy',
@@ -57,8 +58,11 @@ export class SummaryCentralPolicyComponent implements OnInit {
   resultuser: any[];
 
   summaryForm!: FormGroup;
+  summaryEditForm!: FormGroup;
   modalRef: BsModalRef;
   savingSummary: Boolean = false;
+  centralPolicyId: any;
+  summaryId: any
 
   // ==========================================
   // Constructor
@@ -75,6 +79,7 @@ export class SummaryCentralPolicyComponent implements OnInit {
     private userService: UserService,
     private modalService: BsModalService,
     private fb: FormBuilder,
+    private _NotofyService: NotofyService,
   ) { }
 
 
@@ -148,6 +153,10 @@ export class SummaryCentralPolicyComponent implements OnInit {
     this.getSubjectevent();
 
     this.summaryForm = this.fb.group({
+      detail: ['', Validators.required]
+    });
+
+    this.summaryEditForm = this.fb.group({
       detail: ['', Validators.required]
     });
 
@@ -270,7 +279,8 @@ export class SummaryCentralPolicyComponent implements OnInit {
           id: item.id,
           centralPolicyId: item.centralPolicyId,
           title: item.title,
-
+          detail: item.detail,
+          summaryId: item.summaryId,
           // เก็บ province ที่ filter แล้ว
           provinces: provincesInZone,
 
@@ -292,15 +302,57 @@ export class SummaryCentralPolicyComponent implements OnInit {
     this.modalRef.hide();
   }
 
-  openModal(template: TemplateRef<any>) {
+  openModal(template: TemplateRef<any>, centralPolicyId) {
+    this.centralPolicyId = centralPolicyId
+    this.modalRef = this.modalService.show(template);
+  }
+
+  openEditModal(template: TemplateRef<any>, summaryId, detail) {
+
+    // console.log('summaryId => ', summaryId);
+    // console.log('summaryId => ', detail);
+
+    this.summaryId = summaryId
+    this.summaryEditForm.patchValue({
+      detail: detail
+    })
     this.modalRef = this.modalService.show(template);
   }
 
   saveSummary() {
     this.savingSummary = true
+    this.loading = true;
 
-    this.closeSummaryModal()
-    this.savingSummary = false;
+    this.subjectservice
+      .postSummary(this.summaryForm, this.userid, this.centralPolicyId)
+      .subscribe(result => {
+        console.log('res sum => ', result);
+        this._NotofyService.onSuccess("เพิ่มสรุป",);
+        this.summaryForm.reset();
+        this.getSubjectevent();
+        this.closeSummaryModal()
+        this.savingSummary = false;
+        this.loading = false;
+
+      });
+  }
+
+  editSummary() {
+    this.savingSummary = true
+    this.loading = true;
+
+    this.subjectservice
+      .editSummary(this.summaryEditForm, this.userid, this.summaryId)
+      .subscribe(result => {
+        // console.log('res sum => ', result);
+        this._NotofyService.onSuccess("แก้ไขสรุป",);
+        this.summaryEditForm.reset();
+        this.getSubjectevent();
+        this.closeSummaryModal()
+        this.savingSummary = false;
+        this.loading = false;
+
+      });
   }
 
 }

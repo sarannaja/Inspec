@@ -84,4 +84,19 @@ namespace InspecWeb.ViewModel
         public long centralPolicyeventId { get; set; }
 
     }
+
+    public class CentralPolicySummaryModel
+    {
+       
+        public long CentralPolicyId { get; set; }
+
+        public string Detail { get; set; }
+
+        public string CreatedBy { get; set; }
+
+         public string UpdatedBy { get; set; }
+
+         public long CentralPolicySummaryId { get; set; }
+    }
+
     }

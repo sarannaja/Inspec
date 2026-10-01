@@ -495,5 +495,29 @@ export class SubjectService {
     return this.http.get<any[]>(this.url + "sortDateDESC/" + id)
   }
 
+  postSummary(data, userId, centralPolicyId) {
+    console.log('sum data => ', data);
+    console.log('centralPolicyId: ', centralPolicyId);
+
+    const formData = {
+      CentralPolicyId: centralPolicyId,
+      Detail: data.value.detail,
+      CreatedBy: userId
+    }
+    return this.http.post<any>(this.url + 'postcentralpolicysummary', formData);
+  }
+
+  editSummary(data, userId, summaryId) {
+    // console.log('sum data => ', data);
+    // console.log('summaryId: ', summaryId);
+
+    const formData = {
+      CentralPolicySummaryId: summaryId,
+      Detail: data.value.detail,
+      UpdatedBy: userId
+    }
+    return this.http.put<any>(this.url + 'putcentralpolicysummary', formData);
+  }
+
 }
 
