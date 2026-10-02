@@ -206,6 +206,7 @@ import { MaincabinetComponent } from './main-cabinet/main-cabinet.component';
 import { RetrospectiveReportComponent } from './retrospective-report/retrospective-report.component';
 import { TrainingProjectReportComponent } from './training-project-report/training-project-report.component';
 import { SummaryCentralPolicyComponent } from './summary-central-policy/summary-central-policy';
+import { SummaryCentralPolicyDetailComponent } from './summary-central-policy/summay-central-policy-detail/summary-central-policy-detail';
 
 const routes: Routes = [
   { path: '', redirectTo: '/', pathMatch: 'full' },
@@ -410,6 +411,7 @@ const routes: Routes = [
       { path: 'commanderreport', component: CommanderReportComponent, canActivate: [AuthorizeGuard] },
       { path: 'subjectevent', component: SubjecteventComponent, canActivate: [AuthorizeGuard] },
       { path: 'summarycentralpolicy', component: SummaryCentralPolicyComponent, canActivate: [AuthorizeGuard] },
+      { path: 'summarycentralpolicy/detail/:centralpolicyid/:provinceid', component: SummaryCentralPolicyDetailComponent, canActivate: [AuthorizeGuard] },
       { path: 'subjectevent/detail/:result', component: DetailSubjecteventComponent, canActivate: [AuthorizeGuard] },
       { path: 'electronicbook/invitedetail/:id', component: DetailInvitedElectronicBookComponent, canActivate: [AuthorizeGuard] },
       { path: 'exportrequestorderforadminprovince', component: RequestOrderExport1Component, canActivate: [AuthorizeGuard] },

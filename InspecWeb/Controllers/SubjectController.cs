@@ -1697,11 +1697,6 @@ namespace InspecWeb.Controllers
 [HttpGet("centralPolicySummary/{id}")]
 public IActionResult GetCentralPolicySummary(string id)
 {
-    // var id = User.FindFirst("sub")?.Value;
-    // var test = _context.CentralPolicySummary.ToList();
-    // return Ok(test);
-
-
     var userProvinceIds = _context.UserProvinces
         .Where(x => x.UserID == id)
         .Select(x => x.ProvinceId)
@@ -1770,6 +1765,37 @@ var result = data
     })
     .OrderByDescending(x => x.Id)
     .ToList();
+
+    return Ok(result);
+}
+
+   [HttpGet("subjectgroupbycentralpolicyandregion/{regionId}/{centralPolicyId}")]
+public async Task<IActionResult> GetSubjectGroupsByRegion(
+    long regionId,
+    long centralPolicyId)
+{
+    var result = await (
+        from sg in _context.SubjectGroups
+        join fr in _context.FiscalYearRelations
+            on sg.ProvinceId equals fr.ProvinceId
+        where fr.RegionId == regionId
+           && sg.CentralPolicyId == centralPolicyId
+           && sg.RoleCreatedBy == 3
+           && sg.Type == "NoMaster"
+        select new
+        {
+            SubjectGroupId = sg.Id,
+            CentralPolicyId = sg.CentralPolicyId,
+            Title = sg.CentralPolicy.Title,
+            ProvinceName = sg.Province.Name,
+            Land = sg.Land,
+            StartDate = sg.StartDate,
+            EndDate = sg.EndDate
+        }
+    )
+    .Distinct()
+    .OrderByDescending(x => x.SubjectGroupId)
+    .ToListAsync();
 
     return Ok(result);
 }

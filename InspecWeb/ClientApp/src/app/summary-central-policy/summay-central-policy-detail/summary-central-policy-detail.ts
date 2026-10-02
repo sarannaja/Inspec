@@ -1,20 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-
+import { ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
-
-import { SubjectService } from '../services/subject.service';
+import { SubjectService } from '../../services/subject.service';
 import { AuthorizeService } from 'src/api-authorization-new/authorize.service';
-import { InspectionplanService } from '../services/inspectionplan.service';
-import { RegionService } from '../services/region.service';
+import { InspectionplanService } from '../../services/inspectionplan.service';
+import { RegionService } from '../../services/region.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
-  selector: 'app-summary-central-policy',
-  templateUrl: './summary-central-policy.html',
-  styleUrls: ['./summary-central-policy.css']
+  selector: 'app-summary-central-policy-detail',
+  templateUrl: './summary-central-policy-detail.html',
+  styleUrls: ['./summary-central-policy-detail.css']
 })
-export class SummaryCentralPolicyComponent implements OnInit {
+export class SummaryCentralPolicyDetailComponent implements OnInit {
 
   // ==========================================
   // Zone Tabs
@@ -56,7 +55,8 @@ export class SummaryCentralPolicyComponent implements OnInit {
   // ==========================================
   // Constructor
   // ==========================================
-
+  provinceId
+  centralPolicyId
 
   constructor(
     private spinner: NgxSpinnerService,
@@ -66,7 +66,13 @@ export class SummaryCentralPolicyComponent implements OnInit {
     private router: Router,
     private regionService: RegionService,
     private userService: UserService,
-  ) { }
+    private activatedRoute: ActivatedRoute
+  ) {
+    this.centralPolicyId = activatedRoute.snapshot.paramMap.get('centralpolicyid');
+    this.provinceId = activatedRoute.snapshot.paramMap.get('provinceid');
+    console.log('centralPolicyId =>', this.centralPolicyId);
+    console.log('provinceId =>', this.provinceId);
+  }
 
 
   // ==========================================
@@ -181,12 +187,24 @@ export class SummaryCentralPolicyComponent implements OnInit {
   // ==========================================
 
   Subjectevent(
+    id,
     centralPolicyId,
     provinceId
   ) {
+
+    this.inspectionplanservice
+      .getcentralpolicyprovinceid(
+        centralPolicyId,
+        provinceId
+      )
+      .subscribe(result => {
+
         this.router.navigate([
-          '/summarycentralpolicy/detail/' + centralPolicyId + '/' + provinceId
+          '/subjectevent/detail/' + result
         ]);
+
+      });
+
   }
 
 
