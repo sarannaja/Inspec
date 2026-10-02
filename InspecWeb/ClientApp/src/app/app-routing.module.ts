@@ -411,7 +411,7 @@ const routes: Routes = [
       { path: 'commanderreport', component: CommanderReportComponent, canActivate: [AuthorizeGuard] },
       { path: 'subjectevent', component: SubjecteventComponent, canActivate: [AuthorizeGuard] },
       { path: 'summarycentralpolicy', component: SummaryCentralPolicyComponent, canActivate: [AuthorizeGuard] },
-      { path: 'summarycentralpolicy/detail/:centralpolicyid/:provinceid', component: SummaryCentralPolicyDetailComponent, canActivate: [AuthorizeGuard] },
+      { path: 'summarycentralpolicy/detail/:centralpolicyid/:regionid', component: SummaryCentralPolicyDetailComponent, canActivate: [AuthorizeGuard] },
       { path: 'subjectevent/detail/:result', component: DetailSubjecteventComponent, canActivate: [AuthorizeGuard] },
       { path: 'electronicbook/invitedetail/:id', component: DetailInvitedElectronicBookComponent, canActivate: [AuthorizeGuard] },
       { path: 'exportrequestorderforadminprovince', component: RequestOrderExport1Component, canActivate: [AuthorizeGuard] },

@@ -55,7 +55,7 @@ export class SummaryCentralPolicyDetailComponent implements OnInit {
   // ==========================================
   // Constructor
   // ==========================================
-  provinceId
+  regionId
   centralPolicyId
 
   constructor(
@@ -69,9 +69,9 @@ export class SummaryCentralPolicyDetailComponent implements OnInit {
     private activatedRoute: ActivatedRoute
   ) {
     this.centralPolicyId = activatedRoute.snapshot.paramMap.get('centralpolicyid');
-    this.provinceId = activatedRoute.snapshot.paramMap.get('provinceid');
+    this.regionId = activatedRoute.snapshot.paramMap.get('regionid');
     console.log('centralPolicyId =>', this.centralPolicyId);
-    console.log('provinceId =>', this.provinceId);
+    console.log('regionId =>', this.regionId);
   }
 
 
@@ -153,9 +153,6 @@ export class SummaryCentralPolicyDetailComponent implements OnInit {
       console.log('is array =>', Array.isArray(res));
 
       this.region = res.importFiscalYearRelations;
-
-      this.filterByZone();
-
     });
   }
   // ==========================================
@@ -164,17 +161,14 @@ export class SummaryCentralPolicyDetailComponent implements OnInit {
   getSubjectevent() {
 
     this.subjectservice
-      .centralPolicySummary(this.userid)
+      .subjectgroupbycentralpolicyandregion(this.regionId, this.centralPolicyId)
       .subscribe(result => {
 
         console.log("SUBJECTEVENT ==> ", result);
 
         this.resultsubjectevent = result;
 
-        this.filterByZone();
-
-        // this.loading = true;
-
+        this.loading = true;
         this.spinner.hide();
 
       });
@@ -186,25 +180,11 @@ export class SummaryCentralPolicyDetailComponent implements OnInit {
   // Subject Event Detail
   // ==========================================
 
-  Subjectevent(
-    id,
-    centralPolicyId,
-    provinceId
-  ) {
-
-    this.inspectionplanservice
-      .getcentralpolicyprovinceid(
-        centralPolicyId,
-        provinceId
-      )
-      .subscribe(result => {
-
-        this.router.navigate([
-          '/subjectevent/detail/' + result
-        ]);
-
-      });
-
+    Subjectevent(id, centralPolicyId, provinceId) {
+    this.inspectionplanservice.getcentralpolicyprovinceid(centralPolicyId, provinceId).subscribe(result => {
+      // this.centralpolicyprovinceid = result
+      this.router.navigate(['/subjectevent/detail/' + result, { subjectgroupid: id, }])
+    })
   }
 
 
@@ -216,64 +196,7 @@ export class SummaryCentralPolicyDetailComponent implements OnInit {
 
     this.selectedZone = zoneId;
 
-    this.filterByZone();
-
   }
 
-  filteredSubjectevent: any[] = [];
-
-  filterByZone(): void {
-    this.loading = false;
-    if (!Array.isArray(this.resultsubjectevent)) {
-      return;
-    }
-
-    if (!Array.isArray(this.region)) {
-      console.log('region ไม่ใช่ Array =>', this.region);
-      return;
-    }
-
-    this.filteredSubjectevent = this.resultsubjectevent
-      .map(item => {
-
-        // จังหวัดทั้งหมดของ Policy นี้
-        const provincesInZone = item.provinces.filter(province => {
-
-          const regionData = this.region.find(
-            r => r.provinceId === province.id
-          );
-
-          return regionData &&
-            regionData.regionId === this.selectedZone;
-
-        });
-
-        // ถ้า Policy นี้ไม่มีจังหวัดใน Zone ที่เลือก
-        // ไม่ต้องเอามาแสดง
-        if (provincesInZone.length === 0) {
-          return null;
-        }
-
-        return {
-          id: item.id,
-          centralPolicyId: item.centralPolicyId,
-          title: item.title,
-
-          // เก็บ province ที่ filter แล้ว
-          provinces: provincesInZone,
-
-          // เอาชื่อจังหวัดมาต่อด้วย ,
-          provinceName: provincesInZone
-            .map(p => p.name)
-            .join(', ')
-        };
-
-      })
-      .filter(item => item !== null);
-    setTimeout(() => {
-      this.loading = true;
-    }, 1000);
-    console.log('filteredSubjectevent =>', this.filteredSubjectevent);
-  }
 
 }

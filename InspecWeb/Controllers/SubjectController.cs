@@ -1838,6 +1838,7 @@ public async Task<IActionResult> GetSubjectGroupsByRegion(
             CentralPolicyId = sg.CentralPolicyId,
             Title = sg.CentralPolicy.Title,
             ProvinceName = sg.Province.Name,
+            ProvinceId = sg.Province.Id,
             Land = sg.Land,
             StartDate = sg.StartDate,
             EndDate = sg.EndDate

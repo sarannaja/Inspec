@@ -205,11 +205,10 @@ export class SummaryCentralPolicyComponent implements OnInit {
   // ==========================================
 
   Subjectevent(
-    centralPolicyId,
-    provinceId
+    centralPolicyId
   ) {
         this.router.navigate([
-          '/summarycentralpolicy/detail/' + centralPolicyId + '/' + provinceId
+          '/summarycentralpolicy/detail/' + centralPolicyId + '/' + this.selectedZone
         ]);
   }
 

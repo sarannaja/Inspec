@@ -437,6 +437,10 @@ export class SubjectService {
     return this.http.get<any[]>(this.url + "centralPolicySummary/" + id)
   }
 
+   subjectgroupbycentralpolicyandregion(regionId, centralPolicyId) {
+    return this.http.get<any[]>(this.url + "subjectgroupbycentralpolicyandregion/" + regionId + "/" + centralPolicyId)
+  }
+
   geteventdaterange(id, start_date, end_date) {
     return this.http.get<any[]>(this.url + "geteventdaterange/" + id + "/" + start_date + "/" + end_date)
   }
