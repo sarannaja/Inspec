@@ -1819,6 +1819,37 @@ namespace InspecWeb.Controllers
             return Ok(finalResult);
         }
 
+   [HttpGet("subjectgroupbycentralpolicyandregion/{regionId}/{centralPolicyId}")]
+public async Task<IActionResult> GetSubjectGroupsByRegion(
+    long regionId,
+    long centralPolicyId)
+{
+    var result = await (
+        from sg in _context.SubjectGroups
+        join fr in _context.FiscalYearRelations
+            on sg.ProvinceId equals fr.ProvinceId
+        where fr.RegionId == regionId
+           && sg.CentralPolicyId == centralPolicyId
+           && sg.RoleCreatedBy == 3
+           && sg.Type == "NoMaster"
+        select new
+        {
+            SubjectGroupId = sg.Id,
+            CentralPolicyId = sg.CentralPolicyId,
+            Title = sg.CentralPolicy.Title,
+            ProvinceName = sg.Province.Name,
+            Land = sg.Land,
+            StartDate = sg.StartDate,
+            EndDate = sg.EndDate
+        }
+    )
+    .Distinct()
+    .OrderByDescending(x => x.SubjectGroupId)
+    .ToListAsync();
+
+    return Ok(result);
+}
+
         // GET api/values/5
         [HttpGet("geteventdaterange/{id}/{start_date}/{end_date}")]
         public IActionResult Get8(string id, DateTime start_date, DateTime end_date)

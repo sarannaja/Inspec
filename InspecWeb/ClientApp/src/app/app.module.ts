@@ -250,7 +250,7 @@ import { MaincabinetComponent } from './main-cabinet/main-cabinet.component';
 import { RetrospectiveReportComponent } from './retrospective-report/retrospective-report.component';
 import { TrainingProjectReportComponent } from './training-project-report/training-project-report.component';
 import { SummaryCentralPolicyComponent } from './summary-central-policy/summary-central-policy';
-
+import { SummaryCentralPolicyDetailComponent } from './summary-central-policy/summay-central-policy-detail/summary-central-policy-detail';
 
 @NgModule({
   declarations: [
@@ -469,7 +469,8 @@ import { SummaryCentralPolicyComponent } from './summary-central-policy/summary-
     MaincabinetComponent, //yochigang20220525
     RetrospectiveReportComponent,
     TrainingProjectReportComponent,
-    SummaryCentralPolicyComponent
+    SummaryCentralPolicyComponent,
+    SummaryCentralPolicyDetailComponent
   ],
 
   imports: [

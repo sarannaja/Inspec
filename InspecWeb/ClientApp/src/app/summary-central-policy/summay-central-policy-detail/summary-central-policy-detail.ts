@@ -1,24 +1,19 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-
+import { ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
-
-import { SubjectService } from '../services/subject.service';
+import { SubjectService } from '../../services/subject.service';
 import { AuthorizeService } from 'src/api-authorization-new/authorize.service';
-import { InspectionplanService } from '../services/inspectionplan.service';
-import { RegionService } from '../services/region.service';
+import { InspectionplanService } from '../../services/inspectionplan.service';
+import { RegionService } from '../../services/region.service';
 import { UserService } from 'src/app/services/user.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { after } from 'lodash';
-import { NotofyService } from '../services/notofy.service';
 
 @Component({
-  selector: 'app-summary-central-policy',
-  templateUrl: './summary-central-policy.html',
-  styleUrls: ['./summary-central-policy.css']
+  selector: 'app-summary-central-policy-detail',
+  templateUrl: './summary-central-policy-detail.html',
+  styleUrls: ['./summary-central-policy-detail.css']
 })
-export class SummaryCentralPolicyComponent implements OnInit {
+export class SummaryCentralPolicyDetailComponent implements OnInit {
 
   // ==========================================
   // Zone Tabs
@@ -57,17 +52,11 @@ export class SummaryCentralPolicyComponent implements OnInit {
   userid: string;
   resultuser: any[];
 
-  summaryForm!: FormGroup;
-  summaryEditForm!: FormGroup;
-  modalRef: BsModalRef;
-  savingSummary: Boolean = false;
-  centralPolicyId: any;
-  summaryId: any
-
   // ==========================================
   // Constructor
   // ==========================================
-
+  provinceId
+  centralPolicyId
 
   constructor(
     private spinner: NgxSpinnerService,
@@ -77,10 +66,13 @@ export class SummaryCentralPolicyComponent implements OnInit {
     private router: Router,
     private regionService: RegionService,
     private userService: UserService,
-    private modalService: BsModalService,
-    private fb: FormBuilder,
-    private _NotofyService: NotofyService,
-  ) { }
+    private activatedRoute: ActivatedRoute
+  ) {
+    this.centralPolicyId = activatedRoute.snapshot.paramMap.get('centralpolicyid');
+    this.provinceId = activatedRoute.snapshot.paramMap.get('provinceid');
+    console.log('centralPolicyId =>', this.centralPolicyId);
+    console.log('provinceId =>', this.provinceId);
+  }
 
 
   // ==========================================
@@ -151,16 +143,6 @@ export class SummaryCentralPolicyComponent implements OnInit {
 
     this.getRegionData();
     this.getSubjectevent();
-
-    this.summaryForm = this.fb.group({
-      detail: ['', Validators.required]
-    });
-
-    this.summaryEditForm = this.fb.group({
-      detail: ['', Validators.required]
-    });
-
-    this.savingSummary = false;
   }
   region: any[] = [];
 
@@ -205,12 +187,24 @@ export class SummaryCentralPolicyComponent implements OnInit {
   // ==========================================
 
   Subjectevent(
+    id,
     centralPolicyId,
     provinceId
   ) {
+
+    this.inspectionplanservice
+      .getcentralpolicyprovinceid(
+        centralPolicyId,
+        provinceId
+      )
+      .subscribe(result => {
+
         this.router.navigate([
-          '/summarycentralpolicy/detail/' + centralPolicyId + '/' + provinceId
+          '/subjectevent/detail/' + result
         ]);
+
+      });
+
   }
 
 
@@ -264,8 +258,7 @@ export class SummaryCentralPolicyComponent implements OnInit {
           id: item.id,
           centralPolicyId: item.centralPolicyId,
           title: item.title,
-          detail: item.detail,
-          summaryId: item.summaryId,
+
           // เก็บ province ที่ filter แล้ว
           provinces: provincesInZone,
 
@@ -281,63 +274,6 @@ export class SummaryCentralPolicyComponent implements OnInit {
       this.loading = true;
     }, 1000);
     console.log('filteredSubjectevent =>', this.filteredSubjectevent);
-  }
-
-  closeSummaryModal() {
-    this.modalRef.hide();
-  }
-
-  openModal(template: TemplateRef<any>, centralPolicyId) {
-    this.centralPolicyId = centralPolicyId
-    this.modalRef = this.modalService.show(template);
-  }
-
-  openEditModal(template: TemplateRef<any>, summaryId, detail) {
-
-    // console.log('summaryId => ', summaryId);
-    // console.log('summaryId => ', detail);
-
-    this.summaryId = summaryId
-    this.summaryEditForm.patchValue({
-      detail: detail
-    })
-    this.modalRef = this.modalService.show(template);
-  }
-
-  saveSummary() {
-    this.savingSummary = true
-    this.loading = true;
-
-    this.subjectservice
-      .postSummary(this.summaryForm, this.userid, this.centralPolicyId)
-      .subscribe(result => {
-        console.log('res sum => ', result);
-        this._NotofyService.onSuccess("เพิ่มสรุป",);
-        this.summaryForm.reset();
-        this.getSubjectevent();
-        this.closeSummaryModal()
-        this.savingSummary = false;
-        this.loading = false;
-
-      });
-  }
-
-  editSummary() {
-    this.savingSummary = true
-    this.loading = true;
-
-    this.subjectservice
-      .editSummary(this.summaryEditForm, this.userid, this.summaryId)
-      .subscribe(result => {
-        // console.log('res sum => ', result);
-        this._NotofyService.onSuccess("แก้ไขสรุป",);
-        this.summaryEditForm.reset();
-        this.getSubjectevent();
-        this.closeSummaryModal()
-        this.savingSummary = false;
-        this.loading = false;
-
-      });
   }
 
 }

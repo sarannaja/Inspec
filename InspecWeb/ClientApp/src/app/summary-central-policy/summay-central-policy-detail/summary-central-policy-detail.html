@@ -1,0 +1,46 @@
+<div class="header">
+
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a [routerLink]="['/main']">หน้าหลัก</a></li>
+      <li class="breadcrumb-item"><a [routerLink]="['/summarycentralpolicy']">สรุปแผนการตรวจราชการ</a></li>
+      <li class="breadcrumb-item active">แผนการตรวจตามเขต</li>
+    </ol>
+  </nav>
+</div>
+<div class="col-12">
+  <div class="card card-eiei">
+    <div class="card-header">
+      <h5 class="card-title">แผนตรวจ</h5>
+
+    </div>
+    <div class="card-body">
+      <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable
+        [dtOptions]="dtOptions">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>ประเด็นนโยบาย/เรื่อง/โครงการ</th>
+            <th>จังหวัด</th>
+            <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of resultsubjectevent; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ item.title }}</td>
+            <td>{{ item.provinceName }}</td>
+            <td>
+              <i class="align-middle mr-2 fas fa-fw fa-search pointer"
+                (click)="Subjectevent(item?.centralPolicyId,item.provinceId)"></i>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">
+  <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>

@@ -92,8 +92,8 @@
             <td>
               <div class="row">
                 <div>
-                  <i class="align-middle mr-2 fas fa-fw fa-search pointer"
-                    (click)="Subjectevent(item.id,item.centralPolicyId,item.provinceId)"></i>
+              <i class="align-middle mr-2 fas fa-fw fa-search pointer"
+                (click)="Subjectevent(item.centralPolicyId,item.provinceId)"></i>
                 </div>
                 <div>
                   <i *ngIf="item?.detail == null" class="align-middle mr-2 fas fa-fw fa-clipboard-list pointer"
@@ -103,6 +103,7 @@
                     (click)="openEditModal(modalSummaryEdit, item?.summaryId, item?.detail)"></i>
                 </div>
               </div>
+
 
             </td>
           </tr>
