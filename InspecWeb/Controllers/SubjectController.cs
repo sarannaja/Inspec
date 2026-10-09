@@ -1697,14 +1697,13 @@ namespace InspecWeb.Controllers
         [HttpGet("centralPolicySummary/{id}")]
         public IActionResult GetCentralPolicySummary(string id)
         {
-            // หา Province ที่ User คนนี้มีสิทธิ์
             var userProvinceIds = _context.UserProvinces
                 .Where(x => x.UserID == id)
                 .Select(x => x.ProvinceId)
                 .ToList();
 
+            var today = DateTime.Today;
 
-            // ดึง SubjectGroups ที่เข้าเงื่อนไข
             var data = _context.SubjectGroups
                 .Where(s =>
                     s.RoleCreatedBy == 3 &&
@@ -1720,7 +1719,9 @@ namespace InspecWeb.Controllers
                         Id = sg.Id,
                         CentralPolicyId = sg.CentralPolicyId,
                         Title = cp.Title,
-                        ProvinceId = sg.ProvinceId
+                        ProvinceId = sg.ProvinceId,
+                        StartDate = sg.StartDate,
+                        EndDate = sg.EndDate
                     }
                 )
                 .Join(
@@ -1733,14 +1734,14 @@ namespace InspecWeb.Controllers
                         CentralPolicyId = x.CentralPolicyId,
                         Title = x.Title,
                         ProvinceId = p.Id,
-                        ProvinceName = p.Name
+                        ProvinceName = p.Name,
+                        StartDate = x.StartDate,
+                        EndDate = x.EndDate
                     }
                 )
                 .AsNoTracking()
                 .ToList();
 
-
-            // Group SubjectGroups ตาม CentralPolicyId
             var result = data
                 .GroupBy(x => new
                 {
@@ -1752,8 +1753,34 @@ namespace InspecWeb.Controllers
                     CentralPolicyId = g.Key.CentralPolicyId,
                     Title = g.Key.Title,
 
-                    // Id ของ SubjectGroup
+                    // ใช้ Id ตัวแรกของ Policy
                     Id = g.Min(x => x.Id),
+
+                    // ==========================================
+                    // Count รวมทั้งหมดของ Policy
+                    // นับเป็นจำนวน SubjectGroup
+                    // ==========================================
+
+                    WaitingCount = g.Count(x =>
+                        x.StartDate.HasValue &&
+                        today < x.StartDate.Value.Date
+                    ),
+
+                    InProgressCount = g.Count(x =>
+                        x.StartDate.HasValue &&
+                        x.EndDate.HasValue &&
+                        today >= x.StartDate.Value.Date &&
+                        today <= x.EndDate.Value.Date
+                    ),
+
+                    CompletedCount = g.Count(x =>
+                        x.EndDate.HasValue &&
+                        today > x.EndDate.Value.Date
+                    ),
+
+                    // ==========================================
+                    // จังหวัดทั้งหมดของ Policy
+                    // ==========================================
 
                     Provinces = g
                         .GroupBy(x => new
@@ -1766,26 +1793,60 @@ namespace InspecWeb.Controllers
                             Id = p.Key.ProvinceId,
                             Name = p.Key.ProvinceName
                         })
+                        .ToList(),
+
+                    // ==========================================
+                    // Count แยกตามจังหวัด
+                    // เพื่อให้ Angular filter ตาม Zone ได้
+                    // ==========================================
+
+                    ProvinceStats = g
+                        .GroupBy(x => new
+                        {
+                            x.ProvinceId,
+                            x.ProvinceName
+                        })
+                        .Select(p => new
+                        {
+                            ProvinceId = p.Key.ProvinceId,
+                            ProvinceName = p.Key.ProvinceName,
+
+                            // นับ SubjectGroup ของจังหวัดนี้
+                            WaitingCount = p.Count(x =>
+                                x.StartDate.HasValue &&
+                                today < x.StartDate.Value.Date
+                            ),
+
+                            InProgressCount = p.Count(x =>
+                                x.StartDate.HasValue &&
+                                x.EndDate.HasValue &&
+                                today >= x.StartDate.Value.Date &&
+                                today <= x.EndDate.Value.Date
+                            ),
+
+                            CompletedCount = p.Count(x =>
+                                x.EndDate.HasValue &&
+                                today > x.EndDate.Value.Date
+                            )
+                        })
                         .ToList()
                 })
                 .OrderByDescending(x => x.Id)
                 .ToList();
 
+            // ==========================================
+            // ดึง Summary ของ User คนนี้
+            // ==========================================
 
-            // =========================================================
-            // CentralPolicySummary
-            // =========================================================
-            // CentralPolicyId สามารถซ้ำได้
-            // จึงกรองด้วย CreatedBy ของ User
             var summaryData = _context.CentralPolicySummary
                 .Where(x => x.CreatedBy == id)
                 .AsNoTracking()
                 .ToList();
 
+            // ==========================================
+            // รวมข้อมูล Summary เข้ากับ Policy
+            // ==========================================
 
-            // =========================================================
-            // เอาข้อมูล CentralPolicySummary มาใส่
-            // =========================================================
             var finalResult = result
                 .Select(x =>
                 {
@@ -1799,22 +1860,25 @@ namespace InspecWeb.Controllers
                     return new
                     {
                         x.Id,
-
                         x.CentralPolicyId,
-
                         x.Title,
 
-                        // Id ของ CentralPolicySummary
                         SummaryId = summary?.Id,
-
-                        // Detail จาก CentralPolicySummary
                         Detail = summary?.Detail,
 
-                        x.Provinces
+                        // Count รวมทั้งหมด
+                        x.WaitingCount,
+                        x.InProgressCount,
+                        x.CompletedCount,
+
+                        // จังหวัด
+                        x.Provinces,
+
+                        // Count แยกตามจังหวัด
+                        x.ProvinceStats
                     };
                 })
                 .ToList();
-
 
             return Ok(finalResult);
         }
