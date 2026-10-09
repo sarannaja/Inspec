@@ -64,6 +64,10 @@ export class SummaryCentralPolicyComponent implements OnInit {
   centralPolicyId: any;
   summaryId: any
 
+  waitingCount = 0;
+inProgressCount = 0;
+completedCount = 0;
+
   // ==========================================
   // Constructor
   // ==========================================
@@ -244,7 +248,9 @@ export class SummaryCentralPolicyComponent implements OnInit {
   filteredSubjectevent: any[] = [];
 
   filterByZone(): void {
+
     this.loading = false;
+
     if (!Array.isArray(this.resultsubjectevent)) {
       return;
     }
@@ -257,8 +263,11 @@ export class SummaryCentralPolicyComponent implements OnInit {
     this.filteredSubjectevent = this.resultsubjectevent
       .map(item => {
 
+        // ==========================================
         // จังหวัดทั้งหมดของ Policy นี้
-        const provincesInZone = item.provinces.filter(province => {
+        // ==========================================
+
+        const provincesInZone = (item.provinces || []).filter(province => {
 
           const regionData = this.region.find(
             r => r.provinceId === province.id
@@ -266,37 +275,130 @@ export class SummaryCentralPolicyComponent implements OnInit {
 
           return regionData &&
             regionData.regionId === this.selectedZone;
-
         });
 
+        // ==========================================
         // ถ้า Policy นี้ไม่มีจังหวัดใน Zone ที่เลือก
         // ไม่ต้องเอามาแสดง
+        // ==========================================
+
         if (provincesInZone.length === 0) {
           return null;
         }
 
+        // ==========================================
+        // เอาเฉพาะ ProvinceStats ของจังหวัด
+        // ที่อยู่ใน Zone ที่เลือก
+        // ==========================================
+
+        const provinceIdsInZone = provincesInZone.map(
+          province => province.id
+        );
+
+        const provinceStatsInZone = (item.provinceStats || [])
+          .filter(stat =>
+            provinceIdsInZone.includes(stat.provinceId)
+          );
+
+        // ==========================================
+        // รวมจำนวน SubjectGroup ของจังหวัดใน Zone
+        // ==========================================
+
+        const waitingCount = provinceStatsInZone.reduce(
+          (sum, stat) => sum + (stat.waitingCount || 0),
+          0
+        );
+
+        const inProgressCount = provinceStatsInZone.reduce(
+          (sum, stat) => sum + (stat.inProgressCount || 0),
+          0
+        );
+
+        const completedCount = provinceStatsInZone.reduce(
+          (sum, stat) => sum + (stat.completedCount || 0),
+          0
+        );
+
         return {
+
           id: item.id,
+
           centralPolicyId: item.centralPolicyId,
+
           title: item.title,
+
           detail: item.detail,
+
           summaryId: item.summaryId,
-          // เก็บ province ที่ filter แล้ว
+
+          // ==========================================
+          // จังหวัดที่ผ่านการ filter แล้ว
+          // ==========================================
+
           provinces: provincesInZone,
 
+          // ==========================================
           // เอาชื่อจังหวัดมาต่อด้วย ,
+          // ==========================================
+
           provinceName: provincesInZone
             .map(p => p.name)
-            .join(', ')
-        };
+            .join(', '),
 
+          // ==========================================
+          // Count ของ SubjectGroup เฉพาะ Zone นี้
+          // ==========================================
+
+          completedCount: completedCount,
+
+          inProgressCount: inProgressCount,
+
+          waitingCount: waitingCount
+
+        };
       })
       .filter(item => item !== null);
+
+
+    // ==========================================
+    // Loading
+    // ==========================================
+
     setTimeout(() => {
       this.loading = true;
     }, 1000);
-    console.log('filteredSubjectevent =>', this.filteredSubjectevent);
+
+
+    console.log(
+      'filteredSubjectevent =>',
+      this.filteredSubjectevent
+    );
+
+
+    // ==========================================
+    // รวม Count ทั้งหมดของ Zone ที่เลือก
+    // ==========================================
+
+    setTimeout(() => {
+
+      this.waitingCount = this.filteredSubjectevent.reduce(
+        (sum, item) => sum + (item.waitingCount || 0),
+        0
+      );
+
+      this.inProgressCount = this.filteredSubjectevent.reduce(
+        (sum, item) => sum + (item.inProgressCount || 0),
+        0
+      );
+
+      this.completedCount = this.filteredSubjectevent.reduce(
+        (sum, item) => sum + (item.completedCount || 0),
+        0
+      );
+
+    }, 700);
   }
+
 
   closeSummaryModal() {
     this.modalRef.hide();
@@ -354,5 +456,37 @@ export class SummaryCentralPolicyComponent implements OnInit {
 
       });
   }
+
+  get totalProvinceCount(): number {
+
+  const provinceIds = new Set<number>();
+
+  if (!Array.isArray(this.filteredSubjectevent)) {
+    return 0;
+  }
+
+  this.filteredSubjectevent.forEach(policy => {
+
+    (policy.provinces || []).forEach(province => {
+      provinceIds.add(province.id);
+    });
+
+  });
+
+  return provinceIds.size;
+}
+
+
+get detailCount(): number {
+
+  if (!Array.isArray(this.filteredSubjectevent)) {
+    return 0;
+  }
+
+  return this.filteredSubjectevent.filter(item =>
+    item.detail &&
+    item.detail.trim() !== ''
+  ).length;
+}
 
 }

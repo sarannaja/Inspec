@@ -1,139 +1,469 @@
 <div class="header">
-
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a [routerLink]="['/main']">หน้าหลัก</a></li>
-      <li class="breadcrumb-item active">สรุปแผนการตรวจราชการ</li>
+      <li class="breadcrumb-item">
+        <a [routerLink]="['/main']">หน้าหลัก</a>
+      </li>
+      <li class="breadcrumb-item active">
+        สรุปแผนการตรวจราชการ
+      </li>
     </ol>
   </nav>
 </div>
+
 <div class="col-12">
-  <div class="card card-eiei">
-    <div class="card-header">
-      <!-- <h5 class="card-title">สรุปแผนการตรวจราชการ</h5> -->
+  <div class="policy-dashboard">
 
-       <!-- Zone Tabs -->
-      <ul class="nav nav-tabs">
+    <!-- =========================
+         Header
+    ========================== -->
+    <div class="dashboard-header">
+      <div>
+        <h4 class="dashboard-title" style="font-family: Prompt;">
+          สรุปแผนการตรวจราชการ
+        </h4>
 
-        <li class="nav-item" *ngFor="let zone of zones">
+        <p class="dashboard-subtitle mt-1">
+          สรุปรายละเอียดนโยบายส่วนกลางและจังหวัดที่เกี่ยวข้อง
+        </p>
+      </div>
+    </div>
 
-          <a
-            class="nav-link"
-            [class.active]="selectedZone === zone.id"
-            href="javascript:void(0)"
-            (click)="selectZone(zone.id)"
-          >
-            {{ zone.name }}
-          </a>
 
-        </li>
+    <!-- =========================
+         Zone Tabs
+    ========================== -->
+    <div class="zone-tabs-wrapper">
 
-      </ul>
+      <div class="zone-tabs">
 
-      <!-- <div class="float-right mb-2" *ngIf="role_id == 3 || role_id == 6 || role_id == 10">
-        <button class="btn btn-primary" (click)="reportModalReport(modalreport)">พิมพ์รายงาน</button>
-        &nbsp;&nbsp;
-
-        <button class="btn btn-primary mr-2" title="เรียงข้อมูลตามวัน" (click)="sortDate()">
-          <i class="fas fa-calendar-week"></i>
+        <button
+          type="button"
+          class="zone-tab"
+          *ngFor="let zone of zones"
+          [class.active]="selectedZone === zone.id"
+          (click)="selectZone(zone.id)"
+        >
+          {{ zone.name }}
         </button>
 
-        <button *ngIf="role_id == 3 || role_id == 6 || role_id == 10" class="btn btn-primary"
-          title="เพิ่มเรื่องที่ตรวจติดตาม" (click)="openModal(modalProvince)">
-          <i class="align-middle fas fa-fw fa-plus pointer"></i></button>
       </div>
 
-      <div class="row col-12 col-md-9 mt-2 float-left">
-        <div class="col-12 col-md-3">
-          <div class="form-group">
-            <my-date-picker-th [options]="myDatePickerOptions" [(ngModel)]="start_date_search"
-              (dateChanged)="onDateChangedstart($event)">
-            </my-date-picker-th>
-          </div>
-        </div>
-        <div class="col-12 col-md-1">
-          <div class="form-group" align="center">
-            ถึง
-          </div>
-        </div>
-        <div class="col-12 col-md-3">
-          <div class="form-group">
-            <my-date-picker-th [options]="myDatePickerOptions" [(ngModel)]="end_date_search"
-              (dateChanged)="onDateChangedend($event)">
-            </my-date-picker-th>
-          </div>
-        </div>
-        <div class="col-12 col-md-2">
-          <button (click)="Search()" class="btn btn-primary btn-sm mt-1"><i class="align-middle fas fa-fw fa-search pointer"
-              title="ค้นหา"></i></button>&nbsp;
-          <button (click)="Refresh()" class="btn btn-primary btn-sm mt-1"><i class="align-middle fas fa-fw fa-sync-alt pointer"
-              title="รีโหลด"></i></button>
-        </div>
-      </div> -->
     </div>
-    <div class="card-body">
-      <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable
-        [dtOptions]="dtOptions">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>ประเด็นนโยบาย/เรื่อง/โครงการ</th>
-            <th>จังหวัด</th>
-            <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
-          </tr>
-        </thead>
-        <tbody>
-<tr *ngFor="let item of filteredSubjectevent; let i = index">
-            <td>{{ i + 1 }}</td>
-            <td>{{ item.title }}</td>
-  <td>
-      {{ item.provinceName }}
-    </td>
-            <td>
-              <div class="row">
-                <div>
-                  <i class="align-middle mr-2 fas fa-fw fa-search pointer"
-                    (click)="Subjectevent(item.id,item.centralPolicyId,item.provinceId)"></i>
-                </div>
-                <div>
-                  <i *ngIf="item?.detail == null" class="align-middle mr-2 fas fa-fw fa-clipboard-list pointer"
-                    (click)="openModal(modalSummary, item?.centralPolicyId)"></i>
 
-                  <i *ngIf="item?.detail != null" class="align-middle mr-2 fas fa-fw fa-pen pointer"
-                    (click)="openEditModal(modalSummaryEdit, item?.summaryId, item?.detail)"></i>
-                </div>
-              </div>
+    <!-- =========================
+     Status Summary Cards
+========================== -->
+<div class="row dashboard-summary mb-3">
 
-            </td>
-          </tr>
-        </tbody>
-      </table>
+  <!-- รอตรวจ -->
+  <div class="col-12 col-md-4">
+    <div class="summary-card">
+      <div class="summary-icon" style="background: #fff3cd; color: #856404;">
+        <i class="fas fa-clock"></i>
+      </div>
+
+      <div class="summary-content">
+        <div class="summary-label">
+          รอตรวจ
+        </div>
+
+        <div class="summary-value">
+          {{ waitingCount }}
+        </div>
+
+        <div class="summary-description">
+          รายการที่ยังไม่ถึงช่วงตรวจ
+        </div>
+      </div>
     </div>
+  </div>
+
+  <!-- กำลังดำเนินการ -->
+  <div class="col-12 col-md-4">
+    <div class="summary-card">
+      <div class="summary-icon" style="background: #cff4fc; color: #055160;">
+        <i class="fas fa-spinner"></i>
+      </div>
+
+      <div class="summary-content">
+        <div class="summary-label">
+          กำลังดำเนินการ
+        </div>
+
+        <div class="summary-value">
+          {{ inProgressCount }}
+        </div>
+
+        <div class="summary-description">
+          รายการที่อยู่ระหว่างช่วงตรวจ
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- เสร็จสิ้น -->
+  <div class="col-12 col-md-4">
+    <div class="summary-card">
+      <div class="summary-icon" style="background: #d1e7dd; color: #0f5132;">
+        <i class="fas fa-check-circle"></i>
+      </div>
+
+      <div class="summary-content">
+        <div class="summary-label">
+          เสร็จสิ้น
+        </div>
+
+        <div class="summary-value">
+          {{ completedCount }}
+        </div>
+
+        <div class="summary-description">
+          รายการที่เลยช่วงตรวจแล้ว
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+    <!-- =========================
+         Summary Cards
+    ========================== -->
+    <div class="row dashboard-summary">
+
+      <!-- จำนวนประเด็น -->
+      <div class="col-12 col-md-4">
+        <div class="summary-card">
+
+          <div class="summary-icon policy-icon">
+            <i class="fas fa-file-alt"></i>
+          </div>
+
+          <div class="summary-content">
+            <div class="summary-label">
+              ประเด็นนโยบาย
+            </div>
+
+            <div class="summary-value">
+              {{ filteredSubjectevent?.length || 0 }}
+            </div>
+
+            <div class="summary-description">
+              จำนวนประเด็นในเขตที่เลือก
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
+      <!-- จำนวนจังหวัด -->
+      <div class="col-12 col-md-4">
+        <div class="summary-card">
+
+          <div class="summary-icon province-icon">
+            <i class="fas fa-map-marker-alt"></i>
+          </div>
+
+          <div class="summary-content">
+            <div class="summary-label">
+              จังหวัดในเขตตรวจ
+            </div>
+
+            <div class="summary-value">
+              {{ totalProvinceCount }}
+            </div>
+
+            <div class="summary-description">
+              จำนวนจังหวัดในเขตที่เลือก
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
+      <!-- มีรายละเอียดแล้ว -->
+      <div class="col-12 col-md-4">
+        <div class="summary-card">
+
+          <div class="summary-icon detail-icon">
+            <i class="fas fa-clipboard-check"></i>
+          </div>
+
+          <div class="summary-content">
+            <div class="summary-label">
+              สรุปรายละเอียดแล้ว
+            </div>
+
+            <div class="summary-value">
+              {{ detailCount }}
+            </div>
+
+            <div class="summary-description">
+              จาก {{ filteredSubjectevent?.length || 0 }} ประเด็น
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+
+    <!-- =========================
+         Main Card
+    ========================== -->
+    <div class="card policy-card">
+
+      <div class="card-header policy-card-header">
+
+        <div>
+          <div class="table-title">
+            <i class="fas fa-list-ul mr-2"></i>
+            รายการสรุปแผนการตรวจราชการ
+          </div>
+
+          <div class="table-subtitle">
+            รายการนโยบายและจังหวัดที่เกี่ยวข้อง
+          </div>
+        </div>
+
+      </div>
+
+
+      <div class="card-body">
+
+
+        <!-- =========================
+             DataTable
+        ========================== -->
+        <div class="table-responsive">
+
+          <table
+            *ngIf="loading"
+            class="table policy-table table-hover"
+            datatable
+            [dtOptions]="dtOptions"
+          >
+
+            <thead>
+              <tr>
+
+                <th class="text-center number-column">
+                  #
+                </th>
+
+                <th>
+                  ประเด็นนโยบาย
+                </th>
+
+                <th>
+                  จังหวัด
+                </th>
+
+                <th class="text-center action-column">
+                  การดำเนินการ
+                </th>
+
+              </tr>
+            </thead>
+
+
+            <tbody>
+
+              <tr
+                *ngFor="
+                  let item of filteredSubjectevent;
+                  let i = index
+                "
+              >
+
+                <!-- =========================
+                     Number
+                ========================== -->
+                <td class="text-center">
+
+                  <span class="row-number">
+                    {{ i + 1 }}
+                  </span>
+
+                </td>
+
+
+                <!-- =========================
+                     Policy
+                ========================== -->
+                <td>
+
+                  <div class="policy-info">
+
+                    <div class="policy-title">
+                      {{ item.title }}
+                    </div>
+
+                    <!-- <div class="policy-code">
+                      CENTRAL POLICY #{{ item.centralPolicyId }}
+                    </div> -->
+
+                    <!-- <div
+                      class="policy-summary-id"
+                      *ngIf="item.summaryId"
+                    >
+                      <i class="fas fa-file-signature mr-1"></i>
+                      เพิ่มสรุปแล้ว
+                    </div> -->
+
+                  </div>
+
+                </td>
+
+
+                <!-- =========================
+                     Province
+                ========================== -->
+                <td>
+
+                  <div class="province-wrapper">
+
+                    <span
+                      class="province-badge"
+                      *ngFor="
+                        let province of item.provinces
+                      "
+                    >
+                      <i class="fas fa-map-marker-alt mr-1"></i>
+                      {{ province.name }}
+                    </span>
+
+                  </div>
+
+                </td>
+
+
+                <!-- =========================
+                     Action
+                ========================== -->
+                <td class="text-center">
+
+                  <div class="action-buttons">
+
+                    <!-- ดูรายละเอียด -->
+                    <button
+                      type="button"
+                      class="action-btn view-btn"
+                      title="ดูรายละเอียด"
+                      (click)="
+                        Subjectevent(
+                          item.id,
+                          item.centralPolicyId,
+                          item.provinceId
+                        )
+                      "
+                    >
+                      <i class="fas fa-search"></i>
+                    </button>
+
+
+                    <!-- เพิ่ม Summary -->
+                    <button
+                      *ngIf="item?.detail == null"
+                      type="button"
+                      class="action-btn add-btn"
+                      title="เพิ่มสรุปรายละเอียด"
+                      (click)="
+                        openModal(
+                          modalSummary,
+                          item?.centralPolicyId
+                        )
+                      "
+                    >
+                      <i class="fas fa-clipboard-list"></i>
+                    </button>
+
+
+                    <!-- แก้ไข Summary -->
+                    <button
+                      *ngIf="item?.detail != null"
+                      type="button"
+                      class="action-btn edit-btn"
+                      title="แก้ไขสรุปรายละเอียด"
+                      (click)="
+                        openEditModal(
+                          modalSummaryEdit,
+                          item?.summaryId,
+                          item?.detail
+                        )
+                      "
+                    >
+                      <i class="fas fa-pen"></i>
+                    </button>
+
+                  </div>
+
+                </td>
+
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+      </div>
+
+    </div>
+
   </div>
 </div>
 
+
+<!-- =========================================================
+     ADD SUMMARY MODAL
+========================================================= -->
+
 <ng-template #modalSummary>
 
-  <form [formGroup]="summaryForm" (ngSubmit)="saveSummary()">
+  <form
+    [formGroup]="summaryForm"
+    (ngSubmit)="saveSummary()"
+  >
 
     <div class="modal-content">
 
       <div class="modal-header">
-        <h5 class="modal-title">
-          เพิ่มสรุปรายละเอียด
-        </h5>
+
+        <div>
+
+          <h5 class="modal-title">
+            <i class="fas fa-clipboard-list mr-2"></i>
+            เพิ่มสรุปรายละเอียด
+          </h5>
+
+          <small class="text-muted">
+            กรุณากรอกรายละเอียดสรุปของนโยบาย
+          </small>
+
+        </div>
+
       </div>
+
 
       <div class="modal-body">
 
         <div class="form-group">
+
           <label>
             สรุปรายละเอียด
             <span class="text-danger">*</span>
           </label>
 
+
           <textarea
-            class="form-control"
+            class="form-control summary-textarea"
             rows="8"
             formControlName="detail"
             maxlength="2000"
@@ -143,6 +473,7 @@
               summaryForm.get('detail')?.touched
             "
           ></textarea>
+
 
           <div class="d-flex justify-content-between mt-1">
 
@@ -161,15 +492,17 @@
             </small>
 
           </div>
+
         </div>
 
       </div>
+
 
       <div class="modal-footer">
 
         <button
           type="button"
-          class="btn btn-outline-danger"
+          class="btn btn-outline-secondary"
           (click)="closeSummaryModal()"
         >
           ยกเลิก
@@ -178,9 +511,19 @@
         <button
           type="submit"
           class="btn btn-primary"
-          [disabled]="summaryForm.invalid || savingSummary"
+          [disabled]="
+            summaryForm.invalid ||
+            savingSummary
+          "
         >
+
+          <i
+            *ngIf="!savingSummary"
+            class="fas fa-save mr-1"
+          ></i>
+
           {{ savingSummary ? 'กำลังบันทึก...' : 'บันทึก' }}
+
         </button>
 
       </div>
@@ -191,28 +534,50 @@
 
 </ng-template>
 
+
+<!-- =========================================================
+     EDIT SUMMARY MODAL
+========================================================= -->
+
 <ng-template #modalSummaryEdit>
 
-  <form [formGroup]="summaryEditForm" (ngSubmit)="editSummary()">
+  <form
+    [formGroup]="summaryEditForm"
+    (ngSubmit)="editSummary()"
+  >
 
     <div class="modal-content">
 
       <div class="modal-header">
-        <h5 class="modal-title">
-          แก้ไขสรุปรายละเอียด
-        </h5>
+
+        <div>
+
+          <h5 class="modal-title">
+            <i class="fas fa-pen mr-2"></i>
+            แก้ไขสรุปรายละเอียด
+          </h5>
+
+          <small class="text-muted">
+            แก้ไขรายละเอียดสรุปของนโยบาย
+          </small>
+
+        </div>
+
       </div>
+
 
       <div class="modal-body">
 
         <div class="form-group">
+
           <label>
             แก้ไขสรุปรายละเอียด
             <span class="text-danger">*</span>
           </label>
 
+
           <textarea
-            class="form-control"
+            class="form-control summary-textarea"
             rows="8"
             formControlName="detail"
             maxlength="2000"
@@ -223,32 +588,41 @@
             "
           ></textarea>
 
+
           <div class="d-flex justify-content-between mt-1">
 
             <div
               class="invalid-feedback d-block"
               *ngIf="
-                summaryEditForm.get('detail')?.hasError('required') &&
-                summaryEditForm.get('detail')?.touched
+                summaryEditForm
+                  .get('detail')
+                  ?.hasError('required') &&
+                summaryEditForm
+                  .get('detail')
+                  ?.touched
               "
             >
               กรุณากรอกรายละเอียด
             </div>
 
             <small class="text-muted ml-auto">
-              {{ summaryEditForm.get('detail')?.value?.length || 0 }}/2000
+              {{
+                summaryEditForm.get('detail')?.value?.length || 0
+              }}/2000
             </small>
 
           </div>
+
         </div>
 
       </div>
+
 
       <div class="modal-footer">
 
         <button
           type="button"
-          class="btn btn-outline-danger"
+          class="btn btn-outline-secondary"
           (click)="closeSummaryModal()"
         >
           ยกเลิก
@@ -257,9 +631,19 @@
         <button
           type="submit"
           class="btn btn-primary"
-          [disabled]="summaryEditForm.invalid || savingSummary"
+          [disabled]="
+            summaryEditForm.invalid ||
+            savingSummary
+          "
         >
+
+          <i
+            *ngIf="!savingSummary"
+            class="fas fa-save mr-1"
+          ></i>
+
           {{ savingSummary ? 'กำลังบันทึก...' : 'บันทึก' }}
+
         </button>
 
       </div>
@@ -270,6 +654,18 @@
 
 </ng-template>
 
-<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">
-  <p style="font-size: 20px; color: white">Loading...</p>
+
+<!-- =========================================================
+     SPINNER
+========================================================= -->
+
+<ngx-spinner
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-spin-clockwise"
+>
+  <p style="font-size: 20px; color: white">
+    Loading...
+  </p>
 </ngx-spinner>

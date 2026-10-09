@@ -20,3 +20,429 @@ table.dataTable thead th {
 ::ng-deep .ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
   white-space: normal!important;
 }
+
+.policy-dashboard {
+  padding: 0 8px 30px;
+}
+
+
+/* =========================
+   Header
+========================= */
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.dashboard-title {
+  margin: 0;
+  font-weight: 600;
+  color: #343a40;
+}
+
+.dashboard-subtitle {
+  margin: 5px 0 0;
+  color: #8a94a6;
+  font-size: 14px;
+}
+
+
+/* =========================
+   Zone Tabs
+========================= */
+
+.zone-tabs-wrapper {
+  background: #fff;
+  border: 1px solid #e8ebf0;
+  border-radius: 10px;
+  padding: 6px;
+  margin-bottom: 20px;
+  overflow-x: auto;
+}
+
+.zone-tabs {
+  display: flex;
+  gap: 5px;
+  min-width: max-content;
+}
+
+.zone-tab {
+  border: 0;
+  background: transparent;
+  color: #6c757d;
+  padding: 9px 18px;
+  border-radius: 7px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all .2s ease;
+}
+
+.zone-tab:hover {
+  background: #f3f5f8;
+  color: #343a40;
+}
+
+.zone-tab.active {
+  background: #3f51b5;
+  color: #fff;
+  box-shadow: 0 2px 6px rgba(63, 81, 181, .2);
+}
+
+
+/* =========================
+   Summary Cards
+========================= */
+
+.dashboard-summary {
+  margin-bottom: 20px;
+}
+
+.summary-card {
+  background: #fff;
+  border: 1px solid #e8ebf0;
+  border-radius: 10px;
+  padding: 18px;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  margin-bottom: 15px;
+  transition: all .2s ease;
+}
+
+.summary-card:hover {
+  border-color: #d8dde6;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, .05);
+}
+
+.summary-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  margin-right: 14px;
+}
+
+.policy-icon {
+  background: #eef2ff;
+  color: #3f51b5;
+}
+
+.province-icon {
+  background: #eaf8f2;
+  color: #198754;
+}
+
+.detail-icon {
+  background: #fff5e8;
+  color: #e08a00;
+}
+
+.summary-content {
+  min-width: 0;
+}
+
+.summary-label {
+  color: #6c757d;
+  font-size: 13px;
+  margin-bottom: 2px;
+}
+
+.summary-value {
+  color: #343a40;
+  font-size: 25px;
+  line-height: 1.2;
+  font-weight: 600;
+}
+
+.summary-description {
+  color: #adb5bd;
+  font-size: 12px;
+  margin-top: 2px;
+}
+
+
+/* =========================
+   Main Card
+========================= */
+
+.policy-card {
+  border: 1px solid #e8ebf0;
+  border-radius: 10px;
+  box-shadow: none;
+  overflow: hidden;
+}
+
+.policy-card-header {
+  background: #fff;
+  border-bottom: 1px solid #edf0f4;
+  padding: 17px 20px;
+}
+
+.table-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #343a40;
+}
+
+.table-title i {
+  color: #3f51b5;
+}
+
+.table-subtitle {
+  color: #8a94a6;
+  font-size: 12px;
+  margin-top: 3px;
+}
+
+
+/* =========================
+   Table
+========================= */
+
+.policy-table {
+  margin-bottom: 0;
+}
+
+.policy-table thead th {
+  background: #f8f9fb;
+  color: #6c757d;
+  font-size: 13px;
+  font-weight: 600;
+  border-top: 0;
+  border-bottom: 1px solid #e5e8ed;
+  padding: 13px 12px;
+  white-space: nowrap;
+}
+
+.policy-table tbody td {
+  padding: 15px 12px;
+  vertical-align: middle;
+  border-color: #edf0f4;
+}
+
+.policy-table tbody tr {
+  transition: background .15s ease;
+}
+
+.policy-table tbody tr:hover {
+  background: #fafbfc;
+}
+
+
+/* =========================
+   Number
+========================= */
+
+.number-column {
+  width: 60px;
+}
+
+.row-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #f1f3f7;
+  color: #6c757d;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+
+/* =========================
+   Policy
+========================= */
+
+.policy-info {
+  min-width: 200px;
+}
+
+.policy-title {
+  color: #343a40;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.policy-code {
+  color: #8a94a6;
+  font-size: 11px;
+  margin-top: 3px;
+  text-transform: uppercase;
+}
+
+.policy-summary-id {
+  display: inline-block;
+  margin-top: 5px;
+  color: #3f51b5;
+  font-size: 11px;
+}
+
+
+/* =========================
+   Province
+========================= */
+
+.province-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.province-badge {
+  display: inline-flex;
+  align-items: center;
+  background: #f3f5f8;
+  color: #596273;
+  border: 1px solid #e5e8ed;
+  border-radius: 5px;
+  padding: 4px 8px;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.province-badge i {
+  color: #198754;
+  font-size: 9px;
+}
+
+
+/* =========================
+   Actions
+========================= */
+
+.action-column {
+  width: 120px;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+}
+
+.action-btn {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border-radius: 6px;
+  border: 1px solid #e2e6eb;
+  background: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all .2s ease;
+}
+
+.action-btn:hover {
+  transform: translateY(-1px);
+}
+
+.view-btn {
+  color: #3f51b5;
+}
+
+.view-btn:hover {
+  background: #eef2ff;
+  border-color: #cdd4ff;
+}
+
+.add-btn {
+  color: #198754;
+}
+
+.add-btn:hover {
+  background: #eaf8f2;
+  border-color: #bde5d1;
+}
+
+.edit-btn {
+  color: #e08a00;
+}
+
+.edit-btn:hover {
+  background: #fff5e8;
+  border-color: #f2d6a7;
+}
+
+
+/* =========================
+   Modal
+========================= */
+
+.modal-header {
+  padding: 18px 20px;
+  border-bottom: 1px solid #edf0f4;
+}
+
+.modal-title {
+  font-size: 17px;
+  font-weight: 600;
+  color: #343a40;
+  margin-bottom: 2px;
+}
+
+.modal-body {
+  padding: 20px;
+}
+
+.modal-footer {
+  padding: 14px 20px;
+  border-top: 1px solid #edf0f4;
+}
+
+.summary-textarea {
+  resize: vertical;
+  min-height: 180px;
+  border-color: #dfe3e8;
+}
+
+.summary-textarea:focus {
+  border-color: #8c9eff;
+  box-shadow: 0 0 0 .15rem rgba(63, 81, 181, .1);
+}
+
+
+/* =========================
+   Responsive
+========================= */
+
+@media (max-width: 767px) {
+
+  .policy-dashboard {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .dashboard-title {
+    font-size: 18px;
+  }
+
+  .dashboard-subtitle {
+    font-size: 12px;
+  }
+
+  .summary-card {
+    padding: 14px;
+  }
+
+  .policy-table {
+    min-width: 850px;
+  }
+
+  .policy-card-header {
+    padding: 15px;
+  }
+
+}
